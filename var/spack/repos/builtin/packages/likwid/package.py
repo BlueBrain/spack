@@ -53,6 +53,12 @@ class Likwid(Package):
 
     depends_on('perl', type=('build', 'run'))
 
+    variant('setgid', default=False, description='enable setgid flag '
+            + 'for likwid-accessD and change its group to likwid. '
+            + 'Note: this requires the likwid group to already exist.')
+
+    conflicts('+setgid', when='@:4.0.1')  # accessD was added in 4.1
+
     supported_compilers = {'clang': 'CLANG', 'gcc': 'GCC', 'intel': 'ICC'}
 
     def patch(self):
@@ -109,3 +115,9 @@ class Likwid(Package):
         env['PWD'] = os.getcwd()
         make()
         make('install')
+        if spec.satisfies('+setgid'):
+          accessD = os.path.join(prefix,'sbin','likwid-accessD')
+          chgrp = which('chgrp')
+          chmod = which('chmod')
+          chgrp('likwid', accessD)
+          chmod('g+s', accessD)
