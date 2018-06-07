@@ -1,7 +1,7 @@
 from spack import *
 
 class HpeMpi(Package):
-    """Dummy package created for HPE MPI"""
+    """HPE-SGI MPI package"""
 
     homepage = "http://www.example.com"
     url      = "http://www.example.com/hpempi-1.0.tar.gz"

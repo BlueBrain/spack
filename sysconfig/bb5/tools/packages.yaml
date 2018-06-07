@@ -179,4 +179,4 @@ packages:
     all:
         compiler: [gcc@4.8.5, gcc@5.4.0, intel]
         providers:
-            mpi: [intel-parallel-studio, hpe-mpi]
+            mpi: [hpe-mpi, intel-parallel-studio]
