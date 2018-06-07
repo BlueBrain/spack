@@ -44,6 +44,9 @@ class Mvapich2(AutotoolsPackage):
     # Newer alpha release
     version('2.3a', '87c3fbf8a755b53806fa9ecb21453445')
 
+    # hpe-ddn specific external versions for ime
+    version('ime', 'nonexistenthash')
+
     # Prefer the latest stable release
     version('2.2', '939b65ebe5b89a5bc822cdab0f31f96e', preferred=True)
     version('2.1', '0095ceecb19bbb7fb262131cb9c2cdd6')
