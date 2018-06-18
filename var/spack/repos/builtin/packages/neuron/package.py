@@ -49,6 +49,7 @@ class Neuron(Package):
     variant('binary',        default=True, description="Create special as a binary instead of shell script")
     variant('coreneuron',    default=True, description="Patch hh.mod for CoreNEURON compatibility")
     variant('cross-compile', default=False, description='Build for cross-compile environment')
+    variant('debug',         default=False, description='Build debug with O0')
     variant('knl',           default=False, description="Enable KNL specific flags")
     variant('mpi',           default=True,  description='Enable MPI parallelism')
     variant('multisend',     default=True,  description="Enable multi-send spike exchange")
@@ -152,8 +153,11 @@ class Neuron(Package):
     def get_compiler_options(self, spec):
         flags = '-O2 -g'
 
-        if 'bgq' in self.spec.architecture:
+        if 'bgq' in spec.architecture:
             flags = '-O3 -qtune=qp -qarch=qp -q64 -qstrict -qnohot -g'
+
+        if spec.satisfies('+debug'):
+            flags = '-g -O0'
 
         if self.spec.satisfies('%pgi'):
             flags += ' ' + self.compiler.pic_flag

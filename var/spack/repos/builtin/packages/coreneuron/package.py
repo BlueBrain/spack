@@ -40,6 +40,7 @@ class Coreneuron(CMakePackage):
     version('hippocampus', git=url, submodules=True)
     version('plasticity', git=url, preferred=True, submodules=True)
 
+    variant('debug', default=False, description='Build debug with O0')
     variant('gpu', default=False, description="Enable GPU build")
     variant('knl', default=False, description="Enable KNL specific flags")
     variant('mpi', default=True, description="Enable MPI support")
@@ -73,6 +74,8 @@ class Coreneuron(CMakePackage):
             flags = '-O3 -qtune=qp -qarch=qp -q64 -qhot=simd -qsmp -qthreaded -g'
         if '+knl' in self.spec and '%intel' in self.spec:
             flags = '-g -xMIC-AVX512 -O2 -qopt-report=5'
+        if '+debug' in self.spec:
+            flags = '-g -O0'
         if '+profile' in self.spec:
             flags += ' -DTAU'
         return flags
