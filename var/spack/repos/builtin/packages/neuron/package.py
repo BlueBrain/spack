@@ -50,7 +50,6 @@ class Neuron(Package):
     variant('coreneuron',    default=True, description="Patch hh.mod for CoreNEURON compatibility")
     variant('cross-compile', default=False, description='Build for cross-compile environment')
     variant('debug',         default=False, description='Build debug with O0')
-    variant('knl',           default=False, description="Enable KNL specific flags")
     variant('mpi',           default=True,  description='Enable MPI parallelism')
     variant('multisend',     default=True,  description="Enable multi-send spike exchange")
     variant('profile',       default=False, description="Enable Tau profiling")
