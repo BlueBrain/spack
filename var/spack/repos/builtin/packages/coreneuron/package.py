@@ -38,7 +38,7 @@ class Coreneuron(CMakePackage):
 
     version('develop', git=url, submodules=True)
     version('hippocampus', git=url, submodules=True)
-    version('plasticity', git=url, branch='profile_update', preferred=True, submodules=True)
+    version('plasticity', git=url, preferred=True, submodules=True)
 
     variant('gpu', default=False, description="Enable GPU build")
     variant('knl', default=False, description="Enable KNL specific flags")

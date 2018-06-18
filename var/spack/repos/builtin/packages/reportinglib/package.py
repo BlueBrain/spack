@@ -46,13 +46,11 @@ class Reportinglib(CMakePackage):
 
     @run_before('build')
     def profiling_wrapper_on(self):
-        if self.spec.satisfies('+profile'):
-            os.environ["USE_PROFILER_WRAPPER"] = "1"
+        os.environ["USE_PROFILER_WRAPPER"] = "1"
 
     @run_after ('install')
     def profiling_wrapper_off(self):
-        if self.spec.satisfies('+profile'):
-            del os.environ["USE_PROFILER_WRAPPER"]
+        del os.environ["USE_PROFILER_WRAPPER"]
 
     def cmake_args(self):
         spec   = self.spec
