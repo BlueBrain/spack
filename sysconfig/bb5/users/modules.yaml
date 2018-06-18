@@ -24,13 +24,15 @@ modules:
     all:
       suffixes:
           '+profile': 'profile'
+          '^coreneuron+knl': 'knl'
       filter:
         environment_blacklist: ['CPATH', 'LIBRARY_PATH']
     naming_scheme: '${PACKAGE}/${VERSION}/${COMPILERNAME}'
     hash_length: 0
     whitelist:
-      - 'neuron'
       - 'neurodamus'
-      - 'coreneuron'
     blacklist:
       - '%gcc'
+      - '%intel'
+      - '%clang'
+      - '%pgi'
