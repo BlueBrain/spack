@@ -42,9 +42,9 @@ class ParquetConverters(CMakePackage):
     depends_on('synapse-tool +mpi')
     depends_on('mpi')
 
-    def setup_environment(self, spack_env, run_env):
-        spack_env.set('CC', self.spec['mpi'].mpicc)
-        spack_env.set('CXX', self.spec['mpi'].mpicxx)
-
     def cmake_args(self):
-        return ['-DNEURONPARQUET_USE_MPI=ON']
+        return [
+            '-DCMAKE_C_COMPILER={}'.format(self.spec['mpi'].mpicc),
+            '-DCMAKE_CXX_COMPILER={}'.format(self.spec['mpi'].mpicxx),
+            '-DNEURONPARQUET_USE_MPI=ON'
+        ]

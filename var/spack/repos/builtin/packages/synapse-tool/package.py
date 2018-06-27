@@ -34,7 +34,6 @@ class SynapseTool(CMakePackage):
     url      = "ssh://bbpcode.epfl.ch/hpc/synapse-tool"
 
     version('dev-201806',
-            '',
             commit='8c4bbe548006d7221f215f32c077338f169ba015',
             git=url,
             preferred=True,
@@ -44,15 +43,10 @@ class SynapseTool(CMakePackage):
 
     depends_on('boost@1.60:')
     depends_on('hdf5@1.10:')
-    depends_on('hdf5@1.10:+mpi', when='+mpi')
+    depends_on('hdf5@1.10:~mpi', when='~mpi')
     depends_on('highfive@develop')
     depends_on('highfive@develop+mpi', when='+mpi')
     depends_on('mpi', when='+mpi')
-
-    def setup_environment(self, spack_env, run_env):
-        if '+mpi' in self.spec:
-            spack_env.set('CC', self.spec['mpi'].mpicc)
-            spack_env.set('CXX', self.spec['mpi'].mpicxx)
 
     def cmake_args(self):
         args = [
@@ -60,16 +54,9 @@ class SynapseTool(CMakePackage):
             '-DBOOST_ROOT={}'.format(self.spec['boost'].prefix),
         ]
         if '+mpi' in self.spec:
-            args.append('-DSYNTOOL_WITH_MPI=ON')
+            args.extend([
+                '-DCMAKE_C_COMPILER={}'.format(self.spec['mpi'].mpicc),
+                '-DCMAKE_CXX_COMPILER={}'.format(self.spec['mpi'].mpicxx),
+                '-DSYNTOOL_WITH_MPI=ON',
+            ])
         return args
-
-    @run_after('cmake')
-    def patch_flags(self):
-        for root, dirs, files in os.walk(self.build_directory):
-            if 'flags.make' not in files:
-                continue
-            fn = os.path.join(root, 'flags.make')
-            with open(fn) as fd:
-                data = fd.read()
-            with open(fn, 'w') as fd:
-                fd.write(data.replace('-isystem /usr/include', ''))
