@@ -43,7 +43,7 @@ class Touchdetector(CMakePackage):
     depends_on('cmake', type='build')
     depends_on('hpctools')
     depends_on('hpctools~openmp', when='~openmp')
-    depends_on('hdf5@1.10:')
+    depends_on('hdf5@1.8:')
     depends_on('libxml2')
     depends_on('mpi')
 

@@ -41,7 +41,6 @@ class Hpctools(CMakePackage):
 
     depends_on('boost@1.60:')
     depends_on('cmake', type='build')
-    depends_on('hdf5@1.10:')
     depends_on('libxml2')
     depends_on('mpi')
 
