@@ -34,12 +34,11 @@ class Hpctools(CMakePackage):
     version('3.3.0',
             commit='bd1ac24b2761e51f22f72359029dbda4b15a1d26',
             git=url,
-            preferred=True,
-            submodules=True)
+            preferred=True)
 
     variant('openmp', default=True, description='Enables OpenMP support')
 
-    depends_on('boost@1.60:')
+    depends_on('boost@1.50:')
     depends_on('cmake', type='build')
     depends_on('libxml2')
     depends_on('mpi')

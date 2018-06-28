@@ -39,7 +39,7 @@ class Touchdetector(CMakePackage):
 
     variant('openmp', default=True, description='Enables OpenMP support')
 
-    depends_on('boost@1.60:')
+    depends_on('boost@1.50:')
     depends_on('cmake', type='build')
     depends_on('hpctools')
     depends_on('hpctools~openmp', when='~openmp')
