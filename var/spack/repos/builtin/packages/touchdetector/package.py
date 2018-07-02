@@ -37,7 +37,7 @@ class Touchdetector(CMakePackage):
             preferred=True,
             submodules=True)
 
-    variant('openmp', default=True, description='Enables OpenMP support')
+    variant('openmp', default=False, description='Enables OpenMP support')
 
     depends_on('boost@1.50:')
     depends_on('cmake', type='build')
@@ -46,11 +46,12 @@ class Touchdetector(CMakePackage):
     depends_on('hdf5@1.8:')
     depends_on('libxml2')
     depends_on('mpi')
+    depends_on('zlib')
 
     def cmake_args(self):
         args = [
             '-DUSE_OPENMP:BOOL={}'.format('+openmp' in self.spec),
             '-DCMAKE_C_COMPILER={}'.format(self.spec['mpi'].mpicc),
-            '-DCMAKE_CXX_COMPILER={}'.format(self.spec['mpi'].mpicxx),
+            '-DCMAKE_CXX_COMPILER={}'.format(self.spec['mpi'].mpicxx)
         ]
         return args
