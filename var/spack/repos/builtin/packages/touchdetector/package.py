@@ -31,8 +31,8 @@ class Touchdetector(CMakePackage):
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/building/TouchDetector"
     url      = "ssh://bbpcode.epfl.ch/building/TouchDetector"
 
-    version('4.3.1-2017.10dev',
-            commit='846a43b56df5b830cafd35e0c4d2d1f944330eb3',
+    version('4.3.2',
+            commit='8b52245181b216876d59ae197a87064ef7478e3e',
             git=url,
             preferred=True,
             submodules=True)
