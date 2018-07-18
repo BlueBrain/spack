@@ -22,36 +22,36 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##############################################################################
-
 from spack import *
 
 
-class Highfive(CMakePackage):
-    """HighFive - Header only C++ HDF5 interface"""
+class Syntool(CMakePackage):
+    """SYN-TOOL provides a C++ and a python API to read / write neuron
+       connectivity informations. SYN-TOOL is designed to support large
+       connecitivy data with Billions of connections."""
 
-    homepage = "https://github.com/BlueBrain/HighFive"
-    url      = "https://github.com/BlueBrain/HighFive/archive/v1.2.tar.gz"
-    giturl   = "https://github.com/BlueBrain/HighFive.git"
+    homepage = "https://bbpcode.epfl.ch/browse/code/hpc/synapse-tool"
+    url      = "ssh://bbpcode.epfl.ch/hpc/synapse-tool"
 
-    version('develop', git=giturl)
-    # todo : waiting for author to release new version
-    version('1.6', git=giturl, commit='5c4e54707879f04ce5')
-    version('1.5', '5e631c91d2ea7f3677e99d6bb6db8167')
-    version('1.2', '030728d53519c7e13b5a522d34240301')
-    version('1.1', '986f0bd18c5264709688a536c02d2b2a')
-    version('1.0', 'e44e548560ea92afdb244c223b7655b6')
+    version('develop', git=url, submodules=True)
+    version('0.2', git=url, commit='a384860cd3d338201', submodules=True)
 
-    variant('boost', default=False, description='Support Boost')
-    variant('mpi', default=True, description='Support MPI')
+    variant('mpi', default=True, description="Enable MPI backend")
 
-    depends_on('boost @1.41:', when='+boost')
-    depends_on('hdf5 ~mpi', when='~mpi')
-    depends_on('hdf5 +mpi', when='+mpi')
+    depends_on('boost@1.55:')
+    depends_on('cmake', type='build')
+    depends_on('hdf5+mpi', when='+mpi')
+    depends_on('hdf5~mpi', when='~mpi')
+    depends_on('highfive+mpi', when='+mpi')
+    depends_on('highfive~mpi', when='~mpi')
+    depends_on('mpi', when='+mpi')
+    depends_on('python')
 
     def cmake_args(self):
-        args = [
-            '-DUSE_BOOST:Bool={0}'.format('+boost' in self.spec),
-            '-DHIGHFIVE_PARALLEL_HDF5:Bool={0}'.format('+mpi' in self.spec),
-            '-DUNIT_TESTS:Bool=false',
-            '-DHIGHFIVE_EXAMPLES:Bool=false']
+        args = []
+        spec = self.spec
+        if spec.satisfies('+mpi'):
+            args.append('-DSYNTOOL_WITH_MPI=ON')
+            args.append('-DCMAKE_C_COMPILER=%s' % spec['mpi'].mpicc)
+            args.append('-DCMAKE_CXX_COMPILER=%s' % spec['mpi'].mpicxx)
         return args
