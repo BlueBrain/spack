@@ -28,7 +28,7 @@ from spack import *
 class Syntool(CMakePackage):
     """SYN-TOOL provides a C++ and a python API to read / write neuron
        connectivity informations. SYN-TOOL is designed to support large
-       connecitivy data with Billions of connections."""
+       connectivity data with billions of connections."""
 
     homepage = "https://bbpcode.epfl.ch/browse/code/hpc/synapse-tool"
     url      = "ssh://bbpcode.epfl.ch/hpc/synapse-tool"
@@ -36,7 +36,7 @@ class Syntool(CMakePackage):
     version('develop', git=url, submodules=True)
     version('0.2', git=url, commit='a384860cd3d338201', submodules=True)
 
-    variant('mpi', default=True, description="Enable MPI backend")
+    variant('mpi', default=False, description="Enable MPI backend")
 
     depends_on('boost@1.55:')
     depends_on('cmake', type='build')
