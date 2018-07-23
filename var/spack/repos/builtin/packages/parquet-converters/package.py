@@ -39,7 +39,7 @@ class ParquetConverters(CMakePackage):
     depends_on('highfive')
     depends_on('parquet')
     depends_on('snappy ~shared')
-    depends_on('synapse-tool +mpi')
+    depends_on('syntool +mpi')
     depends_on('mpi')
 
     def cmake_args(self):
