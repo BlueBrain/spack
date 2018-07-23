@@ -39,7 +39,8 @@ class IntelMpiExternal(Package):
 
     provides('mpi')
 
-    def get_bin_dir(self):
+    @property
+    def bin_dir(self):
         if os.path.isdir(self.prefix.bin):
             return self.prefix.bin
         elif os.path.isdir(self.prefix.bin64):
@@ -70,7 +71,7 @@ class IntelMpiExternal(Package):
         # and friends are set to point to the Intel compilers, but in
         # practice, mpicc fails to compile some applications while
         # mpiicc works.
-        bindir = self.get_bin_dir()
+        bindir = self.bin_dir
 
         if self.compiler.name == 'intel':
             self.spec.mpicc  = bindir.mpiicc
