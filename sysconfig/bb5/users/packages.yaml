@@ -55,7 +55,7 @@ packages:
         version: [2.24.31]
     hdf5:
         paths:
-            hdf5@1.8.12: /usr
+            hdf5@1.8.12~mpi: /usr
         version: [1.8.12]
     hwloc:
         paths:
