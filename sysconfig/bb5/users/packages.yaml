@@ -94,6 +94,10 @@ packages:
         paths:
             ncurses@5.9: /usr
         version: [5.9]
+    openssl:
+        paths:
+            openssl@1.0.2k: /usr
+        version: [1.0.2k]
     pango:
         paths:
             pango@1.40.4: /usr
