@@ -163,7 +163,7 @@ class IntelMkl(IntelPackage):
             libnames.append('libmkl_blacs_intelmpi')
         elif '^mvapich2' in root:
             libnames.append('libmkl_blacs_intelmpi')
-        elif '^mpt' in root:
+        elif ('^mpt' in root or '^hpe-mpi' in root):
             libnames.append('libmkl_blacs_sgimpt')
         elif '^intel-mpi' in root:
             libnames.append('libmkl_blacs_intelmpi')
