@@ -102,7 +102,12 @@ class IntelMpi(IntelPackage):
         # and friends are set to point to the Intel compilers, but in
         # practice, mpicc fails to compile some applications while
         # mpiicc works.
+        #
+        # Also, if intel mpi is an external package then bin directory
+        # exist in prefix directory already
         bindir = self.prefix.compilers_and_libraries.linux.mpi.intel64.bin
+        if not os.path.exists(bindir):
+            bindir = self.prefix.bin
 
         if self.compiler.name == 'intel':
             self.spec.mpicc  = bindir.mpiicc
