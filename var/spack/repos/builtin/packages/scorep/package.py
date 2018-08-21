@@ -49,7 +49,9 @@ class Scorep(AutotoolsPackage):
     # SCOREP 4
     depends_on('otf2@2.1:', when='@4:')
     depends_on('opari2@2.0:', when='@4:')
-    depends_on('cube@4.4:', when='@4:')
+    depends_on('cubew@4.4:', when='@4:')
+    depends_on('cubelib@4.4:', when='@4:')
+    depends_on('cubegui@4.4:', when='@4: +gui')
     # SCOREP 3
     depends_on('otf2@2:', when='@3:3.99')
     depends_on('opari2@2:', when='@3:3.99')
@@ -72,6 +74,7 @@ class Scorep(AutotoolsPackage):
     depends_on("papi")
     depends_on('pdt')
 
+    variant('gui', default=False, description='Build with CubeGUI support')
     variant('shmem', default=False, description='Enable shmem tracing')
 
     # Score-P requires a case-sensitive file system, and therefore
@@ -82,14 +85,25 @@ class Scorep(AutotoolsPackage):
     def configure_args(self):
         spec = self.spec
 
-        config_args = [
-            "--with-otf2=%s" % spec['otf2'].prefix.bin,
-            "--with-opari2=%s" % spec['opari2'].prefix.bin,
-            "--with-cube=%s" % spec['cube'].prefix.bin,
-            "--with-papi-header=%s" % spec['papi'].prefix.include,
-            "--with-papi-lib=%s" % spec['papi'].prefix.lib,
-            "--with-pdt=%s" % spec['pdt'].prefix.bin,
-            "--enable-shared"]
+        if spec.satisfies("@4.0:"):
+            config_args = [
+                "--with-otf2=%s" % spec['otf2'].prefix.bin,
+                "--with-opari2=%s" % spec['opari2'].prefix.bin,
+                "--with-cubew=%s" % spec['cubew'].prefix.bin,
+                "--with-cubelib=%s" % spec['cubelib'].prefix.bin,
+                "--with-papi-header=%s" % spec['papi'].prefix.include,
+                "--with-papi-lib=%s" % spec['papi'].prefix.lib,
+                "--with-pdt=%s" % spec['pdt'].prefix.bin,
+                "--enable-shared"]
+        else:
+            config_args = [
+                "--with-otf2=%s" % spec['otf2'].prefix.bin,
+                "--with-opari2=%s" % spec['opari2'].prefix.bin,
+                "--with-cube=%s" % spec['cube'].prefix.bin,
+                "--with-papi-header=%s" % spec['papi'].prefix.include,
+                "--with-papi-lib=%s" % spec['papi'].prefix.lib,
+                "--with-pdt=%s" % spec['pdt'].prefix.bin,
+                "--enable-shared"]
 
         cname = spec.compiler.name
         config_args.append('--with-nocross-compiler-suite={0}'.format(cname))
