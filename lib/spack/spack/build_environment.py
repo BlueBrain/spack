@@ -267,11 +267,12 @@ def set_build_environment_variables(pkg, env, dirty):
         # Remove these vars from the environment during build because they
         # can affect how some packages find libraries.  We want to make
         # sure that builds never pull in unintended external dependencies.
-        env.unset('LD_LIBRARY_PATH')
-        env.unset('LIBRARY_PATH')
         env.unset('CPATH')
-        env.unset('LD_RUN_PATH')
         env.unset('DYLD_LIBRARY_PATH')
+        env.unset('LD_LIBRARY_PATH')
+        env.unset('LD_RUN_PATH')
+        env.unset('LIBRARY_PATH')
+        env.unset('MAKEFLAGS')
 
         # Remove any macports installs from the PATH.  The macports ld can
         # cause conflicts with the built-in linker on el capitan.  Solves
