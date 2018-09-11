@@ -45,7 +45,8 @@ class Steps(CMakePackage):
     depends_on("blas")
     depends_on("lapack", when="+lapack")
     depends_on("mpi", when="+mpi")
-    depends_on("petsc^debug+int64", when="+petsc")
+    depends_on("petsc+int64+mpi", when="+petsc+mpi")
+    depends_on("petsc+int64~mpi", when="+petsc~mpi")
     depends_on("python")
     depends_on("py-cython")
 
