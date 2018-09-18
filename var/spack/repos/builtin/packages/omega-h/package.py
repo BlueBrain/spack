@@ -37,10 +37,10 @@ class OmegaH(CMakePackage):
     git      = "https://github.com/ibaned/omega_h.git"
 
     version('develop', branch='master')
-    version('9.15.0', sha256='342a506a0ff22f6cac759862efdcf34e360110f7901eb9b4c5de8afe38741522')
-    version('9.14.0', sha256='035d0f47142f965a57818d1cb6c5c00b5ae6b5a0178b67b0bc9177fa99ba083d')
-    version('9.13.14', sha256='f617dfd024c9cc323e56800ca23df3386bfa37e1b9bd378847d1f5d32d2b8e5d')
-    version('9.13.13', sha256='753702edf4bda9ae57ea21f09ca071e341604a468d8c86468c9aebba049f581c')
+    version('9.17.2', sha256='d9399a23b4f717be836e736090017e9250b944e306bd41286bc6dec02d2e72e3')
+    version('9.17.1', sha256='7337b4f900cdcca5019aaf63a3dce80f544e42d7604dc06f4c52cb6d2df5866f')
+    version('9.17.0', sha256='3cd19b0502ca90d1091bba0b587abab1e7455dea3deb51f732df8705688b49b4')
+    version('9.16.0', sha256='4f318782258dea20df06aab3ac488d86283a189576202025624057e73d09b307')
 
     variant('shared', default=True, description='Build shared libraries')
     variant('mpi', default=True, description='Activates MPI support')
