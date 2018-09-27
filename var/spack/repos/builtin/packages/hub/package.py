@@ -34,7 +34,7 @@ class Hub(Package):
     git      = "https://github.com/github/hub.git"
 
     version('head', branch='master')
-    version('2.2.3', '6675992ddd16d186eac7ba4484d57f5b')
+    version('2.2.3', '6ab50eb4f3032e36e262923c978fa7b8')
     version('2.2.2', '7edc8f5b5d3c7c392ee191dd999596fc')
     version('2.2.1', '889a31ee9d10ae9cb333480d8dbe881f')
     version('2.2.0', 'eddce830a079b8480f104aa7496f46fe')
