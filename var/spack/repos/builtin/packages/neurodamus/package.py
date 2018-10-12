@@ -26,6 +26,8 @@ from spack import *
 from spack.pkg.builtin.neurodamus_base import NeurodamusBase
 import llnl.util.tty as tty
 import os
+import shutil
+import glob
 
 
 class Neurodamus(NeurodamusBase):
@@ -34,9 +36,11 @@ class Neurodamus(NeurodamusBase):
 
     variant('coreneuron', default=True, description="Enable CoreNEURON Support")
     variant('profile', default=False, description="Enable profiling using Tau")
-    variant('syn2', default=False, description="Enable Synapsetool reader")
+    variant('syntool', default=False, description="Enable Synapsetool reader")
+    variant('python', default=False, description="Enable Synapsetool reader")
 
-    depends_on("boost", when="+syn2")
+
+    depends_on("boost", when="+syntool")
     depends_on("hdf5")
     depends_on("mpi")
     depends_on("neuron")
@@ -56,17 +60,34 @@ class Neurodamus(NeurodamusBase):
     depends_on('synapsetool~shared', when='+syn2')
     depends_on('tau', when='+profile')
 
+    depends_on("python@2.7:", when='+python')
+    depends_on("py-h5py", when='+python')
+    depends_on("py-numpy", when='+python')
+    depends_on("py-setuptools", when='+python')
+    depends_on('py-enum34', when='^python@2.4:2.7.999,3.1:3.3.999')
+    depends_on("py-lazy-property", when='+python')
+
     # coreneuron support is available for plasticity model
     # and requires python support in neuron
     conflicts('@hippocampus', when='+coreneuron')
     conflicts('@master', when='+coreneuron')
     conflicts('^neuron~python', when='+coreneuron')
 
-    @run_before('install')
+    phases = ['build', 'install']
+
+    def do_stage(self, mirror_only=False):
+        # We Dont do fetching since it's not required, only stage
+        self._fetch_time = 0
+        self.stage.create()
+        build_dir = os.path.join(self.stage.path, 'build')
+        os.makedirs(build_dir)
+        os.symlink(self.spec['neurodamus-base'].prefix.lib.modlib, os.path.join(build_dir, 'm'))
+
+    @run_before('build')
     def profiling_wrapper_on(self):
         os.environ["USE_PROFILER_WRAPPER"] = "1"
 
-    @run_after('install')
+    @run_after('build')
     def profiling_wrapper_off(self):
         del os.environ["USE_PROFILER_WRAPPER"]
 
@@ -74,7 +95,7 @@ class Neurodamus(NeurodamusBase):
     # As neurodamus is non-cmake package, it's difficult to find
     # find dependencies easily. Here is custom method that find
     # additional libraries required while linking synapse tool
-    def syn2_dep_libs(self):
+    def syntool_dep_libs(self):
         spec = self.spec
         ld_flags = spec['synapsetool'].libs.ld_flags
         for lib in ['libboost_system-mt', 'libboost_filesystem-mt']:
@@ -83,41 +104,71 @@ class Neurodamus(NeurodamusBase):
             ld_flags += ' %s ' % (libs.ld_flags)
         return ld_flags
 
+    def build(self, spec, prefix):
+        """ Build mod files from m dir
+        """
+        profile_flag = '-DENABLE_TAU_PROFILER' if '+profile' in spec else ''
+        include_flag = ''
+        link_flag = ''
+        env['MAKEFLAGS'] = '-j{0}'.format(make_jobs)
+
+        if  '+syntool' in spec:
+            include_flag += ' -DENABLE_SYNTOOL -I ' + spec['synapsetool'].prefix.include
+            link_flag += self.syntool_dep_libs()
+
+        if '+coreneuron' in spec:
+            include_flag += ' -DENABLE_CORENEURON -I%s' % (spec['coreneuron'].prefix.include)
+            link_flag += ' %s' % (spec['coreneuron'].libs.ld_flags)
+
+        include_flag += ' -I%s -I%s %s' % (spec['reportinglib'].prefix.include,
+                                          spec['hdf5'].prefix.include,
+                                          profile_flag)
+        link_flag += ' %s -L%s -lhdf5 -L%s -lz' % (
+                     spec['reportinglib'].libs.ld_flags,
+                     spec['hdf5'].prefix.lib,
+                     spec['zlib'].prefix.lib)
+
+        nrnivmodl = which('nrnivmodl')
+        nrnivmodl('-incflags', include_flag,
+                  '-loadflags', link_flag, 'm')
+        # special exists or fail
+        special = os.path.join(os.path.basename(self.neuron_archdir), 'special')
+        assert os.path.isfile(special)
+
+
     def install(self, spec, prefix):
-        with working_dir(prefix):
-            env['MAKEFLAGS'] = '-j{0}'.format(make_jobs)
-            modlib = os.path.relpath(self.spec['neurodamus-base'].prefix.lib.modlib)
-            profile_flag = '-DENABLE_TAU_PROFILER' if '+profile' in spec else ''
-            include_flag = ''
-            link_flag = ''
+        """ Move libs to destination.
+            Libs are sym-linked. Compiled libs into libs, special into bin
+        """
+        neurodamus_base = spec['neurodamus-base'].prefix
+        arch = os.path.basename(self.neuron_archdir)
+        os.makedirs(prefix.lib.modc)
+        os.makedirs(prefix.bin)
 
-            if '+syn2' in spec:
-                include_flag += ' -DENABLE_SYNTOOL'
-                link_flag += self.syn2_dep_libs()
+        os.symlink(neurodamus_base.lib.hoclib, prefix.lib.hoclib)
+        os.symlink(neurodamus_base.lib.modlib, prefix.lib.modlib)
 
-            if '+coreneuron' in spec:
-                include_flag += ' -DENABLE_CORENEURON -I%s' % (spec['coreneuron'].prefix.include)
-                link_flag += ' %s' % (spec['coreneuron'].libs.ld_flags)
+        if os.path.isdir(neurodamus_base.python):
+            os.symlink(neurodamus_base.python, prefix.python)
 
-            include_flag += ' -I%s -I%s %s' % (spec['reportinglib'].prefix.include,
-                                              spec['hdf5'].prefix.include,
-                                              profile_flag)
-            link_flag += ' %s -L%s -lhdf5 -L%s -lz' % (
-                         spec['reportinglib'].libs.ld_flags,
-                         spec['hdf5'].prefix.lib,
-                         spec['zlib'].prefix.lib)
+        shutil.move(os.path.join(arch, 'special'), prefix.bin)
 
-            nrnivmodl = which('nrnivmodl')
-            nrnivmodl('-incflags', include_flag,
-                      '-loadflags', link_flag,
-                      modlib)
+        # Copy c mods
+        for cmod in glob.glob(arch + "/*.c"):
+            shutil.move(cmod, prefix.lib.modc)
 
-    @run_after('install')
-    def check_install(self):
-        special = '%s/special' % join_path(self.prefix, os.path.basename(self.neuron_archdir))
-        if not os.path.isfile(special):
-            raise RuntimeError("Neurodamus installion check failed, %s not created!" % special)
+        # Handle non-binary special
+        if os.path.exists(arch + "/.libs/libnrnmech.so"):
+            shutil.move(arch + "/.libs/libnrnmech.so", prefix.lib)
+            sed = which('sed')
+            sed('-i', 's#-dll .*#-dll %s#' % prefix.lib.join('libnrnmech.so'), prefix.bin.special)
 
     def setup_environment(self, spack_env, run_env):
-        run_env.prepend_path('PATH', join_path(self.prefix, os.path.basename(self.neuron_archdir)))
-        run_env.set('HOC_LIBRARY_PATH', self.spec['neurodamus-base'].prefix.lib.hoclib)
+        run_env.prepend_path('PATH', self.prefix.bin)
+        run_env.set('HOC_LIBRARY_PATH', self.prefix.lib.hoclib)
+        if os.path.isdir(self.prefix.python):
+            for m in spack_env.env_modifications:
+                if m.name == 'PYTHONPATH':
+                    run_env.prepend_path('PYTHONPATH', m.value)
+            run_env.prepend_path('PYTHONPATH', self.prefix.python)
+            run_env.set('PYDAMUS', self.prefix.python.join('init.py'))
