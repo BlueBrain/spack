@@ -602,10 +602,11 @@ class Python(AutotoolsPackage):
                 python_paths.append(em.value)
         for d in dependent_spec.traverse(deptype=('run')):
             if d.package.extends(self.spec):
-                path = join_path(d.prefix, self.site_packages_dir)
-                python_paths.append(path)
-        pythonpath = ':'.join(python_paths)
-        run_env.set('PYTHONPATH', pythonpath)
+                if path not in python_paths:
+                    path = join_path(d.prefix, self.site_packages_dir)
+                    python_paths.append(path)
+        for path in python_paths:
+            run_env.prepend_path('PYTHONPATH', path)
 
     def setup_dependent_package(self, module, dependent_spec):
         """Called before python modules' install() methods.
