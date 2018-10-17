@@ -34,6 +34,7 @@ class Arrow(CMakePackage):
     homepage = "http://arrow.apache.org"
     url      = "https://github.com/apache/arrow/archive/apache-arrow-0.9.0.tar.gz"
 
+    version('0.11.0', '0ac629a7775d86108e403eb66d9f1a3d3bdd6b3a497a86228aa4e8143364b7cc')
     version('0.9.0', 'ebbd36c362b9e1d398ca612f6d2531ec')
     version('0.8.0', '56436f6f61ccc68686b7e0ea30bf4d09')
 
@@ -51,6 +52,7 @@ class Arrow(CMakePackage):
             description='CMake build type',
             values=('Debug', 'FastDebug', 'Release'))
     variant('python', default=False, description='Build Python interface')
+    variant('parquet', default=False, description='Build Parquet interface')
 
     root_cmakelists_dir = 'cpp'
 
@@ -72,6 +74,8 @@ class Arrow(CMakePackage):
         ]
         if self.spec.satisfies('+python'):
             args.append("-DARROW_PYTHON:BOOL=ON")
+        if self.spec.satisfies('+parquet'):
+            args.append("-DARROW_PARQUET:BOOL=ON")
         for dep in ('flatbuffers', 'rapidjson', 'snappy', 'zlib', 'zstd'):
             args.append("-D{0}_HOME={1}".format(dep.upper(),
                                                 self.spec[dep].prefix))
