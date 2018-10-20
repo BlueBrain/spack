@@ -69,7 +69,6 @@ class Jdk(Package):
     version('1.7.0_80-b0', '6152f8a7561acf795ca4701daa10a965', curl_options=curl_options)
 
     provides('java')
-    provides('java@9',  when='@9.0:9.999')
     provides('java@8',  when='@1.8.0:1.8.999')
     provides('java@7',  when='@1.7.0:1.7.999')
 
