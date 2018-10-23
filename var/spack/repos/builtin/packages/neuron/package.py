@@ -41,9 +41,11 @@ class Neuron(Package):
     url      = "http://www.neuron.yale.edu/ftp/neuron/versions/v7.5/nrn-7.5.tar.gz"
     git      = "https://github.com/nrnhines/nrn.git"
 
-    version('2018-10', git=git, commit='b3097b7', preferred=True)
-    version('2018-09', git=git, commit='9f36b13')
-    version('7.6.2',   git=git, tag='7.6.2')
+    version('develop', branch='master')
+    version('2018-10', commit='b3097b7', preferred=True)
+    version('2018-09', commit='9f36b13')
+    version('7.6.2',   tag='7.6.2')
+    # versions from url, with checksum
     version('7.5', 'fb72c841374dfacbb6c2168ff57bfae9')
     version('7.4', '2c0bbee8a9e55d60fa26336f4ab7acbf')
     version('7.3', '993e539cb8bf102ca52e9fefd644ab61')
@@ -67,8 +69,8 @@ class Neuron(Package):
     depends_on('flex',       type='build')
     depends_on('libtool',    type='build')
     depends_on('pkgconfig',  type='build')
-    depends_on('readline')
 
+    depends_on('readline')
     depends_on('mpi',         when='+mpi')
     depends_on('ncurses',     when='~cross-compile')
     depends_on('python@2.6:', when='+python')
@@ -259,8 +261,7 @@ class Neuron(Package):
     def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
         neuron_archdir = self.get_neuron_archdir()
         spack_env.prepend_path('PATH', join_path(neuron_archdir, 'bin'))
-        spack_env.prepend_path(
-            'LD_LIBRARY_PATH', join_path(neuron_archdir, 'lib'))
+        spack_env.prepend_path('LD_LIBRARY_PATH', join_path(neuron_archdir, 'lib'))
 
     def setup_dependent_package(self, module, dependent_spec):
         neuron_archdir = self.get_neuron_archdir()
