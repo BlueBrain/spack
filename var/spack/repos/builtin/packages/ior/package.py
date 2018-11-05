@@ -53,7 +53,7 @@ class Ior(AutotoolsPackage):
         spec = self.spec
         config_args = []
 
-        env['CC'] = spec['mpi'].mpicc
+        #env['CC'] = spec['mpi'].mpicc
 
         if '+hdf5' in spec:
             config_args.append('--with-hdf5')
