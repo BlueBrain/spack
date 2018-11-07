@@ -36,6 +36,7 @@ class NodeJs(Package):
 
     version('8.9.1', '7482b2523f72000d1b6060c38945026b')
     version('7.1.0', '1db5df2cb025f9c70e83d9cf21c4266a')
+    version('6.12.2', 'f007d1f5b00723821f67581293e8b3f6')
     version('6.3.0', '8c14e5c89d66d4d060c91b3ba15dfd31')
     version('6.2.2', '1120e8bf191fdaee42206d031935210d')
 
@@ -48,7 +49,9 @@ class NodeJs(Package):
 
     depends_on('libtool', type='build', when=sys.platform != 'darwin')
     depends_on('pkgconfig', type='build')
-    depends_on('python@2.7:2.8', type='build')
+    # todo : avoiding concretisation issue (will use system installed node-js)
+    # depends_on('python@2.7:2.8', type='build')
+    depends_on('python', type='build')
     # depends_on('bash-completion', when="+bash-completion")
     depends_on('icu4c', when='+icu4c')
     depends_on('openssl@1.0.2d:', when='+openssl')
