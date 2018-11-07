@@ -36,7 +36,7 @@ class PyMarkdown(PythonPackage):
     homepage = "https://pythonhosted.org/Markdown/"
     url      = "https://pypi.io/packages/source/m/markdown/Markdown-2.6.11.tar.gz"
 
-    version('3.0.1', sha256='e45cda91bfd07195f17ca565226010238b8c90ccfa82a79b15f4379510576335')
+    version('3.0.1', sha256='d02e0f9b04c500cde6637c11ad7c72671f359b87b9fe924b2383649d8841db7c')
     version('2.6.11', sha256='a856869c7ff079ad84a3e19cd87a64998350c2b94e9e08e44270faef33400f81')
     version('2.6.7', sha256='daebf24846efa7ff269cfde8c41a48bb2303920c7b2c7c5e04fa82e6282d05c0')
     version('2.6.6', sha256='9a292bb40d6d29abac8024887bcfc1159d7a32dc1d6f1f6e8d6d8e293666c504')
