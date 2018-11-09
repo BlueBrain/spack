@@ -43,8 +43,6 @@ class Libsonata(CMakePackage):
     depends_on('cmake@3.0:', type='build')
     depends_on('hdf5+mpi', when='+mpi')
     depends_on('hdf5~mpi', when='~mpi')
-    depends_on('highfive+mpi', when='+mpi')
-    depends_on('highfive~mpi', when='~mpi')
     depends_on('mpi', when='+mpi')
     # TODO: depends_on('python')
 
