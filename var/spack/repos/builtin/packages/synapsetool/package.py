@@ -50,6 +50,8 @@ class Synapsetool(CMakePackage):
     depends_on('hdf5~mpi', when='~mpi')
     depends_on('highfive+mpi', when='+mpi')
     depends_on('highfive~mpi', when='~mpi')
+    depends_on('libsonata+mpi', when='+mpi')
+    depends_on('libsonata~mpi', when='~mpi')
     depends_on('mpi', when='+mpi')
     depends_on('python')
 
