@@ -34,8 +34,8 @@ class Spykfunc(PythonPackage):
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/building/Spykfunc"
     url      = "ssh://bbpcode.epfl.ch/building/Spykfunc"
 
-    version('develop', git=url, submodules=True)
-    version('0.11.0', git=url, tag='v0.11.0', submodules=True, preferred=True)
+    version('develop', git=url, submodules=True, clean=False)
+    version('0.11.0', git=url, tag='v0.11.0', submodules=True, preferred=True, clean=False)
 
     depends_on('hdf5~mpi')
     depends_on('highfive~mpi', type='build')
