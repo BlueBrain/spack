@@ -46,14 +46,17 @@ class Libsonata(CMakePackage):
     depends_on('highfive+mpi', when='+mpi')
     depends_on('highfive~mpi', when='~mpi')
     depends_on('mpi', when='+mpi')
-    depends_on('py-pybind11@2.2', type='build', when='+python')
+    depends_on('py-pybind11@2.0:', type='build', when='+python')
 
     def cmake_args(self):
         result = [
             '-DEXTLIB_FROM_SUBMODULES=OFF',
         ]
         if self.spec.satisfies('+python'):
-            result.append('-DSONATA_PYTHON=ON')
+            result.extend([
+                '-DSONATA_PYTHON=ON',
+                '-DPYTHON_EXECUTABLE:FILEPATH={}'.format(self.spec['python'].command.path),
+            ])
         if self.spec.satisfies('+mpi'):
             result.extend([
                 '-DCMAKE_C_COMPILER:STRING={}'.format(self.spec['mpi'].mpicc),
