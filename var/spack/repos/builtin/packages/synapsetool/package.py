@@ -43,6 +43,7 @@ class Synapsetool(CMakePackage):
 
     variant('mpi', default=True, description="Enable MPI backend")
     variant('shared', default=True, description="Build shared library")
+    variant('sonata', default=False, description="Enable SONATA support")
 
     depends_on('boost@1.55:')
     depends_on('cmake@3.0:', type='build')
@@ -50,8 +51,8 @@ class Synapsetool(CMakePackage):
     depends_on('hdf5~mpi', when='~mpi')
     depends_on('highfive+mpi', when='+mpi')
     depends_on('highfive~mpi', when='~mpi')
-    depends_on('libsonata+mpi', when='+mpi')
-    depends_on('libsonata~mpi', when='~mpi')
+    depends_on('libsonata+mpi', when='+mpi+sonata')
+    depends_on('libsonata~mpi', when='~mpi+sonata')
     depends_on('mpi', when='+mpi')
     depends_on('python')
 
@@ -77,4 +78,6 @@ class Synapsetool(CMakePackage):
             ])
         if self.spec.satisfies('~shared'):
             args.append('-DCOMPILE_LIBRARY_TYPE=STATIC')
+        if self.spec.satisfies('+sonata'):
+            args.append('-DSYNTOOL_WITH_SONATA:BOOL=ON')
         return args

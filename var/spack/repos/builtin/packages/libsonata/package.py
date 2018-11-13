@@ -36,22 +36,24 @@ class Libsonata(CMakePackage):
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/common/libsonata"
     url      = "ssh://bbpcode.epfl.ch/common/libsonata"
 
-    version('dev', git=url, submodules=True)
+    version('develop', git=url, submodules=False)
 
     variant('mpi', default=False, description="Enable MPI backend")
+    variant('python', default=False, description="Enable Python bindings")
 
     depends_on('cmake@3.0:', type='build')
-    depends_on('hdf5+mpi', when='+mpi')
-    depends_on('hdf5~mpi', when='~mpi')
+    depends_on('fmt@4.0:')
+    depends_on('highfive+mpi', when='+mpi')
+    depends_on('highfive~mpi', when='~mpi')
     depends_on('mpi', when='+mpi')
-    # TODO: depends_on('python')
-
-    patch('CMakeLists.patch')  # remove '-pedantic' compiler option (it's not happy with MPI headers)
+    depends_on('py-pybind11@2.2', type='build', when='+python')
 
     def cmake_args(self):
         result = [
-            # TODO: '-DSONATA_PYTHON=ON',
+            '-DEXTLIB_FROM_SUBMODULES=OFF',
         ]
+        if self.spec.satisfies('+python'):
+            result.append('-DSONATA_PYTHON=ON')
         if self.spec.satisfies('+mpi'):
             result.extend([
                 '-DCMAKE_C_COMPILER:STRING={}'.format(self.spec['mpi'].mpicc),
