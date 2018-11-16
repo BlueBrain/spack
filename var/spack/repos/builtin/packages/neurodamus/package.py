@@ -38,7 +38,6 @@ class Neurodamus(NeurodamusBase):
     variant('syntool', default=True, description="Enable Synapsetool reader")
     variant('python', default=False, description="Enable Python Neurodamus")
 
-    depends_on("boost", when="+syntool")
     depends_on("hdf5")
     depends_on("mpi")
     depends_on("neuron")
@@ -57,6 +56,9 @@ class Neurodamus(NeurodamusBase):
     depends_on('reportinglib+profile', when='+profile')
     depends_on('synapsetool~shared', when='+syntool')
     depends_on('tau', when='+profile')
+    # dependencies for syntool when we use a static ver
+    depends_on("boost",         when="^synapsetool~shared")
+    depends_on("libsonata+mpi", when="^synapsetool~shared+sonata")
 
     depends_on("python@2.7:",      type=('build', 'run'), when='+python')
     depends_on("py-setuptools",    type=('build', 'run'), when='+python')
@@ -87,11 +89,13 @@ class Neurodamus(NeurodamusBase):
     # additional libraries required while linking synapse tool
     def syntool_dep_libs(self):
         spec = self.spec
-        ld_flags = spec['synapsetool'].libs.ld_flags
-        for lib in ['libboost_system-mt', 'libboost_filesystem-mt']:
-            libs = find_libraries(lib, root=spec['boost'].prefix,
-                                  shared=False, recursive=True)
-            ld_flags += ' %s ' % (libs.ld_flags)
+        shared = spec['synapsetool'].satisfies("+shared")
+        ld_flags = find_libraries('libsyn2', spec["synapsetool"].prefix, shared, True).ld_flags
+        if not shared:
+            for lib in ['libboost_system-mt', 'libboost_filesystem-mt']:
+                ld_flags += ' ' + find_libraries(lib, spec['boost'].prefix, False, True).ld_flags
+            if spec['synapsetool'].satisfies("+sonata"):
+                ld_flags += ' ' + find_libraries('libsonata', spec['libsonata'].prefix, False, True).ld_flags
         return ld_flags
 
     def build(self, spec, prefix):
