@@ -51,9 +51,9 @@ packages:
         version: [6.1]
     hdf5:
         modules:
-            hdf5@1.10.2.0 arch=cray-cnl6-haswell: cray-hdf5/1.10.2.0
+            hdf5@1.8.16 arch=cray-cnl6-haswell: cray-hdf5/1.8.16
         buildable: False
-        version: [1.10.2.0]
+        version: [1.8.16]
     zlib:
         paths:
             zlib@1.2.11 arch=cray-cnl6-haswell: /apps/daint/UES/jenkins/6.0.UP07/mc/easybuild/software/zlib/1.2.11-CrayGNU-18.08/
