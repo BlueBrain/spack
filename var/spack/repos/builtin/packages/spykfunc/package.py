@@ -39,6 +39,11 @@ class Spykfunc(PythonPackage):
 
     depends_on('hdf5~mpi')
     depends_on('highfive~mpi', type='build')
+
+    # Note : when spark is used as external package, spec['java'] is not
+    # accessible. Add explicit dependency for now.
+    depends_on('java@8', type=('build', 'run'))
+
     depends_on('mvdtool~mpi')
 
     depends_on('python@3.6:')

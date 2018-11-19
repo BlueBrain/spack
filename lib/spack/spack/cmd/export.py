@@ -74,7 +74,10 @@ def setup_parser(subparser):
                            metavar="MOD")
     subparser.add_argument("--scope", choices=scopes,
                            default=spack.config.default_modify_scope(),
-                           help="Configuration scope to modify.")
+                           help="configuration scope to modify.")
+    subparser.add_argument("-v", "--variants", choices=('all', 'changed'),
+                           default='all',
+                           help="which variant flags to store: only changed ones or all (default)")
     arguments.add_common_arguments(subparser, ['tags', 'constraint'])
     subparser.add_argument('-e', '--explicit',
                            help='export specs that were installed explicitly',
@@ -127,7 +130,7 @@ def export(parser, args):
                 default = None
                 if k in spec.package.variants:
                     default = spec.package.variants[k].default
-                if v.value != default:
+                if v.value != default or args.variants == 'all':
                     if v.value in (True, False):
                         bflags.append(v)
                     elif v.name != 'patches':

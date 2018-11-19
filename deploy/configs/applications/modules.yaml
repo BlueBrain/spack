@@ -1,7 +1,9 @@
 modules:
+
   enable::
-      - tcl
-  prefix_inspections:
+    - tcl
+
+  prefix_inspections::
     bin:
       - PATH
     bin64:
@@ -20,29 +22,32 @@ modules:
       - PKG_CONFIG_PATH
     '':
       - CMAKE_PREFIX_PATH
+
   tcl:
-    ^python:
-      autoload: 'direct'
-    all:
-      suffixes:
-          '+profile': 'profile'
-          '^coreneuron+knl': 'knl'
-      filter:
-        environment_blacklist: ['CPATH', 'LIBRARY_PATH']
-    naming_scheme: '${PACKAGE}/${VERSION}'
-    hash_length: 6
+    hash_length: 0
     whitelist:
       - functionalizer
-      - git
-      - neuron
-      - neurodamus
+      - 'neurodamus%intel'
+      - 'neuron+mpi%intel'
       - parquet-converters
-      - python
+      - py-bluepymm
+      - py-bluepyopt
+      - py-efel
       - spykfunc
+      - 'synapsetool%gcc'
       - steps
       - touchdetector
     blacklist:
       - '%gcc'
       - '%intel'
-      - '%clang'
+      - '%llvm'
       - '%pgi'
+    naming_scheme: '${PACKAGE}/${VERSION}'
+    ^python:
+      autoload: 'direct'
+    all:
+      suffixes:
+        '^coreneuron+knl': knl
+      environment:
+        set:
+          '${PACKAGE}_ROOT': '${PREFIX}'

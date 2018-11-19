@@ -1,0 +1,156 @@
+pipeline {
+    agent {
+        label 'bb5-full'
+    }
+
+    options {
+        timestamps()
+    }
+
+    parameters {
+        string(name: 'DEPLOYMENT_DATE', defaultValue: 'latest', description: 'date to use when deploying, in YYYY-MM-DD format, or "latest".')
+        booleanParam(name: 'build_compilers', defaultValue: true, description: 'Build compilers')
+        booleanParam(name: 'build_tools', defaultValue: true, description: 'Build system tools')
+        booleanParam(name: 'build_serial_libraries', defaultValue: true, description: 'Build serial libraries')
+        booleanParam(name: 'build_parallel_libraries', defaultValue: true, description: 'Build parallel libraries')
+        booleanParam(name: 'build_applications', defaultValue: true, description: 'Build BBP specific applications')
+    }
+
+    environment {
+        DEPLOYMENT_ROOT = "/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment"
+        BASEDIR = "${DEPLOYMENT_ROOT}/deploy/spack/deploy"
+        TMPDIR = "/dev/shm/jenkins"
+    }
+
+    stages {
+        stage('Setup') {
+            // General setup: make sure that Spack is installed and that
+            // license files are available to Spack
+            steps {
+                dir("${DEPLOYMENT_ROOT}/deploy/spack") {
+                    git(url: "https://github.com/BlueBrain/spack.git", branch: "deploy/test")
+                }
+                dir("${DEPLOYMENT_ROOT}/deploy/spack/etc/spack/licenses") {
+                    git(url: "ssh://bbpcode.epfl.ch/user/kumbhar/spack-licenses")
+                }
+            }
+        }
+
+        // stage('Archival') {
+        //     // When tagging a new release, reset the symlinks pointing to
+        //     // the last release
+        //     when {
+        //         tag pattern: "release-\\d+", comparator: "REGEXP"
+        //     }
+
+        //     steps {
+        //         sh "ls"
+        //     }
+        // }
+
+        stage('Compilers') {
+            when {
+                expression {
+                    return params.build_compilers
+                }
+            }
+
+            steps {
+                dir("${BASEDIR}") {
+                    sh "./deploy.sh compilers"
+                }
+            }
+
+            post {
+                always {
+                    archiveArtifacts artifacts: "stacks/compilers.xml"
+                    junit testResults: "stacks/compilers.xml", allowEmptyResults: true
+                }
+            }
+        }
+
+        stage('Tools') {
+            when {
+                expression {
+                    return params.build_tools
+                }
+            }
+
+            steps {
+                dir("${BASEDIR}") {
+                    sh "./deploy.sh tools"
+                }
+            }
+
+            post {
+                always {
+                    archiveArtifacts artifacts: "stacks/tools.xml"
+                    junit testResults: "stacks/tools.xml", allowEmptyResults: true
+                }
+            }
+        }
+
+        stage('Serial Libraries') {
+            when {
+                expression {
+                    return params.build_serial_libraries
+                }
+            }
+
+            steps {
+                dir("${BASEDIR}") {
+                    sh "./deploy.sh serial-libraries"
+                }
+            }
+
+            post {
+                always {
+                    archiveArtifacts artifacts: "stacks/serial-libraries.xml"
+                    junit testResults: "stacks/serial-libraries.xml", allowEmptyResults: true
+                }
+            }
+        }
+
+        stage('Parallel Libraries') {
+            when {
+                expression {
+                    return params.build_parallel_libraries
+                }
+            }
+
+            steps {
+                dir("${BASEDIR}") {
+                    sh "./deploy.sh parallel-libraries"
+                }
+            }
+
+            post {
+                always {
+                    archiveArtifacts artifacts: "stacks/parallel-libraries.xml"
+                    junit testResults: "stacks/parallel-libraries.xml", allowEmptyResults: true
+                }
+            }
+        }
+
+        stage('Applications') {
+            when {
+                expression {
+                    return params.build_applications
+                }
+            }
+
+            steps {
+                dir("${BASEDIR}") {
+                    sh "./deploy.sh applications"
+                }
+            }
+
+            post {
+                always {
+                    archiveArtifacts artifacts: "stacks/applications.xml"
+                    junit testResults: "stacks/applications.xml", allowEmptyResults: true
+                }
+            }
+        }
+    }
+}
