@@ -93,9 +93,9 @@ class Neurodamus(NeurodamusBase):
         ld_flags = find_libraries('libsyn2', spec["synapsetool"].prefix, shared, True).ld_flags
         if not shared:
             for lib in ['libboost_system-mt', 'libboost_filesystem-mt']:
-                ld_flags += ' ' + find_libraries(lib, spec['boost'].prefix, False, True).ld_flags
+                ld_flags += ' ' + find_libraries(lib, spec['boost'].prefix, False, True)[0]
             if spec['synapsetool'].satisfies("+sonata"):
-                ld_flags += ' ' + find_libraries('libsonata', spec['libsonata'].prefix, False, True).ld_flags
+                ld_flags += ' ' + find_libraries('libsonata', spec['libsonata'].prefix, False, True)[0]
         return ld_flags
 
     def build(self, spec, prefix):
