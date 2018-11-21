@@ -58,26 +58,41 @@ class Synapsetool(CMakePackage):
 
     @property
     def libs(self):
-        """Export the synapse library (especially for neurodamus).
+        """Export the synapse library. Some packages like neurodamus
+        need explicit list of all libraries to link. Insted of searching
+        libraries in dependent package, synapsetool should provide all
+        libraries including dependencies.
         Sample usage: spec['synapsetool'].libs.ld_flags
         """
-        is_shared = '+shared' in self.spec
-        libs = find_libraries('libsyn2', root=self.prefix,
-                                  shared=is_shared, recursive=True)
-        if libs:
-            return libs
-        return None
+        spec = self.spec
+        is_shared = '+shared' in spec
+
+        # synapse tool libraries
+        libraries = find_libraries('libsyn2', root=self.prefix,
+                                  shared=is_shared, recursive=True).libraries
+
+        # boost libraries
+        suffix = '-mt' if '^boost+multithreaded' in spec else ''
+        for name in ['libboost_system', 'libboost_filesystem']:
+            libraries.extend(find_libraries(name+suffix, spec['boost'].prefix, False, True).libraries)
+
+        # sonata libraries
+        if '+sonata' in spec:
+            libraries.extend(find_libraries("libsonata", spec['libsonata'].prefix, False, True).libraries)
+
+        return LibraryList(libraries)
 
     def cmake_args(self):
         args = []
-        if self.spec.satisfies('+mpi'):
+        spec = self.spec
+        if spec.satisfies('+mpi'):
             args.extend([
-                '-DCMAKE_C_COMPILER:STRING={}'.format(self.spec['mpi'].mpicc),
-                '-DCMAKE_CXX_COMPILER:STRING={}'.format(self.spec['mpi'].mpicxx),
+                '-DCMAKE_C_COMPILER:STRING={}'.format(spec['mpi'].mpicc),
+                '-DCMAKE_CXX_COMPILER:STRING={}'.format(spec['mpi'].mpicxx),
                 '-DSYNTOOL_WITH_MPI:BOOL=ON'
             ])
-        if self.spec.satisfies('~shared'):
+        if spec.satisfies('~shared'):
             args.append('-DCOMPILE_LIBRARY_TYPE=STATIC')
-        if self.spec.satisfies('+sonata'):
+        if spec.satisfies('+sonata'):
             args.append('-DSYNTOOL_WITH_SONATA:BOOL=ON')
         return args

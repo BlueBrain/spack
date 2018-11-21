@@ -54,11 +54,8 @@ class Neurodamus(NeurodamusBase):
 
     depends_on("neuron+profile", when='+profile')
     depends_on('reportinglib+profile', when='+profile')
-    depends_on('synapsetool~shared', when='+syntool')
+    depends_on('synapsetool', when='+syntool')
     depends_on('tau', when='+profile')
-    # dependencies for syntool when we use a static ver
-    depends_on("boost",         when="^synapsetool~shared")
-    depends_on("libsonata+mpi", when="^synapsetool~shared+sonata")
 
     depends_on("python@2.7:",      type=('build', 'run'), when='+python')
     depends_on("py-setuptools",    type=('build', 'run'), when='+python')
@@ -76,27 +73,12 @@ class Neurodamus(NeurodamusBase):
     phases = ['build', 'install']
 
     def do_stage(self, mirror_only=False):
-        # We Dont do fetching since it's not required, only stage
+        # dont fetch but stage as mod files come from neurodamus-base
         self._fetch_time = 0
         self.stage.create()
         build_dir = os.path.join(self.stage.path, 'build')
         os.makedirs(build_dir)
         os.symlink(self.spec['neurodamus-base'].prefix.lib.modlib, os.path.join(build_dir, 'm'))
-
-    # Synapsetool bring dependency with boost libraries
-    # As neurodamus is non-cmake package, it's difficult to find
-    # find dependencies easily. Here is custom method that find
-    # additional libraries required while linking synapse tool
-    def syntool_dep_libs(self):
-        spec = self.spec
-        shared = spec['synapsetool'].satisfies("+shared")
-        ld_flags = find_libraries('libsyn2', spec["synapsetool"].prefix, shared, True).ld_flags
-        if not shared:
-            for lib in ['libboost_system-mt', 'libboost_filesystem-mt']:
-                ld_flags += ' ' + find_libraries(lib, spec['boost'].prefix, False, True)[0]
-            if spec['synapsetool'].satisfies("+sonata"):
-                ld_flags += ' ' + find_libraries('libsonata', spec['libsonata'].prefix, False, True)[0]
-        return ld_flags
 
     def build(self, spec, prefix):
         """ Build mod files from m dir
@@ -108,25 +90,26 @@ class Neurodamus(NeurodamusBase):
 
         if '+syntool' in spec:
             include_flag += ' -DENABLE_SYNTOOL -I ' + spec['synapsetool'].prefix.include
-            link_flag += self.syntool_dep_libs()
+            link_flag += spec['synapsetool'].libs.rpath_flags
+            link_flag += ' ' + spec['synapsetool'].libs.ld_flags
 
         if '+coreneuron' in spec:
             include_flag += ' -DENABLE_CORENEURON -I%s' % (spec['coreneuron'].prefix.include)
-            link_flag += ' %s' % (spec['coreneuron'].libs.ld_flags)
+            link_flag += ' ' + spec['coreneuron'].libs.rpath_flags
+            link_flag += ' ' + spec['coreneuron'].libs.ld_flags
 
         include_flag += ' -I%s -I%s %s' % (spec['reportinglib'].prefix.include,
                                            spec['hdf5'].prefix.include,
                                            profile_flag)
-        link_flag += ' %s -L%s -lhdf5 -L%s -lz' % (
+        link_flag += ' %s %s -L%s -lhdf5 -L%s -lz' % (
+                     spec['reportinglib'].libs.rpath_flags,
                      spec['reportinglib'].libs.ld_flags,
                      spec['hdf5'].prefix.lib,
                      spec['zlib'].prefix.lib)
 
         nrnivmodl = which('nrnivmodl')
         with profiling_wrapper_on():
-            nrnivmodl('-incflags', include_flag,
-                      '-loadflags', link_flag, 'm')
-        # special exists or fail
+            nrnivmodl('-incflags', include_flag, '-loadflags', link_flag, 'm')
         special = os.path.join(os.path.basename(self.neuron_archdir), 'special')
         assert os.path.isfile(special)
 
