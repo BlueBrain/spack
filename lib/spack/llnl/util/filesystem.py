@@ -1112,7 +1112,7 @@ class LibraryList(FileList):
 
         >>> l = LibraryList(['/dir1/liba.a', '/dir2/libb.a', '/dir1/liba.so'])
         >>> l.rpath_flags
-        '-Wl,-rpath -Wl,/dir1 -Wl,-rpath -Wl,/dir2'
+        '-Wl,-rpath,/dir1 -Wl,-rpath,/dir2'
 
         Returns:
             str: A joined list of rpath flags
