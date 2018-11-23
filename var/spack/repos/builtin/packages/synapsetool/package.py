@@ -43,6 +43,7 @@ class Synapsetool(CMakePackage):
 
     variant('mpi', default=True, description="Enable MPI backend")
     variant('shared', default=True, description="Build shared library")
+    variant('python', default=False, description="Enable syntool Python package")
     variant('sonata', default=False, description="Enable SONATA support")
 
     depends_on('boost@1.55:')
@@ -54,7 +55,7 @@ class Synapsetool(CMakePackage):
     depends_on('libsonata+mpi', when='+mpi+sonata')
     depends_on('libsonata~mpi', when='~mpi+sonata')
     depends_on('mpi', when='+mpi')
-    depends_on('python')
+    depends_on('python', when='+python')
 
     @property
     def libs(self):
@@ -69,18 +70,21 @@ class Synapsetool(CMakePackage):
 
         # synapse tool libraries
         libraries = find_libraries('libsyn2', root=self.prefix,
-                                  shared=is_shared, recursive=True).libraries
+                                   shared=is_shared, recursive=True)
 
-        # boost libraries
-        suffix = '-mt' if '^boost+multithreaded' in spec else ''
-        for name in ['libboost_system', 'libboost_filesystem']:
-            libraries.extend(find_libraries(name+suffix, spec['boost'].prefix, False, True).libraries)
+        # If shared is not avail, we need to return sub dependencies
+        # We do it to avoid neurodamus to always depend on all sub-dependencies
+        if spec.satisfies('~shared'):
+            # boost libraries
+            suffix = '-mt' if '^boost+multithreaded' in spec else ''
+            for name in ['libboost_system', 'libboost_filesystem']:
+                libraries += find_libraries(name+suffix, spec['boost'].prefix, False, True)
 
-        # sonata libraries
-        if '+sonata' in spec:
-            libraries.extend(find_libraries("libsonata", spec['libsonata'].prefix, False, True).libraries)
+            # sonata libraries
+            if '+sonata' in spec:
+                libraries += find_libraries("libsonata", spec['libsonata'].prefix, False, True)
 
-        return LibraryList(libraries)
+        return libraries
 
     def cmake_args(self):
         args = []
