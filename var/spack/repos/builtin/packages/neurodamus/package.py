@@ -102,12 +102,16 @@ class Neurodamus(NeurodamusBase):
                                            spec['hdf5'].prefix.include,
                                            profile_flag)
         # Handle dependencies. If shared use -rpath, -L, -l, otherwise lib path
-        for dep in ['reportinglib', 'hdf5', 'synapsetool']:
+        dep_libs = ['reportinglib', 'hdf5',  'zlib']
+        if spec.satisfies('+syntool'):
+            dep_libs.append('synapsetool')
+        for dep in dep_libs:
             if spec[dep].satisfies('+shared'):
-                link_flag += " %s %s" % (spec[dep].libs.rpath_flags,
-                                         spec[dep].libs.ld_flags)
+                link_flag += " %s %s" % (spec[dep].libs.rpath_flags, spec[dep].libs.ld_flags)
             else:
-                link_flag += " " + " ".join(spec[dep].libs)
+                link_flag += " " + spec[dep].libs.joined()
+        if spec.satisfies('^synapsetool~shared'):
+            link_flag += ' ' + spec['synapsetool'].package.dependency_libs(spec).joined()
 
         nrnivmodl = which('nrnivmodl')
         with profiling_wrapper_on():

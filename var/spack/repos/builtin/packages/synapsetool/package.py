@@ -59,31 +59,25 @@ class Synapsetool(CMakePackage):
 
     @property
     def libs(self):
-        """Export the synapse library. Some packages like neurodamus
-        need explicit list of all libraries to link. Insted of searching
-        libraries in dependent package, synapsetool should provide all
-        libraries including dependencies.
-        Sample usage: spec['synapsetool'].libs.ld_flags
+        """Export the synapse library
         """
-        spec = self.spec
-        is_shared = '+shared' in spec
+        is_shared = '+shared' in self.spec
+        return find_libraries('libsyn2', root=self.prefix, shared=is_shared, recursive=True)
 
-        # synapse tool libraries
-        libraries = find_libraries('libsyn2', root=self.prefix,
-                                   shared=is_shared, recursive=True)
+    def dependency_libs(self, spec=None):
+        """List of required libraries on linking, with the possibility of passing another
+           spec where all dependencies have specs. This enables Syntool to be external
+        """
+        spec = spec or self.spec
+        is_shared = '+shared' in self.spec['synapsetool']
 
-        # If shared is not avail, we need to return sub dependencies
-        # We do it to avoid neurodamus to always depend on all sub-dependencies
-        if spec.satisfies('~shared'):
-            # boost libraries
-            suffix = '-mt' if '^boost+multithreaded' in spec else ''
-            for name in ['libboost_system', 'libboost_filesystem']:
-                libraries += find_libraries(name+suffix, spec['boost'].prefix, False, True)
+        boost_libs = ['libboost_system', 'libboost_filesystem']
+        if spec['boost'].satisfies('+multithreaded'):
+            boost_libs = [l + '-mt' for l in boost_libs]
 
-            # sonata libraries
-            if '+sonata' in spec:
-                libraries += find_libraries("libsonata", spec['libsonata'].prefix, False, True)
-
+        libraries = find_libraries(boost_libs, spec['boost'].prefix, is_shared, True)
+        if '+sonata' in spec:
+            libraries += find_libraries("libsonata", spec['libsonata'].prefix, is_shared, True)
         return libraries
 
     def cmake_args(self):
