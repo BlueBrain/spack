@@ -52,3 +52,25 @@ teardown() {
     name=$(readlink -f "${DEPLOYMENT_ROOT}/install/fools/latest")
     [[ "${name}" = "${DEPLOYMENT_ROOT}/install/fools/${DEFAULT_DEPLOYMENT_DATE}" ]]
 }
+
+@test "module path for compilers should not be updated" {
+    MODULEPATH="foo"
+    export MODULEPATH
+    update_module_path "compilers"
+    [[ "${MODULEPATH}" = "foo" ]]
+}
+
+@test "module path for serial-libraries should contain compilers, tools" {
+    MODULEPATH=""
+    export MODULEPATH
+    paths=""
+    for stage in compilers tools; do
+        path="${DEPLOYMENT_ROOT}/install/${stage}/${DEPLOYMENT_DATE}/modules/tcl/foobar"
+        mkdir -p "${path}/spam/ham/eggs"
+        paths="${paths}${paths:+:}${path}"
+    done
+    update_module_path "serial-libraries"
+    echo $MODULEPATH
+    echo $paths
+    [[ "${MODULEPATH}" = "${paths}" ]]
+}

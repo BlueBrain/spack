@@ -95,8 +95,47 @@ last_install_dir() {
     echo "$(readlink -f ${name})"
 }
 
-assemble_module_path() {
-    echo true
+update_module_path() {
+    local what="$1"
+    while read -d' ' stage; do
+        if [[ "${stage}" = "${what}" ]]; then
+            return
+        fi
+
+        local base="$(last_install_dir ${stage})"
+        for modpath in ${base}/modules/tcl/*; do
+            grep -oF "${modpath}" <<< ${MODULEPATH} || {
+                MODULEPATH="${MODULEPATH}${MODULEPATH:+:}${modpath}"
+                export MODULEPATH
+            }
+        done
+    done <<< "${stages}"
+}
+
+update_chain_config() {
+    what="$1"
+    conf="${HOME}/.spack/config.yaml"
+    ckey="^\s*upstream_spack_installations:"
+
+    read -d' ' root <<< "${stages}"
+    if [[ "${what}" = "${root}" ]]; then
+        return
+    fi
+
+    grep -e ${ckey} ${conf} || {
+        echo "  upstream_spack_installations:" >> "${conf}"
+    }
+
+    while read -d' ' stage; do
+        if [[ "${stage}" = "${what}" ]]; then
+            return
+        fi
+        cat << EOF >> "${conf}"
+  - spack-install-prefix: $(last_install_dir ${stage})
+    modules:
+      tcl: $(last_install_dir ${stage})/modules
+EOF
+    done <<< "${stages}"
 }
 
 configure_compilers() {
@@ -241,6 +280,8 @@ install_specs() {
     export HOME SOFTS_DIR_PATH MODS_DIR_PATH
 
     copy_configuration "${what}"
+    update_chain_config "${what}"
+    update_module_path "${what}"
 
     # This directory may fail intel builds, pre-emptively remove it.
     rm -rf "${HOME}/intel/.pset"
