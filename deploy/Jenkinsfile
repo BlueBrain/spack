@@ -28,7 +28,7 @@ pipeline {
             // license files are available to Spack
             steps {
                 dir("${DEPLOYMENT_ROOT}/deploy/spack") {
-                    git(url: "https://github.com/BlueBrain/spack.git", branch: "deploy/test")
+                    git(url: "https://github.com/BlueBrain/spack.git", branch: "spack_chain")
                 }
                 dir("${DEPLOYMENT_ROOT}/deploy/spack/etc/spack/licenses") {
                     git(url: "ssh://bbpcode.epfl.ch/user/kumbhar/spack-licenses")
