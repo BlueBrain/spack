@@ -11,10 +11,6 @@ packages:
         paths:
             bison@3.0.4: /usr
         version: [3.0.4]
-    bzip2:
-        paths:
-            bzip2@1.0.6: /usr
-        version: [1.0.6]
     cairo:
         paths:
             cairo@1.8.10: /usr
@@ -63,10 +59,6 @@ packages:
         paths:
             libtool@2.4.2: /usr
         version: [2.4.2]
-    libxml2:
-        paths:
-            libxml2@2.9.1: /usr
-        version: [2.9.1]
     m4:
         paths:
             m4@1.4.16: /usr

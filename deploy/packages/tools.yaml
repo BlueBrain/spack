@@ -25,6 +25,7 @@ packages:
       - cmake@3.12.2
       # - environment-modules@3.2.10
       # - flex@2.6.3
+      - gdb~python@8.2
       # - gdbm@1.14.1
       # - gettext@0.19.8.1
       # - git@2.18.0
@@ -45,15 +46,15 @@ packages:
       - util-macros@1.19.1
       # - valgrind~mpi@3.13.0
 
-  gnu-stable-python-serial:
-    target_matrix:
-      - gnu-stable
-    requires:
-      - architecture
-      - compiler
-      - python
-    specs:
-      - gdb@8.2
-      - ninja@1.8.2
-      - py-lit@0.5.0
-      - py-setuptools@40.2.0
+  #gnu-stable-python-serial:
+  #  target_matrix:
+  #    - gnu-stable
+  #  requires:
+  #    - architecture
+  #    - compiler
+  #    - python
+  #  specs:
+  #    - gdb@8.2
+  #    - ninja@1.8.2
+  #    - py-lit@0.5.0
+  #    - py-setuptools@40.2.0

@@ -182,7 +182,7 @@ populate_mirror() {
     log "populating mirror for ${what}"
 
     specfile="$(install_dir ${what})/data/specs.txt"
-    spec_list=$(spack -dv filter --not-installed $(cat ${specfile}))
+    spec_list=$(spack -v filter --not-installed $(cat ${specfile}))
 
     if [[ -z "${spec_list}" ]]; then
         log "...found no new packages"
