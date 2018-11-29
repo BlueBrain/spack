@@ -285,10 +285,12 @@ install_specs() {
     env &> "${HOME}/spack.env"
     (cd "${DEPLOYMENT_ROOT}/deploy/spack" && git rev-parse HEAD) &> "${HOME}/spack.version"
 
+    # FIXME remove
     spack config get config
     spack config get packages
     spack spec $(< ${HOME}/specs.txt)
     chmod -R g+rwx $HOME/.spack
+    # FIXME /remove
 
     populate_mirror "${what}"
 
@@ -318,7 +320,13 @@ install_specs() {
 
     spack module tcl refresh -y
     . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
-    spack export --scope=user --module tcl --explicit > "${HOME}/packages.yaml"
+    if [[ "${what}" = "parallel-libraries" ]]; then
+        # For parallel libraries with MPI dependencies, we don't populate
+        # packages.yaml, since the dependency tree would be trimmed.
+        cp "${HOME}/.spack/packages.yaml" "${HOME}"
+    else
+        spack export --scope=user --module tcl --explicit > "${HOME}/packages.yaml"
+    fi
 
     if [[ "${what}" = "compilers" ]]; then
         cp configs/packages.yaml ${HOME}/packages.yaml
