@@ -288,6 +288,7 @@ install_specs() {
     spack config get config
     spack config get packages
     spack spec $(< ${HOME}/specs.txt)
+    chmod -R g+rwx $HOME/.spack
 
     populate_mirror "${what}"
 
