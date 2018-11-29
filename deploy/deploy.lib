@@ -277,9 +277,6 @@ install_specs() {
     update_chain_config "${what}"
     update_module_path "${what}"
 
-    # FIXME remove this for production
-    chmod -R a+w "${HOME}"
-
     # This directory may fail intel builds, pre-emptively remove it.
     rm -rf "${HOME}/intel/.pset"
 
