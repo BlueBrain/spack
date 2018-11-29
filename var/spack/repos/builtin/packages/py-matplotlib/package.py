@@ -49,7 +49,9 @@ class PyMatplotlib(PythonPackage):
     # directories (i.e., matplotlib and basemap)
     depends_on('py-setuptools', type=('build', 'run'))
 
-    depends_on('python@3.5:', when='@3:')
+    # FIXME: mirror failure with py-bb5
+    # depends_on('python@3.5:', when='@3:')
+
     depends_on('libpng@1.2:')
     depends_on('freetype@2.3:')
     patch('freetype-include-path.patch', when='@2.2.2:2.9.9')  # Patch to pick up correct freetype headers
