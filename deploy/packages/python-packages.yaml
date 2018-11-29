@@ -63,7 +63,6 @@ packages:
       - py-line-profiler
       - py-lxml
       - py-markdown
-      - py-matplotlib
       # - py-memory-profiler
       # - py-mpmath
       # - py-multiprocess

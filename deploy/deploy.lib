@@ -285,6 +285,10 @@ install_specs() {
     env &> "${HOME}/spack.env"
     (cd "${DEPLOYMENT_ROOT}/deploy/spack" && git rev-parse HEAD) &> "${HOME}/spack.version"
 
+    spack config get config
+    spack config get packages
+    spack spec $(< ${HOME}/specs.txt)
+
     populate_mirror "${what}"
 
     log "gathering specs"
