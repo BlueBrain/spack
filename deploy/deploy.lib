@@ -313,7 +313,8 @@ install_specs() {
 
     spack module tcl refresh -y
     . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
-    if [[ "${what}" = "parallel-libraries" ]]; then
+    #if [[ "${what}" = "parallel-libraries" ]]; then
+    if [[ " " ]]; then
         # For parallel libraries with MPI dependencies, we don't populate
         # packages.yaml, since the dependency tree would be trimmed.
         log "copying packages.yaml"
