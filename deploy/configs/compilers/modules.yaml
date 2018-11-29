@@ -27,7 +27,7 @@ modules:
         environment_blacklist: ['CPATH', 'LIBRARY_PATH']
     core_compilers:
       - 'gcc@4.8.5'
-    hash_length: 0
+    hash_length: 6
     whitelist:
       - 'gcc'
       - 'intel-parallel-studio'
