@@ -323,9 +323,17 @@ To install the system tools:
     $ ./deploy.sh -i tools
 
 
-#### Todo : Jenkins Pipeline Workflow
+### Jenkins Pipeline Workflow
 
-See existing scripts in `scripts/` directory and `Jenkinsfile`. Those should be refactored for new workflow.
+See `Jenkinsfile`.
+All package collections referenced above are triggered as separate stages,
+calling `deploy.sh` with appropriate arguments.
+
+#### Open Items
+
+* [ ] Archival of older deployments
+* [ ] Avoid conflicts during module generation
+* [ ] Avoid conflicts during Python package activation
 
 #### Other Commands
 
