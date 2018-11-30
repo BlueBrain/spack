@@ -210,7 +210,7 @@ populate_mirror() {
     log "populating mirror for ${what}"
 
     specfile="$(install_dir ${what})/data/specs.txt"
-    spec_list=$(spack -v filter --not-installed $(cat ${specfile}))
+    spec_list=$(spack filter --not-installed $(cat ${specfile}))
 
     if [[ -z "${spec_list}" ]]; then
         log "...found no new packages"
@@ -319,7 +319,7 @@ install_specs() {
     populate_mirror "${what}"
 
     log "gathering specs"
-    spec_list=$(spack -dv filter --not-installed $(< ${HOME}/specs.txt))
+    spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
 
     if [[ "${spec_list}" == *[[:space:]]* ]]; then
         log "found the following uninstalled specs"
