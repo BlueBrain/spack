@@ -127,9 +127,11 @@ update_module_path() {
         local base="$(last_install_dir ${stage})"
         for modpath in ${base}/modules/tcl/*; do
             grep -oF "${modpath}" <<< ${MODULEPATH} || {
-                log "appending '${modpath}' to MODULEPATH"
-                MODULEPATH="${MODULEPATH}${MODULEPATH:+:}${modpath}"
-                export MODULEPATH
+                if [[ -d "${modpath}" ]]; then
+                    log "appending '${modpath}' to MODULEPATH"
+                    MODULEPATH="${MODULEPATH}${MODULEPATH:+:}${modpath}"
+                    export MODULEPATH
+                fi
             }
         done
     done <<< "${stages}"
