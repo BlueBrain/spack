@@ -22,6 +22,28 @@ declare -A spec_definitions=([compilers]=compilers
                              [parallel-libraries]=parallel-libraries
                              [applications]=bbp-packages)
 
+# Export installed software as packages to be re-used later
+# Allowed values: yes/no
+#
+# Rationale:
+# * compilers end up in their configuration file
+# * tools + serial libraries should be exported
+# * for serial, parallel libraries: use in chains (see below) to get
+#   dependency DAG
+declare -A export_packages=([compilers]=no
+                            [tools]=yes
+                            [serial-libraries]=yes
+                            [parallel-libraries]=no
+                            [applications]=no)
+
+# Re-use installed software via the chain mechanism
+# Allowed values: yes/no
+declare -A include_in_chain=([compilers]=no
+                             [tools]=no
+                             [serial-libraries]=yes
+                             [parallel-libraries]=yes
+                             [applications]=yes)
+
 # Set up the dependency graph
 declare -A spec_parentage
 last=""
@@ -105,6 +127,7 @@ update_module_path() {
         local base="$(last_install_dir ${stage})"
         for modpath in ${base}/modules/tcl/*; do
             grep -oF "${modpath}" <<< ${MODULEPATH} || {
+                log "appending '${modpath}' to MODULEPATH"
                 MODULEPATH="${MODULEPATH}${MODULEPATH:+:}${modpath}"
                 export MODULEPATH
             }
@@ -129,7 +152,10 @@ update_chain_config() {
     while read -d' ' stage; do
         if [[ "${stage}" = "${what}" ]]; then
             return
+        elif [[ "${include_in_chain[${stage}]}" != "yes" ]]; then
+            continue
         fi
+        log "chaining up '${stage}'"
         cat << EOF >> "${conf}"
   - spack-install-prefix: $(last_install_dir ${stage})
     modules:
@@ -316,15 +342,12 @@ install_specs() {
 
     spack module tcl refresh -y
     . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
-    #if [[ "${what}" = "parallel-libraries" ]]; then
-    if [[ " " ]]; then
-        # For parallel libraries with MPI dependencies, we don't populate
-        # packages.yaml, since the dependency tree would be trimmed.
-        log "copying packages.yaml"
-        cp "${HOME}/.spack/packages.yaml" "${HOME}"
-    else
+    if [[ "${export_packages[${what}]}" = "yes" ]]; then
         log "augmenting packages.yaml"
         spack export --scope=user --module tcl --explicit > "${HOME}/packages.yaml"
+    else
+        log "copying packages.yaml"
+        cp "${HOME}/.spack/packages.yaml" "${HOME}"
     fi
 
     if [[ "${what}" = "compilers" ]]; then
