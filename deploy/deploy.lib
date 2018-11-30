@@ -147,23 +147,32 @@ update_chain_config() {
         return
     fi
 
+    chains=""
+    for stage in "${stages}"; do
+        if [[ "${stage}" = "${what}" ]]; then
+            break
+        fi
+        if [[ "${include_in_chain[${stage}]}" != "yes" ]]; then
+            chains="${stage}${chains:+ }${chains}"
+        fi
+    done
+
+    if [[ -z "${chains}" ]]; then
+        log "no chains in use for '${what}'"
+        return
+    fi
+
     grep -e ${ckey} ${conf} || {
         echo "  upstream_spack_installations:" >> "${conf}"
     }
-
-    while read -d' ' stage; do
-        if [[ "${stage}" = "${what}" ]]; then
-            return
-        elif [[ "${include_in_chain[${stage}]}" != "yes" ]]; then
-            continue
-        fi
+    for stage in "${chains}"; do
         log "chaining up '${stage}'"
         cat << EOF >> "${conf}"
   - spack-install-prefix: $(last_install_dir ${stage})
     modules:
       tcl: $(last_install_dir ${stage})/modules
 EOF
-    done <<< "${stages}"
+    done
 }
 
 configure_compilers() {
