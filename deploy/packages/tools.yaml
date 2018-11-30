@@ -31,6 +31,8 @@ packages:
       # - git@2.18.0
       # - gmp@6.1.2
       # - help2man@1.47.4
+      - hpe-mpi@2.16
+      # - intel-mpi@2018.1.163
       # - isl@0.18
       - libtool@2.4.6
       # - libx11@1.6.5
