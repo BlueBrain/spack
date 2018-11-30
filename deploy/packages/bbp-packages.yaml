@@ -41,7 +41,7 @@ packages:
       - architecture
       - compiler
       - mpi
-      - python
+      #- python
     specs:
       - parquet-converters@0.2.1
 
