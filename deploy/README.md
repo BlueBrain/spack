@@ -1,19 +1,24 @@
-### SpackD : Deploying Software Stack with Spack
+# SpackD: Deploying Software Stacks with Spack
 
-This is work-in-progress instructions for deploying software stack with Spack.
+This is work-in-progress instructions for deploying software stack with
+Spack.
+
+[Jump to deployment description](#deployment-workflow)
 
 ###### CREDIT : Based on [spack-packagelist](https://github.com/epfl-scitas/spack-packagelist)
 
-#### Setup Environment
+## To Experiment with Spec Generation
 
-Clone repository :
+### Setup Environment for Experimentation
+
+Clone repository:
 
 ```
 git clone https://github.com/pramodk/spack-deploy.git
 cd spack-deploy
 ```
 
-Setup virtual environment :
+Setup virtual environment:
 
 ```
 DEPLOYMENT_VIRTUALENV=`pwd`/spackd-venv
@@ -22,7 +27,7 @@ virtualenv -p $(which python) ${DEPLOYMENT_VIRTUALENV} --clear
 pip install --force-reinstall -U .
 ```
 
-And you should have `spackd` available :
+And you should have `spackd` available:
 
 ```
 → spackd --help
@@ -56,7 +61,7 @@ Commands:
 > curl https://bootstrap.pypa.io/get-pip.py | python
 > ```
 
-#### Toolchain Specifications
+### Toolchain Specifications
 
 The compiler toolchain specification is based on multiple axis:
 
@@ -111,7 +116,7 @@ The `core` toolchain typically represent system compiler. This compiler is used 
 The next toolchain `gnu-stable` represent default GNU compiler. We are going to provide single version of HPE mpi library and python version.
 
 
-#### Packages Specifications
+### Packages Specifications
 
 Once compiler toolchains are defined, we can define packages to build for each toolchain. For example, we define compiler packages as:
 
@@ -169,7 +174,7 @@ petsc+int64+mpi@3.9.3 ^intel-mkl@2018.1.163 %intel@18.0.3 target=x86_64
 trilinos@12.12.1 ^intel-mkl@2018.1.163 %intel@18.0.3 target=x86_64
 ```
 
-#### Whole Software Stack
+### Whole Software Stack
 
 Here is list of all packages (in order) that we will be installing :
 
@@ -188,12 +193,13 @@ Here is how deployment workflow should look like :
 
 ![alt text](drawings/workflow.png "Deployment Workflow")
 
-There are four stages:
+There are five stages:
 
 1. compilers: all necessary compilers
 2. tools: software involved in the building process
-3. libraries: software dependencies of our stack
-4. applications: packages maintained by Blue Brain
+3. serial-libraries: software dependencies of our stack
+4. parallel-libraries: software dependencies of our stack requiring MPI
+5. applications: packages maintained by Blue Brain
 
 During deployment, package specs required by Spack are generated with the
 Python package of this repository and subsequently build by Spack.
@@ -217,10 +223,10 @@ Files used for the stages:
 
 1. compilers: `compilers.yaml`
 2. tools: `system-tools.yaml`
-3. libraries: `parallel-libraries.yaml`,
-              `serial-libraries.yaml`,
-              `python-packages.yaml`
-4. applications: `bbp-packages.yaml`
+3. serial-libraries: `serial-libraries.yaml`,
+                     `python-packages.yaml`
+4. parallel-libraries: `parallel-libraries.yaml`
+5. applications: `bbp-packages.yaml`
 
 #### Spack configuration
 
@@ -238,6 +244,18 @@ files in said folder override the more generic ones within `configs`.
 
 All but the compilers stage also copy a `compilers.yaml` and
 `packages.yaml` from the previous stage.
+
+The generation/population of `packages.yaml` and chaining of Spack
+instances are defined at the top of `deploy.lib`.
+En bref: within our workflow, we want to see the modules from previous
+stages, and thus set the `MODULEPATH` to all but the current stage.
+Compilers are only visible through `compilers.yaml`, and tools and
+serial libraries should be at least in part found in `packages.yaml` to
+truncate the dependency DAG and remove duplication with different
+compilers.
+
+The final stages, applications and parallel libraries will use Spack chains
+to see the package databases of all libraries.
 
 ### Preparing the deployment
 
