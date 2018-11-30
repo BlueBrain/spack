@@ -148,7 +148,7 @@ update_chain_config() {
     fi
 
     chains=""
-    for stage in "${stages}"; do
+    for stage in ${stages}; do
         if [[ "${stage}" = "${what}" ]]; then
             break
         fi
