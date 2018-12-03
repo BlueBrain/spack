@@ -165,7 +165,7 @@ update_chain_config() {
     grep -e ${ckey} ${conf} || {
         echo "  upstream_spack_installations:" >> "${conf}"
     }
-    for stage in "${chains}"; do
+    for stage in ${chains}; do
         log "chaining up '${stage}'"
         cat << EOF >> "${conf}"
   - spack-install-prefix: $(last_install_dir ${stage})
