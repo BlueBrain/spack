@@ -13,6 +13,7 @@ import llnl.util.lang
 import spack.repo
 import spack.cmd.common.arguments as arguments
 from spack.cmd import display_specs
+from spack.view import filter_exclude
 
 from spack.build_systems.python import PythonPackage
 
@@ -40,30 +41,32 @@ class PackagesDumper(syaml.OrderedLineDumper):
 PackagesDumper.add_representer(syaml_list, PackagesDumper.represent_list)
 
 
-def setup_parser(subparser):
+def setup_parser(sp):
     scopes = spack.config.scopes()
-    subparser.add_argument('-f', '--format',
-                           help="specify format for path/module keys",
-                           metavar="FMT", default='$_$@')
-    subparser.add_argument('-d', '--dependencies',
-                           help="add selected dependencies to the specs",
-                           action='store_true')
-    subparser.add_argument('-m', '--module',
-                           choices=spack.modules.module_types.keys(),
-                           default=None,
-                           help="point to modules generated for MOD",
-                           metavar="MOD")
-    subparser.add_argument("--scope", choices=scopes,
-                           default=spack.config.default_modify_scope(),
-                           help="configuration scope to modify.")
-    subparser.add_argument("-v", "--variants", choices=('all', 'changed'),
-                           default='all',
-                           help="which variant flags to store: only changed ones or all (default)")
-    arguments.add_common_arguments(subparser, ['tags', 'constraint'])
-    subparser.add_argument('-e', '--explicit',
-                           help='export specs that were installed explicitly',
-                           default=None,
-                           action='store_true')
+    sp.add_argument('-f', '--format',
+                    help="specify format for path/module keys",
+                    metavar="FMT", default='$_$@')
+    sp.add_argument('-d', '--dependencies',
+                    help="add selected dependencies to the specs",
+                    action='store_true')
+    sp.add_argument('-m', '--module',
+                    choices=spack.modules.module_types.keys(),
+                    default=None,
+                    help="point to modules generated for MOD",
+                    metavar="MOD")
+    sp.add_argument("--scope", choices=scopes,
+                    default=spack.config.default_modify_scope(),
+                    help="configuration scope to modify.")
+    sp.add_argument("-v", "--variants", choices=('all', 'changed'),
+                    default='all',
+                    help="which variant flags to store: only changed ones or all (default)")
+    arguments.add_common_arguments(sp, ['tags', 'constraint'])
+    sp.add_argument('--exclude', action='append', default=[],
+                    help="exclude packages with names matching the given regex pattern")
+    sp.add_argument('--explicit',
+                    help='export specs that were installed explicitly',
+                    default=None,
+                    action='store_true')
 
 def export(parser, args):
     q_args = {"explicit": True if args.explicit else any}
@@ -82,6 +85,9 @@ def export(parser, args):
     if args.tags:
         packages_with_tags = spack.repo.path.packages_with_tags(*args.tags)
         specs = [x for x in specs if x.name in packages_with_tags]
+
+    if args.exclude:
+        specs = set(filter_exclude(specs, args.exclude))
 
     cls = None
     if args.module:
