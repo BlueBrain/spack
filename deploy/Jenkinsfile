@@ -1,6 +1,8 @@
 def link_latest(redeploy, stage) {
-    if (redeploy) {
-        sh "./deploy.sh -l ${stage}"
+    dir("${BASEDIR}") {
+        if (redeploy) {
+            sh "./deploy.sh -l ${stage}"
+        }
     }
 }
 
