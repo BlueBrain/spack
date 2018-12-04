@@ -24,7 +24,6 @@ packages:
       # - cuda@9.2.88
       # - gmsh+oce~mpi@3.0.6
       - hdf5~mpi@1.10.3
-      - hadoop@2.9.0
       - highfive~mpi@1.6
       - intel-mkl@2018.3.222
       - jdk@1.8.0_191-b12
@@ -38,7 +37,7 @@ packages:
       - qhull@2015.2
       # - qt@5.10.0
       - readline@7.0
-      - spark@2.3.2rc2
+      - spark@2.4.0+hadoop
       - sqlite@3.23.1
       # - symengine@0.3.0
       # - zeromq@4.2.5
