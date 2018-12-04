@@ -26,29 +26,39 @@ export DEPLOYMENT_ROOT SPACK_MIRROR_DIR
 . ./deploy.lib
 
 usage() {
-    echo "usage: $0 [-gil] stage..." 1>&2
+    echo "usage: $0 [-cgil] stage..." 1>&2
     exit 1
 }
 
+do_copy=default
 do_link=default
 do_generate=default
 do_install=default
-while getopts "gil" arg; do
+while getopts "cgil" arg; do
     case "${arg}" in
+        c)
+            do_copy=yes
+            [[ ${do_install} = "default" ]] && do_install=no
+            [[ ${do_generate} = "default" ]] && do_generate=no
+            [[ ${do_link} = "default" ]] && do_link=no
+            ;;
         g)
             do_generate=yes
             [[ ${do_install} = "default" ]] && do_install=no
             [[ ${do_link} = "default" ]] && do_link=no
+            [[ ${do_copy} = "default" ]] && do_copy=no
             ;;
         i)
             do_install=yes
             [[ ${do_generate} = "default" ]] && do_generate=no
             [[ ${do_link} = "default" ]] && do_link=no
+            [[ ${do_copy} = "default" ]] && do_copy=no
             ;;
         l)
             do_link=yes
             [[ ${do_install} = "default" ]] && do_install=no
             [[ ${do_generate} = "default" ]] && do_generate=no
+            [[ ${do_copy} = "default" ]] && do_copy=no
             ;;
         *)
             usage
@@ -90,5 +100,11 @@ done
 for what in ${stages}; do
     if [[ ${desired[${what}]+_} && ${do_link} = "yes" ]]; then
         set_latest ${what}
+    fi
+done
+
+for what in ${stages}; do
+    if [[ ${desired[${what}]+_} && ${do_copy} = "yes" ]]; then
+        copy_configuration_user ${what}
     fi
 done

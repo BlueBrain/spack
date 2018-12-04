@@ -3,6 +3,10 @@ def post_process(stage, redeploy) {
         if (redeploy) {
             sh "./deploy.sh -l ${stage}"
         }
+
+        if (stage == 'applications') {
+            sh "./deploy.sh -c ${stage}"
+        }
     }
 }
 

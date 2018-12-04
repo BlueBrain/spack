@@ -86,7 +86,7 @@ set_latest() {
     source="$(install_dir_name ${what})"
     DEPLOYMENT_DATE="latest"
     target="$(install_dir_raw ${what})"
-    if [[ ! -L "${target}" ]]; then
+    if [[ -e "${target}" && ! -L "${target}" ]]; then
         log "link target is not a symlink: ${target}"
         return 1
     elif [[ "${source}" = "${target}" ]]; then
@@ -150,7 +150,7 @@ last_install_dir() {
     echo "$(readlink -f ${name})"
 }
 
-update_module_path() {
+list_module_paths() {
     local what="$1"
     while read -d' ' stage; do
         if [[ "${stage}" = "${what}" ]]; then
@@ -159,15 +159,27 @@ update_module_path() {
 
         local base="$(last_install_dir ${stage})"
         for modpath in ${base}/modules/tcl/*; do
-            grep -oF "${modpath}" <<< ${MODULEPATH} || {
-                if [[ -d "${modpath}" ]]; then
-                    log "appending '${modpath}' to MODULEPATH"
-                    MODULEPATH="${MODULEPATH}${MODULEPATH:+:}${modpath}"
-                    export MODULEPATH
-                fi
-            }
+            if [[ -d "${modpath}" ]]; then
+                log ${modpath}
+                echo "${modpath}"
+            fi
         done
     done <<< "${stages}"
+}
+
+update_module_path() {
+    local what="$1"
+    local modpaths=$(list_module_paths ${what})
+
+    for modpath in ${modpaths}; do
+        if $(grep -oF "${modpath}" <<< ${MODULEPATH}); then
+            log "already present in MODULEPATH: ${modpath}"
+        else
+            log "appending to MODULEPATH: ${modpath}"
+            MODULEPATH="${MODULEPATH}${MODULEPATH:+:}${modpath}"
+            export MODULEPATH
+        fi
+    done
 }
 
 update_chain_config() {
@@ -334,6 +346,27 @@ copy_configuration() {
         log "...using specialized configuration files: $(ls configs/${what})"
         cp configs/${what}/*.yaml "${HOME}/.spack"
     fi
+}
+
+copy_configuration_user() {
+    what="$1"
+
+    local source="$(install_dir ${what})/data"
+    local target="${DEPLOYMENT_ROOT}/user"
+    local modpaths=$(list_module_paths ${what})
+
+    log "copying configuration"
+    log "...from ${source}"
+    log "...into ${target}"
+
+    mkdir -p "${target}"
+    cp ${source}/{compilers,.spack/config,packages}.yaml ${target}
+
+    rm -f ${target}/modules.sh
+    for modpath in ${modpaths}; do
+        echo "MODULEPATH=\"\${MODULEPATH}\${MODULEPATH:+:}${modpath}\"" >> ${target}/modules.sh
+    done
+    echo "export MODULEPATH" >> ${target}/modules.sh
 }
 
 install_specs() {

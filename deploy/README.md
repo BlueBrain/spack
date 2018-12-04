@@ -322,6 +322,20 @@ To install the system tools:
 
     $ ./deploy.sh -i tools
 
+To link a successful deployment to `latest`:
+
+    $ ./deploy.sh -l all
+
+After a successful deployment, all user facing configuration is copied into
+a separate directory:
+
+    ${DEPLOYMENT_ROOT}
+    └── user
+        ├── compilers.yaml
+        ├── config.yaml
+        ├── packages.yaml
+        └── modules.sh
+
 
 ### Jenkins Pipeline Workflow
 
