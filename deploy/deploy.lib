@@ -151,12 +151,10 @@ last_install_dir() {
 }
 
 list_module_paths() {
+    # Print all module paths up to and including the stage passed as first
+    # argument
     local what="$1"
     while read -d' ' stage; do
-        if [[ "${stage}" = "${what}" ]]; then
-            return
-        fi
-
         local base="$(last_install_dir ${stage})"
         for modpath in ${base}/modules/tcl/*; do
             if [[ -d "${modpath}" ]]; then
@@ -164,15 +162,23 @@ list_module_paths() {
                 echo "${modpath}"
             fi
         done
+
+        if [[ "${stage}" = "${what}" ]]; then
+            return
+        fi
     done <<< "${stages}"
 }
 
 update_module_path() {
+    # Export MODULEPATH including all stages up to and excluding the one
+    # passed as first argument
     local what="$1"
     local modpaths=$(list_module_paths ${what})
 
     for modpath in ${modpaths}; do
-        if $(grep -oF "${modpath}" <<< ${MODULEPATH}); then
+        if [[ "${stage}" = "${what}" ]]; then
+            return
+        elif $(grep -oF "${modpath}" <<< ${MODULEPATH}); then
             log "already present in MODULEPATH: ${modpath}"
         else
             log "appending to MODULEPATH: ${modpath}"
