@@ -13,7 +13,7 @@ import llnl.util.lang
 import spack.repo
 import spack.cmd.common.arguments as arguments
 from spack.cmd import display_specs
-from spack.view import filter_exclude
+from spack.filesystem_view import filter_exclude
 
 from spack.build_systems.python import PythonPackage
 
