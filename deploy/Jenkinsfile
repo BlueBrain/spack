@@ -1,4 +1,4 @@
-def link_latest(redeploy, stage) {
+def post_process(stage, redeploy) {
     dir("${BASEDIR}") {
         if (redeploy) {
             sh "./deploy.sh -l ${stage}"
@@ -79,7 +79,7 @@ pipeline {
                 }
 
                 success {
-                    link_latest(params.REDEPLOY, "compilers")
+                    post_process("compilers", params.REDEPLOY)
                 }
             }
         }
@@ -104,7 +104,7 @@ pipeline {
                 }
 
                 success {
-                    link_latest(params.REDEPLOY, "tools")
+                    post_process("tools", params.REDEPLOY)
                 }
             }
         }
@@ -129,7 +129,7 @@ pipeline {
                 }
 
                 success {
-                    link_latest(params.REDEPLOY, "serial-libraries")
+                    post_process("serial-libraries", params.REDEPLOY)
                 }
             }
         }
@@ -154,7 +154,7 @@ pipeline {
                 }
 
                 success {
-                    link_latest(params.REDEPLOY, "parallel-libraries")
+                    post_process("parallel-libraries", params.REDEPLOY)
                 }
             }
         }
@@ -179,7 +179,7 @@ pipeline {
                 }
 
                 success {
-                    link_latest(params.REDEPLOY, "applications")
+                    post_process("applications", params.REDEPLOY)
                 }
             }
         }

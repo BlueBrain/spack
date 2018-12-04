@@ -58,12 +58,20 @@ log() {
     echo "$(tput bold)### $@$(tput sgr0)" >&2
 }
 
-install_dir_name() {
+install_dir_raw() {
     # Create an installation directory name based on the environment
     # variables set.
     what=$1
     date="${DEPLOYMENT_DATE:-${DEFAULT_DEPLOYMENT_DATE}}"
     name="${DEPLOYMENT_ROOT}/install/${what}/${date}"
+    echo "${name}"
+}
+
+install_dir_name() {
+    # Create an installation directory name based on the environment
+    # variables set. Resovles any symlinks.
+    what=$1
+    name=$(install_dir_raw ${what})
     if [[ -L "${name}" ]]; then
         echo "$(readlink -f ${name})"
     else
@@ -76,10 +84,10 @@ set_latest() {
     what=$1
     source="$(install_dir_name ${what})"
     DEPLOYMENT_DATE="latest"
-    target="$(install_dir_name ${what})"
+    target="$(install_dir_raw ${what})"
     if [[ "${source}" = "${target}" ]]; then
         log "cannot link to itself: ${source}"
-        return 1
+        return 0
     elif [[ ! -d "${source}" ]]; then
         log "link target is not a directory: ${source}"
         return 1
