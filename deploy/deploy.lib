@@ -100,7 +100,7 @@ set_latest() {
     log "creating symlink for ${what}"
     log "...from ${source}"
     log "...to   ${target}"
-    rm "${target}"
+    rm -f "${target}"
     ln -s "${source}" "${target}"
 }
 
