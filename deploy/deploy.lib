@@ -85,17 +85,21 @@ set_latest() {
     source="$(install_dir_name ${what})"
     DEPLOYMENT_DATE="latest"
     target="$(install_dir_raw ${what})"
-    if [[ "${source}" = "${target}" ]]; then
+    if [[ -L "${target}" ]]; then
+        log "link target is not a symlink: ${target}"
+        return 1
+    elif [[ "${source}" = "${target}" ]]; then
         log "cannot link to itself: ${source}"
         return 0
     elif [[ ! -d "${source}" ]]; then
-        log "link target is not a directory: ${source}"
+        log "link source is not a directory: ${source}"
         return 1
     fi
     log "creating symlink for ${what}"
     log "...from ${source}"
     log "...to   ${target}"
-    ln -sf "${source}" "${target}"
+    rm "${target}"
+    ln -s "${source}" "${target}"
 }
 
 install_dir() {
