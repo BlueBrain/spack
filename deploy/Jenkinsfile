@@ -20,9 +20,9 @@ pipeline {
         booleanParam(name: 'REDEPLOY',
                      defaultValue: false,
                      description: 'Start a new deployment and set the "latest" symlinks to it')
-        textParam(name: 'STAGES',
-                  defaultValue: 'compilers\ntools\nserial_libraries\nparallel_libraries\napplications',
-                  description: 'Which parts of the deployment chain to build')
+        text(name: 'STAGES',
+             defaultValue: 'compilers\ntools\nserial_libraries\nparallel_libraries\napplications',
+             description: 'Which parts of the deployment chain to build')
     }
 
     environment {
