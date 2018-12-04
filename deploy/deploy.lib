@@ -203,7 +203,7 @@ update_chain_config() {
         if [[ "${stage}" = "${what}" ]]; then
             break
         fi
-        if [[ "${include_in_chain[${stage}]}" != "yes" ]]; then
+        if [[ "${include_in_chain[${stage}]}" = "yes" ]]; then
             chains="${stage}${chains:+ }${chains}"
         fi
     done
