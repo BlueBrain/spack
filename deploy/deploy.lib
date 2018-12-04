@@ -71,6 +71,25 @@ install_dir_name() {
     fi
 }
 
+set_latest() {
+    # Set the "latest" symlink to the current deployment date
+    what=$1
+    source="$(install_dir_name ${what})"
+    DEPLOYMENT_DATE="latest"
+    target="$(install_dir_name ${what})"
+    if [[ "${source}" = "${target}" ]]; then
+        log "cannot link to itself: ${source}"
+        return 1
+    elif [[ ! -d "${source}" ]]; then
+        log "link target is not a directory: ${source}"
+        return 1
+    fi
+    log "creating symlink for ${what}"
+    log "...from ${source}"
+    log "...to   ${target}"
+    ln -sf "${source}" "${target}"
+}
+
 install_dir() {
     # Create an installation directory based on the environment variables
     # set.
@@ -353,7 +372,7 @@ install_specs() {
     mkdir -p "${WORKSPACE:-.}/stacks"
     cp "${HOME}/stack.xml" "${WORKSPACE:-.}/stacks/${what}.xml"
 
-    spack module tcl refresh -y
+    spack module tcl refresh -y --latest
     . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
     if [[ "${export_packages[${what}]}" = "yes" ]]; then
         log "augmenting packages.yaml"

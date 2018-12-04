@@ -1,3 +1,9 @@
+def link_latest(redeploy, stage) {
+    if (redeploy) {
+        sh "./deploy.sh -l ${stage}"
+    }
+}
+
 pipeline {
     agent {
         label 'bb5-full'
@@ -8,12 +14,15 @@ pipeline {
     }
 
     parameters {
-        string(name: 'DEPLOYMENT_DATE', defaultValue: 'latest', description: 'date to use when deploying, in YYYY-MM-DD format, or "latest".')
-        booleanParam(name: 'build_compilers', defaultValue: true, description: 'Build compilers')
-        booleanParam(name: 'build_tools', defaultValue: true, description: 'Build system tools')
-        booleanParam(name: 'build_serial_libraries', defaultValue: true, description: 'Build serial libraries')
-        booleanParam(name: 'build_parallel_libraries', defaultValue: true, description: 'Build parallel libraries')
-        booleanParam(name: 'build_applications', defaultValue: true, description: 'Build BBP specific applications')
+        string(name: 'DEPLOYMENT_DATE',
+               defaultValue: 'latest',
+               description: 'Date to use when deploying, in YYYY-MM-DD format, or "latest".')
+        booleanParam(name: 'REDEPLOY',
+                     defaultValue: false,
+                     description: 'Start a new deployment and set the "latest" symlinks to it')
+        textParam(name: 'STAGES',
+                  defaultValue: 'compilers\ntools\nserial_libraries\nparallel_libraries\napplications',
+                  description: 'Which parts of the deployment chain to build')
     }
 
     environment {
@@ -51,7 +60,7 @@ pipeline {
         stage('Compilers') {
             when {
                 expression {
-                    return params.build_compilers
+                    return 'compilers' in params.STAGES.tokenize()
                 }
             }
 
@@ -66,13 +75,17 @@ pipeline {
                     archiveArtifacts artifacts: "stacks/compilers.xml"
                     junit testResults: "stacks/compilers.xml", allowEmptyResults: true
                 }
+
+                success {
+                    link_latest(params.REDEPLOY, "compilers")
+                }
             }
         }
 
         stage('Tools') {
             when {
                 expression {
-                    return params.build_tools
+                    return 'tools' in params.STAGES.tokenize()
                 }
             }
 
@@ -87,13 +100,17 @@ pipeline {
                     archiveArtifacts artifacts: "stacks/tools.xml"
                     junit testResults: "stacks/tools.xml", allowEmptyResults: true
                 }
+
+                success {
+                    link_latest(params.REDEPLOY, "tools")
+                }
             }
         }
 
         stage('Serial Libraries') {
             when {
                 expression {
-                    return params.build_serial_libraries
+                    return 'serial-libraries' in params.STAGES.tokenize()
                 }
             }
 
@@ -108,13 +125,17 @@ pipeline {
                     archiveArtifacts artifacts: "stacks/serial-libraries.xml"
                     junit testResults: "stacks/serial-libraries.xml", allowEmptyResults: true
                 }
+
+                success {
+                    link_latest(params.REDEPLOY, "serial-libraries")
+                }
             }
         }
 
         stage('Parallel Libraries') {
             when {
                 expression {
-                    return params.build_parallel_libraries
+                    return 'parallel-libraries' in params.STAGES.tokenize()
                 }
             }
 
@@ -129,13 +150,17 @@ pipeline {
                     archiveArtifacts artifacts: "stacks/parallel-libraries.xml"
                     junit testResults: "stacks/parallel-libraries.xml", allowEmptyResults: true
                 }
+
+                success {
+                    link_latest(params.REDEPLOY, "parallel-libraries")
+                }
             }
         }
 
         stage('Applications') {
             when {
                 expression {
-                    return params.build_applications
+                    return 'applications' in params.STAGES.tokenize()
                 }
             }
 
@@ -149,6 +174,10 @@ pipeline {
                 always {
                     archiveArtifacts artifacts: "stacks/applications.xml"
                     junit testResults: "stacks/applications.xml", allowEmptyResults: true
+                }
+
+                success {
+                    link_latest(params.REDEPLOY, "applications")
                 }
             }
         }
