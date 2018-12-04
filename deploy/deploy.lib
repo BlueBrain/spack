@@ -85,7 +85,7 @@ set_latest() {
     source="$(install_dir_name ${what})"
     DEPLOYMENT_DATE="latest"
     target="$(install_dir_raw ${what})"
-    if [[ -L "${target}" ]]; then
+    if [[ ! -L "${target}" ]]; then
         log "link target is not a symlink: ${target}"
         return 1
     elif [[ "${source}" = "${target}" ]]; then
