@@ -19,9 +19,9 @@ pipeline {
                description: 'Date to use when deploying, in YYYY-MM-DD format, or "latest".')
         booleanParam(name: 'REDEPLOY',
                      defaultValue: false,
-                     description: 'Start a new deployment and set the "latest" symlinks to it')
+                     description: 'Set the "latest" symlink to the currently built deployment')
         text(name: 'STAGES',
-             defaultValue: 'compilers\ntools\nserial_libraries\nparallel_libraries\napplications',
+             defaultValue: 'compilers\ntools\nserial-libraries\nparallel-libraries\napplications',
              description: 'Which parts of the deployment chain to build')
     }
 
