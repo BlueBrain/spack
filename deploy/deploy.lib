@@ -55,7 +55,8 @@ for stage in $stages; do
 done
 
 log() {
-    echo "$(tput bold)### $@$(tput sgr0)" >&2
+    date="$(tput smul)$(date +%H:%M:%S)$(tput rmul)"
+    echo "$(tput bold)### ${date} $@$(tput sgr0)" >&2
 }
 
 install_dir_raw() {
@@ -90,6 +91,7 @@ set_latest() {
         return 1
     elif [[ "${source}" = "${target}" ]]; then
         log "cannot link to itself: ${source}"
+        log "returning!"
         return 0
     elif [[ ! -d "${source}" ]]; then
         log "link source is not a directory: ${source}"
