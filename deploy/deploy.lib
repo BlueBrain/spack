@@ -177,13 +177,12 @@ update_module_path() {
     for modpath in ${modpaths}; do
         if [[ "${stage}" = "${what}" ]]; then
             return
-        elif $(grep -oF "${modpath}" <<< ${MODULEPATH}); then
-            log "already present in MODULEPATH: ${modpath}"
-        else
+        fi
+        grep -oF "${modpath}" <<< ${MODULEPATH} || {
             log "appending to MODULEPATH: ${modpath}"
             MODULEPATH="${MODULEPATH}${MODULEPATH:+:}${modpath}"
             export MODULEPATH
-        fi
+        }
     done
 }
 
