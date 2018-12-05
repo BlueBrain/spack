@@ -14,7 +14,6 @@ class Spark(Package):
     """
 
     homepage = "http://spark.apache.org"
-    url = "http://archive.apache.org/dist/spark/spark-2.0.0/spark-2.0.0-bin-without-hadoop.tgz"
 
     variant('hadoop', default=False,
             description='Build with Hadoop')
@@ -22,7 +21,7 @@ class Spark(Package):
     depends_on('java@8', type=('build', 'run'))
     # Hadoop dependency after 2.1.0 will be included in downloaded tarball.
     # ~hadoop + external Hadoop will be missing Hive et al support.
-    depends_on('hadoop', when='@:2.2.0 +hadoop', type=('build', 'run'))
+    depends_on('hadoop', when='@:2.3.0 +hadoop', type=('build', 'run'))
 
     version('2.4.0', 'c93c096c8d64062345b26b34c85127a6848cff95a4bb829333a06b83222a5cfa', when='+hadoop')
     version('2.4.0', 'b1d6d6cb49d8253b36df8372a722292bb323bd16315d83f0b0bafb66a4154ef2', when='~hadoop')
@@ -36,7 +35,7 @@ class Spark(Package):
 
     def url_for_version(self, version):
         url = "http://archive.apache.org/dist/spark/spark-{0}/spark-{0}-bin-{1}.tgz"
-        if self.spec.satisfies('@2.2.0: +hadoop'):
+        if self.spec.satisfies('@2.4.0: +hadoop'):
             return url.format(version, 'hadoop2.7')
         return url.format(version, 'without-hadoop')
 
@@ -56,7 +55,7 @@ class Spark(Package):
         # required for spark to recognize binary distribution
         install('RELEASE', prefix)
 
-    @when('@:2.2.0 +hadoop')
+    @when('@:2.3.0 +hadoop')
     def setup_environment(self, spack_env, run_env):
         hadoop = self.spec['hadoop'].command
         hadoop.add_default_env('JAVA_HOME', self.spec['java'].home)
