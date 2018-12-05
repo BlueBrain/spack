@@ -390,7 +390,7 @@ copy_configuration_user() {
 install_specs() {
     what="$1"
 
-    log "BUILD CACHE: ${BUILDCACHE}"
+    log "BUILD CACHE: ${BUILDCACHE:-foobar}"
 
     location="$(install_dir ${what})"
     HOME="${location}/data"
