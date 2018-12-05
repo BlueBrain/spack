@@ -26,6 +26,9 @@ pipeline {
         booleanParam(name: 'REDEPLOY',
                      defaultValue: false,
                      description: 'Set the "latest" symlink to the currently built deployment')
+        booleanParam(name: 'BUILDCACHE',
+                     defaultValue: true,
+                     description: 'Use cache to install already compiled software')
         text(name: 'STAGES',
              defaultValue: 'compilers\ntools\nserial-libraries\nparallel-libraries\napplications',
              description: 'Which parts of the deployment chain to build')

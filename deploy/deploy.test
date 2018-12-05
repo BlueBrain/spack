@@ -74,3 +74,15 @@ teardown() {
     echo $paths
     [[ "${MODULEPATH}" = "${paths}" ]]
 }
+
+@test "module list for serial-libraries should contain compilers, tools, and itself" {
+    paths=""
+    for stage in compilers tools serial-libraries; do
+        path="${DEPLOYMENT_ROOT}/install/${stage}/${DEPLOYMENT_DATE}/modules/tcl/foobar"
+        mkdir -p "${path}/spam/ham/eggs"
+        paths="${paths}${paths:+:}${path}"
+    done
+    declare -a paths=($(list_module_paths "serial-libraries"))
+    echo ${#paths[*]}
+    [[ "${#paths[*]}" -eq 3 ]]
+}
