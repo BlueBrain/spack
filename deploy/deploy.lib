@@ -420,7 +420,9 @@ install_specs() {
     if [[ "${BUILDCACHE:-x}" = "true" ]]; then
         log "installing from buildcache"
         install_commands=$(spack buildcache list ${spec_list}|sed -n '/^spack buildcache install/p')
-        eval ${install_commands}
+        while read cmd; do
+            $cmd
+        done <<< "${install_commands}"
 
         log "updating gathered specs"
         spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
