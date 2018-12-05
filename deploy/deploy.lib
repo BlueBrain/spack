@@ -450,11 +450,13 @@ install_specs() {
     if [[ -n "${spec_list}" && -n "${SPACK_MIRROR_DIR:+x}" ]]; then
         log "setting up gpg"
         spack gpg init
-        spack gpg create "Don't trust me™" fake.bbp@epfl.ch
+        if [[ -z "$(spack gpg list 2> /dev/null)" ]]; then
+            spack gpg create "Don't trust me™" fake.bbp@epfl.ch
+        fi
         log "creating build caches"
         while read spec; do
             log "...caching ${spec}"
-            spack buildcache create "${spec}" || true
+            spack buildcache create -a "${spec}" || true
         done <<< "${spec_list}"
         log "syncing build cache to mirror"
         rsync -av build_cache "${SPACK_MIRROR_DIR}"
