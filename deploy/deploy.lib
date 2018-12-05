@@ -390,8 +390,6 @@ copy_configuration_user() {
 install_specs() {
     what="$1"
 
-    log "BUILD CACHE: ${BUILDCACHE:-foobar}"
-
     location="$(install_dir ${what})"
     HOME="${location}/data"
     SOFTS_DIR_PATH="${location}"
@@ -419,10 +417,10 @@ install_specs() {
     setup_mirror
 
     # INSTALLED CACHED
-    if [[ -n "${BUILDCACHE:+x}" ]]; then
+    if [[ "${BUILDCACHE:-x}" = "true" ]]; then
         log "installing from buildcache"
         install_commands=$(spack buildcache list ${spec_list}|sed -n '/^spack buildcache install/p')
-        ${install_commands}
+        eval ${install_commands}
 
         log "updating gathered specs"
         spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
