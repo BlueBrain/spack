@@ -24,7 +24,7 @@ modules:
       - CMAKE_PREFIX_PATH
 
   tcl:
-    hash_length: 6
+    hash_length: 0
     whitelist:
       - hdf5+mpi
       - highfive+mpi

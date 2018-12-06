@@ -27,7 +27,7 @@ modules:
         environment_blacklist: ['CPATH', 'LIBRARY_PATH']
     core_compilers:
       - 'gcc@4.8.5'
-    hash_length: 6
+    hash_length: 0
     whitelist:
       - 'gcc'
       - 'intel-parallel-studio'
@@ -70,7 +70,7 @@ modules:
       filter:
         environment_blacklist: ['CPATH', 'LIBRARY_PATH']
     naming_scheme: '${PACKAGE}/${VERSION}'
-    hash_length: 6
+    hash_length: 0
     whitelist:
       - 'gcc'
       - 'pgi'
