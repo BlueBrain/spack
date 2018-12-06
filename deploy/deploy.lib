@@ -510,7 +510,7 @@ install_specs() {
         cp "${HOME}/.spack/packages.yaml" "${HOME}"
     fi
 
-    if [[ "${what}" = "FIXMEcompilers" ]]; then
+    if [[ "${what}" = "compilers" ]]; then
         log "adding compilers"
         configure_compilers < "${HOME}/specs.txt"
     fi
