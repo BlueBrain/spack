@@ -144,8 +144,9 @@ last_install_dir() {
     # 2. Otherwise, use the latest directory present
     what=$1
     name="$(install_dir_name ${what})"
-    if [[ ! -d "${name}" && -d "${DEPLOYMENT_ROOT}/install/${what}" ]]; then
-        name=$(find "${DEPLOYMENT_ROOT}/install/${what}" -mindepth 1 -maxdepth 1 -type d|sort|tail -n1)
+    parent="$(dirname ${name})"
+    if [[ ! -d "${name}" && -d "${parent}" ]]; then
+        name=$(find "${parent}" -mindepth 1 -maxdepth 1 -type d|sort|tail -n1)
     fi
     echo "$(readlink -f ${name})"
 }
