@@ -299,12 +299,12 @@ populate_build_cache() {
         checksums=$(spack find -l --start-date "${start_date}"|awk '!/^--|^==/ {print $1}')
         for checksum in ${checksums}; do
             log "...caching ${checksum}"
-            spack buildcache create "/${checksum}" || true
+            spack buildcache create -d "${CACHE}" "/${checksum}" || true
         done
 
         log "syncing build cache to mirror"
         mkdir -p "${SPACK_BINARY_MIRROR_DIR}"
-        rsync -av build_cache "${SPACK_BINARY_MIRROR_DIR}"
+        rsync -av "${CACHE}" "${SPACK_BINARY_MIRROR_DIR}"
     fi
 }
 
@@ -421,9 +421,10 @@ install_specs() {
 
     location="$(install_dir ${what})"
     HOME="${location}/data"
+    CACHE="${location}/data/build_cache"
     SOFTS_DIR_PATH="${location}"
     MODS_DIR_PATH="${location}/modules"
-    export HOME SOFTS_DIR_PATH MODS_DIR_PATH
+    export HOME SOFTS_DIR_PATH MODS_DIR_PATH CACHE
 
     copy_configuration "${what}"
     update_chain_config "${what}"
