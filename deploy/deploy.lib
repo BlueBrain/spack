@@ -267,20 +267,25 @@ configure_compilers() {
 }
 
 setup_mirror() {
-    if [[ -z "${SPACK_MIRROR_DIR:+x}" ]]; then
-        log "need to have \$SPACK_MIRROR_DIR set!"
+    if [[ -z "${SPACK_SOURCE_MIRROR_DIR:+x}" ]]; then
+        log "need to have \$SPACK_SOURCE_MIRROR_DIR set!"
         return 1
     fi
-    spack mirror add --scope=user my_mirror file://${SPACK_MIRROR_DIR} || log "mirror already added!"
+    log "adding source mirror: ${SPACK_SOURCE_MIRROR_DIR}"
+    spack mirror add --scope=user my_source_mirror file://${SPACK_SOURCE_MIRROR_DIR} || log "source mirror already added!"
+
+    if [[ -z "${SPACK_BINARY_MIRROR_DIR:+x}" ]]; then
+        log "need to have \$SPACK_BINARY_MIRROR_DIR set!"
+        return 1
+    elif [[ "${BUILDCACHE:-x}" != "true" ]]; then
+        return
+    fi
+    log "adding binary mirror: ${SPACK_BINARY_MIRROR_DIR}"
+    spack mirror add --scope=user my_binary_mirror file://${SPACK_BINARY_MIRROR_DIR} || log "binary mirror already added!"
 }
 
 populate_mirror() {
     what=$1
-
-    if [[ -z "${SPACK_MIRROR_DIR:+x}" ]]; then
-        log "need to have \$SPACK_MIRROR_DIR set!"
-        return 1
-    fi
 
     log "populating mirror for ${what}"
 
@@ -294,14 +299,14 @@ populate_mirror() {
 
     if [[ "${what}" = "compilers" ]]; then
         for compiler in intel intel-parallel-studio pgi; do
-            mkdir -p ${SPACK_MIRROR_DIR}/${compiler}
-            cp ${DEPLOYMENT_DATA}/${compiler}/* ${SPACK_MIRROR_DIR}/${compiler}/
+            mkdir -p ${SPACK_SOURCE_MIRROR_DIR}/${compiler}
+            cp ${DEPLOYMENT_DATA}/${compiler}/* ${SPACK_SOURCE_MIRROR_DIR}/${compiler}/
         done
     fi
 
     log "found the following specs"
     echo "${spec_list}"
-    spack mirror create -D -d ${SPACK_MIRROR_DIR} ${spec_list}
+    spack mirror create -D -d ${SPACK_SOURCE_MIRROR_DIR} ${spec_list}
 }
 
 check_specs() {
@@ -447,19 +452,15 @@ install_specs() {
     spack install -y --log-format=junit --log-file="${HOME}/stack.xml" $(< "${HOME}/specs.txt")
 
     # BUILD CACHE
-    if [[ -n "${spec_list}" && -n "${SPACK_MIRROR_DIR:+x}" ]]; then
-        log "setting up gpg"
-        spack gpg init
-        if [[ -z "$(spack gpg list 2> /dev/null)" ]]; then
-            spack gpg create "Don't trust me™" fake.bbp@epfl.ch
-        fi
+    if [[ -n "${spec_list}" && -n "${SPACK_BINARY_MIRROR_DIR:+x}" ]]; then
         log "creating build caches"
         while read spec; do
             log "...caching ${spec}"
-            spack buildcache create -a "${spec}" || true
+            spack buildcache create -f "${spec}" || true
         done <<< "${spec_list}"
         log "syncing build cache to mirror"
-        rsync -av build_cache "${SPACK_MIRROR_DIR}"
+        mkdir -p "${SPACK_BINARY_MIRROR_DIR}"
+        rsync -av build_cache "${SPACK_BINARY_MIRROR_DIR}"
     fi
 
     # Do not activate any packages for now. Maybe with lmod…
