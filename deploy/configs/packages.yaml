@@ -11,6 +11,8 @@ packages:
         paths:
             bison@3.0.4: /usr
         version: [3.0.4]
+    bzip2:
+        variants: ~shared
     cairo:
         paths:
             cairo@1.8.10: /usr
