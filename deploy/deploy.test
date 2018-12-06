@@ -64,9 +64,12 @@ teardown() {
     MODULEPATH=""
     export MODULEPATH
     paths=""
-    for stage in compilers tools; do
+    for stage in ${stages}; do
         path="${DEPLOYMENT_ROOT}/install/${stage}/${DEPLOYMENT_DATE}/modules/tcl/foobar"
         mkdir -p "${path}/spam/ham/eggs"
+    done
+    for stage in compilers tools; do
+        path="${DEPLOYMENT_ROOT}/install/${stage}/${DEPLOYMENT_DATE}/modules/tcl/foobar"
         paths="${paths}${paths:+:}${path}"
     done
     update_module_path "serial-libraries"
@@ -75,9 +78,27 @@ teardown() {
     [[ "${MODULEPATH}" = "${paths}" ]]
 }
 
+@test "inclusive module path for serial-libraries should contain itself" {
+    MODULEPATH=""
+    export MODULEPATH
+    paths=""
+    for stage in ${stages}; do
+        path="${DEPLOYMENT_ROOT}/install/${stage}/${DEPLOYMENT_DATE}/modules/tcl/foobar"
+        mkdir -p "${path}/spam/ham/eggs"
+    done
+    for stage in compilers tools serial-libraries; do
+        path="${DEPLOYMENT_ROOT}/install/${stage}/${DEPLOYMENT_DATE}/modules/tcl/foobar"
+        paths="${paths}${paths:+:}${path}"
+    done
+    update_module_path "serial-libraries" "yes"
+    echo $MODULEPATH
+    echo $paths
+    [[ "${MODULEPATH}" = "${paths}" ]]
+}
+
 @test "module list for serial-libraries should contain compilers, tools, and itself" {
     paths=""
-    for stage in compilers tools serial-libraries; do
+    for stage in ${stages}; do
         path="${DEPLOYMENT_ROOT}/install/${stage}/${DEPLOYMENT_DATE}/modules/tcl/foobar"
         mkdir -p "${path}/spam/ham/eggs"
         paths="${paths}${paths:+:}${path}"
