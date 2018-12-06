@@ -271,7 +271,8 @@ setup_mirror() {
         log "need to have \$SPACK_SOURCE_MIRROR_DIR set!"
         return 1
     fi
-    log "adding source mirror: ${SPACK_SOURCE_MIRROR_DIR}"
+    log "adding mirrors"
+    log "...source mirror: ${SPACK_SOURCE_MIRROR_DIR}"
     spack mirror add --scope=user my_source_mirror file://${SPACK_SOURCE_MIRROR_DIR} || log "source mirror already added!"
 
     if [[ -z "${SPACK_BINARY_MIRROR_DIR:+x}" ]]; then
@@ -280,7 +281,7 @@ setup_mirror() {
     elif [[ "${BUILDCACHE:-x}" != "true" ]]; then
         return
     fi
-    log "adding binary mirror: ${SPACK_BINARY_MIRROR_DIR}"
+    log "...binary mirror: ${SPACK_BINARY_MIRROR_DIR}"
     spack mirror add --scope=user my_binary_mirror file://${SPACK_BINARY_MIRROR_DIR} || log "binary mirror already added!"
 }
 
