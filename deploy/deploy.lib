@@ -437,6 +437,13 @@ install_specs() {
     env &> "${HOME}/spack.env"
     (cd "${DEPLOYMENT_ROOT}/deploy/spack" && git rev-parse HEAD) &> "${HOME}/spack.version"
 
+    log "stage directory:"
+    ls -l /gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment/deploy/spack/var/spack/stage || true
+    log "stage directory in depth:"
+    find /gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment/deploy/spack/var/spack/stage || true
+    log "cleaning up after a bad spack"
+    spack clean -a
+
     log "installed specs"
     spack find
 
