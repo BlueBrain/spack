@@ -295,14 +295,22 @@ setup_mirror() {
 populate_build_cache() {
     start_date="$1"
 
+    local created cached spec
+
     if [[ -n "${SPACK_BINARY_MIRROR_DIR:+x}" ]]; then
         log "gpg keys available"
         spack gpg list
         log "creating build caches"
-        checksums=$(spack find -l --start-date "${start_date}"|awk '!/^--|^==/ {print $1}')
-        for checksum in ${checksums}; do
-            log "...caching ${checksum}"
-            spack buildcache create -d "${HOME}" "/${checksum}" || true
+        cached=$(spack buildcache list -l|awk '!/^--|^==/ {print $1}')
+        created=$(spack find -l --start-date "${start_date}"|awk '!/^--|^==/ {print $1}')
+        for checksum in ${created}; do
+            spec=$(spack find /${checksum}|tail -n 1)
+            if [[ "${cached}" = *${checksum}* ]]; then
+                log "...already in build cache: ${spec}"
+            else
+                log "...caching ${spec}"
+                spack buildcache create --no-dependencies -d "${HOME}" "/${checksum}" || true
+            fi
         done
 
         log "cleaning up failed build caches"
