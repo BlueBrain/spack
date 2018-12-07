@@ -410,7 +410,7 @@ copy_configuration() {
     fi
 
     log "...copying gpg setup"
-    cp -r gpg "${DEPLOYMENT_ROOT}/deploy/spack/var/spack"
+    cp -r gpg "${DEPLOYMENT_ROOT}/deploy/spack/opt/spack"
 }
 
 copy_configuration_user() {
