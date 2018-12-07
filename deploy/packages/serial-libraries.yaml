@@ -51,7 +51,7 @@ packages:
       - compiler
       - python
     specs:
-      - arrow+parquet+python@0.11.0
+      # - arrow+parquet+python@0.11.0
       #- neuron~mpi@2018-10
 
   #intel-stable-serial-python:
