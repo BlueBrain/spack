@@ -52,7 +52,7 @@ packages:
       - python
     specs:
       # - arrow+parquet+python@0.11.0
-      #- neuron~mpi@2018-10
+      - neuron~mpi@2018-10
 
   #intel-stable-serial-python:
   #  target_matrix:
