@@ -157,9 +157,7 @@ list_module_paths() {
     local what="$1"
     while read -d' ' stage; do
         local base="$(last_install_dir ${stage})"
-        log $what $base
         for modpath in ${base}/modules/tcl/*; do
-            log $modpath
             if [[ -d "${modpath}" ]]; then
                 echo "${modpath}"
             fi
