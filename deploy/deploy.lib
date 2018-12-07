@@ -487,6 +487,7 @@ install_specs() {
     spack install -y --log-format=junit --log-file="${HOME}/stack.xml" $(< "${HOME}/specs.txt")
 
     # todo : patchelf recursion issue
+    log "installing patchelf for buildcache"
     spack install -y patchelf %gcc
 
     # BUILD CACHE
