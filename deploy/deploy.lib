@@ -408,7 +408,7 @@ copy_configuration() {
     fi
 
     log "...copying gpg setup"
-    cp -r gpg "${SPACK_ROOT}/var/spack"
+    cp -r gpg "${DEPLOYMENT_ROOT}/deploy/spack/var/spack"
 }
 
 copy_configuration_user() {
