@@ -311,6 +311,11 @@ populate_build_cache() {
             fi
         done
 
+        if [ ! -d ${HOME}/build_cache ]; then
+            log "nothing to build cache"
+            return
+        fi
+
         log "cleaning up failed build caches"
         garbage=$(find "${HOME}/build_cache" -name "*.tar.gz")
         for tarball in ${garbage}; do
