@@ -494,16 +494,16 @@ install_specs() {
         log "no specs to install?"
     fi
 
+    # todo : patchelf recursion issue
+    log "installing patchelf for buildcache"
+    spack install --no-cache -y patchelf %gcc
+
     # INSTALL
     #
     # use all specs to get the right unit test setup
     install_start=$(date "+%Y-%m-%d %H:%M:%S")
     log "running installation for all specs"
     spack install -y --log-format=junit --log-file="${HOME}/stack.xml" $(< "${HOME}/specs.txt")
-
-    # todo : patchelf recursion issue
-    log "installing patchelf for buildcache"
-    spack install -y patchelf %gcc
 
     # BUILD CACHE
     populate_build_cache "${install_start}"
