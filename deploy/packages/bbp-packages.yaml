@@ -31,7 +31,7 @@ packages:
       - compiler
       - mpi
     specs:
-      - functionalizer@3.11.0
+      #- functionalizer@3.11.0
       - touchdetector@4.3.3
 
   #gnu-stable-parallel-python:
@@ -96,7 +96,7 @@ packages:
       - python
     specs:
       - neurodamus@plasticity
-      - neurodamus@plasticity+coreneuron^coreneuron+knl
+      #- neurodamus@plasticity+coreneuron^coreneuron+knl
       # - neurodamus@master~coreneuron
       # - neurodamus@hippocampus~coreneuron
       # - synapsetool@0.3.2
