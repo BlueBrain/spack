@@ -23,16 +23,16 @@ packages:
   #   specs:
   #     - spykfunc@0.11.0
 
-  gnu-stable-parallel:
-    target_matrix:
-      - gnu-stable
-    requires:
-      - architecture
-      - compiler
-      - mpi
-    specs:
-      #- functionalizer@3.11.0
-      - touchdetector@4.3.3
+  #gnu-stable-parallel:
+  #  target_matrix:
+  #    - gnu-stable
+  #  requires:
+  #    - architecture
+  #    - compiler
+  #    - mpi
+  #  specs:
+  #    #- functionalizer@3.11.0
+  #    - touchdetector@4.3.3
 
   #gnu-stable-parallel-python:
   #  target_matrix:
