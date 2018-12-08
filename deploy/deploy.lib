@@ -477,7 +477,7 @@ install_specs() {
     spack clean -a
 
     log "installed specs"
-    spack find
+    spack reindex && spack find
 
     log "gathering specs"
     spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
