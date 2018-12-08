@@ -424,6 +424,7 @@ copy_configuration() {
     fi
 
     log "...copying gpg setup"
+    mkdir -p ${DEPLOYMENT_ROOT}/deploy/spack/opt/spack
     cp -r gpg "${DEPLOYMENT_ROOT}/deploy/spack/opt/spack"
 }
 
