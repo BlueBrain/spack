@@ -23,7 +23,7 @@ packages:
       - bzip2@1.0.6
       - cuda@9.2.88
       - gmsh+oce~mpi@3.0.6
-      - hdf5~mpi@1.10.3
+      - hdf5~mpi@1.10.4
       - highfive~mpi@1.6
       - intel-mkl@2018.3.222
       - jdk@1.8.0_191-b12

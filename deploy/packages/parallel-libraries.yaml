@@ -20,7 +20,7 @@ packages:
       - mpi
     specs:
       - py-mpi4py@3.0.0
-      - hdf5+mpi@1.10.3
+      - hdf5+mpi@1.10.4
       - highfive+mpi@1.6
       - parmetis@4.0.3
 
@@ -60,7 +60,7 @@ packages:
       - mpi
       - python
     specs:
-      - petsc+int64+mpi@3.10.1
+      - petsc+int64+mpi@3.10.2
 
   intel-stable-parallel:
     target_matrix:
@@ -70,7 +70,7 @@ packages:
       - compiler
       - mpi
     specs:
-      - hdf5+mpi@1.10.3
+      - hdf5+mpi@1.10.4
       - highfive+mpi@1.6
 
   intel-stable-parallel-python:
