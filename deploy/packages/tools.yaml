@@ -18,8 +18,6 @@ packages:
       - architecture
       - compiler
     specs:
-      - autoconf@2.69
-      - automake@1.16.1
       - binutils@2.31.1
       - bison@3.0.5
       - cmake@3.12.2
@@ -34,7 +32,6 @@ packages:
       - hpe-mpi@2.16
       - intel-mpi@2018.1.163
       - isl@0.18
-      - libtool@2.4.6
       - libx11@1.6.5
       - m4@1.4.18
       - mpc@1.1.0
