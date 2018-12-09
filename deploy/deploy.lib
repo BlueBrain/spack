@@ -11,14 +11,15 @@
 DEFAULT_DEPLOYMENT_DATE=${DEFAULT_DEPLOYMENT_DATE:-$(date +%Y-%m-%d)}
 
 # A list of stages in the order they will be built
-stages="compilers tools serial-libraries parallel-libraries applications"
+stages="compilers tools serial-libraries python-packages parallel-libraries applications"
 
 # Definitions for the installation spec generation. For every stage
 # mentioned above, this should be a list of filenames *without* extension
 # found in `packages`.
 declare -A spec_definitions=([compilers]=compilers
                              [tools]=tools
-                             [serial-libraries]="serial-libraries python-packages"
+                             [serial-libraries]="serial-libraries"
+                             [python-packages]="python-packages"
                              [parallel-libraries]=parallel-libraries
                              [applications]=bbp-packages)
 
@@ -33,6 +34,7 @@ declare -A spec_definitions=([compilers]=compilers
 declare -A export_packages=([compilers]=no
                             [tools]=yes
                             [serial-libraries]=yes
+                            [python-packages]=no
                             [parallel-libraries]=no
                             [applications]=no)
 
@@ -41,6 +43,7 @@ declare -A export_packages=([compilers]=no
 declare -A include_in_chain=([compilers]=no
                              [tools]=no
                              [serial-libraries]=yes
+                             [python-packages]=yes
                              [parallel-libraries]=yes
                              [applications]=yes)
 

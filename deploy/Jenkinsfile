@@ -30,7 +30,7 @@ pipeline {
                      defaultValue: true,
                      description: 'Use cache to install already compiled software')
         text(name: 'STAGES',
-             defaultValue: 'compilers\ntools\nserial-libraries\nparallel-libraries\napplications',
+             defaultValue: 'compilers\ntools\nserial-libraries\npython-packages\nparallel-libraries\napplications',
              description: 'Which parts of the deployment chain to build')
     }
 
@@ -137,6 +137,31 @@ pipeline {
 
                 success {
                     post_process("serial-libraries", params.REDEPLOY)
+                }
+            }
+        }
+
+        stage('Python Packages') {
+            when {
+                expression {
+                    return 'python-packages' in params.STAGES.tokenize()
+                }
+            }
+
+            steps {
+                dir("${BASEDIR}") {
+                    sh "./deploy.sh python-packages"
+                }
+            }
+
+            post {
+                always {
+                    archiveArtifacts artifacts: "stacks/python-packages.xml"
+                    junit testResults: "stacks/python-packages.xml", allowEmptyResults: true
+                }
+
+                success {
+                    post_process("python-packages", params.REDEPLOY)
                 }
             }
         }
