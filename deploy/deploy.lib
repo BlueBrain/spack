@@ -184,8 +184,8 @@ update_module_path() {
             return
         fi
         grep -oF "${modpath}" <<< ${MODULEPATH} || {
-            log "appending to MODULEPATH: ${modpath}"
-            MODULEPATH="${MODULEPATH}${MODULEPATH:+:}${modpath}"
+            log "prepending to MODULEPATH: ${modpath}"
+            MODULEPATH="${modpath}${MODULEPATH:+:}${MODULEPATH}"
             export MODULEPATH
         }
         if [[ "${modpath}" = *${what}* ]]; then
