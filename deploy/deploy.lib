@@ -239,9 +239,7 @@ configure_compilers() {
     while read -r line; do
         set +o nounset
         log "...processing ${line}"
-        spack config get compilers
         spack load ${line}
-        module list
         set -o nounset
         if [[ ${line} != *"intel-parallel-studio"* ]]; then
             spack compiler find --scope=user

@@ -35,7 +35,7 @@ packages:
       - openblas@0.3.3
       - python@3.6.5
       - qhull@2015.2
-      - qt@5.10.0
+      # - qt@5.10.0
       - readline@7.0
       - spark@2.4.0+hadoop
       - sqlite@3.23.1
