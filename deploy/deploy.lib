@@ -435,6 +435,7 @@ copy_configuration() {
     log "...copying gpg setup"
     mkdir -p ${DEPLOYMENT_ROOT}/deploy/spack/opt/spack
     cp -r gpg "${DEPLOYMENT_ROOT}/deploy/spack/opt/spack"
+    chmod 600 "${DEPLOYMENT_ROOT}/deploy/spack/opt/spack/"*
 }
 
 copy_configuration_user() {
