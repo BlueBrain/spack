@@ -1,10 +1,10 @@
-def post_process(stage, redeploy) {
+def post_process(stage, redeploy, reconfigure) {
     dir("${BASEDIR}") {
         if (redeploy) {
             sh "./deploy.sh -l ${stage}"
         }
 
-        if (stage == 'applications') {
+        if (reconfigure) {
             sh "./deploy.sh -c ${stage}"
         }
     }
@@ -26,9 +26,15 @@ pipeline {
         booleanParam(name: 'REDEPLOY',
                      defaultValue: false,
                      description: 'Set the "latest" symlink to the currently built deployment')
+        booleanParam(name: 'UPDATE_CONFIGURATION',
+                     defaultValue: true,
+                     description: 'Update the user-facing configuration files')
         booleanParam(name: 'BUILDCACHE',
                      defaultValue: true,
                      description: 'Use cache to install already compiled software')
+        booleanParam(name: 'SOURCECACHE',
+                     defaultValue: true,
+                     description: 'Use cache to install already downloaded sources')
         text(name: 'STAGES',
              defaultValue: 'compilers\ntools\nserial-libraries\npython-packages\nparallel-libraries\napplications',
              description: 'Which parts of the deployment chain to build')
@@ -86,7 +92,7 @@ pipeline {
                 }
 
                 success {
-                    post_process("compilers", params.REDEPLOY)
+                    post_process("compilers", params.REDEPLOY, false)
                 }
             }
         }
@@ -111,7 +117,7 @@ pipeline {
                 }
 
                 success {
-                    post_process("tools", params.REDEPLOY)
+                    post_process("tools", params.REDEPLOY, false)
                 }
             }
         }
@@ -136,7 +142,7 @@ pipeline {
                 }
 
                 success {
-                    post_process("serial-libraries", params.REDEPLOY)
+                    post_process("serial-libraries", params.REDEPLOY, false)
                 }
             }
         }
@@ -161,7 +167,7 @@ pipeline {
                 }
 
                 success {
-                    post_process("python-packages", params.REDEPLOY)
+                    post_process("python-packages", params.REDEPLOY, false)
                 }
             }
         }
@@ -186,7 +192,7 @@ pipeline {
                 }
 
                 success {
-                    post_process("parallel-libraries", params.REDEPLOY)
+                    post_process("parallel-libraries", params.REDEPLOY, false)
                 }
             }
         }
@@ -199,8 +205,11 @@ pipeline {
             }
 
             steps {
-                dir("${BASEDIR}") {
-                    sh "./deploy.sh applications"
+                withEnv(['SOURCECACHE=false',
+                         'BUILDCACHE=false']) {
+                    dir("${BASEDIR}") {
+                        sh "./deploy.sh applications"
+                    }
                 }
             }
 
@@ -211,7 +220,7 @@ pipeline {
                 }
 
                 success {
-                    post_process("applications", params.REDEPLOY)
+                    post_process("applications", params.REDEPLOY, params.UPDATE_CONFIGURATION)
                 }
             }
         }

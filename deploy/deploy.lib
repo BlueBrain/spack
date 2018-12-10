@@ -67,7 +67,7 @@ install_dir_raw() {
     # variables set.
     what=$1
     date="${DEPLOYMENT_DATE:-${DEFAULT_DEPLOYMENT_DATE}}"
-    name="${DEPLOYMENT_ROOT}/install/${what}/${date}"
+    name="${DEPLOYMENT_ROOT}/${DEPLOYMENT_TYPE:-install}/${what}/${date}"
     echo "${name}"
 }
 
@@ -276,22 +276,24 @@ configure_compilers() {
 }
 
 setup_mirror() {
-    if [[ -z "${SPACK_SOURCE_MIRROR_DIR:+x}" ]]; then
-        log "need to have \$SPACK_SOURCE_MIRROR_DIR set!"
-        return 1
-    fi
     log "adding mirrors"
-    log "...source mirror: ${SPACK_SOURCE_MIRROR_DIR}"
-    spack mirror add --scope=user my_source_mirror file://${SPACK_SOURCE_MIRROR_DIR} || log "source mirror already added!"
-
-    if [[ -z "${SPACK_BINARY_MIRROR_DIR:+x}" ]]; then
-        log "need to have \$SPACK_BINARY_MIRROR_DIR set!"
-        return 1
-    elif [[ "${BUILDCACHE:-x}" != "true" ]]; then
-        return
+    if [[ "${SOURCECACHE:-x}" = "true" ]]; then
+        if [[ -z "${SPACK_SOURCE_MIRROR_DIR:+x}" ]]; then
+            log "...need to have \$SPACK_SOURCE_MIRROR_DIR set!"
+            return 1
+        fi
+        log "...source mirror: ${SPACK_SOURCE_MIRROR_DIR}"
+        spack mirror add --scope=user my_source_mirror file://${SPACK_SOURCE_MIRROR_DIR} || log "source mirror already added!"
     fi
-    log "...binary mirror: ${SPACK_BINARY_MIRROR_DIR}"
-    spack mirror add --scope=user my_binary_mirror file://${SPACK_BINARY_MIRROR_DIR} || log "binary mirror already added!"
+
+    if [[ "${BUILDCACHE:-x}" = "true" ]]; then
+        if [[ -z "${SPACK_BINARY_MIRROR_DIR:+x}" ]]; then
+            log "need to have \$SPACK_BINARY_MIRROR_DIR set!"
+            return 1
+        fi
+        log "...binary mirror: ${SPACK_BINARY_MIRROR_DIR}"
+        spack mirror add --scope=user my_binary_mirror file://${SPACK_BINARY_MIRROR_DIR} || log "binary mirror already added!"
+    fi
 }
 
 populate_build_cache() {
@@ -299,47 +301,53 @@ populate_build_cache() {
 
     local created cached spec
 
-    if [[ -n "${SPACK_BINARY_MIRROR_DIR:+x}" ]]; then
-        log "gpg keys available"
-        spack gpg list
-        log "creating build caches"
-        cached=$(spack buildcache list -l|awk '!/^--|^==/ {print $1}')
-        created=$(spack find -l --start-date "${start_date}"|awk '!/^--|^==/ {print $1}')
-        for checksum in ${created}; do
-            spec=$(spack find /${checksum}|tail -n 1)
-            if [[ "${cached}" = *${checksum}* ]]; then
-                log "...already in build cache: ${spec}"
-            else
-                log "...caching ${spec}"
-                spack buildcache create --no-dependencies -d "${HOME}" "/${checksum}" || true
-            fi
-        done
-
-        if [ ! -d ${HOME}/build_cache ]; then
-            log "nothing to build cache"
-            return
-        fi
-
-        log "cleaning up failed build caches"
-        garbage=$(find "${HOME}/build_cache" -name "*.tar.gz")
-        for tarball in ${garbage}; do
-            if [[ ! -f "${tarball%%.tar.gz}.spack" ]]; then
-                log "...cleaning $(basename ${tarball})"
-                rm -f "${tarball}"
-                rm -f "${HOME}/build_cache/$(basename ${tarball%%.tar.gz}).spec.yaml"
-            fi
-        done
-
-        log "syncing build cache to mirror"
-        log "...from ${HOME}/build_cache"
-        log "...to   ${SPACK_BINARY_MIRROR_DIR}"
-        mkdir -p "${SPACK_BINARY_MIRROR_DIR}"
-        rsync -av "${HOME}/build_cache" "${SPACK_BINARY_MIRROR_DIR}"
+    if [[ "${BUILDCACHE:-x}" != "true" ]]; then
+        return
     fi
+
+    log "gpg keys available"
+    spack gpg list
+    log "creating build caches"
+    cached=$(spack buildcache list -l|awk '!/^--|^==/ {print $1}')
+    created=$(spack find -l --start-date "${start_date}"|awk '!/^--|^==/ {print $1}')
+    for checksum in ${created}; do
+        spec=$(spack find /${checksum}|tail -n 1)
+        if [[ "${cached}" = *${checksum}* ]]; then
+            log "...already in build cache: ${spec}"
+        else
+            log "...caching ${spec}"
+            spack buildcache create --no-dependencies -d "${HOME}" "/${checksum}" || true
+        fi
+    done
+
+    if [[ ! -d "${HOME}/build_cache" ]]; then
+        log "nothing in build cache"
+        return
+    fi
+
+    log "cleaning up failed build caches"
+    garbage=$(find "${HOME}/build_cache" -name "*.tar.gz")
+    for tarball in ${garbage}; do
+        if [[ ! -f "${tarball%%.tar.gz}.spack" ]]; then
+            log "...cleaning $(basename ${tarball})"
+            rm -f "${tarball}"
+            rm -f "${HOME}/build_cache/$(basename ${tarball%%.tar.gz}).spec.yaml"
+        fi
+    done
+
+    log "syncing build cache to mirror"
+    log "...from ${HOME}/build_cache"
+    log "...to   ${SPACK_BINARY_MIRROR_DIR}"
+    mkdir -p "${SPACK_BINARY_MIRROR_DIR}"
+    rsync -av "${HOME}/build_cache" "${SPACK_BINARY_MIRROR_DIR}"
 }
 
 populate_mirror() {
     what=$1
+
+    if [[ "${SOURCECACHE:-x}" != "true" ]]; then
+        return
+    fi
 
     log "populating mirror for ${what}"
 

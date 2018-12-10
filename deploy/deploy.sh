@@ -10,9 +10,12 @@ set -o nounset
 DEFAULT_DEPLOYMENT_ROOT="/gpfs/bbp.cscs.ch/apps/hpc/test/$(whoami)/deployment"
 DEFAULT_DEPLOYMENT_DATA="/gpfs/bbp.cscs.ch/data/project/proj20/pramod_scratch/SPACK_DEPLOYMENT/download"
 DEFAULT_DEPLOYMENT_DATE="$(date +%Y-%m-%d)"
+DEFAULT_DEPLOYMENT_TYPE="install"
 
 # Set variables to default. The user may override the following:
 #
+# * `DEPLOYMENT_TYPE` for the installation kind: mostly either "install" or
+#    "pulls/####"
 # * `DEPLOYMENT_ROOT` for the installation directory
 # * `DEPLOYMENT_DATA` containing tarballs of proprietary software
 # * `DEPLOYMENT_DATE` to force a date for the installation directory
@@ -20,6 +23,7 @@ DEFAULT_DEPLOYMENT_DATE="$(date +%Y-%m-%d)"
 # for the latter, see also the comment of `last_install_dir`
 DEPLOYMENT_DATA=${DEPLOYMENT_DATA:-${DEFAULT_DEPLOYMENT_DATA}}
 DEPLOYMENT_ROOT=${DEPLOYMENT_ROOT:-${DEFAULT_DEPLOYMENT_ROOT}}
+DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE:-${DEFAULT_DEPLOYMENT_TYPE}}
 
 SPACK_SOURCE_MIRROR_DIR="${DEPLOYMENT_ROOT}/mirror/sources"
 SPACK_BINARY_MIRROR_DIR="${DEPLOYMENT_ROOT}/mirror/binaries"
