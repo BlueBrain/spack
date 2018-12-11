@@ -276,7 +276,17 @@ configure_compilers() {
 }
 
 setup_mirror() {
+    what="$1"
     log "adding mirrors"
+    if [[ "${what}" = "compilers" ]]; then
+        if [[ -z "${SPACK_PROPRIETARY_MIRROR_DIR:+x}" ]]; then
+            log "...need to have \$SPACK_PROPRIETARY_MIRROR_DIR set!"
+            return 1
+        fi
+        log "...source mirror: ${SPACK_PROPRIETARY_MIRROR_DIR}"
+        spack mirror add --scope=user my_proprietary_mirror file://${SPACK_PROPRIETARY_MIRROR_DIR} || log "proprietary mirror already added!"
+    fi
+
     if [[ "${SOURCECACHE:-x}" = "true" ]]; then
         if [[ -z "${SPACK_SOURCE_MIRROR_DIR:+x}" ]]; then
             log "...need to have \$SPACK_SOURCE_MIRROR_DIR set!"
@@ -345,6 +355,14 @@ populate_build_cache() {
 populate_mirror() {
     what=$1
 
+    if [[ "${what}" = "compilers" ]]; then
+        log "populating mirror with proprietary compilers"
+        for compiler in intel intel-parallel-studio pgi; do
+            mkdir -p ${SPACK_PROPRIETARY_MIRROR_DIR}/${compiler}
+            cp ${DEPLOYMENT_DATA}/${compiler}/* ${SPACK_PROPRIETARY_MIRROR_DIR}/${compiler}/
+        done
+    fi
+
     if [[ "${SOURCECACHE:-x}" != "true" ]]; then
         return
     fi
@@ -357,13 +375,6 @@ populate_mirror() {
     if [[ -z "${spec_list}" ]]; then
         log "...found no new packages"
         return 0
-    fi
-
-    if [[ "${what}" = "compilers" ]]; then
-        for compiler in intel intel-parallel-studio pgi; do
-            mkdir -p ${SPACK_SOURCE_MIRROR_DIR}/${compiler}
-            cp ${DEPLOYMENT_DATA}/${compiler}/* ${SPACK_SOURCE_MIRROR_DIR}/${compiler}/
-        done
     fi
 
     log "found the following specs"
@@ -494,20 +505,7 @@ install_specs() {
     log "gathering specs"
     spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
 
-    setup_mirror
-
-    # INSTALLED CACHED
-    # if [[ "${BUILDCACHE:-x}" = "true" ]]; then
-    #     log "installing from buildcache"
-    #     install_commands=$(spack buildcache list ${spec_list}|sed -n '/^spack buildcache install/p')
-    #     while read cmd; do
-    #         $cmd
-    #     done <<< "${install_commands}"
-
-    #     log "updating gathered specs"
-    #     spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
-    # fi
-
+    setup_mirror "${what}"
     populate_mirror "${what}"
 
     # SPEC CHECK
