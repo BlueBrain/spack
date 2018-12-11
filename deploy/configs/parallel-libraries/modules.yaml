@@ -31,6 +31,8 @@ modules:
       - petsc
       - py-mpi4py
       - trilinos
+      - neuron+mpi
+      - omega-h
     blacklist:
       - '%gcc'
       - '%intel'
