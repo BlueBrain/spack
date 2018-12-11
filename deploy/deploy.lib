@@ -529,7 +529,7 @@ install_specs() {
     # use all specs to get the right unit test setup
     install_start=$(date "+%Y-%m-%d %H:%M:%S")
     log "running installation for all specs"
-    spack install -y --log-format=junit --log-file="${HOME}/stack.xml" $(< "${HOME}/specs.txt")
+    spack -d install -y --log-format=junit --log-file="${HOME}/stack.xml" $(< "${HOME}/specs.txt")
 
     # BUILD CACHE
     populate_build_cache "${install_start}"
