@@ -94,6 +94,8 @@ packages:
         paths:
             pkg-config@0.27.1: /usr
         version: [0.27.1]
+    python:
+        version: [3.6.5]
     slurm:
         paths:
             slurm@17.02: /usr
