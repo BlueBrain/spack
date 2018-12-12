@@ -233,7 +233,7 @@ configure_compilers() {
     while read -r line; do
         set +o nounset
         log "...processing ${line}"
-        spack load ${line}
+        $(spack module tcl loads ${line}|tail -n 1)
         set -o nounset
         if [[ ${line} != *"intel-parallel-studio"* ]]; then
             spack compiler find --scope=user
@@ -550,11 +550,7 @@ install_specs() {
     mkdir -p "${WORKSPACE:-.}/stacks"
     cp "${HOME}/stack.xml" "${WORKSPACE:-.}/stacks/${what}.xml"
 
-    if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}" ]]; then
-        spack module tcl refresh -y --latest --upstream-modules
-    else
-        spack module tcl refresh -y --latest
-    fi
+    spack module tcl refresh -y --latest
 
     . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
     if [[ "${export_packages[${what}]}" = "yes" ]]; then
