@@ -61,7 +61,7 @@ pipeline {
             when {
                 not {
                     expression {
-                        retrun env.ghprbPullId
+                        return env.ghprbPullId
                     }
                 }
             }
@@ -81,7 +81,7 @@ pipeline {
         stage('PR Setup') {
             when {
                 expression {
-                    retrun env.ghprbPullId
+                    return env.ghprbPullId
                 }
             }
 
