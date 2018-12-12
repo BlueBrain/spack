@@ -550,7 +550,12 @@ install_specs() {
     mkdir -p "${WORKSPACE:-.}/stacks"
     cp "${HOME}/stack.xml" "${WORKSPACE:-.}/stacks/${what}.xml"
 
-    spack module tcl refresh -y --latest
+    if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}" ]]; then
+        spack module tcl refresh -y --latest --upstream-modules
+    else
+        spack module tcl refresh -y --latest
+    fi
+
     . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
     if [[ "${export_packages[${what}]}" = "yes" ]]; then
         log "augmenting packages.yaml"
