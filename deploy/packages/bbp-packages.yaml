@@ -32,7 +32,7 @@ packages:
       - mpi
     specs:
       - functionalizer@3.11.0
-      - touchdetector@4.3.3
+      - touchdetector@5
 
   gnu-stable-parallel-python:
     target_matrix:
