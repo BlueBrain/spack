@@ -201,7 +201,7 @@ update_chain_config() {
     conf="${HOME}/.spack/config.yaml"
     ckey="^\s*upstream_spack_installations:"
 
-    chains="${add:-}"
+    chains=""
     for stage in ${stages}; do
         if [[ "${stage}" = "${what}" ]]; then
             break
@@ -210,6 +210,7 @@ update_chain_config() {
             chains="${stage}${chains:+ }${chains}"
         fi
     done
+    chains="${add}${add:+ }${chains}"
 
     if [[ -n "${chains}" ]]; then
         grep -e ${ckey} ${conf} &> /dev/null || {
