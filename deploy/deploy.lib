@@ -158,7 +158,7 @@ list_module_paths() {
     # Print all module paths up to and including the stage passed as first
     # argument
     local what="$1"
-    while read -d' ' stage; do
+    for stage in ${stages}; do
         local base="$(last_install_dir ${stage})"
         for modpath in ${base}/modules/tcl/*; do
             if [[ -d "${modpath}" ]]; then
@@ -169,7 +169,7 @@ list_module_paths() {
         if [[ "${stage}" = "${what}" ]]; then
             return
         fi
-    done <<< "${stages}"
+    done
 }
 
 update_module_path() {
