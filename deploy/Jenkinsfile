@@ -60,7 +60,9 @@ pipeline {
         stage('Setup') {
             when {
                 not {
-                    changeRequest()
+                    expression {
+                        retrun env.ghprbPullId
+                    }
                 }
             }
 
@@ -78,7 +80,9 @@ pipeline {
 
         stage('PR Setup') {
             when {
-                changeRequest()
+                expression {
+                    retrun env.ghprbPullId
+                }
             }
 
             // General setup: make sure that Spack is installed and that
