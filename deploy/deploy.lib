@@ -212,7 +212,13 @@ update_chain_config() {
     done
 
     if [[ -z "${chains}" ]]; then
-        log "no chains in use for '${what}'"
+        if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}}" ]]; then
+            local DEPLOYMENT_ROOT
+            DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
+            update_chain_config "${what}" "${what}"
+        else
+            log "no chains in use for '${what}'"
+        fi
         return
     fi
 
