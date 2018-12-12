@@ -2,7 +2,7 @@ def deployment_dir(parent) {
     def branch = "${env.BRANCH_NAME}"
     if (parent) {
         return "/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment"
-    } else if () {
+    } else {
         return branch
     }
 
