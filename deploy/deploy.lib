@@ -196,7 +196,7 @@ update_module_path() {
 
 update_chain_config() {
     what="$1"
-    add="$2"
+    add="${2:-}"
 
     conf="${HOME}/.spack/config.yaml"
     ckey="^\s*upstream_spack_installations:"
