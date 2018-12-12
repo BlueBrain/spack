@@ -210,6 +210,12 @@ update_chain_config() {
     conf="${HOME}/.spack/config.yaml"
     ckey="^\s*upstream_spack_installations:"
 
+    if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}}" ]]; then
+        local DEPLOYMENT_ROOT
+        DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
+        update_chain_config "${spec_children[$what]}"
+    fi
+
     read -d' ' root <<< "${stages}"
     if [[ "${what}" = "${root}" ]]; then
         return
@@ -242,12 +248,6 @@ update_chain_config() {
       tcl: $(last_install_dir ${stage})/modules
 EOF
     done
-
-    if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}}" ]]; then
-        local DEPLOYMENT_ROOT
-        DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
-        update_chain_config "${spec_children[$what]}"
-    fi
 }
 
 configure_compilers() {
