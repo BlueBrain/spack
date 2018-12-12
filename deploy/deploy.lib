@@ -225,7 +225,7 @@ update_chain_config() {
         return
     fi
 
-    grep -e ${ckey} ${conf} || {
+    grep -e ${ckey} ${conf} &> /dev/null || {
         echo "  upstream_spack_installations:" >> "${conf}"
     }
     log "chaining up ${what}"
