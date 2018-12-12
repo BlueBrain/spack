@@ -211,34 +211,22 @@ update_chain_config() {
         fi
     done
 
-    if [[ -z "${chains}" ]]; then
-        if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}}" ]]; then
-            OLD_DEPLOYMENT_ROOT="${DEPLOYMENT_ROOT}"
-            DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
-            export DEPLOYMENT_ROOT
-            update_chain_config "${what}" "${what}"
-            DEPLOYMENT_ROOT="${OLD_DEPLOYMENT_ROOT}"
-            export DEPLOYMENT_ROOT
-        else
-            log "no chains in use for '${what}'"
-        fi
-        return
-    fi
-
-    grep -e ${ckey} ${conf} &> /dev/null || {
-        echo "  upstream_spack_installations:" >> "${conf}"
-    }
-    log "chaining up ${what}"
-    for stage in ${chains}; do
-        log "...adding ${stage}"
-        cat << EOF >> "${conf}"
+    if [[ -n "${chains}" ]]; then
+        grep -e ${ckey} ${conf} &> /dev/null || {
+            echo "  upstream_spack_installations:" >> "${conf}"
+        }
+        log "chaining up ${what}"
+        for stage in ${chains}; do
+            log "...adding ${stage}"
+            cat << EOF >> "${conf}"
   - spack-install-prefix: $(last_install_dir ${stage})
     modules:
       tcl: $(last_install_dir ${stage})/modules
 EOF
-    done
+        done
+    fi
 
-    if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}}" ]]; then
+    if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}" ]]; then
         OLD_DEPLOYMENT_ROOT="${DEPLOYMENT_ROOT}"
         DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
         export DEPLOYMENT_ROOT
