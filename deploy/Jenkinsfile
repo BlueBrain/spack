@@ -61,8 +61,6 @@ pipeline {
             // General setup: make sure that Spack is installed and that
             // license files are available to Spack
             steps {
-                sh "env"
-                sh "false"
                 dir("${DEPLOYMENT_ROOT}/deploy/spack") {
                     git(url: "https://github.com/BlueBrain/spack.git", branch: "spack_chain")
                 }
