@@ -57,6 +57,17 @@ for stage in $stages; do
     last="$stage"
 done
 
+# Set up reverse graph
+declare -A spec_children
+last=""
+for stage in $stages; do
+    if [[ -n "$last" ]]; then
+        spec_children[$last]="$stage"
+    fi
+    last="$stage"
+done
+spec_children[$last]="dummy"
+
 log() {
     date="$(tput smul)$(date +%H:%M:%S)$(tput rmul)"
     echo "$(tput bold)### ${date} $@$(tput sgr0)" >&2
@@ -231,6 +242,12 @@ update_chain_config() {
       tcl: $(last_install_dir ${stage})/modules
 EOF
     done
+
+    if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}}" ]]; then
+        local DEPLOYMENT_ROOT
+        DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
+        update_chain_config "${spec_children[$what]}"
+    fi
 }
 
 configure_compilers() {
@@ -493,9 +510,9 @@ install_specs() {
     (cd "${DEPLOYMENT_ROOT}/deploy/spack" && git rev-parse HEAD) &> "${HOME}/spack.version"
 
     log "stage directory:"
-    ls -l /gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment/deploy/spack/var/spack/stage || true
+    ls -l "${SPACK_ROOT}/var/spack/stage" || true
     log "stage directory in depth:"
-    find /gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment/deploy/spack/var/spack/stage || true
+    find "${SPACK_ROOT}/var/spack/stage" || true
     log "cleaning up after a bad spack"
     spack clean -a
 
