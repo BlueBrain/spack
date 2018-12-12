@@ -1,4 +1,4 @@
-def deployment_dir(parent) {
+def deployment_root(parent) {
     def branch = "${env.BRANCH_NAME}"
     if (parent) {
         return "/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment"
