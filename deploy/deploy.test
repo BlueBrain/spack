@@ -70,7 +70,7 @@ teardown() {
     done
     for stage in compilers tools; do
         path="${DEPLOYMENT_ROOT}/install/${stage}/${DEPLOYMENT_DATE}/modules/tcl/foobar"
-        paths="${paths}${paths:+:}${path}"
+        paths="${path}${paths:+:}${paths}"
     done
     update_module_path "serial-libraries"
     echo $MODULEPATH
@@ -88,7 +88,7 @@ teardown() {
     done
     for stage in compilers tools serial-libraries; do
         path="${DEPLOYMENT_ROOT}/install/${stage}/${DEPLOYMENT_DATE}/modules/tcl/foobar"
-        paths="${paths}${paths:+:}${path}"
+        paths="${path}${paths:+:}${paths}"
     done
     update_module_path "serial-libraries" "yes"
     echo $MODULEPATH
