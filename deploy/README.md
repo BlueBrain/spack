@@ -3,11 +3,15 @@
 This is work-in-progress instructions for deploying software stack with
 Spack.
 
-[Jump to deployment description](#deployment-workflow)
+## Contents
+
+* [Spec Generation](#spec-generation)
+* [Deployment Description](#deployment-workflow)
+* [Pull Request Building Description](#pull-request-workflow)
 
 ###### CREDIT : Based on [spack-packagelist](https://github.com/epfl-scitas/spack-packagelist)
 
-## To Experiment with Spec Generation
+## Spec Generation
 
 ### Setup Environment for Experimentation
 
@@ -342,6 +346,22 @@ a separate directory:
 See `Jenkinsfile`.
 All package collections referenced above are triggered as separate stages,
 calling `deploy.sh` with appropriate arguments.
+
+## Pull Request Workflow
+
+To build pull requests, each one will be stored in a separate
+`${DEPLOYMENT_ROOT}`:
+
+    ${DEPLOYMENT_ROOT}
+    └── pulls
+        └── XXXX
+            ├── deploy
+            │   ├── spack
+            │   └── venv
+            └── install
+
+Every stage within the pull request will chain to its original upstream and
+all dependencies.
 
 #### Open Items
 

@@ -1,3 +1,11 @@
+def deployment_dir(parent) {
+    def branch = "${env.BRANCH_NAME}"
+    if (parent) {
+        return "/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment"
+    } else if () {
+        return branch
+    }
+
 def post_process(stage, redeploy, reconfigure) {
     dir("${BASEDIR}") {
         if (redeploy) {
@@ -41,7 +49,8 @@ pipeline {
     }
 
     environment {
-        DEPLOYMENT_ROOT = "/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment"
+        DEPLOYMENT_UPSTREAM = deployment_root(true)
+        DEPLOYMENT_ROOT = deployment_root(false)
         BASEDIR = "${DEPLOYMENT_ROOT}/deploy/spack/deploy"
         TMPDIR = "/dev/shm/jenkins"
     }
@@ -51,6 +60,8 @@ pipeline {
             // General setup: make sure that Spack is installed and that
             // license files are available to Spack
             steps {
+                sh "env"
+                sh "false"
                 dir("${DEPLOYMENT_ROOT}/deploy/spack") {
                     git(url: "https://github.com/BlueBrain/spack.git", branch: "spack_chain")
                 }
