@@ -73,8 +73,6 @@ teardown() {
         paths="${path}${paths:+:}${paths}"
     done
     update_module_path "serial-libraries"
-    echo $MODULEPATH
-    echo $paths
     [[ "${MODULEPATH}" = "${paths}" ]]
 }
 
@@ -91,8 +89,6 @@ teardown() {
         paths="${path}${paths:+:}${paths}"
     done
     update_module_path "serial-libraries" "yes"
-    echo $MODULEPATH
-    echo $paths
     [[ "${MODULEPATH}" = "${paths}" ]]
 }
 
@@ -104,6 +100,5 @@ teardown() {
         paths="${paths}${paths:+:}${path}"
     done
     declare -a paths=($(list_module_paths "serial-libraries"))
-    echo ${#paths[*]}
     [[ "${#paths[*]}" -eq 3 ]]
 }
