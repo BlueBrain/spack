@@ -1,4 +1,4 @@
-def deployment_root(parent) {
+def deployment_directory(parent) {
     def branch = "${env.BRANCH_NAME}"
     if (parent) {
         return "/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment"
@@ -50,8 +50,8 @@ pipeline {
     }
 
     environment {
-        DEPLOYMENT_UPSTREAM = deployment_root(true)
-        DEPLOYMENT_ROOT = deployment_root(false)
+        DEPLOYMENT_UPSTREAM = deployment_directory(true)
+        DEPLOYMENT_ROOT = deployment_directory(false)
         BASEDIR = "${DEPLOYMENT_ROOT}/deploy/spack/deploy"
         TMPDIR = "/dev/shm/jenkins"
     }
