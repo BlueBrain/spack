@@ -31,9 +31,9 @@ SPACK_PROPRIETARY_MIRROR_DIR="${DEPLOYMENT_ROOT}/mirror/proprietary"
 
 export DEPLOYMENT_ROOT SPACK_BINARY_MIRROR_DIR SPACK_SOURCE_MIRROR_DIR
 
-PATH=/usr/bin:${PATH}
+#PATH=/usr/bin:${PATH}
 
-export PATH
+#export PATH
 
 . ./deploy.lib
 
