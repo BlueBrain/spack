@@ -5,6 +5,7 @@ def deployment_dir(parent) {
     } else {
         return branch
     }
+}
 
 def post_process(stage, redeploy, reconfigure) {
     dir("${BASEDIR}") {
