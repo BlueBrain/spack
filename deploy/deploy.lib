@@ -213,9 +213,12 @@ update_chain_config() {
 
     if [[ -z "${chains}" ]]; then
         if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}}" ]]; then
-            local DEPLOYMENT_ROOT
+            OLD_DEPLOYMENT_ROOT="${DEPLOYMENT_ROOT}"
             DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
+            export DEPLOYMENT_ROOT
             update_chain_config "${what}" "${what}"
+            DEPLOYMENT_ROOT="${OLD_DEPLOYMENT_ROOT}"
+            export DEPLOYMENT_ROOT
         else
             log "no chains in use for '${what}'"
         fi
@@ -236,9 +239,12 @@ EOF
     done
 
     if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}}" ]]; then
-        local DEPLOYMENT_ROOT
+        OLD_DEPLOYMENT_ROOT="${DEPLOYMENT_ROOT}"
         DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
+        export DEPLOYMENT_ROOT
         update_chain_config "${what}" "${what}"
+        DEPLOYMENT_ROOT="${OLD_DEPLOYMENT_ROOT}"
+        export DEPLOYMENT_ROOT
     fi
 }
 
