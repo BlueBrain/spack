@@ -28,6 +28,7 @@ modules:
     hash_length: 0
     whitelist:
       - allinea-forge
+      - cmake
       - cuda
       - hpctoolkit
       - hpe-mpi
@@ -35,10 +36,10 @@ modules:
       - imb
       - intel-mpi
       - likwid
+      - lmod
       - mvapich2
       - openmpi
       - osu-micro-benchmarks
-      - qt
       - stat
     blacklist:
       - '%gcc'

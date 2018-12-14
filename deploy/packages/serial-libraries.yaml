@@ -32,3 +32,14 @@ packages:
       - python
     specs:
       - neuron~mpi@2018-10
+
+  gnu-intel-stable-serial:
+    target_matrix:
+      - gnu-stable
+      - intel-stable
+    requires:
+      - architecture
+      - compiler
+    specs:
+      - python@2.7.15
+      - python@3.6.5

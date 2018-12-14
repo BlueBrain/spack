@@ -13,11 +13,11 @@ gnu-stable:
   architecture:
   - x86_64
   compiler:
-  - gcc@6.4.0
+  - gcc@7.3.0
   mpi:
   - hpe-mpi@2.16
   lapack:
-  - intel-mkl@2018.3.222
+  - intel-mkl@2018.1.163
   python:
   - python@3.6.5
 
@@ -25,11 +25,11 @@ gnu-stable-py2:
   architecture:
   - x86_64
   compiler:
-  - gcc@6.4.0
+  - gcc@7.3.0
   mpi:
   - hpe-mpi@2.16
   lapack:
-  - intel-mkl@2018.3.222
+  - intel-mkl@2018.1.163
   python:
   - python@2.7.15
 
@@ -42,7 +42,7 @@ intel-stable:
   mpi:
   - hpe-mpi@2.16
   lapack:
-  - intel-mkl@2018.3.222
+  - intel-mkl@2018.1.163
   python:
   - python@3.6.5
 
@@ -55,7 +55,7 @@ intel-knl-stable:
   mpi:
   - hpe-mpi@2.16
   lapack:
-  - intel-mkl@2018.3.222
+  - intel-mkl@2018.1.163
   python:
   - python@3.6.5
 

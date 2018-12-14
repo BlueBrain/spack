@@ -18,9 +18,10 @@ packages:
       - architecture
       - compiler
     specs:
+      - allinea-forge@7.0
       - binutils@2.31.1
       - bison@3.0.5
-      - cmake@3.12.2
+      - cmake@3.13.0
       - environment-modules@3.2.10
       - flex@2.6.3
       - gdb~python@8.2
@@ -35,6 +36,7 @@ packages:
       - libx11@1.6.5
       - m4@1.4.18
       - mpc@1.1.0
+      - 'mvapich2@2.3 +cuda fabrics=mrail process_managers=slurm file_systems=gpfs'
       - node-js@6.12.2
       - npm@3.10.9
       - pkg-config@0.29.2

@@ -25,7 +25,7 @@ packages:
       - gmsh+oce~mpi@3.0.6
       - hdf5~mpi@1.10.4
       - highfive~mpi@1.6
-      - intel-mkl@2018.3.222
+      - intel-mkl@2018.1.163
       - jdk@1.8.0_191-b12
       - libjpeg@1.2.90
       - libxml2@2.9.8
