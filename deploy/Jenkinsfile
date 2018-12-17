@@ -39,9 +39,9 @@ def deployment_stages_string() {
 }
 
 def run_stages() {
-    stages = deployment_stages()
-    start = stages.findIndexOf { it == params.STAGE }
-    end = stages.size() - 1
+    def stages = deployment_stages()
+    def start = stages.findIndexOf { it == params.STAGE }
+    def end = stages.size() - 1
     return stages[start..end]
 }
 
