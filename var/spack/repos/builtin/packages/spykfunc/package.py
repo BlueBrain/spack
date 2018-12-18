@@ -74,10 +74,8 @@ class Spykfunc(PythonPackage):
         # activate all python packages.
         run_env.set('JAVA_HOME', self.spec['java'].prefix)
         run_env.set('SPARK_HOME', self.spec['spark'].prefix)
+        run_env.set('HADOOP_HOME', self.spec['spark'].prefix)
 
         run_env.prepend_path('PATH', os.path.join(self.spec['py-bb5'].prefix, 'bin'))
         run_env.prepend_path('PATH', os.path.join(self.spec['py-sparkmanager'].prefix, 'bin'))
         run_env.prepend_path('PATH', os.path.join(self.spec['spark'].prefix, 'bin'))
-
-        java_env = dict(os.environ)
-        java_env['JAVA_HOME'] = self.spec['java'].prefix
