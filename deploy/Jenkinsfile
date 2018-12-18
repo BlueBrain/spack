@@ -116,7 +116,7 @@ pipeline {
             // General setup: make sure that Spack is installed and that
             // license files are available to Spack
             steps {
-                dir("${DEPLOYMENT_ROOT}/deploy/spack") {
+                dir("${DEPLOYMENT_ROOT}/spack") {
                     checkout([$class: 'GitSCM',
                               branches: [[name: "FETCH_HEAD"]],
                               extensions: [[$class: 'LocalBranch']],
@@ -126,7 +126,7 @@ pipeline {
                               ]]])
 
                 }
-                dir("${DEPLOYMENT_ROOT}/deploy/spack/etc/spack/licenses") {
+                dir("${DEPLOYMENT_ROOT}/spack/etc/spack/licenses") {
                     git(url: "ssh://bbpcode.epfl.ch/user/kumbhar/spack-licenses")
                 }
             }
