@@ -13,7 +13,7 @@ gnu-stable:
   architecture:
   - x86_64
   compiler:
-  - gcc@6.4.0
+  - gcc@8.2.0
   mpi:
   - hpe-mpi@2.16
   lapack:
@@ -25,7 +25,7 @@ gnu-stable-py2:
   architecture:
   - x86_64
   compiler:
-  - gcc@6.4.0
+  - gcc@8.2.0
   mpi:
   - hpe-mpi@2.16
   lapack:
