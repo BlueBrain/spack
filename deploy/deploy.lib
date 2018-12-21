@@ -222,7 +222,7 @@ update_chain_config() {
         for stage in ${chains}; do
             log "...adding ${stage}"
             cat << EOF >> "${conf}"
-  ${what}${suffix}:
+  ${stage}${suffix}:
     install_tree: $(last_install_dir ${stage})
     modules:
       tcl: $(last_install_dir ${stage})/modules
