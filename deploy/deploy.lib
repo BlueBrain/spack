@@ -500,7 +500,7 @@ install_specs() {
         DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
         export DEPLOYMENT_ROOT
         log "setting up upstream chains, modules"
-        update_chain_config "${what}" "${what}"
+        update_chain_config "${what}" "${what}" "-upstream"
         update_module_path "${what}" "yes"
         DEPLOYMENT_ROOT="${OLD_DEPLOYMENT_ROOT}"
         export DEPLOYMENT_ROOT
