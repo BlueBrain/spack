@@ -196,9 +196,9 @@ update_module_path() {
 }
 
 update_chain_config() {
-    what="$1"
-    add="${2:-}"
-    suffix="${3:-}"
+    local what="$1"
+    local add="${2:-}"
+    local suffix="${3:-}"
 
     conf="${HOME}/.spack/upstreams.yaml"
     ckey="^upstreams:"
