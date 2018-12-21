@@ -198,9 +198,10 @@ update_module_path() {
 update_chain_config() {
     what="$1"
     add="${2:-}"
+    suffix="${3:-}"
 
-    conf="${HOME}/.spack/config.yaml"
-    ckey="^\s*upstream_spack_installations:"
+    conf="${HOME}/.spack/upstreams.yaml"
+    ckey="^upstreams:"
 
     chains=""
     for stage in ${stages}; do
@@ -215,13 +216,14 @@ update_chain_config() {
 
     if [[ -n "${chains}" ]]; then
         grep -e ${ckey} ${conf} &> /dev/null || {
-            echo "  upstream_spack_installations:" >> "${conf}"
+            echo "upstreams:" >> "${conf}"
         }
         log "chaining up ${what}"
         for stage in ${chains}; do
             log "...adding ${stage}"
             cat << EOF >> "${conf}"
-  - spack-install-prefix: $(last_install_dir ${stage})
+  ${what}${suffix}:
+    install_tree: $(last_install_dir ${stage})
     modules:
       tcl: $(last_install_dir ${stage})/modules
 EOF
@@ -458,7 +460,7 @@ copy_user_configuration() {
     log "...into ${target}"
 
     mkdir -p "${target}"
-    cp ${source}/{compilers,.spack/config,packages}.yaml ${target}
+    cp ${source}/{compilers,.spack/upstreams,packages}.yaml ${target}
 
     rm -f ${target}/modules.sh
     for modpath in ${modpaths}; do
