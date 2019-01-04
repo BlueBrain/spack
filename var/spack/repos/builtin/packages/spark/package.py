@@ -19,9 +19,7 @@ class Spark(Package):
             description='Build with Hadoop')
 
     depends_on('java@8', type=('build', 'run'))
-    # Hadoop dependency after 2.1.0 will be included in downloaded tarball.
-    # ~hadoop + external Hadoop will be missing Hive et al support.
-    depends_on('hadoop', when='@:2.3.0 +hadoop', type=('build', 'run'))
+    depends_on('hadoop', when='+hadoop', type=('build', 'run'))
 
     version('2.4.0', 'b1d6d6cb49d8253b36df8372a722292bb323bd16315d83f0b0bafb66a4154ef2')
     version('2.3.0', 'db21021b8e877b219ab886097ef42344')
@@ -58,7 +56,7 @@ class Spark(Package):
         # required for spark to recognize binary distribution
         install('RELEASE', prefix)
 
-    @when('@:2.3.0 +hadoop')
+    @when('+hadoop')
     def setup_environment(self, spack_env, run_env):
         hadoop = self.spec['hadoop'].command
         hadoop.add_default_env('JAVA_HOME', self.spec['java'].home)
