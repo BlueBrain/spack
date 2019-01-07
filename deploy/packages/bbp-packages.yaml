@@ -44,7 +44,7 @@ packages:
       #- python
     specs:
       - parquet-converters@0.3
-      - placement-algorithm@2.0.0
+      - placement-algorithm@2.0.0+app
 
   #### sub-cellular ####
 
