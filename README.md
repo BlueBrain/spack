@@ -9,7 +9,7 @@ For the development documentation of the deployment stack, see
 On BB5, clone this repository to get started using Spack.
 The following commands are a good way to get started:
 
-    $ git clone git@github.com:BlueBrain/spack.git
+    $ git clone https://github.com/BlueBrain/spack.git
     $ . spack/share/spack/setup-env.sh
     $ spack spec -I spykfunc|head -n 15
     Input spec
@@ -37,6 +37,17 @@ configure Spack to use centrally build packages on BB5:
 
     $ mkdir -p ~/.spack
     $ ln -s /gpfs/bbp.cscs.ch/apps/hpc/jenkins/config/{compilers,packages,upstreams}.yaml ~/.spack
+
+Add some basic configuration to be able to install software into a
+directory stored in an environment variable:
+
+    $ cp spack/deploy/sysconfig/bb5/users/config.yaml ~/.spack
+    $ export INSTALL_PATH=$HOME/software
+
+To install into `~/software`.
+Every call to Spack reads this environment variable, temporarily changing
+it is a good way to test changes.
+
     $ spack spec -I spykfunc|head -n 15
     Input spec
     --------------------------------
