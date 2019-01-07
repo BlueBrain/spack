@@ -48,6 +48,9 @@ To install into `~/software`.
 Every call to Spack reads this environment variable, temporarily changing
 it is a good way to test changes.
 
+After adding the correct setup, the dependency graph of our software to
+install has changed significantly:
+
     $ spack spec -I spykfunc|head -n 15
     Input spec
     --------------------------------
