@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyPlacementAlgorithm(PythonPackage):
+class PlacementAlgorithm(PythonPackage):
     """Morphology placement algorithm"""
 
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/building/placementAlgorithm"
