@@ -40,6 +40,6 @@ class PyMorphTool(PythonPackage):
 
     depends_on('py-bluepyopt', type='run', when='+neuron')
     depends_on('py-click', type='run')
-    depends_on('py-functools32', type='run')
+    depends_on('py-functools32', when="^python@:2.99", type='run')
     depends_on('py-morphio', type='run')
     depends_on('py-numpy', type='run')
