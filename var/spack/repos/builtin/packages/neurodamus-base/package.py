@@ -30,14 +30,13 @@ import shutil
 class NeurodamusBase(Package):
     """Library of channels developed by Blue Brain Project, EPFL"""
 
-    homepage = "ssh://bbpcode.epfl.ch/sim/neurodamus/bbp"
-    url      = "ssh://bbpcode.epfl.ch/sim/neurodamus/bbp"
+    homepage = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
+    url      = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
 
-    version('master',      git=url, branch='master')
-    version('hippocampus', git=url, branch='sandbox/king/hippocampus')
-    version('plasticity',  git=url, branch='sandbox/king/saveupdate_v6support_mask', preferred=True)
+    version('master', git=url, branch='master')
 
     def install(self, spec, prefix):
-        shutil.copytree('lib', prefix.lib)
+        shutil.copytree('hoc', prefix.hoc)
+        shutil.copytree('mod', prefix.mod)
         if os.path.isdir('python'):
             shutil.copytree('python', prefix.python)

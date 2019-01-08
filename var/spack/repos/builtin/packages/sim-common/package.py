@@ -1,39 +1,27 @@
-##############################################################################
-# Copyright (c) 2013-2018, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory.
-#
-# This file is part of Spack.
-# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.
-# LLNL-CODE-647188
-#
-# For details, see https://github.com/spack/spack
-# Please also see the NOTICE and LICENSE files for our notice and the LGPL.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License (as
-# published by the Free Software Foundation) version 2.1, February 1999.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and
-# conditions of the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+# Copyright 2013-2018 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
 from spack import *
 from spack.pkg.builtin.neurodamus_base import NeurodamusBase
-import os
-import shutil
-import sys
 from contextlib import contextmanager
+import shutil
+import os
+import sys
 
 
-class Neurodamus(NeurodamusBase):
-    """Package used for building special from NeurodamusBase package
+class SimCommon(Package):
+    """An 'abstract' base package for Simulation Models
     """
-    variant('coreneuron', default=True, description="Enable CoreNEURON Support")
+
+    depends_on('neurodamus-base')
+
+    resource(
+       name='sim_models_common',
+       git='ssh://bbpcode.epfl.ch/sim/models/common',
+       branch='master',
+       destination='resources'
+    )
+
+    variant('coreneuron', default=False, description="Enable CoreNEURON Support")
     variant('profile', default=False, description="Enable profiling using Tau")
     variant('python', default=False, description="Enable Python Neurodamus")
     variant('syntool', default=True, description="Enable Synapsetool reader")
@@ -54,10 +42,6 @@ class Neurodamus(NeurodamusBase):
     depends_on('coreneuron', when='+coreneuron')
     depends_on('coreneuron+profile', when='+profile')
     depends_on('coreneuron@plasticity', when='@plasicity')
-
-    depends_on('neurodamus-base@master', when='@master')
-    depends_on('neurodamus-base@hippocampus', when='@hippocampus')
-    depends_on('neurodamus-base@plasticity', when='@plasticity')
 
     depends_on('neuron+profile', when='+profile')
     depends_on('reportinglib+profile', when='+profile')
@@ -83,19 +67,25 @@ class Neurodamus(NeurodamusBase):
 
     phases = ['build', 'install']
 
-    def do_stage(self, mirror_only=False):
-        # dont fetch but stage as mod files come from neurodamus-base
-        self._fetch_time = 0
-        self.stage.create()
-        build_dir = os.path.join(self.stage.path, 'build')
-        os.makedirs(build_dir)
-        os.symlink(self.spec['neurodamus-base'].prefix.lib.modlib, os.path.join(build_dir, 'm'))
+
+    @run_before('build')
+    def merge_hoc_mod(self):
+        mkdirp('modlib')
+        copy_tree(self.spec['neurodamus-base'].prefix.mod, 'modlib')
+        copy_tree('resources/common/mod', 'modlib')
+        copy_tree('mod', 'modlib')
+
+        mkdirp('hoclib')
+        copy_tree(self.spec['neurodamus-base'].prefix.hoc, 'hoclib')
+        copy_tree('resources/common/hoc', 'hoclib')
+        copy_tree('hoc', 'hoclib')
+
 
     def build(self, spec, prefix):
         """ Build mod files from m dir
         """
+        force_symlink('modlib', 'm')
         dep_libs = ['reportinglib', 'hdf5',  'zlib']
-        env['MAKEFLAGS'] = '-j{0}'.format(make_jobs)
         profile_flag = '-DENABLE_TAU_PROFILER' if '+profile' in spec else ''
 
         # Allow deps to not recurs bring their deps
@@ -129,18 +119,18 @@ class Neurodamus(NeurodamusBase):
         """ Move libs to destination.
             Libs are sym-linked. Compiled libs into libs, special into bin
         """
-        neurodamus_base = spec['neurodamus-base'].prefix
-        arch = os.path.basename(self.neuron_archdir)
+        mkdirp(prefix.lib)
+        shutil.move('modlib', prefix.lib.mod)
+        shutil.move('hoclib', prefix.lib.hoc)
         os.makedirs(prefix.lib.modc)
         os.makedirs(prefix.bin)
 
-        os.symlink(neurodamus_base.lib.hoclib, prefix.lib.hoclib)
-        os.symlink(neurodamus_base.lib.modlib, prefix.lib.modlib)
-
-        if os.path.isdir(neurodamus_base.python):
+        if spec.satisfies('+python'):
+            # assert  os.path.isdir(neurodamus_base.python)
             os.symlink(neurodamus_base.python, prefix.python)
 
-        shutil.move(os.path.join(arch, 'special'), prefix.bin)
+        arch = os.path.basename(self.neuron_archdir)
+        shutil.move(join_path(arch, 'special'), prefix.bin)
 
         # Copy c mods
         for cmod in find(arch, "*.c", recursive=False):
@@ -154,7 +144,7 @@ class Neurodamus(NeurodamusBase):
 
     def setup_environment(self, spack_env, run_env):
         run_env.prepend_path('PATH', self.prefix.bin)
-        run_env.set('HOC_LIBRARY_PATH', self.prefix.lib.hoclib)
+        run_env.set('HOC_LIBRARY_PATH', self.prefix.lib.hoc)
         if os.path.isdir(self.prefix.python):
             for m in spack_env.env_modifications:
                 if m.name == 'PYTHONPATH':
