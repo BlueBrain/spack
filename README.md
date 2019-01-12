@@ -151,7 +151,7 @@ deployment chain (all found in `spack/deploy/packages`):
 * `parallel-libraries` for everything using MPI or highly performant
 * `serial-libraries`, `python-packages` for general purpose libraries
 * `external-libraries` for packages that are seldomly changed and for which
-  the dependency graph may be truncated by Spack (e.g., Spark, Python)
+  the dependency graph may be truncated by Spack (e.g., Spark, Python) - mainly dependencies for building
 
 Commit the changes and file a pull request on Github.
 Jenkins will build the additional software required, with all output
