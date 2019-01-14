@@ -204,6 +204,15 @@ class Neuron(Package):
         options.extend(self.get_python_options(spec))
         options.extend(self.get_compilation_options(spec))
 
+        options.append('--with-readline=%s' % spec['readline'].prefix)
+        options.extend(['CURSES_LIBS=%s' % spec['ncurses'].libs.ld_flags,
+                        'CURSES_CFLAGS=%s' % spec['ncurses'].prefix.include])
+        options.append('LDFLAGS=-L%s %s -L%s %s' % (
+                            spec['readline'].prefix.lib,
+                            spec['readline'].libs.rpath_flags,
+                            spec['ncurses'].prefix.lib,
+                            spec['ncurses'].libs.rpath_flags))
+
         build = Executable('./build.sh')
         build()
 
