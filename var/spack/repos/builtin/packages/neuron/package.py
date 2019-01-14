@@ -207,11 +207,9 @@ class Neuron(Package):
         options.append('--with-readline=%s' % spec['readline'].prefix)
         options.extend(['CURSES_LIBS=%s' % spec['ncurses'].libs.ld_flags,
                         'CURSES_CFLAGS=%s' % spec['ncurses'].prefix.include])
-        options.append('LDFLAGS=-L%s %s -L%s %s' % (
-                            spec['readline'].prefix.lib,
-                            spec['readline'].libs.rpath_flags,
-                            spec['ncurses'].prefix.lib,
-                            spec['ncurses'].libs.rpath_flags))
+        options.append('LDFLAGS=-L{0.prefix.lib} {0.libs.rpath_flags}'
+                            ' -L{1.prefix.lib} {1.libs.rpath_flags}'.format(
+                            spec['readline'], spec['ncurses']))
 
         build = Executable('./build.sh')
         build()
