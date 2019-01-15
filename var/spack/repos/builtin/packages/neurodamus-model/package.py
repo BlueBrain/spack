@@ -1,18 +1,17 @@
 # Copyright 2013-2018 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 from spack import *
-from spack.pkg.builtin.neurodamus_base import NeurodamusBase
 from contextlib import contextmanager
 import shutil
 import os
 import sys
 
 
-class SimCommon(Package):
+class NeurodamusModel(Package):
     """An 'abstract' base package for Simulation Models
     """
 
-    depends_on('neurodamus-base')
+    depends_on('neurodamus-core')
 
     resource(
        name='sim_models_common',
@@ -22,15 +21,18 @@ class SimCommon(Package):
     )
 
     variant('coreneuron', default=False, description="Enable CoreNEURON Support")
-    variant('profile', default=False, description="Enable profiling using Tau")
-    variant('python', default=False, description="Enable Python Neurodamus")
-    variant('syntool', default=True, description="Enable Synapsetool reader")
-    variant('sonata', default=False, description="Enable Synapsetool with Sonata")
+    variant('profile',    default=False, description="Enable profiling using Tau")
+    variant('python',     default=False, description="Enable Python Neurodamus")
+    variant('syntool',    default=True,  description="Enable Synapsetool reader")
+    variant('sonata',     default=False, description="Enable Synapsetool with Sonata")
+    variant('debug',      default=False, description="Compile in debug mode (-O0)")
 
     depends_on("boost", when="+syntool")
     depends_on("hdf5+mpi")
     depends_on("mpi")
     depends_on("neuron+mpi")
+    depends_on("neuron+mpi+debug", when="+debug")
+
     depends_on('reportinglib')
     depends_on('synapsetool+mpi', when='+syntool~sonata')
     depends_on('synapsetool+mpi+sonata', when='+syntool+sonata')
@@ -56,8 +58,8 @@ class SimCommon(Package):
 
     # coreneuron support is available for plasticity model
     # and requires python support in neuron
-    conflicts('@hippocampus', when='+coreneuron')
-    conflicts('@master', when='+coreneuron')
+    #conflicts('@hippocampus', when='+coreneuron')
+    #conflicts('@master', when='+coreneuron')
     conflicts('^neuron~python', when='+coreneuron')
     conflicts('+sonata', when='~syntool')
 
@@ -65,21 +67,30 @@ class SimCommon(Package):
     # with correct library path
     depends_on('readline')
 
-    phases = ['build', 'install']
+    phases = ['merge_hoc_mod', 'build', 'install']
+
+    # These vars can be overriden by subclasses to specify additional sources
+    # This is required since some models have several sources, e.g.: thalamus
+    _hoc_srcs = ('resources/common/hoc', 'hoc')
+    _mod_srcs = ('resources/common/mod', 'mod')
 
 
-    @run_before('build')
-    def merge_hoc_mod(self):
-        mkdirp('modlib')
-        copy_tree(self.spec['neurodamus-base'].prefix.mod, 'modlib')
-        copy_tree('resources/common/mod', 'modlib')
-        copy_tree('mod', 'modlib')
+    @staticmethod
+    def copy_all(src, dst, copyfunc=shutil.copy):
+        isdir = os.path.isdir
+        for name in os.listdir(src):
+            pth = join_path(src, name)
+            isdir(pth) or copyfunc(pth, dst)
 
-        mkdirp('hoclib')
-        copy_tree(self.spec['neurodamus-base'].prefix.hoc, 'hoclib')
-        copy_tree('resources/common/hoc', 'hoclib')
-        copy_tree('hoc', 'hoclib')
-
+    def merge_hoc_mod(self, spec, prefix):
+        # First Initialize with core hoc / mods
+        copy_tree(spec['neurodamus-core'].prefix.hoc, 'hoclib')
+        copy_tree(spec['neurodamus-core'].prefix.mod, 'modlib')
+        # Copy from the several sources
+        for hoc_src in self._hoc_srcs:
+            self.copy_all(hoc_src, 'hoclib')
+        for mod_src in self._mod_srcs:
+            self.copy_all(mod_src, 'modlib')
 
     def build(self, spec, prefix):
         """ Build mod files from m dir
@@ -126,8 +137,8 @@ class SimCommon(Package):
         os.makedirs(prefix.bin)
 
         if spec.satisfies('+python'):
-            # assert  os.path.isdir(neurodamus_base.python)
-            os.symlink(neurodamus_base.python, prefix.python)
+            # assert  os.path.isdir(neurodamus_core.python)
+            os.symlink(spec['neurodamus-core'].prefix.python, prefix.python)
 
         arch = os.path.basename(self.neuron_archdir)
         shutil.move(join_path(arch, 'special'), prefix.bin)

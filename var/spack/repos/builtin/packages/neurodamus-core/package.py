@@ -27,7 +27,7 @@ import os
 import shutil
 
 
-class NeurodamusBase(Package):
+class NeurodamusCore(Package):
     """Library of channels developed by Blue Brain Project, EPFL"""
 
     homepage = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
