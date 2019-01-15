@@ -303,7 +303,7 @@ pipeline {
                         sh """
                             shopt -s extglob
                             shopt
-                            pulls=$(curl -sG https://api.github.com/repos/BlueBrain/spack/pulls|python -c 'import json,sys;print("|".join(str(p["number"]) for p in json.load(sys.stdin)))')
+                            pulls=\$(curl -sG https://api.github.com/repos/BlueBrain/spack/pulls|python -c 'import json,sys;print("|".join(str(p["number"]) for p in json.load(sys.stdin)))')
                             echo ${DEPLOYMENT_UPSTREAM}/pulls/!(\${pulls})
                         """
                     }
