@@ -282,5 +282,33 @@ pipeline {
                 }
             }
         }
+
+        stage('Post-Mortem') {
+            parallel {
+                stage('Documentation') {
+                    steps {
+                        sh "ls"
+                    }
+                }
+
+                stage('Delete Old PRs') {
+                    // when {
+                    //     not {
+                    //         expression {
+                    //             return env.ghprbPullId
+                    //         }
+                    //     }
+                    // }
+                    steps {
+                        sh """
+                            shopt -s extglob
+                            shopt
+                            pulls=$(curl -sG https://api.github.com/repos/BlueBrain/spack/pulls|python -c 'import json,sys;print("|".join(str(p["number"]) for p in json.load(sys.stdin)))')
+                            echo ${DEPLOYMENT_UPSTREAM}/pulls/!(\${pulls})
+                        """
+                    }
+                }
+            }
+        }
     }
 }
