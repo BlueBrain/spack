@@ -5,10 +5,12 @@ from spack.pkg.builtin.neurodamus_model import NeurodamusModel
 
 
 class NeurodamusHippocampus(NeurodamusModel):
-    """FIXME: Put a proper description of your package here."""
+    """Neurodamus with built-in Hippocampus model.
+    """
 
     homepage = "ssh://bbpcode.epfl.ch/sim/models/hippocampus"
     git      = "ssh://bbpcode.epfl.ch/sim/models/hippocampus"
 
-    version('master', git=git, branch='master')
+    version('develop', git=git, branch='master', submodules=True)
+    version('1.0', tag='1.0', submodules=True)
 

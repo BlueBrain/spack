@@ -5,20 +5,15 @@ from spack.pkg.builtin.neurodamus_model import NeurodamusModel
 
 
 class NeurodamusThalamus(NeurodamusModel):
-    """FIXME: Put a proper description of your package here."""
+    """Neurodamus with built-in Thalamus model
+    """
 
     homepage = "ssh://bbpcode.epfl.ch/sim/models/thalamus"
     git      = "ssh://bbpcode.epfl.ch/sim/models/thalamus"
 
-    version('master', git=git, branch='master')
-
-    resource(
-       name='neocortex',
-       git='ssh://bbpcode.epfl.ch/sim/models/neocortex',
-       branch='master',
-       destination='resources'
-    )
+    version('master', git=git, branch='master', submodules=True)
+    version('1.0', tag='1.0', submodules=True)
 
     # Override
-    _mod_srcs = ('resources/common/mod', 'resources/neocortex/mod', 'mod')
+    _mod_srcs = ('common/mod', 'deps/neocortex/mod', 'mod')
 

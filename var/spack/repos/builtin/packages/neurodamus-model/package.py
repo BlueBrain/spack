@@ -8,17 +8,10 @@ import sys
 
 
 class NeurodamusModel(Package):
-    """An 'abstract' base package for Simulation Models
+    """An 'abstract' base package for Simulation Models. Therefore no version.
+       Eventually in the future Models are independent entities, not tied to neurodamus
     """
-
     depends_on('neurodamus-core')
-
-    resource(
-       name='sim_models_common',
-       git='ssh://bbpcode.epfl.ch/sim/models/common',
-       branch='master',
-       destination='resources'
-    )
 
     variant('coreneuron', default=False, description="Enable CoreNEURON Support")
     variant('profile',    default=False, description="Enable profiling using Tau")
@@ -71,9 +64,9 @@ class NeurodamusModel(Package):
 
     # These vars can be overriden by subclasses to specify additional sources
     # This is required since some models have several sources, e.g.: thalamus
-    _hoc_srcs = ('resources/common/hoc', 'hoc')
-    _mod_srcs = ('resources/common/mod', 'mod')
-
+    # By default they use common (which should come from submodule)
+    _hoc_srcs = ('common/hoc', 'hoc')
+    _mod_srcs = ('common/mod', 'mod')
 
     @staticmethod
     def copy_all(src, dst, copyfunc=shutil.copy):

@@ -6,12 +6,14 @@ import shutil
 
 
 class NeurodamusNeocortex(NeurodamusModel):
-    """FIXME: Put a proper description of your package here."""
+    """Neurodamus with built-in neocortex model
+    """
 
     homepage = "ssh://bbpcode.epfl.ch/sim/models/neocortex"
     git      = "ssh://bbpcode.epfl.ch/sim/models/neocortex"
 
-    version('master', git=git, branch='master')
+    version('develop', git=git, branch='master', submodules=True)
+    version('1.0',     git=git, tag='1.0', submodules=True)
 
     variant('v5', default=True, description='Enable support for previous v5 circuits')
 
