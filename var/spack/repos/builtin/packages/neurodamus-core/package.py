@@ -9,9 +9,9 @@ class NeurodamusCore(Package):
     """Library of channels developed by Blue Brain Project, EPFL"""
 
     homepage = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
-    url      = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
+    git      = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
 
-    version('develop', git=url, branch='master')
+    version('develop', git=git, branch='master')
     version('2.0.0', tag='2.0.0')
 
     def install(self, spec, prefix):
