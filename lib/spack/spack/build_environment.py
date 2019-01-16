@@ -143,13 +143,6 @@ def clean_environment():
     env.unset('DYLD_LIBRARY_PATH')
     env.unset('MAKEFLAGS')
 
-    build_lang = spack.config.get('config:build_language')
-    if build_lang:
-        # Override language-related variables. This can be used to force
-        # English compiler messages etc., which allows parse_log_events to
-        # show useful matches.
-        env.set('LC_ALL', build_lang)
-
     # Remove any macports installs from the PATH.  The macports ld can
     # cause conflicts with the built-in linker on el capitan.  Solves
     # assembler issues, e.g.:
