@@ -13,26 +13,22 @@ class NeurodamusModel(Package):
     """
     depends_on('neurodamus-core')
 
-    variant('coreneuron', default=False, description="Enable CoreNEURON Support")
-    variant('profile',    default=False, description="Enable profiling using Tau")
-    variant('python',     default=False, description="Enable Python Neurodamus")
-    variant('syntool',    default=True,  description="Enable Synapsetool reader")
-    variant('sonata',     default=False, description="Enable Synapsetool with Sonata")
-    variant('debug',      default=False, description="Compile in debug mode (-O0)")
+    variant('coreneuron',  default=False, description="Enable CoreNEURON Support")
+    variant('profile',     default=False, description="Enable profiling using Tau")
+    variant('synapsetool', default=True,  description="Enable Synapsetool reader")
+    variant('sonata',      default=False, description="Enable Synapsetool with Sonata")
 
-    depends_on("boost", when="+syntool")
-    depends_on("hdf5+mpi")
     depends_on("mpi")
+    depends_on("hdf5+mpi")
     depends_on("neuron+mpi")
-    depends_on("neuron+mpi+debug", when="+debug")
-
     depends_on('reportinglib')
-    depends_on('synapsetool+mpi', when='+syntool~sonata')
-    depends_on('synapsetool+mpi+sonata', when='+syntool+sonata')
-    # Indirect deps, req'ed if we use static libs
-    depends_on('zlib')
-    depends_on('boost@1.55:', when="+syntool")
-    depends_on('libsonata+mpi', when='+sonata')
+    depends_on('synapsetool+mpi', when='+synapsetool~sonata')
+    depends_on('synapsetool+mpi+sonata', when='+synapsetool+sonata')
+
+    # Note: With Spack chain we no longer require support for external libs
+    # which could bring dependencoies. However, in some setups (notably tests)
+    # Some libraries are still external so we bring these dependencies
+    depends_on('zlib')  # for hdf5
 
     depends_on('coreneuron', when='+coreneuron')
     depends_on('coreneuron+profile', when='+profile')
@@ -42,24 +38,11 @@ class NeurodamusModel(Package):
     depends_on('reportinglib+profile', when='+profile')
     depends_on('tau', when='+profile')
 
-    depends_on('python@2.7:',      type=('build', 'run'), when='+python')
-    depends_on('py-setuptools',    type=('build', 'run'), when='+python')
-    depends_on('py-h5py',          type=('build', 'run'), when='+python')
-    depends_on('py-numpy',         type=('build', 'run'), when='+python')
-    depends_on('py-enum34',        type=('build', 'run'), when='^python@2.4:2.7.999,3.1:3.3.999')
-    depends_on('py-lazy-property', type=('build', 'run'), when='+python')
-
-    # coreneuron support is available for plasticity model
-    # and requires python support in neuron
-    #conflicts('@hippocampus', when='+coreneuron')
-    #conflicts('@master', when='+coreneuron')
+    # ---
     conflicts('^neuron~python', when='+coreneuron')
-    conflicts('+sonata', when='~syntool')
+    conflicts('+sonata', when='~synapsetool')
 
-    # Note : to support neuron as external package where readline is not brought
-    # with correct library path
-    depends_on('readline')
-
+    # ---
     phases = ['merge_hoc_mod', 'build', 'install']
 
     # These vars can be overriden by subclasses to specify additional sources
@@ -77,18 +60,19 @@ class NeurodamusModel(Package):
 
     def merge_hoc_mod(self, spec, prefix):
         # First Initialize with core hoc / mods
-        copy_tree(spec['neurodamus-core'].prefix.hoc, 'hoclib')
-        copy_tree(spec['neurodamus-core'].prefix.mod, 'modlib')
+        copy_tree(spec['neurodamus-core'].prefix.hoc, '_merged_hoc')
+        copy_tree(spec['neurodamus-core'].prefix.mod, '_merged_mod')
         # Copy from the several sources
         for hoc_src in self._hoc_srcs:
-            self.copy_all(hoc_src, 'hoclib')
+            self.copy_all(hoc_src, '_merged_hoc')
         for mod_src in self._mod_srcs:
-            self.copy_all(mod_src, 'modlib')
+            self.copy_all(mod_src, '_merged_mod')
 
     def build(self, spec, prefix):
-        """ Build mod files from m dir
+        """ Build mod files from m dir with nrnivmodl
+            To support shared libs, nrnivmodl is also passed RPATH flags.
         """
-        force_symlink('modlib', 'm')
+        force_symlink('_merged_mod', 'm')
         dep_libs = ['reportinglib', 'hdf5',  'zlib']
         profile_flag = '-DENABLE_TAU_PROFILER' if '+profile' in spec else ''
 
@@ -97,7 +81,7 @@ class NeurodamusModel(Package):
         include_flag = ' -I%s -I%s %s' % (spec['reportinglib'].prefix.include,
                                           spec['hdf5'].prefix.include,
                                           profile_flag)
-        if '+syntool' in spec:
+        if '+synapsetool' in spec:
             include_flag += ' -DENABLE_SYNTOOL -I ' + spec['synapsetool'].prefix.include
             dep_libs.append('synapsetool')
         if '+coreneuron' in spec:
@@ -110,7 +94,7 @@ class NeurodamusModel(Package):
                 link_flag += " %s %s" % (spec[dep].libs.rpath_flags, spec[dep].libs.ld_flags)
             else:
                 link_flag += " " + spec[dep].libs.joined()
-        if spec.satisfies('+syntool') and spec.satisfies('^synapsetool~shared'):
+        if spec.satisfies('+synapsetool') and spec.satisfies('^synapsetool~shared'):
             link_flag += ' ' + spec['synapsetool'].package.dependency_libs(spec).joined()
 
         nrnivmodl = which('nrnivmodl')
@@ -120,18 +104,15 @@ class NeurodamusModel(Package):
         assert os.path.isfile(special)
 
     def install(self, spec, prefix):
-        """ Move libs to destination.
-            Libs are sym-linked. Compiled libs into libs, special into bin
+        """ Move hoc and mod libs to lib,
+            generated mod.c files into lib/modc.
+            "libnrnmech.so" (if exists) to lib and "special" to bin.
         """
         mkdirp(prefix.lib)
-        shutil.move('modlib', prefix.lib.mod)
-        shutil.move('hoclib', prefix.lib.hoc)
+        shutil.move('_merged_hoc', prefix.lib.hoc)
+        ghutil.move('_merged_mod', prefix.lib.mod)
         os.makedirs(prefix.lib.modc)
         os.makedirs(prefix.bin)
-
-        if spec.satisfies('+python'):
-            # assert  os.path.isdir(neurodamus_core.python)
-            os.symlink(spec['neurodamus-core'].prefix.python, prefix.python)
 
         arch = os.path.basename(self.neuron_archdir)
         shutil.move(join_path(arch, 'special'), prefix.bin)
@@ -149,13 +130,6 @@ class NeurodamusModel(Package):
     def setup_environment(self, spack_env, run_env):
         run_env.prepend_path('PATH', self.prefix.bin)
         run_env.set('HOC_LIBRARY_PATH', self.prefix.lib.hoc)
-        if os.path.isdir(self.prefix.python):
-            for m in spack_env.env_modifications:
-                if m.name == 'PYTHONPATH':
-                    run_env.prepend_path('PYTHONPATH', m.value)
-            run_env.prepend_path('PYTHONPATH', self.prefix.python)
-            run_env.set('NEURODAMUS_PYTHON', self.prefix.python)
-
 
 @contextmanager
 def profiling_wrapper_on():
