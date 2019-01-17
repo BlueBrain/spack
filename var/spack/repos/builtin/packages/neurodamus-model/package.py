@@ -110,7 +110,7 @@ class NeurodamusModel(Package):
         """
         mkdirp(prefix.lib)
         shutil.move('_merged_hoc', prefix.lib.hoc)
-        ghutil.move('_merged_mod', prefix.lib.mod)
+        shutil.move('_merged_mod', prefix.lib.mod)
         os.makedirs(prefix.lib.modc)
         os.makedirs(prefix.bin)
 
