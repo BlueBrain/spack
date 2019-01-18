@@ -17,11 +17,14 @@ class NeurodamusModel(Package):
     variant('profile',     default=False, description="Enable profiling using Tau")
     variant('synapsetool', default=True,  description="Enable Synapsetool reader")
     variant('sonata',      default=False, description="Enable Synapsetool with Sonata")
+    variant('plasticity',  default=False, description="Use optimized ProbAMPANMDA_EMS and ProbGABAAB_EMS")
 
     depends_on("mpi")
     depends_on("hdf5+mpi")
     depends_on("neuron+mpi")
     depends_on('reportinglib')
+    depends_on('coreneuron', when='+coreneuron')
+    depends_on('coreneuron@plasticity', when='@plasicity')
     depends_on('synapsetool+mpi', when='+synapsetool~sonata')
     depends_on('synapsetool+mpi+sonata', when='+synapsetool+sonata')
 
@@ -30,15 +33,12 @@ class NeurodamusModel(Package):
     # Some libraries are still external so we bring these dependencies
     depends_on('zlib')  # for hdf5
 
-    depends_on('coreneuron', when='+coreneuron')
+    # Profiling
     depends_on('coreneuron+profile', when='+profile')
-    depends_on('coreneuron@plasticity', when='@plasicity')
-
     depends_on('neuron+profile', when='+profile')
     depends_on('reportinglib+profile', when='+profile')
     depends_on('tau', when='+profile')
 
-    # ---
     conflicts('^neuron~python', when='+coreneuron')
     conflicts('+sonata', when='~synapsetool')
 
@@ -62,6 +62,10 @@ class NeurodamusModel(Package):
         # First Initialize with core hoc / mods
         copy_tree(spec['neurodamus-core'].prefix.hoc, '_merged_hoc')
         copy_tree(spec['neurodamus-core'].prefix.mod, '_merged_mod')
+
+        if spec.satisfies('+plasticity'):
+            self.copy_all('common/mod/optimized', 'common/mod')
+
         # Copy from the several sources
         for hoc_src in self._hoc_srcs:
             self.copy_all(hoc_src, '_merged_hoc')
@@ -125,11 +129,27 @@ class NeurodamusModel(Package):
         if os.path.exists(arch + "/.libs/libnrnmech.so"):
             shutil.move(arch + "/.libs/libnrnmech.so", prefix.lib)
             sed = which('sed')
-            sed('-i', 's#-dll .*#-dll %s#' % prefix.lib.join('libnrnmech.so'), prefix.bin.special)
+            sed('-i', 's#-dll .*#-dll %s#' % prefix.lib.join('libnrnmech.so'),
+                prefix.bin.special)
+
+        py_src = spec['neurodamus-core'].prefix.python
+        if os.path.isdir(py_src):
+            # We link important stuff only and create the lib link
+            os.makedirs(prefix.python)
+            force_symlink('../lib', prefix.python.lib)
+            for name in ('neurodamus', 'init.py', '_debug.py'):
+                os.symlink(py_src.join(name), prefix.python.join(name))
 
     def setup_environment(self, spack_env, run_env):
         run_env.prepend_path('PATH', self.prefix.bin)
         run_env.set('HOC_LIBRARY_PATH', self.prefix.lib.hoc)
+
+        if os.path.isdir(self.prefix.python):
+            for m in spack_env.env_modifications:
+                if m.name == 'PYTHONPATH':
+                    run_env.prepend_path('PYTHONPATH', m.value)
+            run_env.prepend_path('PYTHONPATH', self.prefix.python)
+            run_env.set('NEURODAMUS_PYTHON', self.prefix.python)
 
 @contextmanager
 def profiling_wrapper_on():
