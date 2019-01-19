@@ -13,7 +13,7 @@ class NeurodamusNeocortex(NeurodamusModel):
     git      = "ssh://bbpcode.epfl.ch/sim/models/neocortex"
 
     version('develop', git=git, branch='master', submodules=True)
-    version('1.0', tag='1.0', submodules=True)
+    version('1.1', tag='1.1', submodules=True)
 
     variant('v5', default=True, description='Enable support for previous v5 circuits')
 
