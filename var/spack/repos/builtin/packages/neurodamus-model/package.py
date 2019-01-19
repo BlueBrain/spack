@@ -28,12 +28,11 @@ class NeurodamusModel(Package):
     depends_on('synapsetool+mpi', when='+synapsetool~sonata')
     depends_on('synapsetool+mpi+sonata', when='+synapsetool+sonata')
 
-    # Note: With Spack chain we no longer require support for external libs
-    # which could bring dependencoies. However, in some setups (notably tests)
-    # Some libraries are still external so we bring these dependencies
+    # NOTE: With Spack chain we no longer require support for external libs.
+    # However, in some setups (notably tests) some libraries might still be
+    # specificed as external and, if static, and we must bring their dependencies.
     depends_on('zlib')  # for hdf5
 
-    # Profiling
     depends_on('coreneuron+profile', when='+profile')
     depends_on('neuron+profile', when='+profile')
     depends_on('reportinglib+profile', when='+profile')
@@ -108,9 +107,9 @@ class NeurodamusModel(Package):
         assert os.path.isfile(special)
 
     def install(self, spec, prefix):
-        """ Move hoc and mod libs to lib,
-            generated mod.c files into lib/modc.
-            "libnrnmech.so" (if exists) to lib and "special" to bin.
+        """ Move hoc, mod and libnrnmech.so to lib, generated mod.c's into lib/modc.
+            Find and move "special" to bin.
+            If neurodamus-core comes with python, create links to it.
         """
         mkdirp(prefix.lib)
         shutil.move('_merged_hoc', prefix.lib.hoc)
@@ -132,9 +131,9 @@ class NeurodamusModel(Package):
             sed('-i', 's#-dll .*#-dll %s#' % prefix.lib.join('libnrnmech.so'),
                 prefix.bin.special)
 
+        # PY: Link only important stuff, and create a new lib link (to our lib)
         py_src = spec['neurodamus-core'].prefix.python
         if os.path.isdir(py_src):
-            # We link important stuff only and create the lib link
             os.makedirs(prefix.python)
             force_symlink('../lib', prefix.python.lib)
             for name in ('neurodamus', 'init.py', '_debug.py'):
