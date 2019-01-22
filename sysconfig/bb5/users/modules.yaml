@@ -37,6 +37,8 @@ modules:
       - neuron
       - neurodamus
       - neurodamus-neocortex
+      - neurodamus-hippocampus
+      - neurodamus-thalamus
       - parquet-converters
       - python
       - reportinglib
