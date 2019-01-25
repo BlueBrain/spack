@@ -36,6 +36,7 @@ packages:
       - functionalizer@3.11.0
       - functionalizer@3.12.0
       - touchdetector@4.3.3
+      - touchdetector@4.3.4
 
   gnu-stable-parallel-python:
     target_matrix:
