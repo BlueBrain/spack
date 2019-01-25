@@ -35,6 +35,7 @@ packages:
     specs:
       - functionalizer@3.11.0
       - functionalizer@3.12.0
+      - touchdetector@4.3.4
       - touchdetector@4.3.3
 
   gnu-stable-parallel-python:
