@@ -10,10 +10,10 @@ def getDistroName():
     distro = platform.linux_distribution()
     name = distro[0]
     if name.startswith('Red'):
-        short_name = 'Redhat'
+        name = 'Redhat'
     elif name.startswith('Ubuntu'):
-        short_name = 'Ubuntu'
-    return short_name
+        name = 'Ubuntu'
+    return name
 
 class AllineaForge(Package):
     """Allinea Forge is the complete toolsuite for software development - with
@@ -36,18 +36,20 @@ class AllineaForge(Package):
     license_vars = ['ALLINEA_LICENCE_FILE', 'ALLINEA_LICENSE_FILE']
     license_url = 'http://www.allinea.com/user-guide/forge/Installation.html'
 
-    def url_for_version(self, version): 
+    conflicts('platform=darwin')
+
+    def url_for_version(self, version):
         url = "http://content.allinea.com/downloads/arm-forge-{0}-{1}-x86_64.tar"
         # TODO: add support for other architectures/distributions/distroversions
         distro = getDistroName()
-        
+
         if distro == 'Ubuntu':
             checksums = {
                 Version('latest'): 'd8396b046e9b7f4241d69466f6155790',
                 Version('19.0.1'): '67f6f05352ee9991acb844e032282b09',
                 Version('19.0'): 'bf032f88c9294d839790886f83e9ce20',
                 Version('18.3'): 'a1a3b1c6409881e1051bb5de66eaa9f2'
-            } 
+            }
             self.versions[version] = {'checksum': checksums[version]}
             return url.format(version, 'Ubuntu-16.04')
         return url.format(version, 'Redhat-7.0')
