@@ -10,9 +10,9 @@ class PyHumanize(PythonPackage):
     """Python package that contains humanization utilities"""
 
     homepage = "https://github.com/jmoiron/humanize"
-    url      = "git@github.com:jmoiron/humanize.git"
+    url      = "https://github.com/jmoiron/humanize.git"
 
-    version('develop', git=url, branch='master', preferred=True)
-    version('0.5.1', git=url, tag='0.5.1')
+    version('develop', git=url, branch='master')
+    version('0.5.1', git=url, tag='0.5.1', preferred=True)
 
     depends_on('py-setuptools', type=('build', 'run'))
