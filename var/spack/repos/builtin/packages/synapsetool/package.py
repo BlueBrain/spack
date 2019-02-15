@@ -90,7 +90,3 @@ class Synapsetool(CMakePackage):
             args.append('-DSYNTOOL_WITH_SONATA:BOOL=ON')
 
         return args
-
-    def setup_environment(self, spack_env, run_env):
-        spack_env.unset('LC_ALL')
-
