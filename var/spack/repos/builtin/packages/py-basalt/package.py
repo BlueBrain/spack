@@ -6,14 +6,14 @@
 from spack import *
 
 
-class Basalt(PythonPackage):
+class PyBasalt(PythonPackage):
     """C++11 Graph Storage library with Python interface"""
 
     homepage = "https://github.com/tristan0x/basalt"
     url      = "git@github.com:tristan0x/basalt.git"
     
-    version('develop', git=url, branch='master', submodules=True)
-    version('0.1.1', git=url, tag='v0.1.1', submodules=True, preferred=True)
+    version('develop', git=url, branch='master', submodules=True, clean=False)
+    version('0.1.1', git=url, tag='v0.1.1', submodules=True, preferred=True, clean=False)
 
     depends_on('py-setuptools', type=('build', 'run'))
     depends_on('rocksdb~static')
@@ -22,7 +22,7 @@ class Basalt(PythonPackage):
     depends_on('py-progress', type=('build', 'run'))
     depends_on('py-docopt', type=('build', 'run'))
     depends_on('py-cached-property', type=('build', 'run'))
-    depends_on('py-h5py', type=('build', 'run'))
+    depends_on('py-h5py~mpi', type=('build', 'run'))
     depends_on('py-humanize', type=('build', 'run'))
     depends_on('py-numpy', type=('build', 'run'))
     depends_on('benchmark')
