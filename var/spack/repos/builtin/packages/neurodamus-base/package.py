@@ -41,3 +41,6 @@ class NeurodamusBase(Package):
         shutil.copytree('lib', prefix.lib)
         if os.path.isdir('python'):
             shutil.copytree('python', prefix.python)
+
+    def setup_environment(self, spack_env, run_env):
+        spack_env.unset('LC_ALL')
