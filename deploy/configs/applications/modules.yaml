@@ -29,6 +29,7 @@ modules:
     whitelist:
       - brainbuilder
       - functionalizer
+      - jinja2-cli
       - 'neurodamus%intel'
       #- 'neuron+mpi%intel'
       - parquet-converters
