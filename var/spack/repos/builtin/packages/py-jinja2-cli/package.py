@@ -6,7 +6,7 @@
 from spack import *
 
 
-class Jinja2Cli(PythonPackage):
+class PyJinja2Cli(PythonPackage):
     """A CLI interface to Jinja2"""
 
     homepage = "https://github.com/mattrobenolt/jinja2-cli"
