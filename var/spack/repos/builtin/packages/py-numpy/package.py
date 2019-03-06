@@ -140,6 +140,7 @@ class PyNumpy(PythonPackage):
         return args
 
     def setup_environment(self, spack_env, run_env):
+        # Quick fix for the cases when python/numpy are external packages
         if not 'python' in self.spec:
             return
         python_version = self.spec['python'].version.up_to(2)
