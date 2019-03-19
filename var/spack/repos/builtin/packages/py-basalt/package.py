@@ -14,7 +14,7 @@ class PyBasalt(PythonPackage):
     
     version('develop', git=url, branch='master', submodules=True, clean=False)
     version('0.2.2', git=url, tag='v0.2.2', submodules=True, preferred=True, clean=False)
-    version('0.2.1', git=url, tag='v0.2.1', submodules=True, preferred=True, clean=False)
+    version('0.2.1', git=url, tag='v0.2.1', submodules=True, clean=False)
     version('0.1.1', git=url, tag='v0.1.1', submodules=True, clean=False)
 
     depends_on('benchmark', type='build')
