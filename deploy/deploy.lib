@@ -604,6 +604,11 @@ EOF
         # fi
     else
         log "no specs to install?"
+        cat > "${HOME}/stack.xml" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+</testsuites>
+EOF
     fi
 
     mkdir -p "${WORKSPACE:-.}/stacks"
