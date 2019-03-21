@@ -569,7 +569,7 @@ EOF
     log "gathering specs"
     spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
 
-    # SPEC CHECK
+    # Only perform installation for actionable items
     if [[ -n "${spec_list}" ]]; then
         log "found the following uninstalled specs"
         echo "${spec_list}"
@@ -588,7 +588,7 @@ EOF
         # use all specs to get the right unit test setup
         install_start=$(date "+%Y-%m-%d %H:%M:%S")
         log "running installation for all specs"
-        spack install -y --log-format=junit --log-file="${HOME}/stack.xml" $(< "${HOME}/specs.txt")
+        spack install -y --log-format=junit --log-file="${HOME}/stack.xml" ${spec_list}
 
         # BUILD CACHE
         populate_build_cache "${install_start}"
