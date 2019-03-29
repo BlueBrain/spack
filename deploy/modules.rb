@@ -16,8 +16,8 @@ end
 dumped = false
 File.foreach('configs/applications/modules.yaml') do |line|
     if line =~ /^\s*whitelist:\s*$/../^\s*blacklist:\s*$/
-      if /^(?<prefix>\s*-\s*)(?<quote>['"]?)(?<pkg>.*)\k<quote>$/ =~ line
-        if not dumped
+      if /^(?<prefix>\s*-\s*)(?<quote>['"]?)(?:.*)\k<quote>$/ =~ line
+        unless dumped
           environ.sort.each do |pkg|
             puts "#{prefix}#{pkg}"
           end
