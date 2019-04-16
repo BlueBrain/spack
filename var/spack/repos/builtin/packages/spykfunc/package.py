@@ -50,7 +50,8 @@ class Spykfunc(PythonPackage):
     # accessible. Add explicit dependency for now.
     depends_on('java@8', type=('build', 'run'))
 
-    depends_on('mvdtool~mpi')
+    depends_on('mvdtool~mpi', when='@:0.13.1')
+    depends_on('mvdtool~mpi+python', type=('build', 'run'), when='@0.13.2:')
 
     depends_on('python@3.6:')
     depends_on('py-cython', type='run')
@@ -73,6 +74,7 @@ class Spykfunc(PythonPackage):
     depends_on('py-progress', type=('build', 'run'))
     depends_on('py-pyarrow+parquet', type=('build', 'run'))
     depends_on('py-pyspark@2.3.2rc2:', type=('build', 'run'))
+    depends_on('py-pytables', type=('build', 'run'), when='@0.13.3:')
     depends_on('py-sparkmanager', type=('build', 'run'))
 
     def setup_environment(self, spack_env, run_env):
