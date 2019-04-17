@@ -74,7 +74,6 @@ class Spykfunc(PythonPackage):
     depends_on('py-progress', type=('build', 'run'))
     depends_on('py-pyarrow+parquet', type=('build', 'run'))
     depends_on('py-pyspark@2.3.2rc2:', type=('build', 'run'))
-    depends_on('py-pytables', type=('build', 'run'), when='@0.13.3:')
     depends_on('py-sparkmanager', type=('build', 'run'))
 
     def setup_environment(self, spack_env, run_env):
