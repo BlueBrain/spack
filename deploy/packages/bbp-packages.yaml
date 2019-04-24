@@ -92,6 +92,8 @@ packages:
       - py-bluepymm@0.6.38 ^neuron~mpi
       - py-bluepyopt@1.6.56 ^neuron~mpi
       - py-efel@3.0.22
+      - py-bglibpy
+
 
   #### cellular ####
 
@@ -116,3 +118,4 @@ packages:
       - neurodamus-neocortex+coreneuron^coreneuron+knl
       - neurodamus-thalamus+coreneuron^coreneuron+knl
       - neurodamus-hippocampus+coreneuron^coreneuron+knl
+      - reportinglib
