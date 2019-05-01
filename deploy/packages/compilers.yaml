@@ -36,3 +36,4 @@ packages:
       - intel@18.0.3
       - llvm@7.0.0
       - pgi+network+nvidia+mpi@18.4
+      - pgi+network+nvidia+mpi@19.4
