@@ -31,7 +31,7 @@ class Neuron(Package):
     version('7.3', '993e539cb8bf102ca52e9fefd644ab61')
     version('7.2', '5486709b6366add932e3a6d141c4f7ad')
 
-    variant('binary',        default=True,  description="Create special as a binary instead of shell script")
+    variant('binary',        default=False, description="Create special as a binary instead of shell script")
     variant('coreneuron',    default=True,  description="Patch hh.mod for CoreNEURON compatibility")
     variant('cross-compile', default=False, description='Build for cross-compile environment')
     variant('debug',         default=False, description='Build debug with O0')
