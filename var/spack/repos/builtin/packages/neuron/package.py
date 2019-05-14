@@ -251,6 +251,8 @@ class Neuron(Package):
         if self.spec.satisfies('+pysetup'):
             run_env.prepend_path('PYTHONPATH', self.spec.prefix.lib64.python)
             run_env.prepend_path('PYTHONPATH', self.spec.prefix.lib.python)
+        if self.spec.satisfies('+mpi'):
+            run_env.set('MPICC_CC', self.compiler.cc)
 
     def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
         neuron_archdir = self.get_neuron_archdir()

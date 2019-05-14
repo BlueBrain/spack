@@ -79,10 +79,10 @@ packages:
     specs:
       - zee@develop
 
-  gnu-stable-lapack-python:
+  intel-stable-lapack-python:
     target_matrix:
-      - gnu-stable
-      - gnu-stable-py2
+      - intel-stable
+      - intel-stable-py2
     requires:
       - architecture
       - compiler
