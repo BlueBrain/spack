@@ -21,7 +21,6 @@ packages:
       - python
     specs:
       - arrow+parquet+python@0.11.0
-      - neuron~mpi
 
   gnu-stable-serial-python3:
     target_matrix:
@@ -36,6 +35,7 @@ packages:
   intel-stable-serial-python:
     target_matrix:
       - intel-stable
+      - intel-stable-py2
     requires:
       - architecture
       - compiler
