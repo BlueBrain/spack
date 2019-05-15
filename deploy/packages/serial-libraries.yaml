@@ -31,16 +31,6 @@ packages:
       - python
     specs:
       - tensorflow@1.12.0+cuda
-
-  intel-stable-serial-python:
-    target_matrix:
-      - intel-stable
-      - intel-stable-py2
-    requires:
-      - architecture
-      - compiler
-      - python
-    specs:
       - neuron~mpi
 
   gnu-intel-stable-serial:
