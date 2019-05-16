@@ -59,8 +59,6 @@ intel-stable-py2:
   python:
   - python@2.7.15
 
-
-
 # stable intel knl toolchain
 intel-knl-stable:
   architecture:
