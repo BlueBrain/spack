@@ -74,7 +74,7 @@ packages:
             ncurses@5.9: /usr
         version: [5.9]
     neuron:
-        variant: +cross-compile
+        variants: +cross-compile
     # can not be installed with python 3
     node-js:
         paths:
