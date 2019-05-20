@@ -52,7 +52,10 @@ packages:
       - compiler
     specs:
       - boost
+      - eigen
+      - fmt
       - gmsh
       - hdf5~mpi
       - highfive~mpi
+      - pugixml
       - rocksdb~static
