@@ -84,10 +84,27 @@ class NeurodamusModel(SimModel):
         self.mech_name += self._lib_suffix
         self._build_mods('mod', link_flag, include_flag, 'mod_core')
 
-        # Store flags
-        self._incflags  = "-incflags '{}'\n".format(include_flag)
-        self._loadflags = "-loadflags '{}'\n".format(link_flag)
+        # Create rebuild script
+        with open("build_neurodamus.sh", "w") as f:
+            f.write("""#!/bin/sh
+set -e
+if [ "$#" -eq 0 ]; then
+    echo "******* Neurodamus builder *******"
+    echo "Syntax:"
+    echo "$0 <mods_dir> [add_include_flags] [add_link_flags]"
+    echo
+    echo "NOTE: mods_dir is literally passed to nrnivmodl. If you only have the mechanism mods"
+    echo " and wish to build neurodamus you need to include the neurodamus-specific mods."
+    echo " Under \$NEURODAMUS_ROOT/share you'll find the whole set of original mod files,"
+    echo " as well as the neurodamus-specific mods alone. You may copy/link them into your directory."
+    exit 1
+fi
 
+# run with nrnivmodl in path
+'{}' -incflags '{} '"$2" -loadflags '{} '"$3" "$1"
+""".format(str(which('nrnivmodl')), include_flag, link_flag))
+        os.chmod("build_neurodamus.sh", 0o770)
+    
     def install(self, spec, prefix):
         """Install phase.
 
@@ -104,7 +121,13 @@ class NeurodamusModel(SimModel):
             install = which('nrnivmech_install.sh', path=".")
             install(prefix)
 
-        self._install_src(prefix)  # Will move mods. Must not happen before
+        # Install mods/hocs, and a builder script
+        self._install_src(prefix)
+        shutil.move("build_neurodamus.sh", prefix.bin)
+
+        # Create mods links in share
+        force_symlink(spec['neurodamus-core'].prefix.mod, prefix.share.mod_neurodamus)
+        force_symlink(prefix.lib.mod, prefix.share.mod_full)
 
         if spec.satisfies('+python'):
             py_src = spec['neurodamus-core'].prefix.python
@@ -119,12 +142,7 @@ class NeurodamusModel(SimModel):
     def setup_environment(self, spack_env, run_env):
         SimModel.setup_environment(self, spack_env, run_env)
         run_env.set('HOC_LIBRARY_PATH', self.prefix.lib.hoc)
-        run_env.set('NEURON_INIT_MPI', "1")  # Always Init MPI (support python)
-
-	# TODO: This is very fragile. The vars only exist if we compiled.
-        if hasattr(self, '_incflags'):
-            run_env.set('ND_INCFLAGS', self._incflags)
-            run_env.set('ND_LOADFLAGS', self._loadflags)
+        # run_env.set('NEURON_INIT_MPI', "1")  # Always Init MPI (support python)
 
         if self.spec.satisfies("+python"):
             pylib = self.prefix.lib.python
