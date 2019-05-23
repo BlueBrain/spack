@@ -6,6 +6,26 @@ import shutil
 import os
 
 
+_REBUILD_NEURODAMUS_TPL = """#!/bin/sh
+set -e
+if [ "$#" -eq 0 ]; then
+    echo "******* Neurodamus builder *******"
+    echo "Syntax:"
+    echo "$0 <mods_dir> [add_include_flags] [add_link_flags]"
+    echo
+    echo "NOTE: mods_dir is literally passed to nrnivmodl. If you only have the mechanism mods"
+    echo " and wish to build neurodamus you need to include the neurodamus-specific mods."
+    echo " Under \$NEURODAMUS_ROOT/share you'll find the whole set of original mod files, as"
+    echo " well as the neurodamus-specific mods alone. You may copy/link them into your directory."
+    exit 1
+fi
+
+# run with nrnivmodl in path
+set -x
+'{nrnivmodl}' -incflags '{incflags} '"$2" -loadflags '{loadflags} '"$3" "$1"
+"""
+
+
 class NeurodamusModel(SimModel):
     """An 'abstract' base package for Simulation Models. Therefore no version.
        Eventually in the future Models are independent entities, not tied to neurodamus
@@ -86,25 +106,11 @@ class NeurodamusModel(SimModel):
 
         # Create rebuild script
         with open("build_neurodamus.sh", "w") as f:
-            f.write("""#!/bin/sh
-set -e
-if [ "$#" -eq 0 ]; then
-    echo "******* Neurodamus builder *******"
-    echo "Syntax:"
-    echo "$0 <mods_dir> [add_include_flags] [add_link_flags]"
-    echo
-    echo "NOTE: mods_dir is literally passed to nrnivmodl. If you only have the mechanism mods"
-    echo " and wish to build neurodamus you need to include the neurodamus-specific mods."
-    echo " Under \$NEURODAMUS_ROOT/share you'll find the whole set of original mod files,"
-    echo " as well as the neurodamus-specific mods alone. You may copy/link them into your directory."
-    exit 1
-fi
-
-# run with nrnivmodl in path
-'{}' -incflags '{} '"$2" -loadflags '{} '"$3" "$1"
-""".format(str(which('nrnivmodl')), include_flag, link_flag))
+            f.write(_REBUILD_NEURODAMUS_TPL.format(nrnivmodl=str(which('nrnivmodl')),
+                                                   incflags=include_flag,
+                                                   loadflags=link_flag))
         os.chmod("build_neurodamus.sh", 0o770)
-    
+
     def install(self, spec, prefix):
         """Install phase.
 
@@ -142,7 +148,6 @@ fi
     def setup_environment(self, spack_env, run_env):
         SimModel.setup_environment(self, spack_env, run_env)
         run_env.set('HOC_LIBRARY_PATH', self.prefix.lib.hoc)
-        # run_env.set('NEURON_INIT_MPI', "1")  # Always Init MPI (support python)
 
         if self.spec.satisfies("+python"):
             pylib = self.prefix.lib.python
@@ -151,4 +156,3 @@ fi
                     run_env.prepend_path('PYTHONPATH', m.value)
             run_env.prepend_path('PYTHONPATH', pylib)
             run_env.set('NEURODAMUS_PYTHON', pylib)
-
