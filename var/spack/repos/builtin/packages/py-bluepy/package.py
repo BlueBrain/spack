@@ -30,8 +30,8 @@ class PyBluepy(PythonPackage):
     depends_on('py-six@1.0:', type='run')
     depends_on('py-sqlalchemy@1.0:', type='run')
 
-    depends_on('libsonata+python', type='run')
     depends_on('py-bluepy-configfile@0.1:', type='run')
+    depends_on('py-libsonata@0.0.2:', type='run')
 
     # TODO: remove once legacy dependencies are removed from BluePy
     def patch(self):
