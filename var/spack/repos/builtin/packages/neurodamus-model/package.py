@@ -145,7 +145,7 @@ set -e
 if [ "$#" -eq 0 ]; then
     echo "******* Neurodamus builder *******"
     echo "Syntax:"
-    echo "$0 <mods_dir> [add_include_flags] [add_link_flags]"
+    echo "$(basename $0) <mods_dir> [add_include_flags] [add_link_flags]"
     echo
     echo "NOTE: mods_dir is literally passed to nrnivmodl. If you only have the mechanism mods"
     echo " and wish to build neurodamus you need to include the neurodamus-specific mods."
