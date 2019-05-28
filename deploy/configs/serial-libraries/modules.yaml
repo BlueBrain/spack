@@ -31,6 +31,7 @@ modules:
       - gmsh
       - hdf5~mpi
       - highfive~mpi
+      - julia@0.6.2
       - neuron
       - python-dev
       - 'tensorflow@1.12.0'
