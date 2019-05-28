@@ -40,6 +40,7 @@ modules:
       - imb
       - intel-mpi
       - ispc
+      - julia@0.6.2
       - likwid
       - lmod
       - mvapich2
