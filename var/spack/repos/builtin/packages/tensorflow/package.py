@@ -28,7 +28,8 @@ class Tensorflow(Package):
     depends_on('swig',                          type='build')
 
     # old tensorflow needs old bazel
-    depends_on('bazel@0.15.0',                  type='build',          when='@1.12.0:')
+    depends_on('bazel@0.19.2',                  type='build',          when='@1.13.1')
+    depends_on('bazel@0.15.0',                  type='build',          when='@1.12.0')
     depends_on('bazel@0.10.0',                  type='build',          when='@1.8.0:1.9.0')
     depends_on('bazel@0.9.0',                   type='build',          when='@1.5.0:1.6.0')
     depends_on('bazel@0.4.5',                   type='build',          when='@1.2.0:1.3.0')
