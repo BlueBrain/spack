@@ -33,7 +33,7 @@ modules:
       - highfive~mpi
       - neuron
       - python-dev
-      - tensorflow
+      - 'tensorflow@1.13.1'
     blacklist:
       - '%gcc'
       - '%intel'

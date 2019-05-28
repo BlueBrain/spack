@@ -31,7 +31,7 @@ packages:
       - compiler
       - python
     specs:
-      - tensorflow@1.12.0+cuda
+      - tensorflow@1.13.1+cuda
 
   gnu-intel-stable-serial:
     target_matrix:
