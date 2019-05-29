@@ -14,8 +14,8 @@ class Tensorflow(Package):
     homepage = "https://www.tensorflow.org"
     url      = "https://github.com/tensorflow/tensorflow/archive/v0.10.0.tar.gz"
 
-    version('1.13.1',    sha256='7cd19978e6bc7edc2c847bce19f95515a742b34ea5e28e4389dade35348f58ed', preferred=True)
-    version('1.12.0',    '48164180a2573e75f1c8dff492a550a0')
+    version('1.13.1',    sha256='7cd19978e6bc7edc2c847bce19f95515a742b34ea5e28e4389dade35348f58ed')
+    version('1.12.0',    '48164180a2573e75f1c8dff492a550a0', preferred=True)
     version('1.9.0',     '3426192cce0f8e070b2010e5bd5695cd')
     version('1.8.0',     'cd45874be9296644471dd43e7da3fbd0')
     version('1.6.0',     '6dc60ac37e49427cd7069968da42c1ac')
@@ -67,6 +67,8 @@ class Tensorflow(Package):
 
     variant('cuda', default=False,
             description='Enable CUDA Support')
+
+    variant('dummy', default=False, description='Dummy variant for re-build')
 
     depends_on('cuda', when='+cuda')
     depends_on('cudnn', when='+cuda')
