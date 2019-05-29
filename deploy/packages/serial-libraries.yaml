@@ -24,6 +24,16 @@ packages:
       - boost@1.65.0+python
       - neuron~mpi@7.6.6
 
+  gnu-stable-serial-python2:
+    target_matrix:
+      - gnu-stable-py2
+    requires:
+      - architecture
+      - compiler
+      - python
+    specs:
+      - julia@0.6.2+cxx~mpi+plot+python+simd
+
   gnu-stable-serial-python3:
     target_matrix:
       - gnu-stable
@@ -33,7 +43,6 @@ packages:
       - python
     specs:
       - tensorflow@1.12.0+cuda
-      - julia@0.6.2+cxx~mpi+plot+python+simd
 
   gnu-intel-stable-serial:
     target_matrix:
