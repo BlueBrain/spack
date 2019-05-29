@@ -32,7 +32,7 @@ packages:
       - compiler
       - python
     specs:
-      - julia@0.6.2+cxx~mpi+plot+python+simd
+      - julia@0.6.2~cxx~mpi+plot+python+simd
 
   gnu-stable-serial-python3:
     target_matrix:
