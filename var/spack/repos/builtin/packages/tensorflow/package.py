@@ -68,7 +68,7 @@ class Tensorflow(Package):
     variant('cuda', default=False,
             description='Enable CUDA Support')
 
-    variant('build_number', default='1',  description='Build number to trigger re-builds')
+    variant('deployment_build', default='1',  description='Build number for re-builds')
 
     depends_on('cuda', when='+cuda')
     depends_on('cudnn', when='+cuda')
