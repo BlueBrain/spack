@@ -21,6 +21,7 @@ packages:
       - compiler
       - python
     specs:
+      - archngv@0.0.0
       - brainbuilder@0.11.1
       - connectome-tools@0.3.2
       - spykfunc@0.13.2
@@ -52,17 +53,6 @@ packages:
       #- python
     specs:
       - placement-algorithm@2.0.8
-
-  gnu-stable-lapack-python-serial:
-    target_matrix:
-      - gnu-stable
-    requires:
-      - architecture
-      - compiler
-      - lapack
-      - python
-    specs:
-      - archngv@0.0.0
 
   #### sub-cellular ####
 
