@@ -77,6 +77,7 @@ packages:
       # - py-neo
       # - py-networkx
       # - py-nose
+      - py-munkres
       - py-neurom
       - py-pandas
       - py-perf
