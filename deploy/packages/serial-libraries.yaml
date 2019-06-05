@@ -21,6 +21,7 @@ packages:
       - python
     specs:
       - arrow+parquet+python@0.11.0
+      - boost+python
       - neuron~mpi@7.6.6
 
   gnu-stable-serial-python3:
