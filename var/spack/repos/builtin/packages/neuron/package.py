@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 import os
+import platform
 from spack import *
 from contextlib import contextmanager
 
@@ -49,6 +50,12 @@ class Neuron(Package):
     depends_on('flex',       type='build')
     depends_on('libtool',    type='build')
     depends_on('pkgconfig',  type='build')
+
+    # Preferably we should NOT depend on readline because it became incompatible with Mac and
+    # there is a neuron internal readline. HOWEVER without it Vector.as_numpy() doesnt work!
+    # TODO: Drop again when fixed in neuron
+    if platform.system() != "Darwin":
+        depends_on('readline')
 
     depends_on('mpi',         when='+mpi')
     depends_on('ncurses',     when='~cross-compile')
@@ -205,11 +212,19 @@ class Neuron(Package):
         options.extend(self.get_python_options(spec))
         options.extend(self.get_compilation_options(spec))
 
+        ld_flags = 'LDFLAGS='
+        # TODO: Drop this when neuron as_numpy() fixed
+        if 'readline' in spec:
+            options.append('--with-readline=' + spec['readline'].prefix)
+            ld_flags += ' -L{0.prefix.lib} {0.libs.rpath_flags}'.format(spec['readline'])
+
         # To support prompt (not cross-compile) use readline + ncurses
         if 'ncurses' in spec:
-            options.extend(['--with-readline=no',  # Use builtin readline
-                            'CURSES_LIBS={0.rpath_flags} {0.ld_flags}'.format(spec['ncurses'].libs),
+            options.extend(['CURSES_LIBS={0.rpath_flags} {0.ld_flags}'.format(spec['ncurses'].libs),
                             'CURSES_CFLAGS={}'.format(spec['ncurses'].prefix.include)])
+            ld_flags += ' -L{0.prefix.lib} {0.libs.rpath_flags}'.format(spec['ncurses'])
+
+        options.append(ld_flags)
 
         build = Executable('./build.sh')
         build()
