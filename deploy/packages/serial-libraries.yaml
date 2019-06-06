@@ -52,9 +52,9 @@ packages:
       - architecture
       - compiler
     specs:
-      - assimp
+      - assimp ^boost@1.65.0
       - boost
-      - deflect
+      - deflect ^boost@1.65.0
       - eigen
       - fmt
       - gmsh
