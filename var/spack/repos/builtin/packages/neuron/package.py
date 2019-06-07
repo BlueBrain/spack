@@ -60,6 +60,7 @@ class Neuron(Package):
     depends_on('mpi',         when='+mpi')
     depends_on('ncurses',     when='~cross-compile')
     depends_on('python@2.6:', when='+python', type=('build', 'link', 'run'))
+    depends_on('py-numpy',    when='+python', type='run')
     depends_on('tau',         when='+profile')
 
     conflicts('~shared',  when='+python')
@@ -217,6 +218,8 @@ class Neuron(Package):
         if 'readline' in spec:
             options.append('--with-readline=' + spec['readline'].prefix)
             ld_flags += ' -L{0.prefix.lib} {0.libs.rpath_flags}'.format(spec['readline'])
+        else:
+            options.append('--with-readline=no')
 
         # To support prompt (not cross-compile) use readline + ncurses
         if 'ncurses' in spec:
