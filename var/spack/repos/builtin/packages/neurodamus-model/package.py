@@ -93,6 +93,11 @@ class NeurodamusModel(SimModel):
                                                  loadflags=link_flag))
         os.chmod(_BUILD_NEURODAMUS_FNAME, 0o770)
 
+    def get_commit_hash(self):
+        fetcher = self.fetcher[0]
+        git_commit = fetcher.get_commit_hash()
+        return git_commit
+
     def install(self, spec, prefix):
         """Install phase.
 
@@ -126,6 +131,11 @@ class NeurodamusModel(SimModel):
             force_symlink('../../lib', py_dst.lib)
             for name in ('neurodamus', 'init.py', '_debug.py'):
                 force_symlink(py_src.join(name), py_dst.join(name))
+
+        filter_file(r'UNKNOWN_NEURODAMUS_MODEL', r'%s' % spec.name, prefix.lib.hoc.join('init.hoc'))
+        filter_file(r'UNKNOWN_NEURODAMUS_VERSION', r'%s' % spec.version, prefix.lib.hoc.join('init.hoc'))
+        git_commit_hash = self.get_commit_hash()
+        filter_file(r'UNKNOWN_NEURODAMUS_HASH', r'%s' % git_commit_hash, prefix.lib.hoc.join('init.hoc'))
 
     def setup_environment(self, spack_env, run_env):
         SimModel.setup_environment(self, spack_env, run_env)
