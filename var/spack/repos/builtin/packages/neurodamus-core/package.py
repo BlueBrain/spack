@@ -12,6 +12,7 @@ class NeurodamusCore(Package):
     git      = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
 
     version('develop', git=git, branch='master', clean=False)
+    version('test', git=git, branch='master', clean=False)
     version('2.3.3', git=git, tag='2.3.3', preferred=True, clean=False)
     version('2.2.1', git=git, tag='2.2.1', clean=False)
 
@@ -36,11 +37,6 @@ class NeurodamusCore(Package):
     depends_on('py-enum34',        type=('run',), when='^python@2.4:2.7.999,3.1:3.3.999')
     depends_on('py-lazy-property', type=('run'), when='+python')
 
-    def get_commit_hash(self):
-        fetcher = self.fetcher[0]
-        git_commit = fetcher.get_commit_hash()
-        return git_commit
-
     def install(self, spec, prefix):
         shutil.copytree('hoc', prefix.hoc)
         shutil.copytree('mod', prefix.mod)
@@ -50,9 +46,9 @@ class NeurodamusCore(Package):
             copy_all('resources/common/hoc', prefix.hoc)
             copy_all('resources/common/mod', prefix.mod)
 
-        filter_file(r'UNKNOWN_CORE_VERSION', r'%s' % spec.version, prefix.hoc.join('init.hoc'))
-        git_commit_hash = self.get_commit_hash()
-        filter_file(r'UNKNOWN_CORE_HASH', r'%s' % git_commit_hash, prefix.hoc.join('init.hoc'))
+        filter_file(r'UNKNOWN_CORE_VERSION', r'%s' % spec.version, prefix.hoc.join('defvar.hoc'))
+        git_commit_hash = self.fetcher[0].get_commit_hash()
+        filter_file(r'UNKNOWN_CORE_HASH', r'%s' % git_commit_hash, prefix.hoc.join('defvar.hoc'))
 
 def setup_environment(self, spack_env, run_env):
         run_env.set('HOC_LIBRARY_PATH', self.prefix.hoc)
