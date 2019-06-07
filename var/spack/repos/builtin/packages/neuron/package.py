@@ -60,7 +60,8 @@ class Neuron(Package):
     depends_on('mpi',         when='+mpi')
     depends_on('ncurses',     when='~cross-compile')
     depends_on('python@2.6:', when='+python', type=('build', 'link', 'run'))
-    depends_on('py-numpy',    when='+python', type='run')
+    # Numpy is required for Vector.as_numpy()
+    # depends_on('py-numpy',    when='+python', type='run')
     depends_on('tau',         when='+profile')
 
     conflicts('~shared',  when='+python')
