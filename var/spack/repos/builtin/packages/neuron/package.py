@@ -51,9 +51,8 @@ class Neuron(Package):
     depends_on('libtool',    type='build')
     depends_on('pkgconfig',  type='build')
 
-    # Preferably we should NOT depend on readline because it became incompatible with Mac and
-    # there is a neuron internal readline. HOWEVER without it Vector.as_numpy() doesnt work!
-    # TODO: Drop again when fixed in neuron
+    # Readline became incompatible with Mac so we use neuron internal readline.
+    # HOWEVER, with the internal version there is a bug which makes Vector.as_numpy() not work!
     if platform.system() != "Darwin":
         depends_on('readline')
 
@@ -215,8 +214,8 @@ class Neuron(Package):
         options.extend(self.get_compilation_options(spec))
 
         ld_flags = 'LDFLAGS='
-        # TODO: Drop this when neuron as_numpy() fixed
         if 'readline' in spec:
+            # Except in Mac we always depend on readline, which is anyway a python dependency
             options.append('--with-readline=' + spec['readline'].prefix)
             ld_flags += ' -L{0.prefix.lib} {0.libs.rpath_flags}'.format(spec['readline'])
         else:
