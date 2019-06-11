@@ -44,6 +44,8 @@ class Neuron(Package):
     variant('pysetup',       default=True,  description="Build Python module with setup.py")
     variant('rx3d',          default=False, description="Enable cython translated 3-d rxd. Depends on pysetup")
 
+    variant('deployment_build', default='1',  description='Build number for re-builds')
+
     depends_on('autoconf',   type='build')
     depends_on('automake',   type='build')
     depends_on('bison',      type='build')
