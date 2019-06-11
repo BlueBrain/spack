@@ -4,6 +4,7 @@ from spack import *
 from spack.pkg.builtin.sim_model import SimModel
 import shutil
 import os
+from spack.fetch_strategy import GitFetchStrategy
 
 # Definitions
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
@@ -93,6 +94,9 @@ class NeurodamusModel(SimModel):
                                                  loadflags=link_flag))
         os.chmod(_BUILD_NEURODAMUS_FNAME, 0o770)
 
+    def get_git_fetcher(self):
+        return next((fetcher for fetcher in self.fetcher if (isinstance(fetcher, GitFetchStrategy) and fetcher.url == self.git)), None)
+
     def install(self, spec, prefix):
         """Install phase.
 
@@ -129,8 +133,10 @@ class NeurodamusModel(SimModel):
 
         filter_file(r'UNKNOWN_NEURODAMUS_MODEL', r'%s' % spec.name, prefix.lib.hoc.join('defvar.hoc'))
         filter_file(r'UNKNOWN_NEURODAMUS_VERSION', r'%s' % spec.version, prefix.lib.hoc.join('defvar.hoc'))
-        git_commit_hash = self.fetcher[0].get_commit_hash()
-        filter_file(r'UNKNOWN_NEURODAMUS_HASH', r'%s' % git_commit_hash, prefix.lib.hoc.join('defvar.hoc'))
+        git_fetcher = self.get_git_fetcher()
+        if git_fetcher is not None:
+            git_commit_hash = git_fetcher.get_commit_hash()
+            filter_file(r'UNKNOWN_NEURODAMUS_HASH', r'%s' % git_commit_hash, prefix.lib.hoc.join('defvar.hoc'))
 
     def setup_environment(self, spack_env, run_env):
         SimModel.setup_environment(self, spack_env, run_env)
