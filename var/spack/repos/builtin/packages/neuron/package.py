@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 import os
-import platform
+import sys
 from spack import *
 from contextlib import contextmanager
 
@@ -53,8 +53,7 @@ class Neuron(Package):
 
     # Readline became incompatible with Mac so we use neuron internal readline.
     # HOWEVER, with the internal version there is a bug which makes Vector.as_numpy() not work!
-    if platform.system() != "Darwin":
-        depends_on('readline')
+    depends_on('readline', when=sys.platform != 'darwin')
 
     depends_on('mpi',         when='+mpi')
     depends_on('ncurses',     when='~cross-compile')
