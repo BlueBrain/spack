@@ -12,7 +12,8 @@ class NeurodamusCore(Package):
     git      = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
 
     version('develop', git=git, branch='master', clean=False)
-    version('2.3.3', git=git, tag='2.3.3', preferred=True, clean=False)
+    version('2.3.4', git=git, tag='2.3.4', clean=False, preferred=True)
+    version('2.3.3', git=git, tag='2.3.3', clean=False)
     version('2.2.1', git=git, tag='2.2.1', clean=False)
 
     variant('python', default=False, description="Enable Python Neurodamus")
