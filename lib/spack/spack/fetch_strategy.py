@@ -40,7 +40,6 @@ from spack.util.executable import which
 from spack.util.string import comma_and, quote
 from spack.version import Version, ver
 from spack.util.compression import decompressor_for, extension
-import subprocess
 
 #: List of all fetch strategies, created by FetchStrategy metaclass.
 all_strategies = []

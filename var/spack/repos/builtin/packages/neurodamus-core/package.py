@@ -38,7 +38,8 @@ class NeurodamusCore(Package):
     depends_on('py-lazy-property', type=('run'), when='+python')
 
     def get_git_fetcher(self):
-        return next((fetcher for fetcher in self.fetcher if (isinstance(fetcher, GitFetchStrategy) and fetcher.url == self.git)), None)
+        root_fetcher = self.fetcher[0]
+        return root_fetcher if isinstance(root_fetcher, GitFetchStrategy) else None
 
     def install(self, spec, prefix):
         shutil.copytree('hoc', prefix.hoc)

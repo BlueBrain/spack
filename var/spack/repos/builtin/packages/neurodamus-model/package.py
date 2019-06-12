@@ -95,7 +95,8 @@ class NeurodamusModel(SimModel):
         os.chmod(_BUILD_NEURODAMUS_FNAME, 0o770)
 
     def get_git_fetcher(self):
-        return next((fetcher for fetcher in self.fetcher if (isinstance(fetcher, GitFetchStrategy) and fetcher.url == self.git)), None)
+        root_fetcher = self.fetcher[0]
+        return root_fetcher if isinstance(root_fetcher, GitFetchStrategy) else None
 
     def install(self, spec, prefix):
         """Install phase.
