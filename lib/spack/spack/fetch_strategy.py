@@ -713,9 +713,8 @@ class GitFetchStrategy(VCSFetchStrategy):
         super(GitFetchStrategy, self).archive(destination, exclude='.git')
 
     def get_commit_hash(self):
-        git_exe = self.git.name
-        git_commit = subprocess.check_output([git_exe, 'rev-parse', 'HEAD']).split()
-        return git_commit
+        git_commit = self.git('rev-parse', 'HEAD', output=str)
+        return git_commit.strip()
 
     @_needs_stage
     def reset(self):

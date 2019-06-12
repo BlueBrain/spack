@@ -136,7 +136,7 @@ class NeurodamusModel(SimModel):
         git_fetcher = self.get_git_fetcher()
         if git_fetcher is not None:
             git_commit_hash = git_fetcher.get_commit_hash()
-            filter_file(r'UNKNOWN_NEURODAMUS_HASH', r'%s' % git_commit_hash, prefix.lib.hoc.join('defvar.hoc'))
+            filter_file(r'UNKNOWN_NEURODAMUS_HASH', r'\'%s\'' % git_commit_hash, prefix.lib.hoc.join('defvar.hoc'))
 
     def setup_environment(self, spack_env, run_env):
         SimModel.setup_environment(self, spack_env, run_env)

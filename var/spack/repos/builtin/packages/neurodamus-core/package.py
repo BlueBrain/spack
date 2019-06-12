@@ -12,7 +12,7 @@ class NeurodamusCore(Package):
     git      = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
 
     version('develop', git=git, branch='master', clean=False)
-    version('2.3.4', git=git, tag='2.3.4', clean=False, preferred=True)
+    version('2.3.4', git=git, tag='2.3.4', clean=False)
     version('2.3.3', git=git, tag='2.3.3', clean=False)
     version('2.2.1', git=git, tag='2.2.1', clean=False)
 
@@ -53,7 +53,7 @@ class NeurodamusCore(Package):
         git_fetcher = self.get_git_fetcher()
         if git_fetcher is not None:
             git_commit_hash = git_fetcher.get_commit_hash()
-            filter_file(r'UNKNOWN_CORE_HASH', r'%s' % git_commit_hash, prefix.hoc.join('defvar.hoc'))
+            filter_file(r'UNKNOWN_CORE_HASH', r'\'%s\'' % git_commit_hash, prefix.hoc.join('defvar.hoc'))
 
 def setup_environment(self, spack_env, run_env):
         run_env.set('HOC_LIBRARY_PATH', self.prefix.hoc)
