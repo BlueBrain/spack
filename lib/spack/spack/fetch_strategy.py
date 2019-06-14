@@ -711,9 +711,8 @@ class GitFetchStrategy(VCSFetchStrategy):
     def archive(self, destination):
         super(GitFetchStrategy, self).archive(destination, exclude='.git')
 
-    def get_commit_hash(self):
-        git_commit = self.git('rev-parse', 'HEAD', output=str)
-        return git_commit.strip()
+    def get_commit(self):
+        return self.git('rev-parse', 'HEAD', output=str).strip()
 
     @_needs_stage
     def reset(self):

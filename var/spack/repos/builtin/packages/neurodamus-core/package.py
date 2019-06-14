@@ -3,7 +3,7 @@
 from spack import *
 import os
 import shutil
-from spack.fetch_strategy import GitFetchStrategy
+import llnl.util.tty as tty
 
 class NeurodamusCore(Package):
     """Library of channels developed by Blue Brain Project, EPFL"""
@@ -37,10 +37,6 @@ class NeurodamusCore(Package):
     depends_on('py-enum34',        type=('run',), when='^python@2.4:2.7.999,3.1:3.3.999')
     depends_on('py-lazy-property', type=('run'), when='+python')
 
-    def get_git_fetcher(self):
-        root_fetcher = self.fetcher[0]
-        return root_fetcher if isinstance(root_fetcher, GitFetchStrategy) else None
-
     def install(self, spec, prefix):
         shutil.copytree('hoc', prefix.hoc)
         shutil.copytree('mod', prefix.mod)
@@ -51,11 +47,12 @@ class NeurodamusCore(Package):
             copy_all('resources/common/mod', prefix.mod)
 
         filter_file(r'UNKNOWN_CORE_VERSION', r'%s' % spec.version, prefix.hoc.join('defvar.hoc'))
-        git_fetcher = self.get_git_fetcher()
-        if git_fetcher is not None:
-            git_commit_hash = git_fetcher.get_commit_hash()
-            filter_file(r'UNKNOWN_CORE_HASH', r'\'%s\'' % git_commit_hash, prefix.hoc.join('defvar.hoc'))
 
-def setup_environment(self, spack_env, run_env):
+        try:
+            commit_hash = self.fetcher[0].get_commit()
+            filter_file(r'UNKNOWN_CORE_HASH', r'\'%s\'' % commit_hash, prefix.hoc.join('defvar.hoc'))
+        except Exception as e:
+            tty.warn(e)
+
+    def setup_environment(self, spack_env, run_env):
         run_env.set('HOC_LIBRARY_PATH', self.prefix.hoc)
-
