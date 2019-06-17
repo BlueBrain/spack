@@ -17,6 +17,8 @@ class Julia(Package):
     git      = "https://github.com/JuliaLang/julia.git"
 
     version('master', branch='master')
+    version('1.1.1',     sha256='3c5395dd3419ebb82d57bcc49dc729df3b225b9094e74376f8c649ee35ed79c2')
+    version('1.0.4',     sha256='bbc5c88a4acfecd3b059a01680926c693b82cf3b41733719c384fb0b371ca581')
     version('0.6.2', '255d80bc8d56d5f059fe18f0798e32f6')
     version('release-0.5', branch='release-0.5')
     version('0.5.2', '8c3fff150a6f96cf0536fb3b4eaa5cbb')
@@ -168,7 +170,10 @@ class Julia(Package):
 
         # Install some commonly used packages
         julia = spec['julia'].command
-        julia("-e", 'Pkg.init(); Pkg.update()')
+        if spec.satisfies('@1:'):
+            julia("-e", 'using Pkg; Pkg.init(); Pkg.update()')
+        else:
+            julia("-e", 'Pkg.init(); Pkg.update()')
 
         # Install HDF5
         if "+hdf5" in spec:
