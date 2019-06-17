@@ -171,9 +171,16 @@ class Julia(Package):
         # Install some commonly used packages
         julia = spec['julia'].command
         if spec.satisfies('@1:'):
-            julia("-e", 'using Pkg; Pkg.init(); Pkg.update()')
+            julia("-e", 'using Pkg; Pkg.update()')
         else:
             julia("-e", 'Pkg.init(); Pkg.update()')
+
+        def pkg_add(name):
+            if spec.satisfies('@1:'):
+                julia("-e",
+                      'using Pkg; Pkg.add("{0}"); using {0}'.format(name))
+            else:
+                julia("-e", 'Pkg.add("{0}"); using {0}'.format(name))
 
         # Install HDF5
         if "+hdf5" in spec:
@@ -183,8 +190,8 @@ class Julia(Package):
                 juliarc.write('push!(Libdl.DL_LOAD_PATH, "%s")\n' %
                               spec["hdf5"].prefix.lib)
                 juliarc.write('\n')
-            julia("-e", 'Pkg.add("HDF5"); using HDF5')
-            julia("-e", 'Pkg.add("JLD"); using JLD')
+            pkg_add("HDF5")
+            pkg_add("JLD")
 
         # Install MPI
         if "+mpi" in spec:
@@ -196,7 +203,7 @@ class Julia(Package):
                 juliarc.write('ENV["JULIA_MPI_Fortran_COMPILER"] = "%s"\n' %
                               join_path(spec["mpi"].prefix.bin, "mpifort"))
                 juliarc.write('\n')
-            julia("-e", 'Pkg.add("MPI"); using MPI')
+            pkg_add("MPI")
 
         # Install Python
         if "+python" in spec or "+plot" in spec:
@@ -208,15 +215,15 @@ class Julia(Package):
             # Python's OpenSSL package installer complains:
             # Error: PREFIX too long: 166 characters, but only 128 allowed
             # Error: post-link failed for: openssl-1.0.2g-0
-            julia("-e", 'Pkg.add("PyCall"); using PyCall')
+            pkg_add("PyCall")
 
         if "+plot" in spec:
-            julia("-e", 'Pkg.add("PyPlot"); using PyPlot')
-            julia("-e", 'Pkg.add("Colors"); using Colors')
+            pkg_add("PyPlot")
+            pkg_add("Colors")
             # These require maybe gtk and image-magick
-            julia("-e", 'Pkg.add("Plots"); using Plots')
-            julia("-e", 'Pkg.add("PlotRecipes"); using PlotRecipes')
-            julia("-e", 'Pkg.add("UnicodePlots"); using UnicodePlots')
+            pkg_add("Plots")
+            pkg_add("PlotRecipes")
+            pkg_add("UnicodePlots")
             julia("-e", """\
 using Plots
 using UnicodePlots
@@ -226,6 +233,6 @@ plot(x->sin(x)*cos(x), linspace(0, 2pi))
 
         # Install SIMD
         if "+simd" in spec:
-            julia("-e", 'Pkg.add("SIMD"); using SIMD')
+            pkg_add("SIMD")
 
         julia("-e", 'Pkg.status()')
