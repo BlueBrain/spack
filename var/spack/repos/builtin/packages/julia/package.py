@@ -17,18 +17,8 @@ class Julia(Package):
     git      = "https://github.com/JuliaLang/julia.git"
 
     version('master', branch='master')
-    version('1.1.1',     sha256='3c5395dd3419ebb82d57bcc49dc729df3b225b9094e74376f8c649ee35ed79c2')
-    version('1.0.4',     sha256='bbc5c88a4acfecd3b059a01680926c693b82cf3b41733719c384fb0b371ca581')
-    version('0.6.2', '255d80bc8d56d5f059fe18f0798e32f6')
-    version('release-0.5', branch='release-0.5')
-    version('0.5.2', '8c3fff150a6f96cf0536fb3b4eaa5cbb')
-    version('0.5.1', 'bce119b98f274e0f07ce01498c463ad5')
-    version('0.5.0', 'b61385671ba74767ab452363c43131fb')
-    version('release-0.4', branch='release-0.4')
-    version('0.4.7', '75a7a7dd882b7840829d8f165e9b9078')
-    version('0.4.6', 'd88db18c579049c23ab8ef427ccedf5d')
-    version('0.4.5', '69141ff5aa6cee7c0ec8c85a34aa49a6')
-    version('0.4.3', '8a4a59fd335b05090dd1ebefbbe5aaac')
+    version('1.1.1', sha256='3c5395dd3419ebb82d57bcc49dc729df3b225b9094e74376f8c649ee35ed79c2')
+    version('1.0.4', sha256='bbc5c88a4acfecd3b059a01680926c693b82cf3b41733719c384fb0b371ca581')
 
     # TODO: Split these out into jl-hdf5, jl-mpi packages etc.
     variant("cxx", default=False, description="Prepare for Julia Cxx package")
@@ -40,35 +30,33 @@ class Julia(Package):
             description="Install Julia Python package")
     variant("simd", default=False, description="Install Julia SIMD package")
 
-    patch('gc.patch', when='@0.4:0.4.5')
-    patch('openblas.patch', when='@0.4:0.4.5')
-
     variant('binutils', default=sys.platform != 'darwin',
             description="Build via binutils")
 
     # Build-time dependencies:
-    # depends_on("awk")
     depends_on("m4", type="build")
-    # depends_on("pkgconfig")
+    depends_on("pkgconfig")
 
     # Combined build-time and run-time dependencies:
     # (Yes, these are run-time dependencies used by Julia's package manager.)
     depends_on("binutils", when='+binutils')
     depends_on("cmake @2.8:")
-    depends_on("curl")
-    depends_on("git", when='@:0.4')
-    depends_on("git", when='@release-0.4')
+    depends_on("git")
     depends_on("openssl")
     depends_on("python@2.7:2.8")
 
     # Run-time dependencies:
-    # depends_on("arpack")
-    # depends_on("fftw +float")
-    # depends_on("gmp")
-    # depends_on("libgit")
-    # depends_on("mpfr")
-    # depends_on("openblas")
-    # depends_on("pcre2")
+
+    depends_on("openblas")
+    depends_on("lapack")
+
+    depends_on("pcre2")
+    depends_on("gmp")
+    depends_on("mpfr")
+
+    depends_on("libgit2")
+    depends_on("curl")
+
 
     # ARPACK: Requires BLAS and LAPACK; needs to use the same version
     # as Julia.
@@ -110,24 +98,15 @@ class Julia(Package):
         # still use Spack's compilers, even if we don't specify them
         # explicitly.
         options = [
-            # "CC=cc",
-            # "CXX=c++",
-            # "FC=fc",
-            # "USE_SYSTEM_ARPACK=1",
-            "override USE_SYSTEM_CURL=1",
-            # "USE_SYSTEM_FFTW=1",
-            # "USE_SYSTEM_GMP=1",
-            # "USE_SYSTEM_MPFR=1",
-            # "USE_SYSTEM_PCRE=1",
-            "prefix=%s" % prefix]
-        if "+cxx" in spec:
-            if "@master" not in spec:
-                raise InstallError(
-                    "Variant +cxx requires the @master version of Julia")
-            options += [
-                "BUILD_LLVM_CLANG=1",
-                "LLVM_ASSERTIONS=1",
-                "USE_LLVM_SHLIB=1"]
+            "USE_SYSTEM_BLAS=1",
+            "USE_SYSTEM_LAPACK=1",
+            "USE_SYSTEM_PCRE=1",
+            "USE_SYSTEM_GMP=1",
+            "USE_SYSTEM_MPFR=1",
+            "USE_SYSTEM_LIBGIT2=1",
+            "USE_SYSTEM_CURL=1",
+            "prefix={0}".format(prefix)
+        ]
         with open('Make.user', 'w') as f:
             f.write('\n'.join(options) + '\n')
         make()
@@ -153,7 +132,8 @@ class Julia(Package):
         # Configure Julia
         with open(join_path(prefix, "etc", "julia", "juliarc.jl"),
                   "a") as juliarc:
-            if "@master" in spec or "@release-0.5" in spec or "@0.5:" in spec:
+            if not spec.satisfies("@1:") and \
+                    ("@master" in spec or "@release-0.5" in spec or "@0.5:" in spec):
                 # This is required for versions @0.5:
                 juliarc.write(
                     '# Point package manager to working certificates\n')
@@ -165,7 +145,10 @@ class Julia(Package):
             juliarc.write('unshift!(Base.LOAD_CACHE_PATH, "%s")\n' % cachedir)
             juliarc.write('\n')
             juliarc.write('# Put Julia packages into a private directory\n')
-            juliarc.write('ENV["JULIA_PKGDIR"] = "%s"\n' % pkgdir)
+            if spec.satisfies("@1:"):
+                juliarc.write('ENV["JULIA_DEPOT_PATH"] = "{0}"\n'.format(pkgdir) )
+            else:
+                juliarc.write('ENV["JULIA_PKGDIR"] = "%s"\n' % pkgdir)
             juliarc.write('\n')
 
         # Install some commonly used packages
@@ -181,6 +164,13 @@ class Julia(Package):
                       'using Pkg; Pkg.add("{0}"); using {0}'.format(name))
             else:
                 julia("-e", 'Pkg.add("{0}"); using {0}'.format(name))
+
+        def pkg_build(name):
+            if spec.satisfies('@1:'):
+                julia("-e",
+                      'using Pkg; Pkg.build("{0}"); using {0}'.format(name))
+            else:
+                julia("-e", 'Pkg.build("{0}"); using {0}'.format(name))
 
         # Install HDF5
         if "+hdf5" in spec:
@@ -215,7 +205,7 @@ class Julia(Package):
             # Python's OpenSSL package installer complains:
             # Error: PREFIX too long: 166 characters, but only 128 allowed
             # Error: post-link failed for: openssl-1.0.2g-0
-            pkg_add("PyCall")
+            pkg_build("PyCall")
 
         if "+plot" in spec:
             pkg_add("PyPlot")
