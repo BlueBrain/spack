@@ -3,20 +3,23 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-from spack import *
+import spack
 
 
-class PyBglibpy(PythonPackage):
+class PyBglibpy(spack.PythonPackage):
     """Pythonic Blue Brain simulator access"""
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/sim/BGLibPy"
-    git      = "ssh://bbpcode.epfl.ch/sim/BGLibPy"
+    git = "ssh://bbpcode.epfl.ch/sim/BGLibPy"
 
-    version('develop', branch='master')
-    version('4.0.17', commit='e90513f52a7d9ca3c16877ae7a2bcb8df31c8545', preferred=True)
+    spack.version('develop', branch='master')
+    spack.version(
+        '4.0.27',
+        commit='42d9c1f891ef1ec9af6d72c49ff3b7726a009951',
+        preferred=True)
 
-    depends_on('py-setuptools', type=('build', 'run'))
+    spack.depends_on('py-setuptools', type=('build', 'run'))
 
-    depends_on('neuron+python~mpi', type='run')
-    depends_on('py-h5py~mpi@2.3:', type='run')
+    spack.depends_on('neuron+python~mpi', type='run')
+    spack.depends_on('py-h5py~mpi@2.3:', type='run')
 
-    depends_on('py-bluepy@0.13.2:', type='run')
+    spack.depends_on('py-bluepy@0.13.2:', type='run')
