@@ -5,10 +5,10 @@ def build_and_deploy_docker() {
     def proxy = "--build-arg proxy=http://bbpproxy.epfl.ch:80"
     def rev = "--build-arg revision=${sha1}"
     if (pull == null) {
-        docker.build("bluebrain/spack", "${proxy} ${rev}").push("latest")
+        docker.build("bluebrain/spack", "${proxy} ${rev} ./docker").push("latest")
     } else {
         def pr = "--build-arg pr=${env.ghprbPullId}"
-        docker.build("bluebrain/spack", "${proxy} ${rev} ${pr}").push("test-${env.ghprbPullId}")
+        docker.build("bluebrain/spack", "${proxy} ${rev} ${pr} ./docker").push("test-${env.ghprbPullId}")
     }
 }
 
@@ -340,9 +340,6 @@ pipeline {
                 stage('Build Docker') {
                     agent {
                         label 'docker'
-                        dockerfile {
-                            dir 'docker'
-                        }
                     }
 
                     steps {
