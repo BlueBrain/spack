@@ -10,7 +10,7 @@ def build_and_deploy_docker() {
     } else {
         def pr = "--build-arg pr=${env.ghprbPullId}"
         sh "docker build -f docker/Dockerfile ${proxy} ${rev} ${pr} -t bluebrain/spack ."
-        sh "docker push docker.io:bluebrain/spack"
+        sh "docker push docker.io/bluebrain/spack"
     }
 }
 
