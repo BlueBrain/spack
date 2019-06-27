@@ -32,14 +32,14 @@ packages:
       - py-entity-management@0.1.12
 
   gnu-stable-outdated:
-    target-matrix:
+    target_matrix:
       - gnu-stable-py2
     requires:
       - architecture
       - compiler
       - python
     specs:
-      - py-simwriter@0.4.3.dev ^py-rpy2@2.8.6 ^openjdk
+      - py-simwriter@0.4.3 ^py-rpy2@2.8.6 ^openjdk
 
   gnu-stable-parallel:
     target_matrix:

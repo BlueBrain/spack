@@ -12,7 +12,7 @@ class PySimwriter(PythonPackage):
     homepage = 'https://bbpcode.epfl.ch/code/#/admin/projects/project/proj1/simwriter'
     git      = 'ssh://bbpcode.epfl.ch/project/proj1/simwriter'
 
-    version('0.4.3.dev', commit='6d7a618b542cf9364805ea6c8e565a54825cddef')
+    version('0.4.3', commit='6d7a618b542cf9364805ea6c8e565a54825cddef')
 
     # cheetah is python 2 only
     depends_on('python@:2', type=('build', 'run'))
@@ -25,3 +25,5 @@ class PySimwriter(PythonPackage):
     depends_on('py-scipy', type='run')
     depends_on('py-cheetah', type='run')
     depends_on('py-neurotools', type='run')
+    depends_on('py-progressbar', type='run')
+    depends_on('py-functools32', type='run')
