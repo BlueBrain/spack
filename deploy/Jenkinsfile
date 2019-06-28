@@ -2,8 +2,7 @@
 
 def build_and_deploy_docker() {
     def registry = "https://index.docker.io/v1/"
-    def credentials_id = "fa515582-07c3-4af2-b4ec-468727e745ba"
-    credentials_id = ""
+    def credentials_id = ""
 
     def pull = env.ghprbPullId
     def proxy = "--build-arg proxy=http://bbpproxy.epfl.ch:80"
@@ -12,14 +11,12 @@ def build_and_deploy_docker() {
     if (pull == null) {
         def image = docker.build("bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} .")
         docker.withRegistry(registry, credentials_id) {
-            // sh "docker login"
             image.push("latest")
         }
     } else {
         def pr = "--build-arg pr=${env.ghprbPullId}"
         def image = docker.build("bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} ${pr} .")
         docker.withRegistry(registry, credentials_id) {
-            // sh "docker login"
             image.push("test-${env.ghprbPullId}")
         }
     }
@@ -116,15 +113,6 @@ pipeline {
     }
 
     stages {
-        stage('Build Docker') {
-            agent {
-                label 'docker'
-            }
-
-            steps {
-                build_and_deploy_docker()
-            }
-        }
         stage('Setup') {
             parallel {
                 stage('Production') {
