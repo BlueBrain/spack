@@ -7,8 +7,6 @@ def build_and_deploy_docker() {
     def pull = env.ghprbPullId
     def rev = "--build-arg revision=${sha1}"
 
-    sh "cat \$HOME/.docker/config.json"
-
     if (pull == null) {
         def image = docker.build("bluebrain/spack", "-f docker/Dockerfile ${rev} .")
         docker.withRegistry(registry, credentials_id) {
