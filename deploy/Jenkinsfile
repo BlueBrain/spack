@@ -7,17 +7,17 @@ def build_and_deploy_docker() {
     def proxy = "--build-arg proxy=http://bbpproxy.epfl.ch:80"
     def rev = "--build-arg revision=${sha1}"
     if (pull == null) {
-        def image = docker.build("${registry}bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} .")
+        def image = docker.build("bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} .")
         docker.withRegistry(registry, credentials_id) {
             // sh "docker login"
-            image.push("latest")
+            image.push("${registry}bluebrain/spack:latest")
         }
     } else {
         def pr = "--build-arg pr=${env.ghprbPullId}"
-        def image = docker.build("${registry}bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} ${pr} .")
+        def image = docker.build("bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} ${pr} .")
         docker.withRegistry(registry, credentials_id) {
             // sh "docker login"
-            image.push("test-${env.ghprbPullId}")
+            image.push("${registry}bluebrain/spack:test-${env.ghprbPullId}")
         }
     }
 }
