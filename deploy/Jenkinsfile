@@ -113,15 +113,6 @@ pipeline {
     }
 
     stages {
-        stage('Build Docker') {
-            agent {
-                label 'docker'
-            }
-
-            steps {
-                build_and_deploy_docker()
-            }
-        }
         stage('Setup') {
             parallel {
                 stage('Production') {
@@ -356,7 +347,7 @@ pipeline {
                     }
                 }
 
-                stage('Build Docker again') {
+                stage('Build Docker') {
                     agent {
                         label 'docker'
                     }
@@ -365,15 +356,6 @@ pipeline {
                         build_and_deploy_docker()
                     }
                 }
-            }
-        }
-        stage('Build Docker again and again') {
-            agent {
-                label 'docker'
-            }
-
-            steps {
-                build_and_deploy_docker()
             }
         }
     }
