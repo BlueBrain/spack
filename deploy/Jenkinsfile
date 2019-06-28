@@ -6,14 +6,14 @@ def build_and_deploy_docker() {
     def rev = "--build-arg revision=${sha1}"
     if (pull == null) {
         def image = docker.build("bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} .")
-        docker.withRegistry("", "bbpbuildbot") {
+        docker.withRegistry("", "fa515582-07c3-4af2-b4ec-468727e745ba") {
             // sh "docker login"
             image.push("latest")
         }
     } else {
         def pr = "--build-arg pr=${env.ghprbPullId}"
         def image = docker.build("bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} ${pr} .")
-        docker.withRegistry("", "bbpbuildbot") {
+        docker.withRegistry("", "fa515582-07c3-4af2-b4ec-468727e745ba") {
             // sh "docker login"
             image.push("test-${env.ghprbPullId}")
         }
