@@ -10,14 +10,14 @@ def build_and_deploy_docker() {
         def image = docker.build("bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} .")
         docker.withRegistry(registry, credentials_id) {
             // sh "docker login"
-            image.push("${registry}bluebrain/spack:latest")
+            image.push("bluebrain/spack:latest")
         }
     } else {
         def pr = "--build-arg pr=${env.ghprbPullId}"
         def image = docker.build("bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} ${pr} .")
         docker.withRegistry(registry, credentials_id) {
             // sh "docker login"
-            image.push("${registry}bluebrain/spack:test-${env.ghprbPullId}")
+            image.push("bluebrain/spack:test-${env.ghprbPullId}")
         }
     }
 }
