@@ -367,5 +367,14 @@ pipeline {
                 }
             }
         }
+        stage('Build Docker') {
+            agent {
+                label 'docker'
+            }
+
+            steps {
+                build_and_deploy_docker()
+            }
+        }
     }
 }
