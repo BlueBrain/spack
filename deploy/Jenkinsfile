@@ -5,7 +5,8 @@ def build_and_deploy_docker() {
     def proxy = "--build-arg proxy=http://bbpproxy.epfl.ch:80"
     def rev = "--build-arg revision=${sha1}"
     sh "cat \$HOME/.docker/config.json"
-    docker.withRegistry("https://index.docker.io/v1/", "fa515582-07c3-4af2-b4ec-468727e745ba") {
+    docker.withRegistry([credentialsId: "fa515582-07c3-4af2-b4ec-468727e745ba",
+                         url: ""]) {
         if (pull == null) {
             docker.build("bluebrain/spack", "-f docker/Dockerfile ${proxy} ${rev} .").push("latest")
         } else {
