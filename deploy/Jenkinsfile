@@ -356,7 +356,7 @@ pipeline {
                     }
                 }
 
-                stage('Build Docker') {
+                stage('Build Docker again') {
                     agent {
                         label 'docker'
                     }
@@ -367,7 +367,7 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker') {
+        stage('Build Docker again and again') {
             agent {
                 label 'docker'
             }
