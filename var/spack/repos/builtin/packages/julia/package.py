@@ -124,6 +124,21 @@ class Julia(Package):
             # "USE_SYSTEM_LIBUV=1",
             "USE_SYSTEM_CURL=1",
             "USE_SYSTEM_LIBGIT2=1",
+
+            # START Can be removed in future versions!
+            "override USE_BINARYBUILDER_LLVM=1",
+            "override USE_BINARYBUILDER_PCRE=1",
+            "override USE_BINARYBUILDER_LIBM=1",
+            # "override USE_BINARYBUILDER_BLAS=1",
+            # "override USE_BINARYBUILDER_LAPACK=1",
+            "override USE_BINARYBUILDER_GMP=1",
+            "override USE_BINARYBUILDER_MPFR=1",
+            "override USE_BINARYBUILDER_SUITESPARSE=1",
+            # "override USE_BINARYBUILDER_LIBUV=1",
+            "override USE_BINARYBUILDER_CURL=1",
+            "override USE_BINARYBUILDER_LIBGIT2=1",
+            # END remove
+
             # "# LIBBLAS={0}".format(spec["blas"].libs),
             # "LIBBLASNAME={0}".format(spec["blas"].name),
             # "# LIBLAPACK={0}".format(spec["lapack"].libs),
