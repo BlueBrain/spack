@@ -270,11 +270,9 @@ configure_compilers() {
     while read -r line; do
         set +o nounset
         log "...processing ${line}"
-        $(spack module tcl loads --latest ${line}|tail -n 1)
-        echo "CMD: ===="
-        spack module tcl loads --latest ${line}
+        cmd=$(spack module tcl loads --latest ${line}|tail -n 1)
         echo "${cmd}"
-        echo "CMD: ===="
+        ${cmd}
         set -o nounset
         if [[ ${line} != *"intel-parallel-studio"* ]]; then
             spack compiler find --scope=user
@@ -295,10 +293,6 @@ configure_compilers() {
             done
         elif [[ ${line} = *"pgi"* ]]; then
             #update pgi modules for network installation
-            echo "MODS>>>"
-            module list
-            echo "MODS<<<"
-            set -x
             PGI_DIR=$(dirname $(which makelocalrc))
             makelocalrc ${PGI_DIR} -gcc ${GCC_DIR}/bin/gcc -gpp ${GCC_DIR}/bin/g++ -g77 ${GCC_DIR}/bin/gfortran -x -net
 
@@ -307,9 +301,10 @@ configure_compilers() {
             for node in bbpv1 bbpv2 bbptadm tds03 tds04 r2i3n0 r2i3n1 r2i3n2 r2i3n3 r2i3n4 r2i3n5 r2i3n6; do
                 cp $template $PGI_DIR/localrc.$node || true
             done
-            set +x
         fi
-        spack unload --latest ${line}
+        cmd=${cmd/load/unload}
+        echo "${cmd}"
+        ${cmd}
     done
 
     sed  -i 's#.*f\(77\|c\): null#      f\1: /usr/bin/gfortran#' ${HOME}/.spack/compilers.yaml
