@@ -50,15 +50,22 @@ class Julia(Package):
 
     # Run-time dependencies:
 
-    depends_on("openblas")
-    depends_on("lapack")
+    # depends_on("blas")
+    # depends_on("lapack")
 
-    # depends_on("pcre2")
+    depends_on("pcre2")
     depends_on("gmp")
     depends_on("mpfr")
+    depends_on("suite-sparse")
 
-    depends_on("libgit2")
+    # depends_on("libuv")
     depends_on("curl")
+    depends_on("libgit2")
+    # depends_on("libm")
+    # depends_on("libxml2")
+    # # depends_on("lzma")
+    # depends_on("ncurses")
+    # depends_on("zlib")
 
 
     # ARPACK: Requires BLAS and LAPACK; needs to use the same version
@@ -107,15 +114,20 @@ class Julia(Package):
         options = [
             "USE_BINARYBUILDER=0",
             "USE_SYSTEM_LLVM=1",
-            "USE_SYSTEM_BLAS=1",
-            "USE_SYSTEM_LAPACK=1",
+            "USE_SYSTEM_PCRE=1",
             "USE_SYSTEM_LIBM=1",
-            # JIT failure observed when using external pcre
-            # "USE_SYSTEM_PCRE=1",
+            # "USE_SYSTEM_BLAS=1",
+            # "USE_SYSTEM_LAPACK=1",
             "USE_SYSTEM_GMP=1",
             "USE_SYSTEM_MPFR=1",
-            "USE_SYSTEM_LIBGIT2=1",
+            "USE_SYSTEM_SUITESPARSE=1",
+            # "USE_SYSTEM_LIBUV=1",
             "USE_SYSTEM_CURL=1",
+            "USE_SYSTEM_LIBGIT2=1",
+            # "# LIBBLAS={0}".format(spec["blas"].libs),
+            # "LIBBLASNAME={0}".format(spec["blas"].name),
+            # "# LIBLAPACK={0}".format(spec["lapack"].libs),
+            # "LIBLAPACKNAME={0}".format(spec["lapack"].name),
             "prefix={0}".format(prefix)
         ]
         with open('Make.user', 'w') as f:
@@ -202,20 +214,21 @@ class Julia(Package):
             pkg_add("Colors")
             # These require maybe gtk and image-magick
             pkg_add("Plots")
-            pkg_add("PlotRecipes")
+            pkg_add("GraphRecipes")
+            pkg_add("StatsPlots")
             pkg_add("UnicodePlots")
             julia("-e", """\
 using Plots
 using UnicodePlots
 unicodeplots()
-plot(x->sin(x)*cos(x), linspace(0, 2pi))
+plot(x->sin(x)*cos(x), range(0, stop=2*pi, length=20))
 """)
 
         # Install SIMD
         if "+simd" in spec:
             pkg_add("SIMD")
 
-        julia("-e", 'Pkg.status()')
+        julia("-e", 'using Pkg; Pkg.status()')
 
         # We're done installing, prepend user-writable depot path!
         with open(juliarc, "a") as fd:
