@@ -17,7 +17,7 @@ class Julia(Package):
     git      = "https://github.com/JuliaLang/julia.git"
 
     version('master', branch='master')
-    version('1.2.0-rc1-snapshot0', commit='67cdc550a0c5d615c4071b7fae12caaf85d01e30')
+    version('1.2.0-stable', branch='release-1.2')
     version('1.2.0-rc1', sha256='e301421b869c6ecea8c3ae06bfdddf67843d16e694973b4958924914249afa46')
     version('1.1.1', sha256='3c5395dd3419ebb82d57bcc49dc729df3b225b9094e74376f8c649ee35ed79c2')
 
@@ -214,6 +214,7 @@ class Julia(Package):
             pkg_add("Colors")
             # These require maybe gtk and image-magick
             pkg_add("Plots")
+            pkg_add("RecipesBase")
             pkg_add("GraphRecipes")
             pkg_add("StatsPlots")
             pkg_add("UnicodePlots")
