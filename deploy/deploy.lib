@@ -291,6 +291,7 @@ configure_compilers() {
             done
         elif [[ ${line} = *"pgi"* ]]; then
             #update pgi modules for network installation
+            set -x
             PGI_DIR=$(dirname $(which makelocalrc))
             makelocalrc ${PGI_DIR} -gcc ${GCC_DIR}/bin/gcc -gpp ${GCC_DIR}/bin/g++ -g77 ${GCC_DIR}/bin/gfortran -x -net
 
@@ -299,6 +300,7 @@ configure_compilers() {
             for node in bbpv1 bbpv2 bbptadm tds03 tds04 r2i3n0 r2i3n1 r2i3n2 r2i3n3 r2i3n4 r2i3n5 r2i3n6; do
                 cp $template $PGI_DIR/localrc.$node || true
             done
+            set +x
         fi
         spack unload --latest ${line}
     done
