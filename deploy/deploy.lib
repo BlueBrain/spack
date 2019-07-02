@@ -645,7 +645,7 @@ EOF
     . ${DEPLOYMENT_ROOT}/spack/share/spack/setup-env.sh
     if [[ "${export_packages[${what}]}" = "yes" ]]; then
         log "augmenting packages.yaml"
-        spack export --scope=user --module tcl --explicit --exclude 'py-.*|neuron|hdf5' > "${HOME}/packages.yaml"
+        spack export --scope=user --module tcl --explicit --exclude 'py-.*|neuron|hdf5|intel-parallel-studio|pgi' > "${HOME}/packages.yaml"
     else
         log "copying packages.yaml"
         cp "${HOME}/.spack/packages.yaml" "${HOME}"
