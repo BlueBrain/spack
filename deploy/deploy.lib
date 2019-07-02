@@ -270,11 +270,11 @@ configure_compilers() {
     while read -r line; do
         set +o nounset
         log "...processing ${line}"
-        cmd=$(spack load --latest ${line})
+        cmd=$(spack module tcl loads --latest ${line})
         echo "CMD: ===="
         echo "${cmd}"
         echo "CMD: ===="
-        $(${cmd}|tail -n1)
+        ${cmd}
         set -o nounset
         if [[ ${line} != *"intel-parallel-studio"* ]]; then
             spack compiler find --scope=user
