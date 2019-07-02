@@ -68,7 +68,7 @@ packages:
             libtool@2.4.2: /usr
         version: [2.4.2]
     llvm:
-        variants: +link_dylib+shared_libs
+        variants: +link_dylib
     m4:
         paths:
             m4@1.4.16: /usr

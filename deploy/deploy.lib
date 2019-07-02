@@ -269,9 +269,11 @@ configure_compilers() {
     update_module_path "compilers" "yes"
     while read -r line; do
         set +o nounset
+        set -x
         log "...processing ${line}"
         $(spack load --latest ${line}|tail -n 1)
         set -o nounset
+        set +x
         if [[ ${line} != *"intel-parallel-studio"* ]]; then
             spack compiler find --scope=user
         fi
