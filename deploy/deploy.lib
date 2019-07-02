@@ -291,6 +291,9 @@ configure_compilers() {
             done
         elif [[ ${line} = *"pgi"* ]]; then
             #update pgi modules for network installation
+            echo "MODS>>>"
+            module list
+            echo "MODS<<<"
             set -x
             PGI_DIR=$(dirname $(which makelocalrc))
             makelocalrc ${PGI_DIR} -gcc ${GCC_DIR}/bin/gcc -gpp ${GCC_DIR}/bin/g++ -g77 ${GCC_DIR}/bin/gfortran -x -net
