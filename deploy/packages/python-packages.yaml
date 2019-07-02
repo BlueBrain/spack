@@ -71,6 +71,7 @@ packages:
       - py-line-profiler
       - py-lxml
       - py-markdown
+      - py-mvdtool
       # - py-memory-profiler
       # - py-mpmath
       # - py-multiprocess
