@@ -272,7 +272,7 @@ configure_compilers() {
         log "...processing ${line}"
         $(spack module tcl loads --latest ${line}|tail -n 1)
         echo "CMD: ===="
-        spack module tcl loads --latest ${line})
+        spack module tcl loads --latest ${line}
         echo "${cmd}"
         echo "CMD: ===="
         set -o nounset
