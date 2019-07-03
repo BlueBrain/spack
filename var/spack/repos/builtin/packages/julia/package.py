@@ -9,7 +9,7 @@ import os
 import sys
 
 
-class Julia(Package):
+class Julia(MakefilePackage):
     """The Julia Language: A fresh approach to technical computing"""
 
     homepage = "http://julialang.org"
@@ -100,7 +100,7 @@ class Julia(Package):
     #     import pdb
     #     pdb.set_trace()
 
-    def install(self, spec, prefix):
+    def edit(self, spec, prefix):
         # Julia needs git tags
         if os.path.isfile(".git/shallow"):
             git = which("git")
@@ -147,7 +147,8 @@ class Julia(Package):
         ]
         with open('Make.user', 'w') as f:
             f.write('\n'.join(options) + '\n')
-        make()
+
+    def install(self, spec, prefix):
         make("install")
 
         # Julia's package manager needs a certificate
