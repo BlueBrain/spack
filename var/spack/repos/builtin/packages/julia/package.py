@@ -127,15 +127,16 @@ class Julia(Package):
             # START Can be removed in future versions!
             "override USE_BINARYBUILDER_LLVM=0",
             "override USE_BINARYBUILDER_PCRE=0",
-            "override USE_BINARYBUILDER_LIBM=0",
-            # "override USE_BINARYBUILDER_BLAS=0",
-            # "override USE_BINARYBUILDER_LAPACK=0",
-            "override USE_BINARYBUILDER_GMP=0",
-            "override USE_BINARYBUILDER_MPFR=0",
+            "override USE_BINARYBUILDER_OPENBLAS=0",
+            "override USE_BINARYBUILDER_OPENLIBM=0",
             "override USE_BINARYBUILDER_SUITESPARSE=0",
-            # "override USE_BINARYBUILDER_LIBUV=0",
+            "override USE_BINARYBUILDER_MBEDTLS=0",
+            "override USE_BINARYBUILDER_LIBSSH2=0",
             "override USE_BINARYBUILDER_CURL=0",
             "override USE_BINARYBUILDER_LIBGIT2=0",
+            "override USE_BINARYBUILDER_PCRE=0",
+            "override USE_BINARYBUILDER_LIBUV=0",
+            "override USE_BINARYBUILDER_UNWIND=0",
             # END remove
 
             # "# LIBBLAS={0}".format(spec["blas"].libs),
