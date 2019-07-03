@@ -11,8 +11,4 @@ class Bbptestdata(CMakePackage):
     """Blue Brain Project scientific test data"""
     git = "ssh://bbpcode.epfl.ch/common/TestData"
 
-    version('2.0.0')
-
-    def install(self, spec, prefix):
-        with working_dir(self.build_directory):
-            make('install')
+    version('2.0.0', tag='2.0.0')
