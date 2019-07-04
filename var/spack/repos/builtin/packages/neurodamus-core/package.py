@@ -13,6 +13,7 @@ class NeurodamusCore(Package):
     git      = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
 
     version('develop', git=git, branch='master', clean=False)
+    version('2.4.0', git=git, tag='2.4.0', clean=False)
     version('2.3.4', git=git, tag='2.3.4', clean=False)
     version('2.3.3', git=git, tag='2.3.3', clean=False)
     version('2.2.1', git=git, tag='2.2.1', clean=False)
