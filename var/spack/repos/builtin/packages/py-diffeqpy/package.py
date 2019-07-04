@@ -15,4 +15,11 @@ class PyDiffeqpy(PythonPackage):
     version('1.0.0', sha256='227cdd1f5f6608be01d4845d6bd1d400ffa1ab11737dc08c0cdff9c85e0f79bb')
 
     depends_on('py-setuptools', type='build')
-    depends_on('py-julia', type='run')
+    depends_on('py-julia', type=('build', 'run'))
+
+    depends_on('julia', type=('build', 'run'))
+
+    @run_after("install")
+    def install_julia_packages(self):
+        python = self.spec["python"].command
+        python("-c", "import diffeqpy; diffeqpy.install()")

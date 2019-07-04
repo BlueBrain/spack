@@ -16,6 +16,8 @@ class Julia(MakefilePackage):
     url      = "https://github.com/JuliaLang/julia/releases/download/v0.4.3/julia-0.4.3-full.tar.gz"
     git      = "https://github.com/JuliaLang/julia.git"
 
+    extendable = True
+
     version('master', branch='master')
     version('1.2.0-rc1', sha256='e301421b869c6ecea8c3ae06bfdddf67843d16e694973b4958924914249afa46')
     version('1.1.1', sha256='3c5395dd3419ebb82d57bcc49dc729df3b225b9094e74376f8c649ee35ed79c2')
@@ -96,9 +98,29 @@ class Julia(MakefilePackage):
     depends_on("mpi", when="+mpi", type=("build", "run"))
     depends_on("py-matplotlib", when="+plot", type=("build", "run"))
 
-    # def setup_environment(self, spack_env, run_env):
-    #     import pdb
-    #     pdb.set_trace()
+    def setup_environment(self, spack_env, run_env):
+        pkgdir = join_path(self.spec.prefix, "var", "julia", "pkg")
+        run_env.set("JULIA_DEPOT_PATH", pkgdir)
+
+    def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
+        run_env.append_path("PATH", self.spec["julia"].prefix.bin)
+        spack_env.append_path("PATH", self.spec["julia"].prefix.bin)
+
+        depots = set([join_path(self.spec.prefix, "var", "julia", "pkg")])
+        for d in dependent_spec.traverse(
+                deptype=('build', 'run', 'test')):
+            if self.name in d.package.dependencies:
+                depots.add(
+                    join_path(d.prefix, "var", "julia", "pkg")
+                )
+        if self.name in dependent_spec.package.dependencies:
+            p = join_path(dependent_spec.prefix, "var", "julia", "pkg")
+            depots.remove(p)
+            depots = [p] + list(set(depots))
+        depots = ":".join(depots)
+
+        run_env.set("JULIA_DEPOT_PATH", ":{0}".format(depots))
+        spack_env.set("JULIA_DEPOT_PATH", depots)
 
     def edit(self, spec, prefix):
         # Julia needs git tags
@@ -182,10 +204,6 @@ class Julia(MakefilePackage):
             # fd.write('empty!(Base.LOAD_CACHE_PATH)\n')
             # fd.write('unshift!(Base.LOAD_CACHE_PATH, "%s")\n' % cachedir)
             # fd.write('\n')
-            fd.write('# Put Julia packages into a private directory\n')
-            fd.write('empty!(DEPOT_PATH)\n')
-            fd.write('push!(DEPOT_PATH, "{0}")\n'.format(pkgdir))
-            fd.write('\n')
 
         # Install some commonly used packages
         julia = spec['julia'].command
@@ -230,9 +248,6 @@ class Julia(MakefilePackage):
             pkg_add("Colors")
             # These require maybe gtk and image-magick
             pkg_add("Plots")
-            pkg_add("RecipesBase")
-            pkg_add("GraphRecipes")
-            pkg_add("StatsPlots")
             pkg_add("UnicodePlots")
             julia("-e", """\
 using Plots
@@ -246,7 +261,3 @@ plot(x->sin(x)*cos(x), range(0, stop=2*pi, length=20))
             pkg_add("SIMD")
 
         julia("-e", 'using Pkg; Pkg.status()')
-
-        # We're done installing, prepend user-writable depot path!
-        with open(juliarc, "a") as fd:
-            fd.write('prepend!(DEPOT_PATH, [expanduser("~/.julia")])')
