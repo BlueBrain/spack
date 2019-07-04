@@ -73,8 +73,8 @@ class NeurodamusCore(Package):
                 for f in find(bindir, '*.lo'): os.remove(f)
                 for f in find(bindir, '*.mod'): os.remove(f)
                 for f in find(bindir + '/.libs', '*.o'): os.remove(f)
-                os.mkdir(bindir + "/mod2c")
-                for f in find(bindir, "*.c*"): shutil.move(f, bindir + "/mod2c/")
+                os.mkdir(bindir + "/modc")
+                for f in find(bindir, "*.c*"): shutil.move(f, bindir + "/modc/")
 
     def setup_environment(self, spack_env, run_env):
         run_env.set('HOC_LIBRARY_PATH', self.prefix.hoc)
