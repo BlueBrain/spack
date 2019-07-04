@@ -32,7 +32,7 @@ declare -A spec_definitions=([compilers]=compilers
 # * tools + serial libraries should be exported
 # * for serial, parallel libraries: use in chains (see below) to get
 #   dependency DAG
-declare -A export_packages=([compilers]=yes
+declare -A export_packages=([compilers]=no
                             [tools]=yes
                             [external-libraries]=yes
                             [serial-libraries]=no
