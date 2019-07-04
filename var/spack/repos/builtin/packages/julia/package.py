@@ -47,7 +47,7 @@ class Julia(MakefilePackage):
     depends_on("openssl")
     depends_on("python")
 
-    depends_on("llvm+link_dylib@7:")
+    depends_on("llvm@7: +link_dylib")
 
     # Run-time dependencies:
 
