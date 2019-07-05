@@ -30,7 +30,7 @@ class Brayns(CMakePackage):
     depends_on('ninja', type='build')
 
     depends_on('assimp', when='+assimp')
-    depends_on('bbptestdata', when='+test')
+    depends_on('bbptestdata', type='test', when='+test')
     depends_on('brion', when='+brion')
     depends_on('deflect ~deflect-qt', when='+deflect')
     depends_on('freeimage')
