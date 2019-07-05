@@ -22,7 +22,7 @@ class NeurodamusCore(Package):
     variant('common', default=False, description="Merge in synapse mechanisms hoc & mods")
 
     # Attempt to support building
-    depends_on('neuron~binary~mpi', when='+common')
+    depends_on('neuron~binary+python~mpi', when='+common')
 
     # Neurodamus py is currently an extension to core
     resource(name='pydamus',
@@ -61,7 +61,7 @@ class NeurodamusCore(Package):
             copy_all('resources/common/mod', prefix.mod)
 
             with working_dir(prefix):
-                which('nrnivmodl')('-incflags', '-DDISABLE_REPORTINGLIB', 'mod')
+                which('nrnivmodl')('-incflags', '-DDISABLE_REPORTINGLIB -DDISABLE_HDF5', 'mod')
 
                 bindir = os.path.basename(self.neuron_archdir)
                 special = join_path(bindir, 'special')
