@@ -13,7 +13,7 @@ class NeurodamusCore(Package):
     git      = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
 
     version('develop', git=git, branch='master', clean=False)
-    version('2.4.0', git=git, tag='2.4.0', clean=False)
+    version('2.4.1', git=git, tag='2.4.1', clean=False)
     version('2.3.4', git=git, tag='2.3.4', clean=False)
     version('2.3.3', git=git, tag='2.3.3', clean=False)
     version('2.2.1', git=git, tag='2.2.1', clean=False)
@@ -59,6 +59,10 @@ class NeurodamusCore(Package):
         if spec.satisfies('+common'):
             copy_all('resources/common/hoc', prefix.hoc)
             copy_all('resources/common/mod', prefix.mod)
+
+            # However it brings some files that require Mpi and we must avoid them
+            for f in ('MemUsage.mod', 'SpikeWriter.mod'):
+                os.remove(prefix.mod.join(f))
 
             with working_dir(prefix):
                 which('nrnivmodl')('-incflags', '-DDISABLE_REPORTINGLIB -DDISABLE_HDF5', 'mod')
