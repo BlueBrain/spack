@@ -50,7 +50,7 @@ packages:
     intel-mkl:
         version: [2018.3.222]
     julia:
-        variants: ~cxx~mpi+plot+python+simd
+        variants: +external_llvm
     libjpeg:
         paths:
             libjpeg@1.2.90: /usr

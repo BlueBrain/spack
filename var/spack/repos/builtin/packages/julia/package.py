@@ -23,17 +23,11 @@ class Julia(MakefilePackage):
     version('1.1.1', sha256='3c5395dd3419ebb82d57bcc49dc729df3b225b9094e74376f8c649ee35ed79c2')
 
     # TODO: Split these out into jl-hdf5, jl-mpi packages etc.
-    variant("cxx", default=False, description="Prepare for Julia Cxx package")
-    variant("hdf5", default=False, description="Install Julia HDF5 package")
-    variant("mpi", default=True, description="Install Julia MPI package")
-    variant("plot", default=False,
-            description="Install Julia plotting packages")
-    variant("python", default=False,
-            description="Install Julia Python package")
-    variant("simd", default=False, description="Install Julia SIMD package")
 
     variant('binutils', default=sys.platform != 'darwin',
             description="Build via binutils")
+
+    variant("external_llvm", default=False, description="Use an external LLVM")
 
     # Build-time dependencies:
     depends_on("m4", type="build")
@@ -45,9 +39,11 @@ class Julia(MakefilePackage):
     depends_on("cmake @2.8:")
     depends_on("git")
     depends_on("openssl")
-    depends_on("python")
 
-    depends_on("llvm@7: +link_dylib")
+    # 1.2 and higher can be built with an external LLVM installation
+    depends_on("llvm@7: +link_dylib", when="+external_llvm")
+    # Python needed to build heavily patched included LLVM
+    depends_on("python@2.7:2.8", when="@:1.2~external_llvm")
 
     # Run-time dependencies:
 
@@ -93,35 +89,6 @@ class Julia(MakefilePackage):
     # USE_SYSTEM_UTF8PROC=0
     # USE_SYSTEM_LIBGIT2=0
 
-    # Run-time dependencies for Julia packages:
-    depends_on("hdf5", when="+hdf5", type=("build", "run"))
-    depends_on("mpi", when="+mpi", type=("build", "run"))
-    depends_on("py-matplotlib", when="+plot", type=("build", "run"))
-
-    def setup_environment(self, spack_env, run_env):
-        pkgdir = join_path(self.spec.prefix, "var", "julia", "pkg")
-        run_env.set("JULIA_DEPOT_PATH", pkgdir)
-
-    def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
-        run_env.append_path("PATH", self.spec["julia"].prefix.bin)
-        spack_env.append_path("PATH", self.spec["julia"].prefix.bin)
-
-        depots = set([join_path(self.spec.prefix, "var", "julia", "pkg")])
-        for d in dependent_spec.traverse(
-                deptype=('build', 'run', 'test')):
-            if self.name in d.package.dependencies:
-                depots.add(
-                    join_path(d.prefix, "var", "julia", "pkg")
-                )
-        if self.name in dependent_spec.package.dependencies:
-            p = join_path(dependent_spec.prefix, "var", "julia", "pkg")
-            depots.remove(p)
-            depots = [p] + list(set(depots))
-        depots = ":".join(depots)
-
-        run_env.set("JULIA_DEPOT_PATH", ":{0}".format(depots))
-        spack_env.set("JULIA_DEPOT_PATH", depots)
-
     def edit(self, spec, prefix):
         # Julia needs git tags
         if os.path.isfile(".git/shallow"):
@@ -134,7 +101,7 @@ class Julia(MakefilePackage):
         # explicitly.
         options = [
             "USE_BINARYBUILDER=0",
-            "USE_SYSTEM_LLVM=1",
+            "USE_SYSTEM_LLVM={0}".format(1 if spec.satisfies('+external_llvm') else 0),
             "USE_SYSTEM_PCRE=1",
             "USE_SYSTEM_LIBM=1",
             # "USE_SYSTEM_BLAS=1",
@@ -169,95 +136,3 @@ class Julia(MakefilePackage):
         ]
         with open('Make.user', 'w') as f:
             f.write('\n'.join(options) + '\n')
-
-    def install(self, spec, prefix):
-        make("install")
-
-        # Julia's package manager needs a certificate
-        cacert_dir = join_path(prefix, "etc", "curl")
-        mkdirp(cacert_dir)
-        cacert_file = join_path(cacert_dir, "cacert.pem")
-        curl = which("curl")
-        curl("--create-dirs",
-             "--output", cacert_file,
-             "https://curl.haxx.se/ca/cacert.pem")
-
-        # Put Julia's compiler cache into a private directory
-        cachedir = join_path(prefix, "var", "julia", "cache")
-        mkdirp(cachedir)
-
-        # Store Julia packages in a private directory
-        pkgdir = join_path(prefix, "var", "julia", "pkg")
-        mkdirp(pkgdir)
-
-        juliarc = join_path(prefix, "etc", "julia", "startup.jl")
-
-        # Configure Julia
-        with open(juliarc, "a") as fd:
-            if not spec.satisfies("@1:") and \
-                    ("@master" in spec or "@release-0.5" in spec or "@0.5:" in spec):
-                # This is required for versions @0.5:
-                fd.write('# Point package manager to working certificates\n')
-                fd.write('LibGit2.set_ssl_cert_locations("%s")\n' % cacert_file)
-                fd.write('\n')
-            # fd.write('# Put compiler cache into a private directory\n')
-            # fd.write('empty!(Base.LOAD_CACHE_PATH)\n')
-            # fd.write('unshift!(Base.LOAD_CACHE_PATH, "%s")\n' % cachedir)
-            # fd.write('\n')
-
-        # Install some commonly used packages
-        julia = spec['julia'].command
-        julia("-e", 'using Pkg; Pkg.update()')
-
-        def pkg_add(name):
-            julia("-e", 'using Pkg; Pkg.add("{0}"); using {0}'.format(name))
-
-        # Install HDF5
-        if "+hdf5" in spec:
-            with open(juliarc, "a") as fd:
-                fd.write('# HDF5\n')
-                fd.write('push!(Libdl.DL_LOAD_PATH, "%s")\n' % spec["hdf5"].prefix.lib)
-                fd.write('\n')
-            pkg_add("HDF5")
-            pkg_add("JLD")
-
-        # Install MPI
-        if "+mpi" in spec:
-            with open(juliarc, "a") as fd:
-                fd.write('# MPI\n')
-                fd.write('ENV["JULIA_MPI_C_COMPILER"] = "%s"\n' %
-                         join_path(spec["mpi"].prefix.bin, "mpicc"))
-                fd.write('ENV["JULIA_MPI_Fortran_COMPILER"] = "%s"\n' %
-                         join_path(spec["mpi"].prefix.bin, "mpifort"))
-                fd.write('\n')
-            pkg_add("MPI")
-
-        # Install Python
-        if "+python" in spec or "+plot" in spec:
-            with open(juliarc, "a") as fd:
-                fd.write('# Python\n')
-                fd.write('ENV["PYTHON"] = "%s"\n' % spec["python"].command.path)
-                fd.write('\n')
-            # Python's OpenSSL package installer complains:
-            # Error: PREFIX too long: 166 characters, but only 128 allowed
-            # Error: post-link failed for: openssl-1.0.2g-0
-            pkg_add("PyCall")
-
-        if "+plot" in spec:
-            pkg_add("PyPlot")
-            pkg_add("Colors")
-            # These require maybe gtk and image-magick
-            pkg_add("Plots")
-            pkg_add("UnicodePlots")
-            julia("-e", """\
-using Plots
-using UnicodePlots
-unicodeplots()
-plot(x->sin(x)*cos(x), range(0, stop=2*pi, length=20))
-""")
-
-        # Install SIMD
-        if "+simd" in spec:
-            pkg_add("SIMD")
-
-        julia("-e", 'using Pkg; Pkg.status()')

@@ -33,7 +33,6 @@ packages:
       - python
     specs:
       - tensorflow@1.12.0+cuda
-      - julia-dev
 
   gnu-intel-stable-serial:
     target_matrix:

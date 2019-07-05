@@ -17,7 +17,7 @@ class PyMatplotlib(PythonPackage):
 
     version('3.0.0', '39c7f44c8fa0f24cbf684137371ce4ae')
     # NOTE: 3.0.0 is not compatible with python 2
-    version('2.2.3', '403b0bddd751d71187416f20d4cff100', preferred=True)
+    version('2.2.3', '403b0bddd751d71187416f20d4cff100')
     version('2.2.2', 'dd1e49e041309a7fd4e32be8bf17c3b6')
     version('2.0.2', '061111784278bde89b5d4987014be4ca')
     version('2.0.0', '7aa54b06327f0e1c4f3877fc2f7d6b17')
