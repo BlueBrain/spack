@@ -6,7 +6,7 @@
 from spack import *
 
 
-class PyBglibpy(spack.PythonPackage):
+class PyBglibpy(PythonPackage):
     """Pythonic Blue Brain simulator access"""
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/sim/BGLibPy"
     git = "ssh://bbpcode.epfl.ch/sim/BGLibPy"
