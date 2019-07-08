@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-import spack
+from spack import *
 
 
 class PyBglibpy(spack.PythonPackage):
@@ -11,15 +11,14 @@ class PyBglibpy(spack.PythonPackage):
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/sim/BGLibPy"
     git = "ssh://bbpcode.epfl.ch/sim/BGLibPy"
 
-    spack.version('develop', branch='master')
-    spack.version(
+    version('develop', branch='master')
+    version(
         '4.0.27',
-        commit='42d9c1f891ef1ec9af6d72c49ff3b7726a009951',
-        preferred=True)
+        commit='42d9c1f891ef1ec9af6d72c49ff3b7726a009951')
 
-    spack.depends_on('py-setuptools', type=('build', 'run'))
+    depends_on('py-setuptools', type=('build', 'run'))
 
-    spack.depends_on('neuron+python~mpi', type='run')
-    spack.depends_on('py-h5py~mpi@2.3:', type='run')
+    depends_on('neuron+python~mpi', type='run')
+    depends_on('py-h5py~mpi@2.3:', type='run')
 
-    spack.depends_on('py-bluepy@0.13.2:', type='run')
+    depends_on('py-bluepy@0.13.2:', type='run')
