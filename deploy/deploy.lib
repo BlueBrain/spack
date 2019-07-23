@@ -453,6 +453,7 @@ generate_specs() {
             spackd --input packages/${stub}.yaml packages x86_64 >> "${datadir}/specs.txt"
         done
     done
+    deactivate
 }
 
 copy_configuration() {
