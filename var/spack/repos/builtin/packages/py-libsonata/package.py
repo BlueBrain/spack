@@ -18,4 +18,4 @@ class PyLibsonata(PythonPackage):
     depends_on('cmake@3.3:', type='build')
     depends_on('hdf5~mpi', type='build')
 
-    depends_on('py-numpy@1.12:', type='run')
+    depends_on('py-numpy@1.12:', type=('build', 'run'))
