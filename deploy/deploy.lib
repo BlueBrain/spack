@@ -438,6 +438,7 @@ generate_specs() {
     . ${venv}/bin/activate
     set -o nounset
     pip install -q --force-reinstall -U .
+    pip install setuptools-scm
 
     for stage in ${what}; do
         log "generating specs for ${stage}"
@@ -453,9 +454,6 @@ generate_specs() {
             spackd --input packages/${stub}.yaml packages x86_64 >> "${datadir}/specs.txt"
         done
     done
-    set +o nounset
-    deactivate
-    set -o nounset
 }
 
 copy_configuration() {
