@@ -453,7 +453,9 @@ generate_specs() {
             spackd --input packages/${stub}.yaml packages x86_64 >> "${datadir}/specs.txt"
         done
     done
+    set +o nounset
     deactivate
+    set -o nounset
 }
 
 copy_configuration() {
