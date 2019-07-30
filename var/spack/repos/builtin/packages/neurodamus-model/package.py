@@ -56,7 +56,8 @@ class NeurodamusModel(SimModel):
         """
         core_prefix = spec['neurodamus-core'].prefix
 
-        # If the user specified common_mods then we must change the source
+        # If specified common_mods then we must change the source
+        # Particularly useful for CI of changes to models/common
         if spec.variants['common_mods'].value:
             shutil.move('common', '_common_orig')
             force_symlink(spec.variants['common_mods'].value, 'common')
