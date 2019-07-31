@@ -30,7 +30,9 @@ class NeurodamusAsciitoh(Package):
         return spec.libs.joined()
 
     def install(self, spec, prefix):
-        shutil.copytree('hoc', prefix.hoc)
+os.mkdir(prefix.lib)
+shutil.copytree('hoc', prefix.lib.hoc)
+...
         shutil.copytree('mod', prefix.mod)
 	with working_dir(prefix):
 	    link_flag = '-Wl,-rpath,' + self._get_link_flags('hdf5')
