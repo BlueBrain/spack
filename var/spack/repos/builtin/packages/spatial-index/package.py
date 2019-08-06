@@ -8,13 +8,14 @@ from spack import *
 class SpatialIndex(PythonPackage):
     """Spatial indexer for geometries and morphologies"""
 
-    homepage = "http://www.example.com"
+    homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/hpc/SpatialIndex"
     git      = "ssh://bbpcode.epfl.ch/hpc/SpatialIndex"
+    url      = "ssh://bbpcode.epfl.ch/hpc/SpatialIndex"
 
     depends_on("py-setuptools")
     depends_on("cmake")
     depends_on("boost")
 
-    version('0.0.1', git=git, tag='0.0.1', submodules=True)
+    version('0.0.1', tag='0.0.1', submodules=True)
 
 
