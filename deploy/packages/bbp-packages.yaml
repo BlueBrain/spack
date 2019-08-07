@@ -123,7 +123,7 @@ packages:
       - architecture
       - compiler
     specs:
-      - neurodamus-core+common@2.4.3
+      - neurodamus-core+common@2.5.0
 
   intel-stable-parallel:
     target_matrix:
@@ -144,10 +144,10 @@ packages:
       - mpi
       - python
     specs:
-      - neurodamus-neocortex+coreneuron
-      - neurodamus-hippocampus+coreneuron
-      - neurodamus-thalamus+coreneuron
-      - neurodamus-mousify+coreneuron
-      - neurodamus-neocortex+coreneuron^coreneuron+knl
-      - neurodamus-thalamus+coreneuron^coreneuron+knl
-      - neurodamus-hippocampus+coreneuron^coreneuron+knl
+      - neurodamus-neocortex+coreneuron@0.2
+      - neurodamus-hippocampus+coreneuron@0.3
+      - neurodamus-thalamus+coreneuron@0.2
+      - neurodamus-mousify+coreneuron@0.2
+      - neurodamus-neocortex+coreneuron^coreneuron+knl@0.2
+      - neurodamus-thalamus+coreneuron^coreneuron+knl@0.2
+      - neurodamus-hippocampus+coreneuron^coreneuron+knl@0.3
