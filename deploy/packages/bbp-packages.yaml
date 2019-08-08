@@ -148,6 +148,6 @@ packages:
       - neurodamus-hippocampus+coreneuron@0.3
       - neurodamus-thalamus+coreneuron@0.2
       - neurodamus-mousify+coreneuron@0.2
-      - neurodamus-neocortex+coreneuron^coreneuron+knl@0.2
-      - neurodamus-thalamus+coreneuron^coreneuron+knl@0.2
-      - neurodamus-hippocampus+coreneuron^coreneuron+knl@0.3
+      - neurodamus-neocortex+coreneuron@.2^coreneuron+knl
+      - neurodamus-thalamus+coreneuron@0.2^coreneuron+knl
+      - neurodamus-hippocampus+coreneuron@0.3^coreneuron+knl
