@@ -57,7 +57,7 @@ class Neuron(Package):
     # HOWEVER, with the internal version there is a bug which makes Vector.as_numpy() not work!
     depends_on('readline', when=sys.platform != 'darwin')
 
-    depends_on('mpi',         when='+mpi', type=('build', 'run'))
+    depends_on('mpi',         when='+mpi')
     depends_on('ncurses',     when='~cross-compile')
     depends_on('python@2.6:', when='+python', type=('build', 'link', 'run'))
     # Numpy is required for Vector.as_numpy()
@@ -80,7 +80,7 @@ class Neuron(Package):
         '+mpi+multisend': ['--with-multisend'],
         '~rx3d':      ['--disable-rx3d'],
         '~mpi':       ['--without-paranrn'],
-        '+mpi':       ['--with-paranrn=dynamic'],
+        '+mpi':       ['--with-paranrn'],
         '~shared':    ['--disable-shared'],
         '+binary':    ['linux_nrnmech=no'],
     }
@@ -111,7 +111,6 @@ class Neuron(Package):
         libtool_inc = '-I %s/share/aclocal/' % (self.spec['libtool'].prefix)
         newpath = 'aclocal -I m4 %s %s' % (pkgconf_inc, libtool_inc)
         filter_file(r'aclocal -I m4', r'%s' % newpath, "build.sh")
-        filter_file(r'\$\(nsrc\)/nrnmpi/nrnmpi_dynam.h', r'nrnmpi_dynam.h', "src/nrnmpi/Makefile.am")
 
         # patch hh.mod to be compatible with coreneuron
         if self.spec.satisfies('+coreneuron'):

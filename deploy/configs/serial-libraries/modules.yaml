@@ -31,6 +31,7 @@ modules:
       - gmsh
       - hdf5~mpi
       - highfive~mpi
+      - neuron
       - python-dev
       - 'tensorflow@1.12.0'
     blacklist:
