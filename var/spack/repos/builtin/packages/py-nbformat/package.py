@@ -1,4 +1,4 @@
-# Copyright 2013-2018 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -12,6 +12,7 @@ class PyNbformat(PythonPackage):
     homepage = "https://github.com/jupyter/nbformat"
     url      = "https://github.com/jupyter/nbformat/archive/4.1.0.tar.gz"
 
+    version('4.4.0', '9893bb73fedf1d7c5aa6966b65de3590')
     version('4.1.0', '826b4fc4ec42553b20144f53b57b4e7b')
     version('4.0.1', 'ab7172e517c9d561c0c01eef5631b4c8')
     version('4.0.0', '7cf61359fa4e9cf3ef5e969e2fcb909e')

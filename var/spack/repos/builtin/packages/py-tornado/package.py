@@ -1,4 +1,4 @@
-# Copyright 2013-2018 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -12,6 +12,7 @@ class PyTornado(PythonPackage):
     homepage = "https://github.com/tornadoweb/tornado"
     url      = "https://github.com/tornadoweb/tornado/archive/v4.4.0.tar.gz"
 
+    version('6.0.3', '126c66189fc5b26a39c9b54eb17254652cca8b27')
     version('4.4.0', 'c28675e944f364ee96dda3a8d2527a87ed28cfa3')
 
     depends_on('py-setuptools', type='build')

@@ -33,6 +33,7 @@ packages:
       - python
     specs:
       - tensorflow@1.12.0+cuda
+      - py-jupyter-notebook@6.0.0
 
   gnu-intel-stable-serial:
     target_matrix:

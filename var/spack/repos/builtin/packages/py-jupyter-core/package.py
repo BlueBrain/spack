@@ -12,6 +12,8 @@ class PyJupyterCore(PythonPackage):
     homepage = "http://jupyter-core.readthedocs.io/"
     url      = "https://github.com/jupyter/jupyter_core/archive/4.2.0.tar.gz"
 
+    version('4.5.0', 'e7e4037f0ffe135c807bff371bff8f9c')
+    version('4.4.0', 'f2bdb8be2959d3043b77508dd6498687')
     version('4.2.0', '25c1fc68b1b73c0a2e616c76f02bf061')
     version('4.1.1', '2fce5ff60291bc01b39b1f00b3cbb784')
     version('4.1.0', 'b7e928f965f68aef13fea1bf9d6384aa')
@@ -24,4 +26,5 @@ class PyJupyterCore(PythonPackage):
     version('4.0',   'b6b37cb4f40bd0fcd20433cb2cc7a4c1')
 
     depends_on('python@2.7:2.8,3.3:')
+    depends_on('py-setuptools', type='build', when='@4.5:')
     depends_on('py-traitlets', type=('build', 'run'))

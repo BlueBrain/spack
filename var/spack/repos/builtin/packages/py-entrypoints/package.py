@@ -1,4 +1,4 @@
-# Copyright 2013-2018 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -14,6 +14,7 @@ class PyEntrypoints(PythonPackage):
 
     import_modules = ['entrypoints']
 
+    version('0.3', 'c5c61ea2e46a0c50ea08f4af7955a0b1')
     version('0.2.3', '0d3ad1b0130d91e3596ef3a59f25a56c')
 
     depends_on('python@2.7:', type=('build', 'run'))
