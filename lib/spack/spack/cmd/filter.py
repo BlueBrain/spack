@@ -27,6 +27,8 @@ import argparse
 import collections
 import sys
 
+import llnl.util.tty as tty
+
 import spack
 import spack.cmd
 
@@ -71,8 +73,11 @@ def setup_parser(subparser):
 def filter(parser, args):
 
     Request = collections.namedtuple('Request', 'abstract,concrete')
-    specs = [Request(s, s.concretized())
-             for s in spack.cmd.parse_specs(args.specs)]
+    specs = []
+
+    for s in spack.cmd.parse_specs(args.specs):
+        tty.msg(s.name)
+        specs += [Request(s, s.concretized())]
 
     # Filter specs eagerly
     if args.installed is True:
