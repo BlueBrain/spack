@@ -56,9 +56,7 @@ packages:
       - py-h5py~mpi
       - py-hdfs
       - py-humanize
-      - py-ipython
       - py-ipyparallel
-      - py-ipywidgets
       - py-jinja2
       - py-jprops
       # - py-jupyter-client
