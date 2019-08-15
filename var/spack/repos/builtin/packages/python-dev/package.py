@@ -21,7 +21,7 @@ class PythonDev(Package):
     depends_on('py-clustershell', type=('build', 'run'))
     depends_on('py-cython', type=('build', 'run'))
     depends_on('py-h5py~mpi', type=('build', 'run'))
-    depends_on('py-ipython', type=('build', 'run'), when='^python@3:')
+    depends_on('py-ipython', type=('build', 'run'))
     depends_on('py-ipython@:6.999', type=('build', 'run'), when='^python@:2.999')
     depends_on('py-jinja2', type=('build', 'run'))
     depends_on('py-jinja2-cli', type=('build', 'run'))

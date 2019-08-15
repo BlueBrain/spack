@@ -31,6 +31,7 @@ class PyJupyterNotebook(PythonPackage):
     depends_on('py-nbformat', type=('build', 'run'))
     depends_on('py-nbconvert', type=('build', 'run'))
     depends_on('py-ipykernel', type=('build', 'run'))
+    depends_on('py-ipykernel@:4.999', type=('build', 'run'), when='^python@:2.7')
     depends_on('py-zmq', type=('build', 'run'))
     depends_on('py-prometheus-client', type=('build', 'run'))
     depends_on('py-send2trash', type=('build', 'run'))
