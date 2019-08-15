@@ -35,3 +35,5 @@ class PyIpykernel(PythonPackage):
     depends_on('py-jupyter-client@:4', when='@:4', type=('build', 'run'))
     depends_on('py-jupyter-client@5:', when='@5:', type=('build', 'run'))
     depends_on('py-pexpect', type=('build', 'run'))
+
+    conflicts('^python@2.7:2.8', when='@5.0.0:')
