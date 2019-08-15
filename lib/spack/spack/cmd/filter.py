@@ -27,8 +27,6 @@ import argparse
 import collections
 import sys
 
-import llnl.util.tty as tty
-
 import spack
 import spack.cmd
 
@@ -76,7 +74,7 @@ def filter(parser, args):
     specs = []
 
     for s in spack.cmd.parse_specs(args.specs):
-        tty.msg(s.name)
+        sys.stderr.write("{}\n".format(s.name))
         specs += [Request(s, s.concretized())]
 
     # Filter specs eagerly
