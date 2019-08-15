@@ -64,7 +64,6 @@ packages:
       # - py-jupyter-core
       # - py-jupyter-notebook
       - py-lazy-property
-      - py-line-profiler
       - py-lxml
       - py-markdown
       - py-mvdtool
