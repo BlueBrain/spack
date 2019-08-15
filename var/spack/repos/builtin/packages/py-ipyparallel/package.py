@@ -21,7 +21,7 @@ class PyIpyparallel(PythonPackage):
     depends_on('py-zmq', type='run')
     depends_on('py-zmq@:16', type='run', when='^python@:2.7')
     depends_on('py-ipython', type='run')
-    depends_on('py-ipython@:6.999', type=('build', 'run'), when='^python@:2.7')
+    depends_on('py-ipython@:6.999', type='run', when='^python@:2.7')
     depends_on('py-ipykernel', type='run')
     depends_on('py-ipykernel@:4.999', type='run', when='^python@:2.7')
     depends_on('py-futures', type='run', when='^python@:2.7')
