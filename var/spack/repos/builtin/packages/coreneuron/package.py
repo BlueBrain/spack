@@ -52,7 +52,7 @@ class Coreneuron(CMakePackage):
     variant('tests', default=False, description="Enable building tests")
 
     # nmodl specific options
-    variant('nmodl', default=False, description="Use NMODL instead of MOD2C")
+    variant('nmodl', default=True, description="Use NMODL instead of MOD2C")
     variant('sympy', default=False, description="Use NMODL with SymPy to solve ODEs")
     variant('sympyopt', default=False, description="Use NMODL with SymPy Optimizations")
     variant('ispc', default=False, description="Enable ISPC backend")
