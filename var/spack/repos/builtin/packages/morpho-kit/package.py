@@ -16,6 +16,7 @@ class MorphoKit(CMakePackage):
     git      = "https://bbpcode.epfl.ch/code/a/nse/morpho-kit"
 
     version('develop', branch='master', submodules=False, clean=False)
+    version('0.1.0', tag='v0.1.0', submodules=False, clean=False)
 
     depends_on('cmake@3.2:', type='build')
     depends_on('py-setuptools-scm', type='build')
