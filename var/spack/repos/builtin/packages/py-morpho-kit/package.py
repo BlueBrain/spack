@@ -18,7 +18,7 @@ class PyMorphoKit(PythonPackage):
 
     depends_on('py-setuptools', type='build')
 
-    depends_on('morphio', type=('build', 'link'))
+    depends_on('morphio~mpi', type=('build', 'link'))
 
     depends_on('cmake@3.2:', type='build')
     depends_on('py-numpy', type='run')
