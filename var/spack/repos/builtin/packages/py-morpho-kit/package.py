@@ -11,7 +11,7 @@ class PyMorphoKit(PythonPackage):
 
     homepage = "https://bbpcode.epfl.ch/code/#/projects/nse/morpho-kit,dashboards/default"
     url      = "https://bbpcode.epfl.ch/code/a/nse/morpho-kit"
-    git      = "https://bbpcode.epfl.ch/code/a/nse/morpho-kit"
+    git      = "ssh://bbpcode.epfl.ch/nse/morpho-kit"
 
     version('develop', branch='master', submodules=True, clean=False)
     version('0.1.0', tag='v0.1.0', submodules=True, clean=False)
