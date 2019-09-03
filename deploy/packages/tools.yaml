@@ -24,7 +24,8 @@ packages:
       - cmake@3.13.0
       - doxygen@1.8.15
       - emacs@26.1
-      - environment-modules@3.2.10
+       - environment-modules@3.2.10
+       - ffmpeg
       - flex@2.6.3
       - gdb~python@8.2
       - gdbm@1.14.1
