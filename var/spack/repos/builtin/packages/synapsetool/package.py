@@ -91,4 +91,7 @@ class Synapsetool(CMakePackage):
         if spec.satisfies('~shared'):
             args.append('-DCOMPILE_LIBRARY_TYPE=STATIC')
 
+        if spec.satisfies('+sonata'):
+            args.append('-DSYNTOOL_WITH_SONATA:BOOL=ON')
+
         return args
