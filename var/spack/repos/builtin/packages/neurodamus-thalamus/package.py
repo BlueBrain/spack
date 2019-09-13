@@ -11,7 +11,7 @@ class NeurodamusThalamus(NeurodamusModel):
     homepage = "ssh://bbpcode.epfl.ch/sim/models/thalamus"
     git      = "ssh://bbpcode.epfl.ch/sim/models/thalamus"
 
-    version('develop', git=git, branch='master', submodules=True, clean=False)
-    # Updated CoreNeuron to 0.15 and neurodamus-core to 2.6.0
-    version('0.2-1', git=git, tag='0.2', submodules=True, clean=False)
-    version('0.1', git=git, tag='0.1', submodules=True, clean=False)
+    version('develop', branch='master', submodules=True, clean=False)
+    version('0.3', tag='0.3', submodules=True, clean=False)
+    version('0.2', tag='0.2', submodules=True, clean=False)
+    version('0.1', tag='0.1', submodules=True, clean=False)
