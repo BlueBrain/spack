@@ -24,7 +24,7 @@ class NeurodamusCore(Package):
     variant('common', default=False, description="Merge in synapse mechanisms hoc & mods")
 
     # Attempt to support building
-    depends_on('neuron~binary+python', when='+common')
+    depends_on('neuron~binary+python~mpi', when='+common')
 
     # Neurodamus py is currently an extension to core
     resource(name='pydamus',
@@ -92,5 +92,6 @@ class NeurodamusCore(Package):
                 bindir = open(bindir_info, 'r').readline()
                 mechlib = find_libraries('libnrnmech', join_path(self.prefix, bindir, '.libs'))[0]
                 run_env.set('NRNMECH_LIB_PATH', mechlib)
+                run_env.set('BGLIBPY_MOD_LIBRARY_PATH', mechlib)
             else:
                 tty.warn("No .bindir info file found. NRNMECH_LIB_PATH env var wont be set")
