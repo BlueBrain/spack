@@ -272,11 +272,12 @@ class Neuron(Package):
         filter_file(env['CC'],  cxx_compiler, libtool_makefile, **kwargs)
         filter_file(env['CXX'], cxx_compiler, libtool_makefile, **kwargs)
 
-        filter_file(env['CC'],  cc_compiler, nrnmech_makefile, **kwargs)
-        filter_file(env['CXX'], cxx_compiler, nrnmech_makefile, **kwargs)
+        if self.spec.satisfies('+mpi'):
+            filter_file(env['CC'],  cc_compiler, nrnmech_makefile, **kwargs)
+            filter_file(env['CXX'], cxx_compiler, nrnmech_makefile, **kwargs)
 
-        filter_file(env['CC'],  cc_compiler, nrniv_makefile, **kwargs)
-        filter_file(env['CXX'], cxx_compiler, nrniv_makefile, **kwargs)
+            filter_file(env['CC'],  cc_compiler, nrniv_makefile, **kwargs)
+            filter_file(env['CXX'], cxx_compiler, nrniv_makefile, **kwargs)
 
 
     def setup_environment(self, spack_env, run_env):
