@@ -26,7 +26,7 @@ class NeurodamusCore(Package):
     variant('common', default=False, description="Merge in synapse mechanisms hoc & mods")
 
     # Attempt to support building
-    depends_on('neuron~binary+python~mpi', when='+common')
+    depends_on('neuron~binary+python', when='+common')
 
     # Neurodamus py is currently an extension to core
     resource(name='pydamus',

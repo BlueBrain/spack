@@ -114,10 +114,10 @@ packages:
       - python
     specs:
       - py-bluepy
-      - py-bluepymm@0.6.38 ^neuron~mpi
-      - py-bluepyopt@1.6.56 ^neuron~mpi
+      - py-bluepymm@0.6.38
+      - py-bluepyopt@1.6.56
       - py-efel@3.0.22
-      - py-bglibpy@4.1.4 ^neuron~mpi
+      - py-bglibpy@4.1.4
 
 
   #### cellular ####
