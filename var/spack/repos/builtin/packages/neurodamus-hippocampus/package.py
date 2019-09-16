@@ -11,7 +11,7 @@ class NeurodamusHippocampus(NeurodamusModel):
     homepage = "ssh://bbpcode.epfl.ch/sim/models/hippocampus"
     git      = "ssh://bbpcode.epfl.ch/sim/models/hippocampus"
 
-    version('develop', git=git, branch='master', submodules=True, clean=False)
+    version('develop', branch='master', submodules=True, clean=False)
     version('0.4', tag='0.4', submodules=True, clean=False)
     version('0.3', tag='0.3', submodules=True, clean=False)
     version('0.2', tag='0.2', submodules=True, clean=False)
