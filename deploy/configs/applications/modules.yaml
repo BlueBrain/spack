@@ -33,6 +33,7 @@ modules:
       - brayns@0.8.0
       - brayns@immersive
       - brayns-brainatlas
+      - brayns-graphs
       - brayns-topologyviewer
       - brion
       - connectome-tools
