@@ -13,7 +13,7 @@ class BraynsGraphs(CMakePackage):
     generator = 'Ninja'
 
     version('develop')
-    version('0.1.0', branch='master')
+    version('0.1.0', tag='v0.1.0', branch='master')
 
     depends_on('cmake@3.1:', type='build')
     depends_on('ninja', type='build')
