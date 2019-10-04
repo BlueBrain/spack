@@ -17,4 +17,4 @@ class BraynsGraphs(CMakePackage):
 
     depends_on('cmake@3.1:', type='build')
     depends_on('ninja', type='build')
-    depends_on('brayns')
+    depends_on('brayns@1:')
