@@ -14,7 +14,7 @@ class Brayns(CMakePackage):
 
     version('develop', submodules=True)
     version('0.8.0', tag='0.8.0', submodules=True, preferred=True)
-    version('1.0.0', tag='1.0.0', submodules=True)
+    version('1.0.1', tag='1.0.1', submodules=True)
     version('immersive', branch='videostreaming', submodules=True)
 
     variant('assimp', default=True, description='Build with assimp support')
