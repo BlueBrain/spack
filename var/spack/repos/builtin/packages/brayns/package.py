@@ -40,7 +40,6 @@ class Brayns(CMakePackage):
     depends_on('glew', when='+viewer')
     depends_on('libarchive')
     depends_on('cgal')
-    depends_on('glm')
     depends_on('libjpeg-turbo', when='+net')
     depends_on('libuv', when='+net')
     depends_on('opengl', when='+viewer')
