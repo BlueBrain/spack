@@ -32,6 +32,7 @@ modules:
       - brainbuilder
       - brayns@0.8.0
       - brayns@immersive
+      - brayns@1.0.1
       - brayns-brainatlas
       - brayns-graphs
       - brayns-topologyviewer
