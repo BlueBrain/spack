@@ -18,6 +18,6 @@ class Lunchbox(CMakePackage):
     depends_on('cmake@3.1:', type='build')
     depends_on('ninja', type='build')
 
-    depends_on('boost')
+    depends_on('boost@1.65.0')
     depends_on('servus')
 

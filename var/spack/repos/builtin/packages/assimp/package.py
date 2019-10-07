@@ -19,7 +19,7 @@ class Assimp(CMakePackage):
     variant('shared',  default=True,
             description='Enables the build of shared libraries')
 
-    depends_on('boost')
+    depends_on('boost@1.65.0')
 
     def cmake_args(self):
         args = [
