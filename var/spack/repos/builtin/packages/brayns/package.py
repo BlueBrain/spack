@@ -20,7 +20,7 @@ class Brayns(CMakePackage):
     variant('assimp', default=True, description='Build with assimp support')
     variant('ospray', default=True, description='Enable OSPRray engine')
     variant('deflect', default=True, description='Enable Deflect support')
-    variant('brion', default=True, description='Build CircuitViewer support')
+    variant('brion', default=False, description='Build CircuitViewer support')
     variant('net', default=True, description='Enable web interface')
     variant('opendeck', default=False, description='Enable OpenDeck support')
     variant('viewer', default=True, description='Build braynsViewer app')
