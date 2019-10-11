@@ -27,6 +27,8 @@ class Zee(CMakePackage):
             description='Compile C++ with warnings')
     variant('petsc', default=True,
             description='Compile examples using PETSc')
+    variant('ci', default=False,
+            description='Indicate that build occurs during continuous integration')
     depends_on('cmake@3:', type='build')
     depends_on('pkg-config', type='build')
     depends_on('py-cmake-format', type='build', when='@develop')
@@ -48,6 +50,9 @@ class Zee(CMakePackage):
                 yield '-D' + cmake_var + ':BOOL=FALSE'
         yield '-DZee_USE_PETSc:BOOL=' + ('TRUE' if '+petsc' in self.spec else 'FALSE')
         yield '-DPYTHON_EXECUTABLE:FILEPATH=' + python.path
+        if '+ci' in self.spec:
+            yield '-DZee_FORMATTING:BOOL=TRUE'
+            yield '-DZee_TEST_FORMATTING:BOOL=TRUE'
 
     def cmake_args(self):
         return list(self._bob_options())
