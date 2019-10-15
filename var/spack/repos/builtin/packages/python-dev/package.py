@@ -29,7 +29,6 @@ class PythonDev(Package):
     depends_on('py-lazy-property', type=('build', 'run'))
     depends_on('py-lxml', type=('build', 'run'))
     depends_on('py-pandas', type=('build', 'run'))
-    depends_on('py-pip', type=('build', 'run'))
     depends_on('py-pyspark', type=('build', 'run'))
     depends_on('py-pytest', type=('build', 'run'))
     depends_on('py-pyyaml', type=('build', 'run'))
