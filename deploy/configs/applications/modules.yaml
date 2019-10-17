@@ -31,8 +31,6 @@ modules:
       - asciitoh5
       - brainbuilder
       - brayns
-      - brayns@immersive
-      - brayns@1.0.1
       - brayns-brainatlas
       - brayns-graphs
       - brayns-topologyviewer
