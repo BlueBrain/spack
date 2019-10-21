@@ -120,7 +120,8 @@ class Coreneuron(CMakePackage):
             flags += ' -DTAU -DR123_USE_GNU_UINT128=0'
         return flags
 
-    def cmake_args(self):
+
+    def get_cmake_args(self):
         spec   = self.spec
         flags = self.get_flags()
 
@@ -192,6 +193,54 @@ class Coreneuron(CMakePackage):
             options.append('-DADDITIONAL_MECHPATH=%s' % modlib_dir)
 
         return options
+
+
+    @when('@develop')
+    def get_cmake_args(self):
+        spec   = self.spec
+        flags = self.get_flags()
+
+        if spec.satisfies('+profile'):
+            env['CC']  = 'tau_cc'
+            env['CXX'] = 'tau_cxx'
+        elif 'bgq' in spec.architecture and spec.satisfies('+mpi'):
+            env['CC']  = spec['mpi'].mpicc
+            env['CXX'] = spec['mpi'].mpicxx
+
+        options = ['-DCORENRN_ENABLE_SPLAYTREE_QUEUING=ON',
+                   '-DCMAKE_C_FLAGS=%s' % flags,
+                   '-DCMAKE_CXX_FLAGS=%s' % flags,
+                   '-DCMAKE_BUILD_TYPE=CUSTOM',
+                   '-DCORENRN_ENABLE_REPORTINGLIB=%s' % ('ON' if '+report' in spec else 'OFF'),
+                   '-DCORENRN_ENABLE_MPI=%s' % ('ON' if '+mpi' in spec else 'OFF'),
+                   '-DCORENRN_ENABLE_OPENMP=%s' % ('ON' if '+openmp' in spec else 'OFF'),
+                   '-DCORENRN_ENABLE_UNIT_TESTS=%s' % ('ON' if '+tests' in spec else 'OFF'),
+                   '-DCORENRN_ENABLE_TIMEOUT=OFF'
+                   ]
+
+        if spec.satisfies('~shared') or spec.satisfies('+gpu'):
+            options.append('-DCOMPILE_LIBRARY_TYPE=STATIC')
+
+        if 'bgq' in spec.architecture and '%xl' in spec:
+            options.append('-DCMAKE_BUILD_WITH_INSTALL_RPATH=1')
+
+        if spec.satisfies('+gpu'):
+            gcc = which("gcc")
+            options.extend(['-DCUDA_HOST_COMPILER=%s' % gcc,
+                            '-DCUDA_PROPAGATE_HOST_FLAGS=OFF',
+                            '-DENABLE_SELECTIVE_GPU_PROFILING=ON',
+                            '-DENABLE_OPENACC=ON',
+                            '-DENABLE_OPENACC_INFO=ON'])
+            # PGI compiler not able to compile nrnreport.cpp when enabled
+            # OpenMP, OpenACC and Reporting. Disable ReportingLib for GPU
+            options.append('-DCORENRN_ENABLE_REPORTINGLIB=OFF')
+
+        return options
+
+
+    def cmake_args(self):
+        return self.get_cmake_args()
+
 
     @run_after('install')
     def filter_compilers(self):
