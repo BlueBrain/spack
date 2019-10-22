@@ -148,6 +148,7 @@ packages:
     requires:
       - architecture
       - compiler
+      - lapack
       - python
     specs:
-      - py-numpy~blas~lapack
+      - py-numpy
