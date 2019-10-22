@@ -57,9 +57,11 @@ class Coreneuron(CMakePackage):
     variant('sympyopt', default=False, description="Use NMODL with SymPy Optimizations")
     variant('ispc', default=False, description="Enable ISPC backend")
 
+    depends_on('bison', type='build')
     depends_on('boost', when='+tests')
     depends_on('cmake@3:', type='build')
     depends_on('cuda', when='+gpu')
+    depends_on('flex', type='build')
     depends_on('mpi', when='+mpi')
     depends_on('reportinglib', when='+report')
     depends_on('reportinglib+profile', when='+report+profile')

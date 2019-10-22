@@ -33,6 +33,7 @@ class Touchdetector(CMakePackage):
     git      = "ssh://bbpcode.epfl.ch/building/TouchDetector"
 
     version('develop', submodules=True)
+    version('5.3.2', tag='5.3.2', submodules=True)
     version('5.3.1', tag='5.3.1', submodules=True)
     version('5.3.0', tag='5.3.0', submodules=True)
     version('5.2.0', tag='5.2.0', submodules=True)
@@ -57,6 +58,7 @@ class Touchdetector(CMakePackage):
     depends_on('mpi')
     depends_on('pugixml', when='@4.5:')
     depends_on('range-v3', when='@5.0.2:')
+    depends_on('highfive+mpi', when='@5.3.0:')
 
     # Old dependencies
     depends_on('hpctools~openmp', when='~openmp@:4.4')
