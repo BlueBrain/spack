@@ -35,6 +35,7 @@ class HpeMpi(Package):
 
     version('2.21', '2dd6c53a82993c4df929fdf898ac3d19',
         url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.21.tar.xz')
+    version('2.16', '0123456789abcdef0123456789abcdef', preferred=True)
 
     provides('mpi')
 
