@@ -52,7 +52,7 @@ class Coreneuron(CMakePackage):
     variant('tests', default=False, description="Enable building tests")
 
     # nmodl specific options
-    variant('nmodl', default=True, description="Use NMODL instead of MOD2C")
+    variant('nmodl', default=False, description="Use NMODL instead of MOD2C")
     variant('sympy', default=False, description="Use NMODL with SymPy to solve ODEs")
     variant('sympyopt', default=False, description="Use NMODL with SymPy Optimizations")
     variant('ispc', default=False, description="Enable ISPC backend")
@@ -103,8 +103,6 @@ class Coreneuron(CMakePackage):
     def get_flags(self):
         spec = self.spec
         flags = "-g -O2"
-        if 'bgq' in spec.architecture and '%xl' in spec:
-            flags = '-O3 -qtune=qp -qarch=qp -q64 -qhot=simd -qsmp -qthreaded -g'
         if '%intel' in spec:
             flags = '-g -xHost -O2 -qopt-report=5'
             if '+knl' in spec:
@@ -139,9 +137,6 @@ class Coreneuron(CMakePackage):
         if spec.satisfies('+profile'):
             env['CC']  = 'tau_cc'
             env['CXX'] = 'tau_cxx'
-        elif 'bgq' in spec.architecture and spec.satisfies('+mpi'):
-            env['CC']  = spec['mpi'].mpicc
-            env['CXX'] = spec['mpi'].mpicxx
 
         if spec.satisfies('+nmodl'):
             options.append('-DENABLE_NMODL=ON')
@@ -170,9 +165,6 @@ class Coreneuron(CMakePackage):
 
         if spec.satisfies('~shared') or spec.satisfies('+gpu'):
             options.append('-DCOMPILE_LIBRARY_TYPE=STATIC')
-
-        if 'bgq' in spec.architecture and '%xl' in spec:
-            options.append('-DCMAKE_BUILD_WITH_INSTALL_RPATH=1')
 
         if spec.satisfies('+gpu'):
             gcc = which("gcc")
@@ -203,9 +195,6 @@ class Coreneuron(CMakePackage):
         if spec.satisfies('+profile'):
             env['CC']  = 'tau_cc'
             env['CXX'] = 'tau_cxx'
-        elif 'bgq' in spec.architecture and spec.satisfies('+mpi'):
-            env['CC']  = spec['mpi'].mpicc
-            env['CXX'] = spec['mpi'].mpicxx
 
         options = ['-DCORENRN_ENABLE_SPLAYTREE_QUEUING=ON',
                    '-DCMAKE_C_FLAGS=%s' % flags,
@@ -218,19 +207,36 @@ class Coreneuron(CMakePackage):
                    '-DCORENRN_ENABLE_TIMEOUT=OFF'
                    ]
 
+        if spec.satisfies('+nmodl'):
+            options.append('-DCORENRN_ENABLE_NMODL=ON')
+            options.append('-DCORENRN_NMODL_ROOT=%s' % spec['nmodl'].prefix)
+            flags += ' -I%s -I%s' % (spec['nmodl'].prefix.include, spec['eigen'].prefix.include.eigen3)
+
+        nmodl_options = 'codegen --force passes --verbatim-rename --inline'
+
+        if spec.satisfies('+ispc'):
+            options.append('-DCORENRN_ENABLE_ISPC=ON')
+            if '+knl' in spec:
+                options.append('-DCMAKE_ISPC_FLAGS=-O2 -g --pic --target=avx512knl-i32x16')
+            else:
+                options.append('-DCMAKE_ISPC_FLAGS=-O2 -g --pic --target=host')
+
+        if spec.satisfies('+sympy'):
+            nmodl_options += ' sympy --analytic'
+
+        if spec.satisfies('+sympyopt'):
+            nmodl_options += ' --conductance --pade --cse'
+
+        options.append('-DCORENRN_NMODL_FLAGS=%s' % nmodl_options)
+
         if spec.satisfies('~shared') or spec.satisfies('+gpu'):
             options.append('-DCOMPILE_LIBRARY_TYPE=STATIC')
-
-        if 'bgq' in spec.architecture and '%xl' in spec:
-            options.append('-DCMAKE_BUILD_WITH_INSTALL_RPATH=1')
 
         if spec.satisfies('+gpu'):
             gcc = which("gcc")
             options.extend(['-DCUDA_HOST_COMPILER=%s' % gcc,
                             '-DCUDA_PROPAGATE_HOST_FLAGS=OFF',
-                            '-DENABLE_SELECTIVE_GPU_PROFILING=ON',
-                            '-DENABLE_OPENACC=ON',
-                            '-DENABLE_OPENACC_INFO=ON'])
+                            '-DCORENRN_ENABLE_GPU=ON'])
             # PGI compiler not able to compile nrnreport.cpp when enabled
             # OpenMP, OpenACC and Reporting. Disable ReportingLib for GPU
             options.append('-DCORENRN_ENABLE_REPORTINGLIB=OFF')
