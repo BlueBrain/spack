@@ -11,11 +11,11 @@ class Highfive(CMakePackage):
     """HighFive - Header only C++ HDF5 interface"""
 
     homepage = "https://github.com/BlueBrain/HighFive"
-    url      = "https://github.com/BlueBrain/HighFive/archive/v2.0.tar.gz"
+    url      = "https://github.com/BlueBrain/HighFive/archive/v2.1.tar.gz"
     giturl   = "https://github.com/BlueBrain/HighFive.git"
 
     version('develop', git=giturl)
-    # todo : waiting for author to release new version
+    version('2.1', 'cc9e93baecc939c6984f220643338092b7e71ef666cb1e1c80f3dfde0eaa89f2')
     version('2.0', 'deee33d7f578e33dccb5d04771f4e01b89a980dd9a3ff449dd79156901ee8d25')
     version('1.5', '5e631c91d2ea7f3677e99d6bb6db8167')
     version('1.2', '030728d53519c7e13b5a522d34240301')
