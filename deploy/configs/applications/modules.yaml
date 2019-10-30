@@ -30,9 +30,7 @@ modules:
       - archngv
       - asciitoh5
       - brainbuilder
-      - brayns@0.8.0
-      - brayns@immersive
-      - brayns@1.0.1
+      - brayns
       - brayns-brainatlas
       - brayns-graphs
       - brayns-topologyviewer
@@ -40,6 +38,8 @@ modules:
       - connectome-tools
       - emsim
       - functionalizer
+      - meshball
+      - nest
       - 'neurodamus%intel'
       - 'neurodamus-core+common'
       - neurodamus-hippocampus
@@ -58,6 +58,7 @@ modules:
       - py-efel
       - py-entity-management
       - py-jupyter-notebook
+      - py-morph-tool
       - py-simwriter
       - py-pytouchreader
       - reportinglib
