@@ -30,7 +30,7 @@ packages:
       - spykfunc@0.15.2
       - psp-validation@0.2.1
       - py-pytouchreader@1.4.3
-      # - py-basalt@0.2.4
+      - py-basalt@0.2.8
       - py-entity-management@1.0.20
       - py-jupyter-notebook@4.2.3
       - py-bbp-analysis-framework@1.6.40
