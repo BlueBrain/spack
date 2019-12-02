@@ -15,7 +15,8 @@ class Timemory(CMakePackage):
     git = 'https://github.com/NERSC/timemory.git'
     maintainers = ['jrmadsen']
 
-    version('master', branch='master', submodules=True)
+    version('develop', branch='master', submodules=True)
+    version('3.0.0a', commit='36520ff4aedc09ea7b54981dd8c97c4960f6ee79', submodules=True)
 
     variant('python', default=True, description='Enable Python support')
     variant('mpi', default=False, description='Enable MPI support')
