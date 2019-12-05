@@ -26,6 +26,8 @@ class Timemory(CMakePackage):
     variant('caliper', default=True, description='Enable Caliper support')
     variant('gperftools', default=True, description='Enable gperftools support')
 
+    patch('0001-handle-CUPTI-API-11-fix-disable-build-of-mpip-if-req.patch')
+
     depends_on('cmake@3.10:', type='build')
 
     extends('python', when='+python')
@@ -78,6 +80,7 @@ class Timemory(CMakePackage):
 
         if '+cupti' in spec:
             args.append('-DTIMEMORY_USE_CUPTI=ON')
+            args.append('-DCUPTI_PREFIX=%s' % spec['cuda'].prefix.extras.CUPTI)
         else:
             args.append('-DTIMEMORY_USE_CUPTI=OFF')
 
