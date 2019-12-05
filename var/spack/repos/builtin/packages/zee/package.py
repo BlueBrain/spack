@@ -27,6 +27,8 @@ class Zee(CMakePackage):
             description='Compile C++ with warnings')
     variant('petsc', default=True,
             description='Compile examples using PETSc')
+    variant('opsplit-only', default=False,
+            description='Only build operator splitting clients')
     variant('codechecks', default=False,
             description='Perform additional code checks like ' +
                         'formatting or static analysis')
@@ -40,7 +42,8 @@ class Zee(CMakePackage):
     depends_on('python@3:', type='build', when='+codechecks')
     depends_on('gmsh@4: +metis~mpi+oce+openmp+shared')
     depends_on('mpi')
-    depends_on('omega-h+trilinos')
+    depends_on('omega-h')
+
     depends_on('metis+int64')
     depends_on('petsc +int64', when='+petsc')
 
@@ -52,6 +55,7 @@ class Zee(CMakePackage):
                 yield '-D' + cmake_var + ':BOOL=ON'
             else:
                 yield '-D' + cmake_var + ':BOOL=FALSE'
+        yield '-DZee_OPSPLIT_CLIENTS_ONLY:BOOL=' + ('TRUE' if '+opsplit-only' in self.spec else 'FALSE')
         yield '-DZee_USE_PETSc:BOOL=' + ('TRUE' if '+petsc' in self.spec else 'FALSE')
         yield '-DPYTHON_EXECUTABLE:FILEPATH=' + python.path
         if '+codechecks' in self.spec:
