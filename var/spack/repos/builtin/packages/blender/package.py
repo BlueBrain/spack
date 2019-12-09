@@ -10,9 +10,10 @@ class Blender(Package):
     """Blender is the free and open source 3D creation suite."""
 
     homepage = "https://www.blender.org"
-    base_url      = "https://ftp.nluug.nl/pub/graphics/blender/release/"
 
-    version('2.81a-linux-glibc217', sha256='bb6e03ef79d2d7273336f8cfcd5a3b3f', url=base_url+"Blender2.81/blender-2.81a-linux-glibc217-x86_64.tar.bz2")
+    version('2.81a-217', sha256='bb6e03ef79d2d7273336f8cfcd5a3b3f')
+
+    conflicts("python")
 
     def install(self, spec, prefix):
 	for file in os.listdir(self.stage.source_path):
@@ -27,3 +28,9 @@ class Blender(Package):
         blender_python_path = os.path.join(prefix, self.version.string[:4], 'python/lib/python3.7')
         run_env.set('PYTHONPATH', blender_python_path)
 
+    def url_for_version(self, version):
+	glibc_version = version.string.split('-')[1]
+	blender_version_full = version.string.split('-')[0]
+	blender_version_minor = version.string[:4]
+	base_url = "https://ftp.nluug.nl/pub/graphics/blender/release/"
+	return "{}Blender{}/blender-{}-linux-glibc{}-x86_64.tar.bz2".format(base_url,blender_version_minor,blender_version_full,glibc_version) 
