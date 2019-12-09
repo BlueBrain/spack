@@ -15,6 +15,7 @@ class Highfive(CMakePackage):
     git      = "https://github.com/BlueBrain/HighFive.git"
 
     version('develop', branch='master')
+    version('2.1.2', branch='build_find_hdf5')
     version('2.1.1', tag='v2.1.1')
     version('2.0', '51676953bfeeaf5f0368840525d269e3')
     version('1.5', '5e631c91d2ea7f3677e99d6bb6db8167')
@@ -37,6 +38,7 @@ class Highfive(CMakePackage):
 
     def cmake_args(self):
         return [
+            '-DHIGHFIVE_USE_INSTALL_DEPS:Bool=ON',  # Newer highfive. Otherwise dynamic deps
             '-DUSE_BOOST:Bool={0}'.format('+boost' in self.spec),
             '-DHIGHFIVE_PARALLEL_HDF5:Bool={0}'.format('+mpi' in self.spec),
             '-DHIGHFIVE_EXAMPLES:Bool=false',
