@@ -33,7 +33,7 @@ modules:
       - brayns
       - brayns-brainatlas
       - brayns-topologyviewer
-      - brion
+      - brion+python
       - connectome-tools
       - emsim
       - functionalizer
