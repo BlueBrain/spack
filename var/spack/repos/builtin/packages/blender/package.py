@@ -29,8 +29,7 @@ class Blender(Package):
         run_env.set('PYTHONPATH', blender_python_path)
 
     def url_for_version(self, version):
-	glibc_version = version.string.split('-')[1]
-	blender_version_full = version.string.split('-')[0]
+	(blender_version_full, glibc_version) = version.string.split('-')
 	blender_version_minor = version.string[:4]
 	base_url = "https://ftp.nluug.nl/pub/graphics/blender/release/"
 	return "{}Blender{}/blender-{}-linux-glibc{}-x86_64.tar.bz2".format(base_url,blender_version_minor,blender_version_full,glibc_version) 
