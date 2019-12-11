@@ -30,6 +30,6 @@ class Blender(Package):
 
     def url_for_version(self, version):
 	(blender_version_full, glibc_version) = version.string.split('-')
-	blender_version_minor = version.string[:4]
+	blender_version_minor = version.up_to(2)
 	base_url = "https://ftp.nluug.nl/pub/graphics/blender/release/"
 	return "{}Blender{}/blender-{}-linux-glibc{}-x86_64.tar.bz2".format(base_url,blender_version_minor,blender_version_full,glibc_version) 
