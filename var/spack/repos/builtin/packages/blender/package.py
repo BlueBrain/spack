@@ -14,6 +14,9 @@ class Blender(Package):
     version('2.81a-217', sha256='bb6e03ef79d2d7273336f8cfcd5a3b3f')
 
     conflicts("python")
+    conflicts('platform=darwin', msg='this binary release of blender requires Linux')
+    conflicts('platform=ppc64', msg='this binary release of blender requires Linux')
+
 
     def install(self, spec, prefix):
 	for file in os.listdir(self.stage.source_path):
