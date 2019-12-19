@@ -49,7 +49,7 @@ class Zee(CMakePackage):
 
     depends_on('metis+int64')
     depends_on('petsc +int64', when='+petsc')
-    depends_on('timemory ~caliper~cuda~cupti~gperftools~papi~python~mpi', when='+timemory')
+    depends_on('timemory', when='+timemory')
 
     def _bob_options(self):
         cmake_var_prefix = self.name.capitalize() + '_CXX_'
