@@ -122,6 +122,8 @@ packages:
         paths:
             tar@1.26: /usr
         version: [1.26]
+    timemory:
+        variants: ~caliper~cuda~cupti~gperftools~papi~python~mpi
     tk:
         paths:
             tk@8.5.13: /usr
