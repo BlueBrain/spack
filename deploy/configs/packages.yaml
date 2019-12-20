@@ -123,7 +123,7 @@ packages:
             tar@1.26: /usr
         version: [1.26]
     timemory:
-        variants: ~caliper~cuda~cupti~gperftools~papi~python~mpi
+        variants: +mpi+cuda+cupti+caliper~gperftools~python@3.0.0a
     tk:
         paths:
             tk@8.5.13: /usr
