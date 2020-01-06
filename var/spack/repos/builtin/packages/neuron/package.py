@@ -23,9 +23,12 @@ class Neuron(Package):
     url      = "http://www.neuron.yale.edu/ftp/neuron/versions/v7.5/nrn-7.5.tar.gz"
     git      = "https://github.com/nrnhines/nrn.git"
 
+    # Patch which reverts 81a7a39 for numerical compat
+    patch('revert_Import3d_numerical_format.patch', when='@7.8.0:')
+
     version('develop', branch='master')
-    version('7.8.0',   tag='7.8.0')
-    version('7.6.8',   tag='7.6.8', preferred=True)
+    version('7.8.0a',  commit='92a208b', preferred=True)
+    version('7.6.8',   tag='7.6.8')
     version('7.6.6',   tag='7.6.6')
     version('2018-10', commit='b3097b7')
     # versions from url, with checksum
@@ -90,6 +93,7 @@ class Neuron(Package):
     filter_compiler_wrappers('*/bin/nrniv_makefile')
     filter_compiler_wrappers('*/bin/nrnmech_makefile')
     filter_compiler_wrappers('*/bin/nrnoc_makefile')
+    filter_compiler_wrappers('*/share/nrn/libtool')
 
     def get_neuron_archdir(self):
         """Determine the architecture-specific neuron base directory.
@@ -260,7 +264,7 @@ class Neuron(Package):
             cxx_compiler = self.spec['mpi'].mpicxx
 
         arch = self.get_neuron_archdir()
-        libtool_makefile = join_path(self.prefix, arch, '../share/nrn/libtool')
+        libtool_makefile = join_path(self.prefix, 'share/nrn/libtool')
         nrniv_makefile = join_path(self.prefix, arch, './bin/nrniv_makefile')
         nrnmech_makefile = join_path(self.prefix, arch, './bin/nrnmech_makefile')
 
@@ -275,6 +279,10 @@ class Neuron(Package):
         else:
             filter_file(env['CC'],  cc_compiler, libtool_makefile, **kwargs)
         filter_file(env['CXX'], cxx_compiler, libtool_makefile, **kwargs)
+        # In Cray systems we overwrite the spack compiler with CC or CXX accordingly
+        if 'cray' in self.spec.architecture:
+            filter_file(env['CC'], 'cc', libtool_makefile, **kwargs)
+            filter_file(env['CXX'], 'CC', libtool_makefile, **kwargs)
 
         filter_file(env['CC'],  cc_compiler, nrnmech_makefile, **kwargs)
         filter_file(env['CXX'], cxx_compiler, nrnmech_makefile, **kwargs)

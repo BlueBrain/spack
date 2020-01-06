@@ -119,6 +119,8 @@ packages:
         paths:
             tcl@8.6: /usr
         version: [8.6]
+    timemory:
+        variants: ~caliper~cuda~cupti~gperftools~papi~python~mpi
     tk:
         paths:
             tk@8.6: /usr

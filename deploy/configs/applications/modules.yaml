@@ -33,7 +33,7 @@ modules:
       - brayns
       - brayns-brainatlas
       - brayns-topologyviewer
-      - brion
+      - brion+python
       - connectome-tools
       - emsim
       - functionalizer
@@ -59,6 +59,7 @@ modules:
       - py-jupyter-notebook
       - py-morph-tool
       - 'py-mvdtool%gcc'
+      - py-neurodamus
       - py-simwriter
       - py-pytouchreader
       - reportinglib
