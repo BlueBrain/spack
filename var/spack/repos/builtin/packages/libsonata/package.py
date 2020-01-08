@@ -32,6 +32,9 @@ class Libsonata(CMakePackage):
     depends_on('highfive+mpi', when='+mpi')
     depends_on('highfive~mpi', when='~mpi')
     depends_on('mpi', when='+mpi')
+    depends_on('py-pybind11', when='@0.1.3:')
+    depends_on('catch~single_header', when='@0.1.3:')
+    depends_on('spdlog', when='@0.1.3:')
 
     def cmake_args(self):
         result = [
