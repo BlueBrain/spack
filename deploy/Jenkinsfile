@@ -349,7 +349,7 @@ pipeline {
 
                 stage('Build Docker') {
                     agent {
-                        label 'docker18'
+                        label 'docker19'
                     }
 
                     steps {
