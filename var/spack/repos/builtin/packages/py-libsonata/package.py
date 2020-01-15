@@ -17,6 +17,7 @@ class PyLibsonata(PythonPackage):
 
     depends_on('cmake@3.3:', type='build')
     depends_on('hdf5~mpi', type='build')
+    depends_on('py-pybind11', type='build')
 
     depends_on('py-numpy@1.12:', type=('build', 'run'))
     depends_on('py-setuptools-scm', type='build', when='@0.1:')
