@@ -10,7 +10,6 @@ class PyMorphio(PythonPackage):
     """Python library for reading / writing morphology files"""
 
     homepage = "https://github.com/BlueBrain/MorphIO/"
-    url      = "https://github.com/BlueBrain/MorphIO.git"
     git      = "https://github.com/BlueBrain/MorphIO.git"
 
     version('develop', branch='master', submodules=True, get_full_repo=True)
