@@ -19,12 +19,15 @@ class PspValidation(PythonPackage):
     version('0.1.14', tag='psp-validation-v0.1.14')
     version('0.1.12', tag='psp-validation-v0.1.12')
 
+    variant('mpi', default=True, description="Enable MPI backend")
+
     depends_on('py-setuptools', type=('build', 'run'))
 
     depends_on('py-attrs', type='run')
     depends_on('py-click@7.0:7.999', type='run')
     depends_on('py-future@0.16:', type='run')
-    depends_on('py-h5py~mpi@2.7:', type='run')
+    depends_on('py-h5py+mpi@2.7:', when='+mpi', type='run')
+    depends_on('py-h5py~mpi@2.7:', when='~mpi', type='run')
     depends_on('py-joblib@0.13:', type='run')
     depends_on('py-numpy@1.10:', type='run')
     depends_on('py-tqdm@4.0:', type='run')
