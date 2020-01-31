@@ -13,11 +13,11 @@ class PyMorphio(PythonPackage):
     url      = "https://github.com/BlueBrain/MorphIO.git"
     git      = "https://github.com/BlueBrain/MorphIO.git"
 
-    version('develop', git=url, submodules=True, clean=False)
-    version('2.3.4', tag='v2.3.4', submodules=True, clean=False)
-    version('2.2.1', tag='v2.2.1', submodules=True, clean=False)
-    version('2.1.2', tag='v2.1.2', submodules=True, clean=False)
-    version('2.0.8', tag='v2.0.8', submodules=True, clean=False)
+    version('develop', branch='master', submodules=True, get_full_repo=True)
+    version('2.3.4', tag='v2.3.4', submodules=True, get_full_repo=True)
+    version('2.2.1', tag='v2.2.1', submodules=True, get_full_repo=True)
+    version('2.1.2', tag='v2.1.2', submodules=True, get_full_repo=True)
+    version('2.0.8', tag='v2.0.8', submodules=True, get_full_repo=True)
 
     depends_on('py-setuptools', type='build')
 
