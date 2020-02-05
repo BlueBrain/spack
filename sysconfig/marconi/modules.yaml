@@ -22,13 +22,19 @@ modules:
       - CMAKE_PREFIX_PATH
   tcl:
     all:
+      autoload: 'all'
       filter:
         environment_blacklist: ['CPATH', 'LIBRARY_PATH']
+      suffixes:
+          '^coreneuron+knl': 'knl'
+          'neuron~mpi': 'serial'
     naming_scheme: '${PACKAGE}/${VERSION}'
     hash_length: 0
     whitelist:
       - 'neurodamus-hippocampus'
       - 'neuron'
+      - 'py-bluepyopt'
+      - 'py-pandas'
     blacklist:
       - '%gcc'
       - '%intel'
