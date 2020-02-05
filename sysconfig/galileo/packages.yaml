@@ -1,0 +1,89 @@
+packages:
+    autoconf:
+        paths:
+            autoconf@2.69: /usr
+        buildable: False
+        version: [2.69]
+    automake:
+        paths:
+            automake@1.13.4: /usr
+        buildable: False
+        version: [1.13.4]
+    bison:
+        paths:
+            bison@2.7: /usr
+        buildable: False
+        version: [2.7]
+    boost:
+        variants: +pic
+    cmake:
+        paths:
+            cmake@3.12.0: /cineca/prod/opt/tools/cmake/3.12.0/none
+        buildable: False
+        version: [3.5.2]
+    flex:
+        paths:
+            flex@2.5.37: /usr
+        buildable: False
+        version: [2.5.37]
+    gettext:
+        paths:
+            gettext@0.19.7: /usr
+        buildable: False
+        version: [0.19.7]
+    hdf5:
+        paths:
+            hdf5@1.8.18+mpi+hl: /cineca/prod/opt/libraries/hdf5/1.8.18/intelmpi--2018--binary
+            hdf5@1.8.18~mpi+hl: /cineca/prod/opt/libraries/hdf5/1.8.18/intel--pe-xe-2018--binary
+        variants: ~fortran ~cxx
+        buildable: False
+        version: [1.8.18]
+    intel-mpi-external:
+        paths:
+            intel-mpi-external@2018: /cineca/prod/opt/compilers/intel/pe-xe-2018/binary/impi/2018.4.274
+        buildable: False
+        version: [2018]
+    libtool:
+        paths:
+            libtool@2.4.2: /usr
+        buildable: False
+        version: [2.4.2]
+    ncurses:
+        paths:
+            ncurses@5.9: /usr
+        buildable: False
+        version: [5.9]
+    pkg-config:
+        paths:
+            pkg-config@0.27.1: /usr
+        buildable: False
+        version: [0.27.1]
+    python:
+        paths:
+            python@3.6.4: /cineca/prod/opt/compilers/python/3.6.4/none
+        buildable: False
+        version: [3.6.4]
+    py-numpy:
+        paths:
+            py-numpy@1.14.0: /cineca/prod/opt/libraries/numpy/1.14.0/python--3.6.4
+        buildable: False
+        version: [1.14.0]
+    py-ipykernel:
+        paths:
+            py-ipykernel@5.1.1: /cineca/prod/opt/tools/anaconda/2019.07/python--3.6.4/pkgs/ipykernel-5.1.1-py37h39e3cac_0
+        buildable: False
+        version: [5.1.1]
+    py-matplotlib:
+        paths:
+            py-matplotlib@3.1.0: /cineca/prod/opt/tools/anaconda/2019.07/python--3.6.4/pkgs/matplotlib-3.1.0-py37h5429711_0
+        buildable: False
+        version: [3.1.0]
+    zlib:
+        paths:
+            zlib@1.2.11: /cineca/prod/opt/libraries/zlib/1.2.11/intel--pe-xe-2018--binary
+        buildable: False
+        version: [1.2.11]
+    all:
+        compiler: [intel]
+        providers:
+            mpi: [intel-mpi-external]
