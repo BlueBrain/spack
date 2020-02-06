@@ -100,7 +100,7 @@ pipeline {
     }
 
     environment {
-        DEPLOYMENT_UPSTREAM = deployment_directory(false)
+        DEPLOYMENT_UPSTREAM = deployment_directory(true)
         DEPLOYMENT_ROOT = deployment_directory(false)
         BASEDIR = "${DEPLOYMENT_ROOT}/spack/deploy"
         DOCKERDIR = "${DEPLOYMENT_ROOT}/spack/docker"
