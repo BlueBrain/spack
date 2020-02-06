@@ -288,7 +288,7 @@ configure_compilers() {
         log "...regenerating module for ${line}"
         spack module tcl refresh -y --latest --upstream ${line}
         log "...processing ${line}"
-        cmd=$(spack module tcl loads --latest --upstream ${line}|tail -n 1)
+        cmd=$(spack module tcl loads --latest ${line}|tail -n 1)
         echo "${cmd}"
         ${cmd}
         set -o nounset
