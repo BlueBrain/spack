@@ -286,9 +286,9 @@ configure_compilers() {
         # As the input should be sorted by compilers, the module generation
         # will now find the compilers that were used when bootstrapping.
         log "...regenerating module for ${line}"
-        spack module tcl refresh -y --latest ${line}
+        spack module tcl refresh -y --latest --upstream ${line}
         log "...processing ${line}"
-        cmd=$(spack module tcl loads --latest ${line}|tail -n 1)
+        cmd=$(spack module tcl loads --latest --upstream ${line}|tail -n 1)
         echo "${cmd}"
         ${cmd}
         set -o nounset
@@ -675,7 +675,7 @@ EOF
     update_module_path "${what}"
 
     if [[ "${DEPLOYMENT_UPSTREAM:-${DEPLOYMENT_ROOT}}" != "${DEPLOYMENT_ROOT}" ]]; then
-        OLD_DEPLOYMENT_ROOT="${DEPLOYMENT_ROOT}"
+        local OLD_DEPLOYMENT_ROOT="${DEPLOYMENT_ROOT}"
         DEPLOYMENT_ROOT="${DEPLOYMENT_UPSTREAM}"
         export DEPLOYMENT_ROOT
         log "setting up upstream chains, modules"
