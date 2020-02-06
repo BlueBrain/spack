@@ -36,6 +36,7 @@ modules:
       - 'py-bluepyopt'
       - 'py-matplotlib'
       - 'py-pandas'
+      - 'zlib%gcc'
     blacklist:
       - '%gcc'
       - '%intel'
