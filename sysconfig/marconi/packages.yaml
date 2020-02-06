@@ -9,6 +9,11 @@ packages:
             automake@1.13.4: /usr
         buildable: False
         version: [1.13.4]
+    binutils:
+        paths:
+            binutils@2.32: /usr
+        buildable: False
+        version: [2.32]
     bison:
         paths:
             bison@2.7: /usr
@@ -68,25 +73,14 @@ packages:
             py-numpy@1.14.0: /cineca/prod/opt/libraries/numpy/1.14.0/python--3.6.4
         buildable: False
         version: [1.14.0]
-    py-pandas:
-        paths:
-            py-pandas@0.24.2: /cineca/prod/opt/tools/anaconda/2019.10/python--3.6.4/pkgs/pandas-0.24.2-py37he6710b0_0
-        buildable: False
-        version: [0.24.2]
     py-ipykernel:
         paths:
             py-ipykernel@5.1.1: /cineca/prod/opt/tools/anaconda/2019.10/python--3.6.4/pkgs/ipykernel-5.1.1-py37h39e3cac_0
         buildable: False
         version: [5.1.1]
-    py-matplotlib:
-        paths:
-            py-matplotlib@3.1.0: /cineca/prod/opt/tools/anaconda/2019.10/python--3.6.4/pkgs/matplotlib-3.1.0-py37h5429711_0
-        buildable: False
-        version: [3.1.0]
     zlib:
         paths:
-            zlib@1.2.11: /cineca/prod/opt/libraries/zlib/1.2.11/intel--pe-xe-2018--binary
-        buildable: False
+            zlib@1.2.11%intel: /cineca/prod/opt/libraries/zlib/1.2.11/intel--pe-xe-2018--binary
         version: [1.2.11]
     all:
         compiler: [intel]
