@@ -8,6 +8,11 @@ For some common issues, please see the [FAQ](FAQ.md).
 
 ## Building software on Ubuntu 18.04
 
+<details>
+<summary>
+Use Spack on the workstations provided by the project
+</summary>
+
 We build Docker images based on Ubuntu 18.04, and the same settings can be
 used to set Spack up on the desktops:
 
@@ -37,22 +42,27 @@ checkout:
 This version of MVDTool can now be re-used by Spack to build other
 software, when `^mvdtool@my-custom-version` is appended to the appropriate
 spec.
+</details>
 
 ## Building software on BlueBrain5
+
+<details>
+<summary>
+Install software on our cluster, re-using packages build centrally
+</summary>
 
 On BB5, clone this repository to get started using Spack.
 The following commands are a good way to get started:
 
-```bash
-git clone https://github.com/BlueBrain/spack.git                     # 1)
-. spack/share/spack/setup-env.sh                                     # 2)
-mkdir -p ~/.spack                                                    # 3)
-ln -s /gpfs/bbp.cscs.ch/apps/hpc/jenkins/config/*.yaml ~/.spack      # 4)
-export SPACK_INSTALL_PREFIX=$HOME/software                           # 5)
-```
+    $ git clone https://github.com/BlueBrain/spack.git                     # 1)
+    $ . spack/share/spack/setup-env.sh                                     # 2)
+    $ mkdir -p ~/.spack                                                    # 3)
+    $ ln -s /gpfs/bbp.cscs.ch/apps/hpc/jenkins/config/*.yaml ~/.spack      # 4)
+    $ export SPACK_INSTALL_PREFIX=${HOME}/software                         # 5)
 
-Steps 1) and 2) are the only mandatory ones, however 3) 4) 5) are necessary to used
-precompiled packages (more on this next section).
+Steps (1) and (2) are the only mandatory ones, however (3) through (5) are
+necessary to use precompiled packages (more on this in the next section)
+and speed up build times.
 
 ### Concretization
 
@@ -61,9 +71,6 @@ Before building a program, one can have a look at all the software that would be
 
 Wouldn't have we performed the instructions 3), 4) and 5) in the previous step,
 here is how the output would look like for the circuit building workflow.
-
-
-
 
     $ spack spec -I spykfunc|head -n 15
     Input spec
@@ -81,7 +88,6 @@ here is how the output would look like for the circuit building workflow.
      -                   ^pkgconf@1.5.4%gcc@4.8.5 arch=linux-rhel7-x86_64
      -               ^openssl@1.1.1%gcc@4.8.5+systemcerts arch=linux-rhel7-x86_64
      -                   ^perl@5.26.2%gcc@4.8.5+cpanm patches=0eac10ed90aeb0459ad8851f88081d439a4e41978e586ec743069e8b059370ac +shared+threads arch=linux-rhel7-x86_64
-
 
 The leading `-` sign in the output signifies that this particular piece of
 software would have to be built from scratch.
@@ -167,9 +173,68 @@ The information for external packages is stored in
       zlib:
         paths:
           zlib@1.2.11 +optimize+pic+shared: /gpfs/bbp.cscs.ch/apps/hpc/jenkins/deploy/external-libraries/2019-01-04/linux-rhel7-x86_64/gcc-6.4.0/zlib-1.2.11-w43e56tzqj
+</details>
 
+## Using Spack for Continuous Integration on BlueBrain5
 
-## Managing Centrally Built Modules and Packages
+<details>
+<summary>
+Use our central deployment with our Jenkins instance
+</summary>
+
+When building Spack packages with Jenkins, please use the `bb5` executors.
+Then you will be able to install software with:
+
+    $ git clone https://github.com/BlueBrain/spack.git
+    $ . spack/share/spack/setup-env.sh
+    $ mkdir fake_home
+    $ export HOME=${PWD}/fake_home
+    $ mkdir -p ~/.spack
+    $ ln -s /gpfs/bbp.cscs.ch/apps/hpc/jenkins/config/*.yaml ~/.spack
+    $ export SPACK_INSTALL_PREFIX=${HOME}/software
+    $ spack build-dev <my_package>
+
+Note that a custom home directory is created to avoid any interference from
+a shared configuration of Spack.
+</details>
+
+## Using Spack for Continuous Integration with Travis
+
+<details>
+<summary>
+Use our automated Docker build to test on Travis
+</summary>
+
+The [MVDTool CI configuration](https://github.com/BlueBrain/MVDTool/blob/master/.travis.yml) shows how to use our continuously updated Docker image with Travis for a simple build:
+
+    services:
+      - docker
+
+    matrix:
+      include:
+      - name: "C++ Build"
+        before_install:
+          - docker pull bluebrain/spack
+          - docker run -v $PWD:/source -w /source bluebrain/spack:latest spack diy --test=root mvdtool@develop
+      - name: "Python Build"
+        before_install:
+          - docker pull bluebrain/spack
+          - docker run -v $PWD:/source -w /source bluebrain/spack:latest spack diy --test=root "py-mvdtool@develop^python@3:"
+
+    script: "ruby -ne 'puts $_ if /^==>.*make.*test|^==>.*python.*setup\\.py.*test/../.*phase.*install/ and not /^==>|make: \\*\\*\\*/' spack-build.out"
+
+The last line will extract the results from running unit tests during
+installation for your convenience.  This requires either a valid test
+target for `make` in CMake or a corresponding command in `setup.py` for
+Python.
+</details>
+
+## Deploying software on BlueBrain5
+
+<details>
+<summary>
+Add new software to our module system
+</summary>
 
 Centrally build modules can be made available by sourcing the following
 script:
@@ -224,8 +289,15 @@ Software packages and modules should be updated upon pull request merge and
 a nightly basis.
 The `config` directory contains the same configuration files as the regular
 deployment and can be used instead.
+</details>
 
 # <img src="https://cdn.rawgit.com/spack/spack/develop/share/spack/logo/spack-logo.svg" width="64" valign="middle" alt="Spack"/> Spack
+
+
+<details>
+<summary>
+Official upstream documentation
+</summary>
 
 [![Build Status](https://travis-ci.org/spack/spack.svg?branch=develop)](https://travis-ci.org/spack/spack)
 [![codecov](https://codecov.io/gh/spack/spack/branch/develop/graph/badge.svg)](https://codecov.io/gh/spack/spack)
@@ -347,3 +419,4 @@ See [LICENSE-MIT](https://github.com/spack/spack/blob/develop/LICENSE-MIT),
 SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 LLNL-CODE-647188
+</details>
