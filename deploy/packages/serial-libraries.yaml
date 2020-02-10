@@ -51,6 +51,7 @@ packages:
     specs:
       - assimp
       - boost
+      - catch ~single_header
       - deflect
       - eigen
       - fmt
@@ -61,7 +62,9 @@ packages:
       - morphio
       - morpho-kit
       - openscenegraph build_type=Release
+      - nlohmann-json +single_header
       - pugixml
+      - random123
       - range-v3
       - rockets
       - rocksdb~static
