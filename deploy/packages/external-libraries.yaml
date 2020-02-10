@@ -29,10 +29,8 @@ packages:
       # - freeimage@3.18.0
       - glew
       - gmsh+metis~mpi+oce+openmp+shared@4.4.1
-      - hadoop ^jdk@1.8.0_131-b11
       - hdf5~mpi@1.10.5
       - intel-mkl@2019.3.199
-      - jdk@1.8.0_131-b11
       - julia
       - libjpeg
       - libjpeg-turbo
@@ -48,7 +46,6 @@ packages:
       - qt@5.11.2 ^libjpeg-turbo
       - readline
       - snakemake
-      - spark@2.4.0+hadoop ^jdk@1.8.0_131-b11
       - sqlite
       - symengine@0.3.0
       - timemory+mpi+cuda+cupti+caliper~gperftools~python@3.0.1
