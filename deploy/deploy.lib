@@ -601,9 +601,9 @@ copy_user_configuration() {
     echo "export MODULEPATH=\"\${MODULEPATH}\${MODULEPATH:+:}${root}\"" > ${target}/modules.sh
     cat <<EOF > ${target}/modules.csh
 if ( \$?MODULEPATH ) then
-    setenv MODULEPATH \${MODULEPATH}:${modpath}
+    setenv MODULEPATH \${MODULEPATH}:${root}
 else
-    setenv MODULEPATH ${modpath}
+    setenv MODULEPATH ${root}
 endif
 EOF
 
