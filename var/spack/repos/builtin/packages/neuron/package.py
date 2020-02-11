@@ -368,7 +368,6 @@ class Neuron(Package):
                 break
 
     def setup_run_environment(self, env):
-        neuron_archdir = self.get_neuron_archdir()
         env.prepend_path("PATH", join_path(self.archdir, "bin"))
         env.prepend_path("LD_LIBRARY_PATH", join_path(self.archdir, "lib"))
         self.set_python_path(env)
@@ -376,7 +375,6 @@ class Neuron(Package):
             env.set("MPICC_CC", self.compiler.cc)
 
     def setup_dependent_build_environment(self, env, dependent_spec):
-        neuron_archdir = self.get_neuron_archdir()
         env.prepend_path("PATH", join_path(self.archdir, "bin"))
         env.prepend_path("LD_LIBRARY_PATH", join_path(self.archdir, "lib"))
 
