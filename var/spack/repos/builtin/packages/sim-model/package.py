@@ -74,7 +74,7 @@ class SimModel(Package):
 
         if '+profile' in self.spec:
             include_flag += ' -DENABLE_TAU_PROFILER'
-        output_dir = os.path.basename(self.spec.neuron_archdir)
+        output_dir = os.path.basename(spec.neuron_archdir)
 
         if self.spec.satisfies('+coreneuron'):
             libnrncoremech = self.__build_mods_coreneuron(
