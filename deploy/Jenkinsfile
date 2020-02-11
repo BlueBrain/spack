@@ -30,6 +30,15 @@ def deployment_directory(parent) {
     }
 }
 
+def temporary_directory() {
+    def pull = env.ghprbPullId
+    if (pull == null) {
+        return "${TMPDIR}"
+    } else {
+        return "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/${pull}/tmp"
+    }
+}
+
 def post_process() {
     dir("${BASEDIR}") {
         def pull = env.ghprbPullId
@@ -104,6 +113,7 @@ pipeline {
         DEPLOYMENT_ROOT = deployment_directory(false)
         BASEDIR = "${DEPLOYMENT_ROOT}/spack/deploy"
         DOCKERDIR = "${DEPLOYMENT_ROOT}/spack/docker"
+        TMPDIR = temporary_directory()
     }
 
     // Configured via the UI to allow concurrent PR builds
