@@ -11,16 +11,6 @@ combinations: !include packages/toolchains.yaml
 
 packages:
 
-  gnu-stable-serial-python:
-    target_matrix:
-      - gnu-stable
-    requires:
-      - architecture
-      - compiler
-      - python
-    specs:
-      - arrow+parquet+python@0.15.0
-
   gnu-stable-serial-python3:
     target_matrix:
       - gnu-stable
