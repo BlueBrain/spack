@@ -35,7 +35,6 @@ def temporary_directory() {
     if (pull == null) {
         return "${TMPDIR}"
     } else {
-        return "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/${pull}/tmp"
         def tmpdir = "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/${pull}/tmp"
         dir(tmpdir) {
             writeFile file: "the_bad_touch", text: "created for convenience"
