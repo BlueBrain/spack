@@ -26,9 +26,7 @@ def deployment_directory(parent) {
     if (parent || pull == null) {
         return "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins"
     } else {
-        def tmpdir = "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/${pull}"
-        dir(tmpdir) {}
-        return tmpdir
+        return "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/${pull}"
     }
 }
 
@@ -37,7 +35,9 @@ def temporary_directory() {
     if (pull == null) {
         return "${TMPDIR}"
     } else {
-        return "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/${pull}/tmp"
+        def tmpdir = "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/${pull}/tmp"
+        dir(tmpdir) {}
+        return tmpdir
     }
 }
 
