@@ -31,4 +31,3 @@ class PyBluepySnap(PythonPackage):
 
     depends_on('py-click@7.0:', type='run')
     depends_on('py-pathlib2@2.3:', type='run')
-
