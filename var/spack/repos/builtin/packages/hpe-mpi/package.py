@@ -11,6 +11,7 @@ import stat
 from llnl.util.filesystem import find
 from spack import *
 
+
 class HpeMpi(Package):
     """HPE-SGI MPI package"""
 
@@ -43,7 +44,8 @@ class HpeMpi(Package):
             filter_file(r'-I(.*mpiroot)', r'-isystem\1', mpic)
 
         install_tree(
-            join_path(self.stage.source_path, 'opt/hpe/hpc/mpt/mpt-' + str(self.spec.version)),
+            join_path(self.stage.source_path,
+                      'opt/hpe/hpc/mpt/mpt-' + str(self.spec.version)),
             prefix
         )
 

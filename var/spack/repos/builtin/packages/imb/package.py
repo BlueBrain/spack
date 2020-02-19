@@ -5,8 +5,6 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 from spack import *
 from shutil import copyfile
-from shutil import copymode
-import sys
 import os
 
 
@@ -23,8 +21,8 @@ class Imb(MakefilePackage):
     def edit(self, spec, prefix):
         os.chdir("src")
         makefile = FileFilter('make_ict')
-        makefile.filter('CC          = .*', 'CC = %s' %
-                            self.spec['mpi'].mpicc)
+        makefile.filter('CC          = .*', 'CC = %s'
+                        % self.spec['mpi'].mpicc)
 
     def build(self, spec, prefix):
         make()

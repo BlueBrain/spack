@@ -7,7 +7,8 @@ from spack import *
 
 
 class PyCookiecutter(PythonPackage):
-    """A command-line utility that creates projects from cookiecutters (project templates).
+    """A command-line utility that creates projects from
+    cookiecutters (project templates).
     E.g. Python package projects, jQuery plugin projects."""
 
     homepage = "https://cookiecutter.readthedocs.io/en/latest/"
