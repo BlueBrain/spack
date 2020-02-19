@@ -9,7 +9,8 @@ import os
 
 class Reportinglib(CMakePackage):
 
-    """Soma and full compartment report library developed by Blue Brain Project, EPFL"""
+    """Soma and full compartment report library developed
+       by Blue Brain Project, EPFL"""
 
     homepage = "https://bbpcode.epfl.ch/code/a/sim/reportinglib/bbp"
     url      = "ssh://bbpcode.epfl.ch/sim/reportinglib/bbp"
@@ -34,7 +35,7 @@ class Reportinglib(CMakePackage):
     def profiling_wrapper_on(self):
         os.environ["USE_PROFILER_WRAPPER"] = "1"
 
-    @run_after ('install')
+    @run_after('install')
     def profiling_wrapper_off(self):
         del os.environ["USE_PROFILER_WRAPPER"]
 
@@ -70,4 +71,3 @@ class Reportinglib(CMakePackage):
             if libs:
                 return libs
         return None
-

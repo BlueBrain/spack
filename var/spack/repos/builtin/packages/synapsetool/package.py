@@ -49,11 +49,14 @@ class Synapsetool(CMakePackage):
         """Export the synapse library
         """
         is_shared = '+shared' in self.spec
-        return find_libraries('libsyn2', root=self.prefix, shared=is_shared, recursive=True)
+        return find_libraries('libsyn2', root=self.prefix, shared=is_shared,
+                              recursive=True)
 
     def dependency_libs(self, spec=None):
-        """List of required libraries on linking, with the possibility of passing another
-           spec where all dependencies have specs. This enables Syntool to be external
+        """List of required libraries on linking,
+           with the possibility of passing another
+           spec where all dependencies have specs.
+           This enables Syntool to be external
         """
         spec = spec or self.spec
         is_shared = '+shared' in self.spec['synapsetool']
@@ -63,8 +66,10 @@ class Synapsetool(CMakePackage):
             boost_libs = [l + '-mt' for l in boost_libs]
 
         libraries = (
-            find_libraries(boost_libs, spec['boost'].prefix, is_shared, True)
-            + find_libraries("libsonata", spec['libsonata'].prefix, is_shared, True)
+            find_libraries(boost_libs, spec['boost'].prefix,
+                           is_shared, True)
+            + find_libraries("libsonata",
+                             spec['libsonata'].prefix, is_shared, True)
         )
         return libraries
 
