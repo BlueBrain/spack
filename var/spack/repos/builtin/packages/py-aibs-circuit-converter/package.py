@@ -5,6 +5,7 @@
 
 from spack import *
 
+
 class PyAibsCircuitConverter(PythonPackage):
     """Pythonic API for conversion between Allen Institute and BBP"""
 
@@ -12,7 +13,7 @@ class PyAibsCircuitConverter(PythonPackage):
     git      = "ssh://bbpcode.epfl.ch/nse/aibs-circuit-converter"
 
     version('develop', branch='master')
-	
+
     depends_on('py-setuptools', type=('build', 'run'))
 
     depends_on('py-numpy@1.17:', type='run')
@@ -23,4 +24,3 @@ class PyAibsCircuitConverter(PythonPackage):
     depends_on('py-transforms3d@0.3.1:', type='run')
     depends_on('py-six@1.0:', type='run')
     depends_on('py-bluepyopt@1.8.68:', type='run')
-
