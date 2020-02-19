@@ -5,6 +5,7 @@
 
 from spack import *
 
+
 class PyNeuronReduce(PythonPackage):
     """Spack wrapper package for neuron reduction algorithm by Oren Amsalem"""
 
