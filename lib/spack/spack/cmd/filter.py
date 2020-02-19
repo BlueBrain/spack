@@ -65,7 +65,8 @@ def filter(parser, args):
         if args.explicit is True:
             specs = [s for s in specs if s.concrete._installed_explicitly()]
         elif args.explicit is False:
-            specs = [s for s in specs if not s.concrete._installed_explicitly()]
+            specs = [s for s in specs
+                     if not s.concrete._installed_explicitly()]
 
         for spec in specs:
             args.output.write(str(spec.abstract) + '\n')
