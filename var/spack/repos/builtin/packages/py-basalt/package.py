@@ -11,7 +11,7 @@ class PyBasalt(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/basalt"
     url      = "git@github.com:BlueBrain/basalt.git"
-    
+
     version('develop', git=url, branch='master', submodules=True, get_full_repo=True)
     version('0.2.9', git=url, tag='v0.2.9', submodules=True, get_full_repo=True)
     version('0.2.4', git=url, tag='v0.2.4', submodules=True, get_full_repo=True)
