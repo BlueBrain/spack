@@ -6,7 +6,7 @@
 from spack import *
 
 
-class PyBluepySnap(PythonPackage):
+class PyBluepysnap(PythonPackage):
     """Pythonic Sonata circuits access API"""
 
     homepage = "https://github.com/BlueBrain/snap"
