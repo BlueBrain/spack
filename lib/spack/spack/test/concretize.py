@@ -602,21 +602,3 @@ class TestConcretize(object):
         """Test concretization failures for no-version packages."""
         with pytest.raises(NoValidVersionError, match="no valid versions"):
             Spec(spec).concretized()
-
-    @pytest.mark.parametrize('spec, best_achievable', [
-        ('mpileaks%gcc@4.4.7', 'x86_64'),
-        ('mpileaks%gcc@4.8', 'haswell'),
-        ('mpileaks%gcc@5.3.0', 'broadwell'),
-        # Apple's clang always falls back to x86-64 for now
-        ('mpileaks%clang@9.1.0-apple', 'x86_64')
-    ])
-    @pytest.mark.regression('13361')
-    def test_adjusting_default_target_based_on_compiler(
-            self, spec, best_achievable, current_host
-    ):
-        best_achievable = llnl.util.cpu.targets[best_achievable]
-        expected = best_achievable if best_achievable < current_host \
-            else current_host
-        with spack.concretize.disable_compiler_existence_check():
-            s = Spec(spec).concretized()
-            assert str(s.architecture.target) == str(expected)
