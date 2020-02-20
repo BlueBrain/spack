@@ -604,7 +604,7 @@ class TestConcretize(object):
             Spec(spec).concretized()
 
     @pytest.mark.parametrize('spec, best_achievable', [
-        ('mpileaks%gcc@4.4.7', 'core2'),
+        ('mpileaks%gcc@4.4.7', 'x86_64'),
         ('mpileaks%gcc@4.8', 'haswell'),
         ('mpileaks%gcc@5.3.0', 'broadwell'),
         # Apple's clang always falls back to x86-64 for now
