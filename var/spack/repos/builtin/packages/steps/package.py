@@ -47,7 +47,12 @@ class Steps(CMakePackage):
         spec = self.spec
 
         if "~bundle" in spec:
-            bundles = ["EASYLOGGINGPP", "RANDOM123", "SUNDIALS", "SUPERLU_DIST"]
+            bundles = [
+                "EASYLOGGINGPP",
+                "RANDOM123",
+                "SUNDIALS",
+                "SUPERLU_DIST"
+            ]
             for bundle in bundles:
                 args.append("-DUSE_BUNDLE_{0}:BOOL=OFF".format(bundle))
 
@@ -75,7 +80,9 @@ class Steps(CMakePackage):
             args.append("-DENABLE_CODECOVERAGE:BOOL=True")
 
         args.append('-DBLAS_LIBRARIES=' + spec['blas'].libs.joined(";"))
-        args.append('-DPYTHON_EXECUTABLE=' + spec['python'].prefix.bin.python + str(spec['python'].version.up_to(1)))
+        args.append('-DPYTHON_EXECUTABLE='
+                    + spec['python'].prefix.bin.python
+                    + str(spec['python'].version.up_to(1)))
         return args
 
     @property
@@ -92,7 +99,7 @@ class Steps(CMakePackage):
                 "all",  # build
                 "coverage_init",  # initialize coverage counters
                 "test",  # run tests suite
-                "coverage"  #  collect coverage counters and build reports
+                "coverage"  # collect coverage counters and build reports
             ]
         return targets
 

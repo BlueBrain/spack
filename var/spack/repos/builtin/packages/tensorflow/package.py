@@ -146,7 +146,9 @@ class Tensorflow(Package):
                 'build --action_env TF_NEED_OPENCL_SYCL="0"',
                 'build --action_env TF_NEED_OPENCL_SYCL="0"\n'
                 "build --distinct_host_configuration=false\n"
-                'build --action_env PYTHONPATH="{0}"'.format(env["PYTHONPATH"]),
+                'build --action_env PYTHONPATH="{0}"'.format(
+                    env["PYTHONPATH"]
+                ),
                 ".tf_configure.bazelrc",
             )
 

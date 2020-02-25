@@ -5,6 +5,7 @@
 
 from spack import *
 
+
 class Brayns(CMakePackage):
     """Visualizer for large-scale and interactive ray-tracing of neurons"""
 
@@ -55,9 +56,13 @@ class Brayns(CMakePackage):
         for cmake_filename in find(self.stage.source_path, "CMakeLists.txt"):
             filter_file(r'\$\{GLEW_LIBRARIES\}', 'GLEW', cmake_filename)
         if self.spec.satisfies('@1.0:'):
-            filter_file(r'cast<const uint8_t \*const', 'cast<const uint8_t *', 'plugins/Rockets/encoder.cpp')
+            filter_file(r'cast<const uint8_t \*const',
+                        'cast<const uint8_t *',
+                        'plugins/Rockets/encoder.cpp')
         if self.spec.satisfies('@immersive'):
-            filter_file(r'(#include <unordered_map>)', '\\1\n#include <functional>', 'plugins/VRPN/VRPNPlugin.h')
+            filter_file(r'(#include <unordered_map>)',
+                        '\\1\n#include <functional>',
+                        'plugins/VRPN/VRPNPlugin.h')
 
     def cmake_args(self):
         args = [
