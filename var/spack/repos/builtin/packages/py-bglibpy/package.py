@@ -13,7 +13,7 @@ class PyBglibpy(PythonPackage):
     git = "ssh://bbpcode.epfl.ch/sim/BGLibPy"
 
     version('develop', branch='master')
-    version('4.1.4', commit='e54d294460e5bdf6b9990bc10a4606b412b76d90')
+    version('4.2.14', commit='ab36dadee66f7ccd65a0ba564b97dfee91e7668b')
 
     depends_on('py-setuptools', type=('build', 'run'))
 
