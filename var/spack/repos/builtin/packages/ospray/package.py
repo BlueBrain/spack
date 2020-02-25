@@ -29,7 +29,7 @@ class Ospray(CMakePackage):
     def cmake_args(self):
         return [
             '-DOSPRAY_ENABLE_TUTORIALS=OFF',
-            '-DOSPRAY_ENABLE_APPS:BOOL={}'.format('ON' if '+apps' in self.spec else 'OFF'),
+            '-DOSPRAY_ENABLE_APPS:BOOL={0}'.format('ON' if '+apps' in self.spec else 'OFF'),
             '-DOSPRAY_MODULE_MPI=ON'
         ]
 

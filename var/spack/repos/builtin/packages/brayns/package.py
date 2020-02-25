@@ -62,21 +62,21 @@ class Brayns(CMakePackage):
     def cmake_args(self):
         args = [
             '-DDISABLE_SUBPROJECTS=ON',
-            '-DBRAYNS_ASSIMP_ENABLED={}'.format(
+            '-DBRAYNS_ASSIMP_ENABLED={0}'.format(
                 'ON' if '+assimp' in self.spec else 'OFF'),
-            '-DBRAYNS_OSPRAY_ENABLED={}'.format(
+            '-DBRAYNS_OSPRAY_ENABLED={0}'.format(
                 'ON' if '+ospray' in self.spec else 'OFF'),
-            '-DBRAYNS_CIRCUITEXPLORER_ENABLED={}'.format(
+            '-DBRAYNS_CIRCUITEXPLORER_ENABLED={0}'.format(
                 'ON' if '+brion' in self.spec else 'OFF'),
-            '-DBRAYNS_CIRCUITVIEWER_ENABLED={}'.format(
+            '-DBRAYNS_CIRCUITVIEWER_ENABLED={0}'.format(
                 'ON' if '+brion' in self.spec else 'OFF'),
-            '-DBRAYNS_DTI_ENABLED={}'.format(
+            '-DBRAYNS_DTI_ENABLED={0}'.format(
                 'ON' if '+brion' in self.spec else 'OFF'),
-            '-DBRAYNS_CIRCUITINFO_ENABLED={}'.format(
+            '-DBRAYNS_CIRCUITINFO_ENABLED={0}'.format(
                 'ON' if '+brion' in self.spec else 'OFF'),
-            '-DBRAYNS_NETWORKING_ENABLED={}'.format(
+            '-DBRAYNS_NETWORKING_ENABLED={0}'.format(
                 'ON' if '+net' in self.spec else 'OFF'),
-            '-DBRAYNS_DEFLECT_ENABLED={}'.format(
+            '-DBRAYNS_DEFLECT_ENABLED={0}'.format(
                 'ON' if '+deflect' in self.spec else 'OFF')
         ]
 

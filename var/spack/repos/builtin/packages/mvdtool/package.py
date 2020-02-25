@@ -49,7 +49,7 @@ class Mvdtool(CMakePackage):
         args = []
         if self.spec.satisfies('+mpi'):
             args.extend([
-                '-DCMAKE_C_COMPILER:STRING={}'.format(self.spec['mpi'].mpicc),
-                '-DCMAKE_CXX_COMPILER:STRING={}'.format(self.spec['mpi'].mpicxx),
+                '-DCMAKE_C_COMPILER:STRING={0}'.format(self.spec['mpi'].mpicc),
+                '-DCMAKE_CXX_COMPILER:STRING={0}'.format(self.spec['mpi'].mpicxx),
             ])
         return args

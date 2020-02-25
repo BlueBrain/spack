@@ -49,7 +49,7 @@ class Steps(CMakePackage):
         if "~bundle" in spec:
             bundles = ["EASYLOGGINGPP", "RANDOM123", "SUNDIALS", "SUPERLU_DIST"]
             for bundle in bundles:
-                args.append("-DUSE_BUNDLE_{}:BOOL=OFF".format(bundle))
+                args.append("-DUSE_BUNDLE_{0}:BOOL=OFF".format(bundle))
 
         if "+native" in spec:
             args.append("-DTARGET_NATIVE_ARCH:BOOL=True")

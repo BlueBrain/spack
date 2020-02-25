@@ -236,7 +236,7 @@ class Neuron(Package):
         # To support prompt (not cross-compile) use readline + ncurses
         if 'ncurses' in spec:
             options.extend(['CURSES_LIBS={0.rpath_flags} {0.ld_flags}'.format(spec['ncurses'].libs),
-                            'CURSES_CFLAGS={}'.format(spec['ncurses'].prefix.include)])
+                            'CURSES_CFLAGS={0}'.format(spec['ncurses'].prefix.include)])
             ld_flags += ' -L{0.prefix.lib} {0.libs.rpath_flags}'.format(spec['ncurses'])
 
         if spec.satisfies('+mpi'):
