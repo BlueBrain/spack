@@ -26,7 +26,7 @@ modules:
       suffixes:
           '+profile': 'profile'
           '^coreneuron+knl': 'knl'
-          'neuron~mpi': '/serial'
+          'neuron~mpi': 'serial'
           '^python@3.6.8': 'python3'
       filter:
         environment_blacklist: ['CPATH', 'LIBRARY_PATH']
