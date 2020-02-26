@@ -11,7 +11,7 @@ class PyPyquaternion(PythonPackage):
     """Python morphology manipulation toolkit"""
 
     homepage = "https://kieranwynn.github.io/pyquaternion/"
-    url      = "https://files.pythonhosted.org/packages/ae/c8/02b30c4a86744d2e15f7f16ab353f7231bd0241117713e5d60f466044994/pyquaternion-0.9.5.tar.gz"
+    url      = "https://pypi.org/packages/source/p/pyquaternion/pyquaternion-0.9.5.tar.gz"
 
     version('0.9.5', sha256='2d89d19259d62a8fbd25219eee7dacc1f6bb570becb70e1e883f622597c7d81d')
 
