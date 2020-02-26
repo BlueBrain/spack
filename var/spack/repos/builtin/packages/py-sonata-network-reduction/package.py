@@ -34,6 +34,6 @@ class PySonataNetworkReduction(PythonPackage):
     depends_on('py-neuron-reduce@0.0.7', type='run')
 
 
-    def setup_run_environment(self, spack_env, run_env):
-        run_env.set('NEURON_INIT_MPI', "0")
-        run_env.unset('PMI_RANK')
+    def setup_run_environment(self, env):
+        env.set('NEURON_INIT_MPI', "0")
+        env.unset('PMI_RANK')
