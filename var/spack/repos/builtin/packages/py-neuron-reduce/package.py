@@ -10,11 +10,11 @@ class PyNeuronReduce(PythonPackage):
     """Spack wrapper package for neuron reduction algorithm by Oren Amsalem"""
 
     homepage = "https://github.com/orena1/neuron_reduce"
-    url = "git@github.com:orena1/neuron_reduce.git"
+    url = "https://pypi.io/packages/source/n/neuron_reduce/neuron_reduce-0.0.6.tar.gz"
     git = "git@github.com:orena1/neuron_reduce.git"
 
     version('develop', branch='master')
-    version('0.0.6', commit='0c0071f499d2663aa18b8cf1c86c4a3d5a1c3c85')
+    version('0.0.6', commit='e75ce138ae049f550d72ec86c5cae4afcada577a2805d9dc50cbe80eff1f2256')
     version('0.0.7', commit='1bad597f2faa5ff6aa8c94b6f326f86a02e656d7')
 
     depends_on('py-setuptools', type=('build', 'run'))
