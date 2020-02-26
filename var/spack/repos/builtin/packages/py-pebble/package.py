@@ -7,7 +7,7 @@ from spack import *
 
 
 class PyPebble(PythonPackage):
-    """PyUnit-based test runner with JUnit like XML reporting."""
+    """Python API to manage threads and processes within an application."""
 
     homepage = "https://github.com/noxdafox/pebble"
     url = "https://pypi.org/packages/source/p/pebble/Pebble-4.5.0.tar.gz"
