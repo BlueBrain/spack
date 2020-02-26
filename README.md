@@ -67,9 +67,8 @@ We recommend you set this in your shell's startup scripts.
 
 Before building a program, one can have a look at all the software that would be required to build it.
 
-
-Wouldn't have we performed the instructions 3), 4) and 5) in the previous step,
-here is how the output would look like for the circuit building workflow.
+Without copying the configuration into `~/.spack`, an estimate to see what
+would be installed for `spykfunc` yields:
 
     $ spack spec -I spykfunc|head -n 15
     Input spec
@@ -90,18 +89,9 @@ here is how the output would look like for the circuit building workflow.
 
 The leading `-` sign in the output signifies that this particular piece of
 software would have to be built from scratch.
-To reduce the amount of time spent compiling the same software, we can
-configure Spack to use centrally build packages on BB5 and that's what the steps
-3), 4) and 5) are doing.
 
-The configuration thus set up uses the environment variable
-`SPACK_INSTALL_PREFIX` as the installation directory for packages.
-With the above setup, any packages installed can be found in `~/software`.
-Every call to Spack reads this environment variable, temporarily changing
-it is a good way to test changes.
-
-After adding the correct setup, the dependency graph of our software to
-install has changed significantly:
+With the configuration in `~/.spack` as stated above, the dependency graph
+of our software to install has changed significantly:
 
     $ spack spec -I spykfunc|head -n 15
     Input spec
