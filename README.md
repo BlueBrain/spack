@@ -64,6 +64,9 @@ Steps (1) and (2) are the only mandatory ones, however (3) through (5) are
 necessary to use precompiled packages (more on this in the next section)
 and speed up build times.
 
+*The last step, exporting `SPACK_INSTALL_PREFIX` is required.*
+We recommend you set this in your shell's startup scripts.
+
 ### Concretization
 
 Before building a program, one can have a look at all the software that would be required to build it.
@@ -194,7 +197,7 @@ Then you will be able to install software with:
     $ export SPACK_INSTALL_PREFIX=${HOME}/software
     $ spack build-dev <my_package>
 
-Note that a custom home directory is created to avoid any interference from
+*Note that a custom home directory is created* to avoid any interference from
 a shared configuration of Spack.
 </details>
 
