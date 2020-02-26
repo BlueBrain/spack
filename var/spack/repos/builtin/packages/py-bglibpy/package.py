@@ -19,7 +19,7 @@ class PyBglibpy(PythonPackage):
 
     depends_on('neuron+python', type='run')
     depends_on('py-h5py~mpi@2.3:', type='run')
-    depends_on('py-bluepy@0.13.2:', type='run')
+    depends_on('py-bluepy', type='run')
     depends_on('py-libsonata', type='run')
 
     def setup_environment(self, spack_env, run_env):
