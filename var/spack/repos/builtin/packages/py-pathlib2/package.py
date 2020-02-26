@@ -14,7 +14,7 @@ class PyPathlib2(PythonPackage):
 
     import_modules = ['pathlib2']
 
-    version('2.3.5', sha256='8eb170f8d0d61825e09a95b38be068299ddeda82f35e96c3301a8a5e7604cb83')
+    version('2.3.5', sha256='6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868')
     version('2.3.2', sha256='8eb170f8d0d61825e09a95b38be068299ddeda82f35e96c3301a8a5e7604cb83')
     version('2.1.0', sha256='deb3a960c1d55868dfbcac98432358b92ba89d95029cddd4040db1f27405055c')
 
