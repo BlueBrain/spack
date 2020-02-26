@@ -31,7 +31,7 @@ class PyBluepyopt(PythonPackage):
     depends_on('py-pebble@4.3.10:', type='run')
     depends_on('neuron', type='run', when='+neuron')
 
-    def setup_environment(self, spack_env, run_env):
-        run_env.unset('PMI_RANK')
-        run_env.set('NEURON_INIT_MPI', "0")
-        run_env.prepend_path('PATH', self.spec['py-ipyparallel'].prefix.bin)
+    def setup_run_environment(self, env):
+        env.unset('PMI_RANK')
+        env.set('NEURON_INIT_MPI', "0")
+        env.prepend_path('PATH', self.spec['py-ipyparallel'].prefix.bin)

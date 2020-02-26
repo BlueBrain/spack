@@ -15,7 +15,6 @@ class PySonataNetworkReduction(PythonPackage):
     version('0.0.1', tag='sonata-network-reduction-v0.0.1')
     version('develop', branch='master')
 
-
     depends_on('py-setuptools', type=('build', 'run'))
 
     depends_on('py-numpy@1.17:', type='run')
@@ -32,7 +31,6 @@ class PySonataNetworkReduction(PythonPackage):
     depends_on('py-bluepysnap@0.1.2', type='run', when='@0.0.1')
     depends_on('py-bluepysnap@0.2.0', type='run', when='@0.0.2:')
     depends_on('py-neuron-reduce@0.0.7', type='run')
-
 
     def setup_run_environment(self, env):
         env.set('NEURON_INIT_MPI', "0")
