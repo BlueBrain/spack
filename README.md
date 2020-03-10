@@ -114,6 +114,27 @@ This tells us that all required software is either installed in an upstream
 database or provided as external packages in the package database (`[^]`
 and `[+]`, respectively).
 
+Note that software provided via `packages.yaml` will show up as not
+installed, still.
+For example, for the first time building TouchDetector, the dependency
+graph starts with:
+
+    $ spack spec -I touchdetector|head -n 10
+    Input spec
+    --------------------------------
+     -   touchdetector
+
+    Concretized
+    --------------------------------
+     -   touchdetector@5.3.4%gcc@8.3.0 build_type=RelWithDebInfo ~openmp patches=ab3b3651b3a623eee5d2a05b11677759bb1ef7ae36f9b048ea7844686b5750af arch=linux-ubuntu18.04-skylake
+    [+]      ^boost@1.65.1%gcc@8.3.0+atomic+chrono~clanglibcpp~context~coroutine cxxstd=98 +date_time~debug+exception~fiber+filesystem+graph~icu+iostreams+locale+log+math~mpi+multithreaded~numpy patches=2ab6c72d03dec6a4ae20220a9dfd5c8c572c5294252155b85c6874d97c323199 ~pic+program_options~python+random+regex+serialization+shared+signals~singlethreaded+system~taggedlayout+test+thread+timer~versionedlayout visibility=hidden +wave arch=linux-ubuntu18.04-skylake
+    [+]      ^catch@2.9.1%gcc@8.3.0 build_type=RelWithDebInfo ~single_header arch=linux-ubuntu18.04-skylake
+     -           ^cmake@3.10.2%gcc@8.3.0~doc+ncurses+openssl+ownlibs patches=dd3a40d4d92f6b2158b87d6fb354c277947c776424aa03f6dc8096cf3135f5d0 ~qt arch=linux-ubuntu18.04-skylake
+
+Note that CMake is marked as not installed. Since it is provided in
+`packages.yaml`, upon installation it will be simply registered in the
+local package database rather than rebuilt from source.
+
 To see all installed packages available through the central installations
 directly, use:
 
