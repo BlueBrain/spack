@@ -40,7 +40,7 @@
   Make sure you're setup as per [the instructions](https://github.com/BlueBrain/spack#building-software-on-bluebrain5).
 
   Change your package recipe to add or update the version specifying the 
-  correspondant tag or commit.
+  corresponding tag or commit.
 
       $ spack edit mypackage
       ...
