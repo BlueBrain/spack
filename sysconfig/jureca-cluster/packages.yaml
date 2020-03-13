@@ -18,7 +18,6 @@ packages:
         paths:
             boost@1.69.0: /usr/local/software/jureca/Stages/2019a/software/Boost/1.69.0-ipsmpi-2019a-Python-2.7.16
         version: [1.69.0]
-        buildable: False
     cmake:
         paths:
             cmake@3.13.0: /usr/local/software/jureca/Stages/2019a/software/CMake/3.14.0-GCCcore-8.3.0
@@ -47,6 +46,11 @@ packages:
         paths:
             mpich@3.10: /usr/local/software/jureca/Stages/2019a/software/psmpi/5.2.2-1-iccifort-2019.3.199-GCC-8.3.0-mt
         version: [3.10]
+        buildable: False
+    intel-mpi-external:
+        paths:
+            intel-mpi-external@2019.6.154: /usr/local/software/jureca/Stages/2019a/software/impi/2019.6.154-iccifort-2019.5.281-GCC-8.3.0
+        version: [2019.6.154]
         buildable: False
     intel-mkl:
         paths:
@@ -123,4 +127,4 @@ packages:
     all:
         compiler: [intel]
         providers:
-            mpi: [mpich]
+            mpi: [intel-mpi-external]

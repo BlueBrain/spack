@@ -40,6 +40,7 @@ modules:
       - 'py-bluepyopt'
       - 'py-bluepy'
       - 'libxslt'
+      - 'brion+python'
     blacklist:
       - '%gcc'
       - '%intel'

@@ -39,6 +39,7 @@ modules:
       - 'neuron'
       - 'py-bluepyopt'
       - 'py-bluepy'
+      - 'brion+python'
     blacklist:
       - '%gcc'
       - '%intel'
