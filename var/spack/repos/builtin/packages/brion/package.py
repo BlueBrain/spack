@@ -25,7 +25,7 @@ class Brion(CMakePackage):
     depends_on('ninja', type='build')
     depends_on('doxygen', type='build')
 
-    depends_on('python', type=('build', 'run'), when='+python')
+    depends_on('python@3.4:', type=('build', 'run'), when='+python')
     depends_on('py-numpy', type=('build', 'run'), when='+python')
 
     depends_on('boost +shared', when='~python')
@@ -40,6 +40,9 @@ class Brion(CMakePackage):
     depends_on('vmmlib')
     depends_on('highfive@2.1: +boost ~mpi')
     depends_on('mvdtool ~mpi')
+
+    def patch(self):
+        filter_file(r'-py36', r'36 -py36', 'CMake/common/ChoosePython.cmake')
 
     def cmake_args(self):
         args = ['-DDISABLE_SUBPROJECTS=ON']
