@@ -22,6 +22,7 @@ modules:
       - CMAKE_PREFIX_PATH
   tcl:
     all:
+      autoload: 'all'  
       suffixes:
           '+profile': 'profile'
           '^coreneuron+knl': 'knl'
@@ -34,9 +35,12 @@ modules:
       - 'neurodamus'
       - 'neurodamus-neocortex'
       - 'neurodamus-hippocampus'
+      - 'neurodamus-mousify'
       - 'neuron'
       - 'py-bluepy'
       - 'py-bluepyopt'
+      - 'brion+python'
+      - 'py-sonata-network-reduction'
     blacklist:
       - '%gcc'
       - '%intel'
