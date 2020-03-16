@@ -14,18 +14,16 @@ class OmegaH(CMakePackage):
     """
 
     homepage = "https://github.com/SNLComputation/omega_h"
-    url      = "https://github.com/BlueBrain/omega_h/archive/v9.22.1.tar.gz"
-    git      = "https://github.com/BlueBrain/omega_h.git"
+    url      = "https://github.com/SNLComputation/omega_h/archive/v9.22.1.tar.gz"
+    git      = "https://github.com/SNLComputation/omega_h.git"
 
     version('develop', branch='master')
-    version('9.31.2.dev2', sha256='08be63b68a012ed8fcf4b7a217cbaadf46faa3f3c937ec8224ff9c542eb6ae62')
-    version('9.31.2', sha256='df859bc8ae0e4bcd9c4f6654b6951c7e34110ac3b3e7d2b0c1e413ce2645772d')
+    version('9.32.0', sha256='f5ce21a6b529aecfecb5a995fe9ae203ebecb429f1e3be75ddf8352be4a011bf')
+    version('9.31.3.dev1', sha256='47ccb373b4fb4cc6b56ff932badb5674b0c27ee23ad8f3d8197d49fd7678f0a6')
     version('9.30.0', sha256='7160045ea12718269f345c7be93a386533ebb76788504df413f22fbcb072f158')
     version('9.29.2', sha256='8eea6da0ebde44176a6d19fb858f89f872611cbad08cad65700757e096058465')
-    version('9.29.0', sha256='b41964b018909ffe9cea91c23a0509b259bfbcf56874fcdf6bd9f6a179938014')
     version('9.28.0', sha256='681588974116025c6c1c535972386c23fe354502319fcbbbdc5b9d373429c08e')
     version('9.27.3', sha256='7c0b0c9c00cda97763be1287d3bf8b931bcdd07bf4971fc7258a3892d628cf20')
-    version('9.27.0', sha256='aa51f83508cbd14a41ae953bda7da98a6ad2979465c76e5b3a3d9a7a651cb34a')
     version('9.26.6', sha256='5022bf3f9be1a27668fd2ec396d66f6b0124dc4a3adeedb20a580a701d37d893')
     version('9.25.4', sha256='9a9b26d5c4fc352776c1da02d787e653b5878c0cca3890eefebd3df202c75aed')
     version('9.24.2', sha256='af084e56204262c2a7edcc9c88e997623fc1280ae59427b9bf2b57d11568b496')
