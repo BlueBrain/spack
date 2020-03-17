@@ -84,8 +84,8 @@ class NeurodamusCore(SimModel):
             copy_all('resources/common/mod', "mod")
         else:
             # These two mods are also part of common
-            os.remove("mod/VecStim.mod")
-            os.remove("mod/netstim_inhpoisson.mod")
+            os.remove(join_path(self.stage.source_path, 'mod/VecStim.mod'))
+            os.remove(join_path(self.stage.source_path, 'mod/netstim_inhpoisson.mod'))
 
         # If we shall build mods for coreneuron,
         # only bring from core those specified
