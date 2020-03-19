@@ -7,6 +7,9 @@ from spack import *
 
 
 class Regiodesics(CMakePackage):
+    """Vector direction computation
+    """
+
     homepage = "https://bbpteam.epfl.ch/project/spaces/display/BBPNSE/Computing+neurons+direction+vectors"
     git = "ssh://bbpcode.epfl.ch/viz/Regiodesics"
 
