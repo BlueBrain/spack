@@ -13,10 +13,7 @@ class Regiodesics(CMakePackage):
     homepage = "https://bbpteam.epfl.ch/project/spaces/display/BBPNSE/Computing+neurons+direction+vectors"
     git = "ssh://bbpcode.epfl.ch/viz/Regiodesics"
 
-    version('master', branch='master', submodules=True)
     version('0.1.0', tag='0.1.0', submodules=True)
-
-    depends_on('cmake', type='build')
 
     depends_on('boost')
     depends_on('openscenegraph build_type=Release')
