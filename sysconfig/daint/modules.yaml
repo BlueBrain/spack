@@ -22,7 +22,7 @@ modules:
       - CMAKE_PREFIX_PATH
   tcl:
     all:
-      autoload: 'all'  
+      autoload: 'all'
       suffixes:
           '+profile': 'profile'
           '^coreneuron+knl': 'knl'

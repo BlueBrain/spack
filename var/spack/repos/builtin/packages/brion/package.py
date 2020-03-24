@@ -41,6 +41,9 @@ class Brion(CMakePackage):
     depends_on('highfive@2.1: +boost ~mpi')
     depends_on('mvdtool ~mpi')
 
+    def patch(self):
+        filter_file(r'-py36', r'36 -py36', 'CMake/common/ChoosePython.cmake')
+
     def cmake_args(self):
         args = ['-DDISABLE_SUBPROJECTS=ON']
 
