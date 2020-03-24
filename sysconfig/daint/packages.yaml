@@ -45,7 +45,8 @@ packages:
         buildable: False
         version: [3.14.5]
     boost:
-        version: [1.68.0]
+        variants: +python
+        version: [1.70.0]
     ncurses:
         paths:
             ncurses@6.1: /apps/dom/UES/jenkins/7.0.UP01/mc/easybuild/software/ncurses/6.1
