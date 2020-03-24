@@ -24,8 +24,7 @@ class ParquetConverters(CMakePackage):
 
     depends_on('hdf5+mpi')
     depends_on('highfive+mpi')
-    depends_on('arrow+parquet')
-    depends_on('arrow+parquet@:0.12', when='@0.4:0.5.3')
+    depends_on('arrow+parquet@:0.12')
     depends_on('snappy~shared')
     depends_on('synapsetool+mpi')
     depends_on('synapsetool+mpi@:0.5.6', when='@:0.5.2')
@@ -34,7 +33,7 @@ class ParquetConverters(CMakePackage):
 
     def cmake_args(self):
         return [
-            '-DCMAKE_C_COMPILER={}'.format(self.spec['mpi'].mpicc),
-            '-DCMAKE_CXX_COMPILER={}'.format(self.spec['mpi'].mpicxx),
+            '-DCMAKE_C_COMPILER={0}'.format(self.spec['mpi'].mpicc),
+            '-DCMAKE_CXX_COMPILER={0}'.format(self.spec['mpi'].mpicxx),
             '-DNEURONPARQUET_USE_MPI=ON'
         ]

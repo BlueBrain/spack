@@ -30,6 +30,8 @@ class SimModel(Package):
     from NeurodamusModel instead. See neurodamus-xxx packages for examples.
 
     """
+    homepage = ""
+
     variant('coreneuron',  default=False, description="Enable CoreNEURON Support")
     variant('profile',     default=False, description="Enable profiling using Tau")
 
@@ -72,7 +74,7 @@ class SimModel(Package):
 
         if '+profile' in self.spec:
             include_flag += ' -DENABLE_TAU_PROFILER'
-        output_dir = os.path.basename(self.neuron_archdir)
+        output_dir = os.path.basename(self.spec.neuron_archdir)
 
         if self.spec.satisfies('+coreneuron'):
             libnrncoremech = self.__build_mods_coreneuron(
@@ -106,7 +108,7 @@ class SimModel(Package):
         with working_dir('build_' + self.mech_name, create=True):
             force_symlink(mods_location, 'mod')
             which('nrnivmodl-core')(*nrnivmodl_params)
-            output_dir = os.path.basename(self.neuron_archdir)
+            output_dir = os.path.basename(self.spec.neuron_archdir)
             mechlib = find_libraries('libcorenrnmech' + self.lib_suffix + '*',
                                      output_dir)
             assert len(mechlib.names) == 1,\
@@ -132,7 +134,7 @@ class SimModel(Package):
     def _install_binaries(self, mech_name=None):
         # Install special
         mech_name = mech_name or self.mech_name
-        arch = os.path.basename(self.neuron_archdir)
+        arch = os.path.basename(self.spec.neuron_archdir)
         prefix = self.prefix
 
         if self.spec.satisfies('+coreneuron'):
@@ -170,7 +172,7 @@ class SimModel(Package):
     def _install_src(self, prefix):
         """Copy original and translated c mods
         """
-        arch = os.path.basename(self.neuron_archdir)
+        arch = os.path.basename(self.spec.neuron_archdir)
         mkdirp(prefix.lib.mod, prefix.lib.hoc, prefix.lib.python)
         copy_all('mod', prefix.lib.mod)
         copy_all('hoc', prefix.lib.hoc)
@@ -180,26 +182,31 @@ class SimModel(Package):
         for cmod in find(arch, '*.c', recursive=False):
             shutil.move(cmod, prefix.share.modc)
 
-    def _setup_environment_common(self, spack_env, run_env):
-        spack_env.unset('LC_ALL')
+    def _setup_build_environment_common(self, env):
+        env.unset('LC_ALL')
+
+    def _setup_run_environment_common(self, env):
         # Dont export /lib as an ldpath.
         # We dont want to find these libs automatically
         to_rm = ('LD_LIBRARY_PATH', 'DYLD_LIBRARY_PATH',
                  'DYLD_FALLBACK_LIBRARY_PATH')
-        run_env.env_modifications = [envmod
-                                     for envmod in run_env.env_modifications
-                                     if envmod.name not in to_rm]
+        env.env_modifications = [envmod
+                                 for envmod in env.env_modifications
+                                 if envmod.name not in to_rm]
         if os.path.isdir(self.prefix.lib.hoc):
-            run_env.prepend_path('HOC_LIBRARY_PATH', self.prefix.lib.hoc)
+            env.prepend_path('HOC_LIBRARY_PATH', self.prefix.lib.hoc)
         if os.path.isdir(self.prefix.lib.python):
-            run_env.prepend_path('PYTHONPATH', self.prefix.lib.python)
+            env.prepend_path('PYTHONPATH', self.prefix.lib.python)
 
-    def setup_environment(self, spack_env, run_env):
-        self._setup_environment_common(spack_env, run_env)
+    def setup_build_environment(self, env):
+        self._setup_build_environment_common(env)
+
+    def setup_run_environment(self, env):
+        self._setup_run_environment_common(env)
         # We will find 0 or 1 lib
         for libnrnmech_name in find(self.prefix.lib, 'libnrnmech*.so',
                                     recursive=False):
-            run_env.prepend_path('BGLIBPY_MOD_LIBRARY_PATH', libnrnmech_name)
+            env.prepend_path('BGLIBPY_MOD_LIBRARY_PATH', libnrnmech_name)
 
 
 @contextmanager

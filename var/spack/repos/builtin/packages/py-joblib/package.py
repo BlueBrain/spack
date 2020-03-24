@@ -9,7 +9,7 @@ from spack import *
 class PyJoblib(PythonPackage):
     """Python function as pipeline jobs"""
 
-    homepage = "http://packages.python.org/joblib/"
+    homepage = "https://joblib.readthedocs.io"
     url      = "https://pypi.io/packages/source/j/joblib/joblib-0.14.0.tar.gz"
 
     import_modules = [

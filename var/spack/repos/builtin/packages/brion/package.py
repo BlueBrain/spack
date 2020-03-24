@@ -7,6 +7,7 @@ import os
 
 from spack import *
 
+
 class Brion(CMakePackage):
     """Blue Brain C++ File IO Library"""
 
@@ -25,7 +26,7 @@ class Brion(CMakePackage):
     depends_on('ninja', type='build')
     depends_on('doxygen', type='build')
 
-    depends_on('python', type=('build', 'run'), when='+python')
+    depends_on('python@3.4:', type=('build', 'run'), when='+python')
     depends_on('py-numpy', type=('build', 'run'), when='+python')
 
     depends_on('boost +shared', when='~python')
@@ -54,7 +55,8 @@ class Brion(CMakePackage):
 
     @when('+python')
     def setup_run_environment(self, env):
-        site_dir = self.spec['python'].package.site_packages_dir.split(os.sep)[1:]
+        site_dir = (self.spec['python']
+                    .package.site_packages_dir.split(os.sep)[1:])
         for target in (self.prefix.lib, self.prefix.lib64):
             pathname = os.path.join(target, *site_dir)
             if os.path.isdir(pathname):

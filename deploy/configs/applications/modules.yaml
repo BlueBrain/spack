@@ -50,6 +50,7 @@ modules:
       - psp-validation
       - py-basalt
       - py-bbp-analysis-framework
+      - py-bbp-morphology-workflow
       - py-bglibpy
       - py-bluepy
       - py-bluepymm
@@ -61,6 +62,7 @@ modules:
       - 'py-mvdtool%gcc'
       - py-neurodamus
       - py-simwriter
+      - py-sonata-network-reduction
       - py-pytouchreader
       - reportinglib
       - spatial-index

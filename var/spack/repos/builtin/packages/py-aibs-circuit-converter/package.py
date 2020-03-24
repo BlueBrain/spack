@@ -11,9 +11,10 @@ class PyAibsCircuitConverter(PythonPackage):
 
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/nse/aibs-circuit-converter"
     git      = "ssh://bbpcode.epfl.ch/nse/aibs-circuit-converter"
+    url      = "ssh://bbpcode.epfl.ch/nse/aibs-circuit-converter"
 
     version('develop', branch='master')
-    version('0.0.1', sha256='f5dbf27d3c9752e5e593fff88a15acaebba159db')
+    version('0.0.1', tag='aibs-circuit-converter-v0.0.1')
 
     depends_on('py-setuptools', type=('build', 'run'))
 
