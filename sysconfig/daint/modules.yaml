@@ -37,9 +37,9 @@ modules:
       - 'neurodamus-hippocampus'
       - 'neurodamus-mousify'
       - 'neuron~mpi%intel'
-      - 'py-bluepy%gcc@8'
-      - 'py-bluepyopt%gcc@8'
-      - 'brion+python%gcc@8'
+      - 'py-bluepy'
+      - 'py-bluepyopt'
+      - 'brion+python'
       - 'py-sonata-network-reduction'
     blacklist:
       - '%gcc'

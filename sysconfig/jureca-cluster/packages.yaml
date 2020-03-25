@@ -15,9 +15,8 @@ packages:
         version: [3.0.4]
         buildable: False
     boost:
-        paths:
-            boost@1.69.0: /usr/local/software/jureca/Stages/2019a/software/Boost/1.69.0-ipsmpi-2019a-Python-2.7.16
-        version: [1.69.0]
+        variants: +python
+        version: [1.70.0]
     cmake:
         paths:
             cmake@3.13.0: /usr/local/software/jureca/Stages/2019a/software/CMake/3.14.0-GCCcore-8.3.0
@@ -99,27 +98,27 @@ packages:
         buildable: False    
     py-cython:
         paths:
-            py-cython@0.29.6: /usr/local/software/jureca/Stages/2019a/software/Python/2.7.16-GCCcore-8.3.0
+            py-cython@0.29.6: /usr/local/software/jureca/Stages/2019a/software/Python/3.6.8-GCCcore-8.3.0
         version: [0.29.6]
         buildable: False    
     py-ipyparallel:
         paths:
-            py-ipyparallel@6.1.1: /usr/local/software/jureca/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-2.7.16
+            py-ipyparallel@6.1.1: /usr/local/software/jureca/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-3.6.8
         version: [6.1.1]
         buildable: False
     py-matplotlib:
         paths:
-            py-matplotlib@2.2.2: /usr/local/software/jureca/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-2.7.16
+            py-matplotlib@2.2.2: /usr/local/software/jureca/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-3.6.8
         version: [2.2.2]
         buildable: False
     py-pandas:
         paths:
-            py-pandas@0.22.0: /usr/local/software/jureca/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-2.7.16
+            py-pandas@0.22.0: /usr/local/software/jureca/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-3.6.8
         version: [0.22.0]
         buildable: False
     py-scipy:
         paths:
-            py-scipy@1.2.1: /usr/local/software/jureca/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-2.7.16
+            py-scipy@1.2.1: /usr/local/software/jureca/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-3.6.8
         version: [1.2.1]
         buildable: False
     zlib:
