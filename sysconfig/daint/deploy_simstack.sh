@@ -31,7 +31,6 @@ export SOFTS_DIR_PATH=$DEPLOYMENT_HOME/install
 
 module swap PrgEnv-cray PrgEnv-intel
 module load daint-mc
-
 # PYTHON 2 packages
 #spack spec -Il neurodamus-hippocampus+coreneuron %intel ^python@2.7.15 ^synapsetool%gcc
 #spack install --keep-stage neurodamus-hippocampus+coreneuron %intel ^python@2.7.15 ^synapsetool%gcc
@@ -42,9 +41,11 @@ module load daint-mc
 #spack install --dirty --keep-stage -v py-bluepy%gcc ^python@2.7.15
 #spack spec -I -l py-bluepyopt%gcc^neuron~binary~mpi ^python@2.7.15 ^py-tornado@4.4.0 ^py-ipykernel@4.5.0 ^py-ipython@5.1.0
 #spack install --dirty --keep-stage -v py-bluepyopt%gcc^neuron~binary~mpi ^python@2.7.15
+spack spec -I neuron %intel ^python@2.7.15 ^mpich
+spack install --dirty --keep-stage -v neuron %intel ^python@2.7.15 ^mpich
+
 spack spec -I neuron~mpi %intel ^python@2.7.15
 spack install --dirty --keep-stage -v neuron~mpi %intel ^python@2.7.15
-
 # PYTHON 3 packages
 spack spec -Il neurodamus-hippocampus+coreneuron %intel ^python@3.6.5 ^synapsetool%gcc
 spack install --dirty --keep-stage neurodamus-hippocampus+coreneuron %intel ^python@3.6.5 ^synapsetool%gcc
@@ -55,6 +56,7 @@ spack spec -I neuron~mpi %intel ^python@3.6.5
 spack install --dirty --keep-stage -v neuron~mpi %intel ^python@3.6.5
 
 module swap PrgEnv-intel PrgEnv-gnu
+
 spack spec -I py-bluepy%gcc ^python@3.6.5
 spack install --dirty --keep-stage -v py-bluepy%gcc ^python@3.6.5
 
