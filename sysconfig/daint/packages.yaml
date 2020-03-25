@@ -74,22 +74,27 @@ packages:
         paths:
             py-h5py~mpi@2.8.0: /apps/dom/UES/jenkins/7.0.UP01/mc/easybuild/software/h5py/2.8.0-CrayGNU-19.10-python3-serial
         version: [2.8.0]
+        buildable: False
     py-matplotlib:
         paths:
             py-matplotlib@2.2.2: /apps/dom/UES/jenkins/7.0.UP01/mc/easybuild/software/PyExtensions/3.6.5.7-CrayGNU-19.10
         version: [2.2.2]
+        buildable: False
     py-numpy:
         paths:
             py-numpy@1.14.3: /opt/python/3.6.5.7
         version: [1.14.3]
+        buildable: False
     py-pandas:
         paths:
             py-pandas@0.23.2: /apps/dom/UES/jenkins/7.0.UP01/mc/easybuild/software/PyExtensions/3.6.5.7-CrayGNU-19.10
         version: [0.23.2]
+        buildable: False
     py-scipy:
         paths:
             py-scipy@1.1.0: /opt/python/3.6.5.7
         version: [1.1.0]
+        buildable: False
     neuron:
         variants: +mpi +cross-compile
     reportinglib:
