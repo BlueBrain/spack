@@ -61,6 +61,9 @@ export SPACK_INSTALL_PREFIX=$DEPLOYMENT_HOME
 module list
 
 # Python 2 packages
+spack spec -I neuron %intel ^python@2.7.15
+spack install --dirty --keep-stage -v neuron %intel ^python@2.7.15
+
 spack spec -I neuron~mpi %intel ^python@2.7.15
 spack install --dirty --keep-stage -v neuron~mpi %intel ^python@2.7.15
 
@@ -79,8 +82,8 @@ spack install --dirty --keep-stage -v neuron~mpi %intel ^python@3.6.8
 spack spec -I py-bluepy%gcc ^python@3.6.8
 spack install --dirty --keep-stage -v py-bluepy%gcc ^python@3.6.8
 
-#spack spec -Il py-sonata-network-reduction%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
-#spack install --dirty --keep-stage -v py-sonata-network-reduction%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
+spack spec -Il py-sonata-network-reduction%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
+spack install --dirty --keep-stage -v py-sonata-network-reduction%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
 
 spack spec -Il py-bluepyopt%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
 spack install --keep-stage --dirty py-bluepyopt%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
