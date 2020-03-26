@@ -60,11 +60,11 @@ module swap PrgEnv-intel PrgEnv-gnu
 spack spec -I py-bluepy%gcc ^python@3.6.5
 spack install --dirty --keep-stage -v py-bluepy%gcc ^python@3.6.5
 
-spack spec -Il py-sonata-network-reduction%gcc^neuron~binary~mpi ^python@3.6.5 ^zeromq%intel
-spack install --dirty --keep-stage -v py-sonata-network-reduction%gcc^neuron~binary~mpi ^python@3.6.5 ^zeromq%intel
+spack spec -Il py-sonata-network-reduction%gcc ^python@3.6.5 ^zeromq%intel
+spack install --dirty --keep-stage -v py-sonata-network-reduction%gcc ^python@3.6.5 ^zeromq%intel
 
-spack spec -Il py-bluepyopt%gcc^neuron~binary~mpi ^python@3.6.5 ^zeromq%intel
-spack install --dirty --keep-stage py-bluepyopt%gcc^neuron~binary~mpi ^python@3.6.5 ^zeromq%intel
+spack spec -Il py-bluepyopt%gcc ^python@3.6.5 ^zeromq%intel
+spack install --dirty --keep-stage py-bluepyopt%gcc ^python@3.6.5 ^zeromq%intel
 
 # Re-generate modules
 spack module tcl refresh --delete-tree -y

@@ -82,11 +82,11 @@ spack install --dirty --keep-stage -v neuron~mpi %intel ^python@3.6.8
 spack spec -I py-bluepy%gcc ^python@3.6.8
 spack install --dirty --keep-stage -v py-bluepy%gcc ^python@3.6.8
 
-spack spec -Il py-sonata-network-reduction%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
-spack install --dirty --keep-stage -v py-sonata-network-reduction%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
+spack spec -Il py-sonata-network-reduction%gcc ^python@3.6.8 ^zeromq%intel
+spack install --dirty --keep-stage -v py-sonata-network-reduction%gcc ^python@3.6.8 ^zeromq%intel
 
-spack spec -Il py-bluepyopt%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
-spack install --keep-stage --dirty py-bluepyopt%gcc^neuron~binary~mpi ^python@3.6.8 ^zeromq%intel
+spack spec -Il py-bluepyopt%gcc ^python@3.6.8 ^zeromq%intel
+spack install --keep-stage --dirty py-bluepyopt%gcc ^python@3.6.8 ^zeromq%intel
 
 spack module tcl refresh --delete-tree -y
 
