@@ -70,11 +70,10 @@ spack install --dirty --keep-stage -v neuron~mpi %intel ^python@2.7.15
 # Python 3 packages
 module load Python/3.6.8
 module list
-
-spack spec -Il neurodamus-hippocampus+coreneuron %intel ^python@3.6.8 ^synapsetool%gcc
-spack install --keep-stage --dirty neurodamus-hippocampus+coreneuron %intel ^python@3.6.8 ^synapsetool%gcc
-spack install --keep-stage --dirty neurodamus-neocortex+coreneuron %intel ^python@3.6.8 ^synapsetool%gcc
-spack install --keep-stage --dirty neurodamus-mousify+coreneuron %intel ^python@3.6.8 ^synapsetool%gcc
+spack spec -Il neurodamus-hippocampus+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
+spack install --keep-stage --dirty neurodamus-hippocampus+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
+spack install --keep-stage --dirty neurodamus-neocortex+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
+spack install --keep-stage --dirty neurodamus-mousify+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
 
 spack spec -I neuron~mpi %intel ^python@3.6.8
 spack install --dirty --keep-stage -v neuron~mpi %intel ^python@3.6.8
