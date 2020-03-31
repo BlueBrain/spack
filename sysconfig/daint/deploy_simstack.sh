@@ -46,7 +46,10 @@ spack install --dirty --keep-stage -v neuron %intel ^python@2.7.15 ^mpich
 
 spack spec -I neuron~mpi %intel ^python@2.7.15
 spack install --dirty --keep-stage -v neuron~mpi %intel ^python@2.7.15
+
 # PYTHON 3 packages
+module load cray-python/3.6.5.7
+
 spack spec -Il neurodamus-hippocampus+coreneuron %intel ^python@3.6.5 ^synapsetool%gcc
 spack install --dirty --keep-stage neurodamus-hippocampus+coreneuron %intel ^python@3.6.5 ^synapsetool%gcc
 spack install --dirty --keep-stage neurodamus-neocortex+coreneuron %intel ^python@3.6.5 ^synapsetool%gcc
@@ -68,6 +71,9 @@ spack install --dirty --keep-stage py-bluepyopt%gcc ^python@3.6.5 ^zeromq%intel
 
 # Re-generate modules
 spack module tcl refresh --delete-tree -y
+cd $DEPLOYMENT_HOME/install/modules/tcl/cray-cnl7-haswell
+find py* -type f -print0|xargs -0 sed -i '/PYTHONPATH.*\/neuron-/d'
+find neuro* -type f -print0|xargs -0 sed -i '/module load mpich/d'
 
 #ln -s $DEPLOYMENT_HOME/install/modules/tcl/cray-cnl6-haswell $DEPLOYMENT_HOME/modules
 #chmod -R ugo-w $DEPLOYMENT_HOME

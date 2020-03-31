@@ -116,30 +116,10 @@ packages:
             python@3.6.8: /usr/local/software/jurecabooster/Stages/2019a/software/Python/3.6.8-GCCcore-8.3.0
         version: [2.7.15, 3.6.8]
         buildable: False
-    py-cython:
-        paths:
-            py-cython@0.29.6: /usr/local/software/jurecabooster/Stages/2019a/software/Python/3.6.8-GCCcore-8.3.0
-        version: [0.29.6]
-        buildable: False
-    py-ipyparallel:
-        paths:
-            py-ipyparallel@6.1.1: /usr/local/software/jurecabooster/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-3.6.8
-        version: [6.1.1]
-        buildable: False
     py-matplotlib:
         paths:
-            py-matplotlib@2.2.2: /usr/local/software/jurecabooster/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-3.6.8
-        version: [2.2.2]
-        buildable: False
-    py-numpy:
-        paths:
-            py-numpy@1.15.2: /usr/local/software/jurecabooster/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-3.6.8
-        version: [1.15.2]
-        buildable: False
-    py-pandas:
-        paths:
-            py-pandas@0.24.2: /usr/local/software/jurecabooster/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-3.6.8
-        version: [0.24.2]
+            py-matplotlib@3.0.3: /usr/local/software/jurecabooster/Stages/2019a/software/SciPy-Stack/2019a-gcccoremkl-8.3.0-2019.3.199-Python-3.6.8
+        version: [3.0.3]
         buildable: False
     py-scipy:
         paths:

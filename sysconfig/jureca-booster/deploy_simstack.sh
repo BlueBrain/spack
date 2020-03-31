@@ -69,6 +69,7 @@ spack install --dirty --keep-stage -v neuron~mpi %intel ^python@2.7.15
 
 # Python 3 packages
 module load Python/3.6.8
+module load SciPy-Stack/2019a-Python-3.6.8
 module list
 spack spec -Il neurodamus-hippocampus+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
 spack install --keep-stage --dirty neurodamus-hippocampus+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
@@ -88,6 +89,8 @@ spack spec -Il py-bluepyopt%gcc ^python@3.6.8 ^zeromq%intel
 spack install --keep-stage --dirty py-bluepyopt%gcc ^python@3.6.8 ^zeromq%intel
 
 spack module tcl refresh --delete-tree -y
+cd $DEPLOYMENT_HOME/modules/tcl/linux-centos7-haswell
+find py* -type f -print0|xargs -0 sed -i '/PYTHONPATH.*\/neuron-/d'
 
 # Create symbolic link
 #mkdir -p $DEPLOYMENT_HOME/../install && cd $DEPLOYMENT_HOME/../install
