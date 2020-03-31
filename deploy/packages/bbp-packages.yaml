@@ -121,7 +121,7 @@ packages:
       - py-bglibpy@4.2.14 ^neuron%intel@19.0.4
       - py-bluepy@0.14.6
       - py-bluepymm@0.6.38 ^neuron%intel@19.0.4
-      - py-bluepyopt@1.6.56 ^neuron%intel@19.0.4
+      - py-bluepyopt@1.9.27 ^neuron%intel@19.0.4
 
   #### cellular ####
 
