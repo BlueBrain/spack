@@ -7,7 +7,6 @@ if [ "$1" == "" ]; then
 fi
 
 module --force purge
-#module use /usr/local/software/jureca/OtherStages
 
 system=
 cnrn_variant=
@@ -19,14 +18,12 @@ while [ "$1" != "" ]; do
                                 cnrn_variant=~knl
                                 module load Architecture/Haswell
                                 module load Stages/2019a
-                                #module load Intel ParaStationMPI/5.2.2-1-mt HDF5
                                 module load Intel/2019.5.281-GCC-8.3.0 IntelMPI/2019.6.154 HDF5
                                 ;;
         -b | --booster )        system=booster
                                 cnrn_variant=+knl
                                 module load Architecture/KNL
                                 module load Stages/2019a
-                                #module load Intel ParaStationMPI/5.2.2-1-mt HDF5
                                 module load Intel/2019.5.281-GCC-8.3.0 IntelMPI/2019.6.154 HDF5
                                 ;;
         * )                     echo "Error : --cluster or --booster"
@@ -61,38 +58,36 @@ export SPACK_INSTALL_PREFIX=$DEPLOYMENT_HOME
 module list
 
 # Python 2 packages
-spack spec -I neuron %intel ^python@2.7.15
+spack spec -Il neuron %intel ^python@2.7.15
 spack install --dirty --keep-stage -v neuron %intel ^python@2.7.15
 
-spack spec -I neuron~mpi %intel ^python@2.7.15
+spack spec -Il neuron~mpi %intel ^python@2.7.15
 spack install --dirty --keep-stage -v neuron~mpi %intel ^python@2.7.15
 
 # Python 3 packages
 module load Python/3.6.8
 module load SciPy-Stack/2019a-Python-3.6.8
 module list
-spack spec -Il neurodamus-hippocampus+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
-spack install --keep-stage --dirty neurodamus-hippocampus+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
-spack install --keep-stage --dirty neurodamus-neocortex+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
-spack install --keep-stage --dirty neurodamus-mousify+coreneuron %intel ^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc
 
-spack spec -I neuron~mpi %intel ^python@3.6.8
+neurodamus_deps="^coreneuron$cnrn_variant ^python@3.6.8 ^synapsetool%gcc"
+spack spec -Il neurodamus-hippocampus+coreneuron %intel $neurodamus_deps
+for nd in neurodamus-hippocampus neurodamus-neocortex neurodamus-mousify
+do
+   spack install --keep-stage --dirty -v $nd+coreneuron %intel $neurodamus_deps
+done
+
+spack spec -Il neuron~mpi %intel ^python@3.6.8
 spack install --dirty --keep-stage -v neuron~mpi %intel ^python@3.6.8
 
-spack spec -I py-bluepy%gcc ^python@3.6.8
+spack spec -Il py-bluepy%gcc ^python@3.6.8
 spack install --dirty --keep-stage -v py-bluepy%gcc ^python@3.6.8
 
 spack spec -Il py-sonata-network-reduction%gcc ^python@3.6.8 ^zeromq%intel
 spack install --dirty --keep-stage -v py-sonata-network-reduction%gcc ^python@3.6.8 ^zeromq%intel
 
 spack spec -Il py-bluepyopt%gcc ^python@3.6.8 ^zeromq%intel
-spack install --keep-stage --dirty py-bluepyopt%gcc ^python@3.6.8 ^zeromq%intel
+spack install --keep-stage --dirty -v py-bluepyopt%gcc ^python@3.6.8 ^zeromq%intel
 
 spack module tcl refresh --delete-tree -y
 cd $DEPLOYMENT_HOME/modules/tcl/linux-centos7-haswell
 find py* -type f -print0|xargs -0 sed -i '/PYTHONPATH.*\/neuron-/d'
-
-# Create symbolic link
-#mkdir -p $DEPLOYMENT_HOME/../install && cd $DEPLOYMENT_HOME/../install
-#rm -f latest
-#ln -s $date/install/modules/tcl/linux-centos7-x86_64 latest

@@ -39,8 +39,6 @@ class PyBluepy(PythonPackage):
 
     depends_on('brion+python@3.1.0:', type='run')
 
-    depends_on('brion+python@3.1.0:', type='run')
-
     # TODO: remove once legacy dependencies are removed from BluePy
     def patch(self):
         filter_file("'jsonschema>=2.3.0',", "", "setup.py")
