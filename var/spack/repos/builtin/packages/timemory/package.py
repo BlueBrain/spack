@@ -16,6 +16,7 @@ class Timemory(CMakePackage):
     maintainers = ['jrmadsen']
 
     version('develop', branch='master', submodules=True)
+    version('3.0.1', commit='ef638e1cde90275ce7c0e12fc4902c27bcbdeefd', submodules=True)
     version('3.0.0a', commit='36520ff4aedc09ea7b54981dd8c97c4960f6ee79', submodules=True)
 
     variant('python', default=True, description='Enable Python support')
@@ -26,7 +27,7 @@ class Timemory(CMakePackage):
     variant('caliper', default=True, description='Enable Caliper support')
     variant('gperftools', default=True, description='Enable gperftools support')
 
-    patch('0001-handle-CUPTI-API-11-fix-disable-build-of-mpip-if-req.patch')
+    patch('0001-handle-CUPTI-API-11-fix-disable-build-of-mpip-if-req.patch', when='@3.0.0a')
 
     depends_on('cmake@3.10:', type='build')
 
