@@ -23,18 +23,20 @@ modules:
   tcl:
     all:
       autoload: 'all'
+      suffixes:
+          '^python@2.7.12': 'python2'
+          'neuron~mpi': 'serial'
       filter:
         environment_blacklist: ['CPATH', 'LIBRARY_PATH']
-      suffixes:
-          '^coreneuron+knl': 'knl'
-          'neuron~mpi': 'serial'
     naming_scheme: '${PACKAGE}/${VERSION}'
     hash_length: 0
     whitelist:
       - 'neurodamus-hippocampus'
       - 'neuron'
+      - 'py-bluepy'
       - 'py-bluepyopt'
-      - 'py-pandas'
+      - 'py-matplotlib'
+      - 'brion+python'
     blacklist:
       - '%gcc'
       - '%intel'
