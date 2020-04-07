@@ -64,6 +64,11 @@ packages:
             python@2.7.12: /cineca/prod/opt/compilers/python/2.7.12/none
         buildable: False
         version: [3.6.4, 2.7.12]
+    py-matplotlib:
+        paths:
+            py-matplotlib@2.2.3: /cineca/prod/opt/compilers/python/3.6.4/none
+        buildable: False
+        version: [2.2.3]
     py-numpy:
         paths:
             py-numpy@1.14.0: /cineca/prod/opt/libraries/numpy/1.14.0/python--3.6.4

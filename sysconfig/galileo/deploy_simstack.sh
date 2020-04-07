@@ -44,7 +44,9 @@ spack install --dirty --keep-stage -v neuron~mpi%gcc ^python@3.6.4
 
 spack spec -Il py-bluepyopt@1.9.12%gcc ^python@3.6.4 ^zeromq%intel
 spack install --keep-stage --dirty -v py-bluepyopt@1.9.12%gcc ^python@3.6.4 ^zeromq%intel
-spack install --keep-stage --dirty -v py-matplotlib%gcc ^python@3.6.4
+
+# matplotlib is external and python3
+spack install --keep-stage --dirty -v py-matplotlib%gcc
 
 spack module tcl refresh --delete-tree -y
 
