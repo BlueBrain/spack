@@ -39,7 +39,7 @@ packages:
     hdf5:
         paths:
             hdf5@1.8.18+mpi+hl: /cineca/prod/opt/libraries/hdf5/1.8.18/intelmpi--2018--binary
-            hdf5@1.8.18~mpi+hl: /cineca/prod/opt/libraries/hdf5/1.8.18/intel--pe-xe-2018--binary
+            hdf5@1.8.18~mpi+hl: /cineca/prod/opt/libraries/hdf5/1.8.18/openmpi--1-10.3--gnu--6.1.0
         variants: ~fortran ~cxx
         buildable: False
         version: [1.8.18]
@@ -66,18 +66,14 @@ packages:
     python:
         paths:
             python@3.6.4: /cineca/prod/opt/compilers/python/3.6.4/none
+            python@2.7.12: /cineca/prod/opt/compilers/python/2.7.12/none
         buildable: False
-        version: [3.6.4]
+        version: [3.6.4, 2.7.12]
     py-numpy:
         paths:
             py-numpy@1.14.0: /cineca/prod/opt/libraries/numpy/1.14.0/python--3.6.4
         buildable: False
         version: [1.14.0]
-    py-ipykernel:
-        paths:
-            py-ipykernel@5.1.1: /cineca/prod/opt/tools/anaconda/2019.10/python--3.6.4/pkgs/ipykernel-5.1.1-py37h39e3cac_0
-        buildable: False
-        version: [5.1.1]
     zlib:
         paths:
             zlib@1.2.11%intel: /cineca/prod/opt/libraries/zlib/1.2.11/intel--pe-xe-2018--binary

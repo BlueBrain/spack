@@ -5,7 +5,7 @@ set -e
 # Deployment directory
 date=$(date '+%d-%m-%Y')
 
-DEPLOYMENT_HOME=/gpfs/work/HBP_CDP21_it_1/pkumbhar/HBP/galileo/$date
+DEPLOYMENT_HOME=/marconi_work/HBP_CDP2_it/pkumbhar/HBP/marconi/$date
 mkdir -p $DEPLOYMENT_HOME
 mkdir -p $DEPLOYMENT_HOME/sources
 mkdir -p $DEPLOYMENT_HOME/install
@@ -21,14 +21,14 @@ source $SPACK_ROOT/share/spack/setup-env.sh
 
 # Copy configurations
 mkdir -p $SPACK_ROOT/etc/spack/defaults/linux/
-cp $SPACK_ROOT/sysconfig/galileo/* $SPACK_ROOT/etc/spack/defaults/linux/
+cp $SPACK_ROOT/sysconfig/marconi/* $SPACK_ROOT/etc/spack/defaults/linux/
 
 # Setup directory for deployment
 export SPACK_INSTALL_PREFIX=$DEPLOYMENT_HOME
 
 # Clean environment and load python
 module purge
-module load intel/pe-xe-2018--binary gnu/7.3.0
+module load gnu/7.3.0
 module load intelmpi/2018--binary
 
 # Python 2 packages
@@ -46,7 +46,5 @@ spack spec -Il py-bluepyopt@1.9.12%gcc ^python@3.6.4 ^zeromq%intel
 spack install --keep-stage --dirty -v py-bluepyopt@1.9.12%gcc ^python@3.6.4 ^zeromq%intel
 spack install --keep-stage --dirty -v py-matplotlib%gcc ^python@3.6.4
 
-spack module tcl refresh --delete-tree -y
-
-# change permissions
+# Change permissions
 chmod -R g+rx $DEPLOYMENT_HOME
