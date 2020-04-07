@@ -16,7 +16,7 @@ class Timemory(CMakePackage):
     maintainers = ['jrmadsen']
 
     version('develop', branch='master', submodules=True)
-    version('3.0.1', commit='ef638e1cde90275ce7c0e12fc4902c27bcbdeefd', submodules=True)
+    version('3.0.1', commit='v3.0.1', submodules=True)
     version('3.0.0a', commit='36520ff4aedc09ea7b54981dd8c97c4960f6ee79', submodules=True)
 
     variant('python', default=True, description='Enable Python support')
