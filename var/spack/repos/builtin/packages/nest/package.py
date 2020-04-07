@@ -16,6 +16,7 @@ class Nest(CMakePackage):
     homepage = "http://www.nest-simulator.org"
     url      = "https://github.com/nest/nest-simulator/archive/v2.18.0/v-2.18.0.tar.gz"
 
+    version('2.20.0', sha256='40e33187c22d6e843d80095b221fa7fd5ebe4dbc0116765a91fc5c425dd0eca4')
     version('2.18.0', sha256='7295c936fbdd5486395b06f54f0d4d35d9a1b6ee50b7b844186ec2c92de641d1')
     version('2.16.0', sha256='abfeb61719dec54da9477be035bef1d9d764f4e7663f63f6a6d9211f967e0490')
     version('2.14.0', sha256='d6316d6c9153100a3220488abfa738958c4b65bf2622bd15540e4aa81e79f17f')
