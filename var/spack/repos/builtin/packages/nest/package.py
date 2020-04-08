@@ -151,11 +151,11 @@ class Nest(CMakePackage):
                                   self.stage.source_path, recursive=True):
                 install(f, path_headers)
 
-    def setup_environment(self, spack_env, run_env):
-        run_env.set("NEST_INSTALL_DIR", self.spec.prefix)
+    def setup_run_environment(self, env):
+        env.set("NEST_INSTALL_DIR", self.spec.prefix)
         if self.spec.satisfies('+python'):
             eggs = find(self.prefix, 'PyNEST*egg*')
             if eggs:
                 site_packages = os.path.dirname(find(self.prefix, 'PyNEST*egg*')[0])
-                run_env.prepend_path('PYTHONPATH', site_packages)
+                env.prepend_path('PYTHONPATH', site_packages)
 
