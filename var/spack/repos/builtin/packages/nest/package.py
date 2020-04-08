@@ -157,5 +157,6 @@ class Nest(CMakePackage):
         if self.spec.satisfies('+python'):
             eggs = find(self.prefix, 'PyNEST*egg*')
             if eggs:
-                site_packages = os.path.dirname(find(self.prefix, 'PyNEST*egg*')[0])
+                site_packages = os.path.dirname(find(self.prefix,
+                                                     'PyNEST*egg*')[0])
                 env.prepend_path('PYTHONPATH', site_packages)
