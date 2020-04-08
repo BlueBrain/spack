@@ -148,7 +148,8 @@ class Nest(CMakePackage):
 
         for suffix in ["h", "hpp"]:
             for f in find_headers('*.{0}'.format(suffix),
-                                  self.stage.source_path, recursive=True):
+                                  self.stage.source_path,
+                                  recursive=True):
                 install(f, path_headers)
 
     def setup_run_environment(self, env):
@@ -158,4 +159,3 @@ class Nest(CMakePackage):
             if eggs:
                 site_packages = os.path.dirname(find(self.prefix, 'PyNEST*egg*')[0])
                 env.prepend_path('PYTHONPATH', site_packages)
-
