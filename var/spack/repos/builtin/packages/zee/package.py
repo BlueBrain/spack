@@ -35,6 +35,7 @@ class Zee(CMakePackage):
     variant('timemory', default=False,
             description='Add timemory API for time/memory measurement')
 
+    depends_on('benchmark')
     depends_on('boost')
     depends_on('cmake@3:', type='build')
     depends_on('pkg-config', type='build')
