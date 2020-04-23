@@ -52,7 +52,7 @@ class Steps(CMakePackage):
         args = []
         spec = self.spec
 
-        benabled = "ON" if "+bundle" in spec else "OFF"
+        use_bundle = "ON" if "+bundle" in spec else "OFF"
         bundles = [
             "EASYLOGGINGPP",
             "OMEGA_H",
@@ -60,7 +60,7 @@ class Steps(CMakePackage):
             "SUNDIALS",
             "SUPERLU_DIST"
         ]
-        args.extend("-DUSE_BUNDLE_{0}:BOOL={1}".format(bundle, benabled)
+        args.extend("-DUSE_BUNDLE_{0}:BOOL={1}".format(bundle, use_bundle)
                     for bundle in bundles)
 
         if "+native" in spec:
