@@ -60,8 +60,8 @@ class Steps(CMakePackage):
             "SUNDIALS",
             "SUPERLU_DIST"
         ]
-        for bundle in bundles:
-            args.append("-DUSE_BUNDLE_{0}:BOOL={1}".format(bundle, benabled))
+        args.extend("-DUSE_BUNDLE_{0}:BOOL={1}".format(bundle, benabled)
+                    for bundle in bundles)
 
         if "+native" in spec:
             args.append("-DTARGET_NATIVE_ARCH:BOOL=True")
