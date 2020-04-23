@@ -46,13 +46,13 @@ class Steps(CMakePackage):
     depends_on("sundials@:2.99.99+int64", when="~bundle")
 
     conflicts("+distmesh~mpi",
-              msg="steps+distmesh requires +mpi") 
+              msg="steps+distmesh requires +mpi")
 
     def cmake_args(self):
         args = []
         spec = self.spec
 
-        bundle_enabled = "ON" if "+bundle" in spec else "OFF"
+        benabled = "ON" if "+bundle" in spec else "OFF"
         bundles = [
             "EASYLOGGINGPP",
             "OMEGA_H",
@@ -61,7 +61,7 @@ class Steps(CMakePackage):
             "SUPERLU_DIST"
         ]
         for bundle in bundles:
-            args.append("-DUSE_BUNDLE_{0}:BOOL={1}".format(bundle, bundle_enabled))
+            args.append("-DUSE_BUNDLE_{0}:BOOL={1}".format(bundle, benabled))
 
         if "+native" in spec:
             args.append("-DTARGET_NATIVE_ARCH:BOOL=True")
