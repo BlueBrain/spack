@@ -55,7 +55,5 @@ class Highfive(CMakePackage):
             '-DHIGHFIVE_TEST_SINGLE_INCLUDES:Bool='
             + str(self.spec.satisfies('@develop')),
             '-DHDF5_NO_FIND_PACKAGE_CONFIG_FILE=1',  # Dont use targets
-
-            # Newer highfive. Otherwise dynamic deps
-            # '-DHIGHFIVE_USE_INSTALL_DEPS:Bool=ON',
+            '-DHIGHFIVE_USE_INSTALL_DEPS:Bool=ON',
         ]
