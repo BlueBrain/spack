@@ -21,3 +21,5 @@ class Lunchbox(CMakePackage):
     depends_on('boost')
     depends_on('servus')
 
+    patch('fix_hwloc_2.0.patch')
+
