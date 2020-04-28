@@ -5,6 +5,7 @@
 
 from spack import *
 
+
 class Servus(CMakePackage):
     """Servus is a small C++ network utility library that provides a zeroconf
        API, URI parsing and UUIDs."""
