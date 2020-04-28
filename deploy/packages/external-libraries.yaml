@@ -50,8 +50,16 @@ packages:
       - spark@2.4.0+hadoop
       - sqlite
       - symengine@0.3.0
-      - timemory+mpi+cuda+cupti+caliper~gperftools~python@3.0.0a
+      - timemory+mpi+cuda+cupti+caliper~gperftools~python@3.0.1
       - virtualgl
       - vrpn
-      - zeromq@4.2.5
       - zlib@1.2.11
+
+  intel-stable-serial:
+    target_matrix:
+      - intel-stable
+    requires:
+      - architecture
+      - compiler
+    specs:
+      - zeromq+libsodium@4.3.2
