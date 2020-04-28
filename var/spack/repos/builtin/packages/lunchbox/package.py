@@ -5,6 +5,7 @@
 
 from spack import *
 
+
 class Lunchbox(CMakePackage):
     """A core C++ library for multi-threaded programming."""
 
@@ -22,4 +23,3 @@ class Lunchbox(CMakePackage):
     depends_on('servus')
 
     patch('fix_hwloc_2.0.patch')
-
