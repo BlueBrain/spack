@@ -5,6 +5,7 @@
 
 from spack import *
 
+
 class Vmmlib(CMakePackage):
     """A templatized C++ vector and matrix math library"""
 
