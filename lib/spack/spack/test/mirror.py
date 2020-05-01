@@ -94,21 +94,11 @@ def check_mirror():
                     fetcher = pkg.fetcher[0]
                     fetcher.set_stage(truth)
                     fetcher.fetch()
+                    fetcher.expand()
                     original_path = truth.source_path
 
                     with pkg.stage:
                         pkg.do_stage(mirror_only=True)
-
-                        # Compare the original repo with the expanded archive
-                        # original_path = mock_repo.path
-                        # if 'svn' in name:
-                        #     # have to check out the svn repo to compare.
-                        #     original_path = os.path.join(
-                        #         mock_repo.path, 'checked_out')
-
-                        #     svn = which('svn', required=True)
-                        #     svn('checkout', mock_repo.url, original_path)
-
                         compare(original_path, pkg.stage.source_path)
 
 
