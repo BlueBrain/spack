@@ -23,6 +23,7 @@ class Spykfunc(PythonPackage):
     version('0.15.1', tag='v0.15.1', submodules=True, get_full_repo=True)
     version('0.15.2', tag='v0.15.2', submodules=True, get_full_repo=True)
     version('0.15.3', tag='v0.15.3', submodules=True, get_full_repo=True)
+    version('0.15.4', tag='v0.15.4', submodules=True, get_full_repo=True)
 
     depends_on('cmake', type='build', when='@0.16:')
     depends_on('boost', type=('build', 'link'), when='@0.16:')
@@ -49,6 +50,7 @@ class Spykfunc(PythonPackage):
     depends_on('py-hdfs', type=('build', 'run'))
     depends_on('py-jprops', type=('build', 'run'))
     depends_on('py-lazy-property', type=('build', 'run'))
+    depends_on('py-libsonata', type='run', when='@0.15.3:')
     depends_on('py-lxml', type=('build', 'run'))
     depends_on('py-morpho-kit', type=('build', 'run'), when='@0.14.4:')
     depends_on('py-numpy', type=('build', 'run'))
