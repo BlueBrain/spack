@@ -25,9 +25,9 @@ class Spykfunc(PythonPackage):
     version('0.15.3', tag='v0.15.3', submodules=True, get_full_repo=True)
     version('0.15.4', tag='v0.15.4', submodules=True, get_full_repo=True)
 
-    depends_on('cmake', type='build', when='@0.16:')
-    depends_on('boost', type=('build', 'link'), when='@0.16:')
-    depends_on('morpho-kit', type=('build', 'link'), when='@0.16:')
+    depends_on('cmake', type='build', when='@0.15.4:')
+    depends_on('boost', type=('build', 'link'), when='@0.15.4:')
+    depends_on('morpho-kit', type=('build', 'link'), when='@0.15.4:')
 
     # Note : when spark is used as external package, spec['java'] is not
     # accessible. Add explicit dependency for now.
