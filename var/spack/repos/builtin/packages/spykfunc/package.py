@@ -36,7 +36,7 @@ class Spykfunc(PythonPackage):
     depends_on('py-mvdtool~mpi', type=('build', 'run'), when='@0.14.4:')
 
     depends_on('python@3.6:')
-    depends_on('py-cython', type='run', when='@:0.15.99')
+    depends_on('py-cython', type='run', when='@:0.15.3')
     depends_on('py-setuptools', type=('build', 'run'))
 
     depends_on('spark+hadoop@2.3.2rc2:', type='run')
