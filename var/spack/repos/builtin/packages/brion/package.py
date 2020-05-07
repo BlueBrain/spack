@@ -46,7 +46,8 @@ class Brion(CMakePackage):
         filter_file(r'-py36', r'36 -py36', 'CMake/common/ChoosePython.cmake')
 
     def cmake_args(self):
-        return ['-DDISABLE_SUBPROJECTS=ON', '-DBRION_SKIP_LIBSONATA_SUBMODULE=ON' ]
+        return ['-DDISABLE_SUBPROJECTS=ON',
+                '-DBRION_SKIP_LIBSONATA_SUBMODULE=ON']
 
     @when('+python')
     def setup_run_environment(self, env):
