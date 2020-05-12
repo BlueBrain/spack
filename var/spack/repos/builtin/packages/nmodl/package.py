@@ -13,9 +13,9 @@ class Nmodl(CMakePackage):
     url      = "https://github.com/BlueBrain/nmodl.git"
     git      = "https://github.com/BlueBrain/nmodl.git"
 
-    version('develop', branch='master', submodules=True, get_full_repo=True)
-    version('0.3', commit="86fc52d2", submodules=True, get_full_repo=True)
-    version('0.2', tag='0.2', submodules=True, get_full_repo=True)
+    version('develop', branch='master', submodules=True)
+    version('0.3', commit="86fc52d2", submodules=True)
+    version('0.2', tag='0.2', submodules=True)
 
     depends_on('bison@3.0:3.4.99', when='@:0.3', type='build')
     depends_on('bison@3.0:', when='@0.3.1:', type='build')
