@@ -30,8 +30,7 @@ class Neuron(CMakePackage):
     patch("apply_79a4d2af_load_balance_fix.patch", when="@7.8.0b")
 
     version("develop", branch="master")
-    version("7.8.0d",  branch="defabcd", preferred=True)
-    version("7.8.0c",  commit="81f9e60")
+    version("7.8.0c",  commit="defabcd", preferred=True)
     version("7.8.0b",  commit="92a208b")
     version("7.6.8",   tag="7.6.8")
     version("7.6.6",   tag="7.6.6")
@@ -76,10 +75,8 @@ class Neuron(CMakePackage):
     variant("shared",     default=True,  description="Build shared libraries")
     variant("tests",      default=False, description="Enable unit tests")
 
-    variant("deployment_build", default="1",  description="Build number for re-builds")
-
     variant("codechecks", default=False,
-            description="Perform additional code checks like " +
+            description="Perform additional code checks like "
                         "formatting or static analysis")
 
     depends_on("autoconf",  type="build", when="~cmake")
@@ -110,8 +107,6 @@ class Neuron(CMakePackage):
     conflicts("~shared",  when="+python")
     conflicts("+pysetup", when="~python")
     conflicts("+rx3d",    when="~python")
-    # Binary special not working yet with cmake build system
-    # conflicts("+binary",  when="+cmake")
 
     # ==============================================
     # ==== CMake build system related functions ====
@@ -376,7 +371,7 @@ class Neuron(CMakePackage):
     def basedir(self):
         """Determine the neuron base directory.
 
-        Neuron base directory is based on the build system. For
+        NEURON base directory is based on the build system. For
         cmake the bin and lib folders are in self.prefix and for
         autotools it is in self.prefix/neuron_arch.
         """
