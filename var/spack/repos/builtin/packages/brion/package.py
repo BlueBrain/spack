@@ -39,7 +39,8 @@ class Brion(CMakePackage):
     depends_on('bzip2')
     depends_on('lunchbox')
     depends_on('vmmlib')
-    depends_on('highfive@2.1.1 +boost ~mpi')
+    depends_on('highfive +boost ~mpi', when='@develop')
+    depends_on('highfive@2.1.1 +boost ~mpi', when='@:3.1.0')
     depends_on('mvdtool ~mpi')
 
     def patch(self):
