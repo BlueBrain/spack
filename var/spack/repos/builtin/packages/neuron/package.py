@@ -398,8 +398,7 @@ class Neuron(CMakePackage):
             cxx_compiler = self.spec["mpi"].mpicxx
 
         libtool_makefile = join_path(self.prefix,
-                                     self.basedir,
-                                     "../share/nrn/libtool")
+                                     "share/nrn/libtool")
         nrniv_makefile = join_path(self.prefix,
                                    self.basedir,
                                    "./bin/nrniv_makefile")
