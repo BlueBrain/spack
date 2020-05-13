@@ -151,7 +151,8 @@ class SimModel(Package):
         # Install special
         shutil.copy(join_path(arch, 'special'), prefix.bin)
 
-        if self.spec.satisfies('^neuron~binary') or self.spec.satisfies('^neuron+binary+cmake'):
+        if (self.spec.satisfies('^neuron~binary') or
+                self.spec.satisfies('^neuron+binary+cmake')):
             lib_suffix = ".so"
             # Install libnrnmech - might have several links
             if self.spec.satisfies('^neuron+cmake'):
