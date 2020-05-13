@@ -30,7 +30,7 @@ class Neuron(CMakePackage):
     patch("apply_79a4d2af_load_balance_fix.patch", when="@7.8.0b")
 
     version("develop", branch="master")
-    version("7.8.0d",  branch="bin_special", preferred=True)
+    version("7.8.0d",  branch="defabcd", preferred=True)
     version("7.8.0c",  commit="81f9e60")
     version("7.8.0b",  commit="92a208b")
     version("7.6.8",   tag="7.6.8")
