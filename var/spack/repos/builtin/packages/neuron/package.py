@@ -428,13 +428,17 @@ class Neuron(CMakePackage):
                 filter_file(env["CC"], "cc", libtool_makefile, **kwargs)
                 filter_file(env["CXX"], "CC", libtool_makefile, **kwargs)
 
-        # nrnmech_makefile exists in both cmake and autotools builds
-        filter_file("CC = {0}".format(env["CC"]),
-                    "CC = {0}".format(cc_compiler),
+        # nrnmech_makefile exists in both cmake and autotools buildsi
+        if self.spec.satisfies("+cmake"):
+            assign_operator = "?="
+        else:
+            assign_operator = "="
+        filter_file("CC {0} {1}".format(assign_operator, env["CC"]),
+                    "CC {0} {1}".format(assign_operator, cc_compiler),
                     nrnmech_makefile,
                     **kwargs)
-        filter_file("CXX = {0}".format(env["CXX"]),
-                    "CXX = {0}".format(cxx_compiler),
+        filter_file("CXX {0} {1}".format(assign_operator, env["CXX"]),
+                    "CXX {0} {1}".format(assign_operator, cxx_compiler),
                     nrnmech_makefile,
                     **kwargs)
 
