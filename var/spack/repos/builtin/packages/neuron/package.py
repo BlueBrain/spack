@@ -471,14 +471,22 @@ class Neuron(CMakePackage):
         if self.spec.satisfies("+mpi"):
             env.set("MPICC_CC", self.compiler.cc)
             env.set("MPICXX_CXX", self.compiler.cxx)
+            env.set("CC", self.spec["mpi"].mpicc)
+            env.set("CXX", self.spec["mpi"].mpicxx)
 
     def setup_dependent_build_environment(self, env, dependent_spec):
         env.prepend_path("PATH", join_path(self.basedir, "bin"))
         env.prepend_path("LD_LIBRARY_PATH", join_path(self.basedir, "lib"))
+        if self.spec.satisfies("+mpi"):
+            env.set("CC", self.spec["mpi"].mpicc)
+            env.set("CXX", self.spec["mpi"].mpicxx)
         if "darwin" in self.spec.architecture:
             env.unset("PYTHONHOME")
 
     def setup_dependent_run_environment(self, env, dependent_spec):
+        if self.spec.satisfies("+mpi"):
+            env.set("CC", self.spec["mpi"].mpicc)
+            env.set("CXX", self.spec["mpi"].mpicxx)
         self.set_python_path(env)
 
     def setup_dependent_package(self, module, dependent_spec):
