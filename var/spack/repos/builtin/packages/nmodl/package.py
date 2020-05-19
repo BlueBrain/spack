@@ -27,6 +27,18 @@ class Nmodl(CMakePackage):
     depends_on('py-sympy@1.2:')
     depends_on('py-pyyaml@3.13:')
 
+    def get_cmake_args(self):
+        spec = self.spec
+        flags = "-g -O2"
+        if '%pgi' in spec:
+            flags += '-Mnollvm'
+
+        options = \
+            ['-DCMAKE_C_FLAGS=%s' % flags,
+             '-DCMAKE_CXX_FLAGS=%s' % flags
+             ]
+        return options
+
     def setup_build_environment(self, env):
         env.prepend_path('PYTHONPATH', self.prefix.lib.python)
 
