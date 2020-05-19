@@ -14,7 +14,8 @@ class Nmodl(CMakePackage):
     git      = "https://github.com/BlueBrain/nmodl.git"
 
     version('develop', branch='master', submodules=True)
-    version('0.3', commit="86fc52d2", submodules=True)
+    version('0.4', commit="c30ea06", submodules=True)
+    version('0.3', commit="86fc52d", submodules=True)
     version('0.2', tag='0.2', submodules=True)
 
     depends_on('bison@3.0:3.4.99', when='@:0.3', type='build')
@@ -29,15 +30,17 @@ class Nmodl(CMakePackage):
 
     def get_cmake_args(self):
         spec = self.spec
-        flags = "-g -O2"
+        options = [] 
+        # installation with pgi fails when debug symbols are added
         if '%pgi' in spec:
-            flags += '-Mnollvm'
+            options.append('-DCMAKE_BUILD_TYPE=Release')
+        else:
+            options.append('-DCMAKE_BUILD_TYPE=RelWithDebInfo')
 
-        options = \
-            ['-DCMAKE_C_FLAGS=%s' % flags,
-             '-DCMAKE_CXX_FLAGS=%s' % flags
-             ]
         return options
+
+    def cmake_args(self):
+        return self.get_cmake_args()
 
     def setup_build_environment(self, env):
         env.prepend_path('PYTHONPATH', self.prefix.lib.python)
