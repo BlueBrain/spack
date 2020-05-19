@@ -21,7 +21,7 @@ class Coreneuron(CMakePackage):
     version('develop', branch='master', submodules=True)
     version('0.18', tag='0.18', submodules=True)
     version('0.17', tag='0.17', submodules=True)
-    version('0.16', tag='0.16', submodules=True)
+    version('0.16', tag='0.16', submodules=True, preferred=True)
     version('0.15', tag='0.15', submodules=True)
     version('0.14', tag='0.14', submodules=True)
 
