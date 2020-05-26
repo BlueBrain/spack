@@ -23,5 +23,5 @@ class MorphoKit(CMakePackage):
     depends_on('py-setuptools-scm', type='build')
     depends_on('morphio', when='@0.1.1:')
     depends_on('morphio@:2.2.1', when='@0.1.0')
-    depends_on('morphio@:2.3.9', when='@0.2.0')
+    depends_on('morphio@2.3.9:', when='@0.2.0:')
     depends_on('boost')
