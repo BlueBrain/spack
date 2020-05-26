@@ -65,7 +65,7 @@ class Synapsetool(CMakePackage):
 
         boost_libs = ['libboost_system', 'libboost_filesystem']
         if spec['boost'].satisfies('+multithreaded'):
-            boost_libs = [l + '-mt' for l in boost_libs]
+            boost_libs = [lib + '-mt' for lib in boost_libs]
 
         libraries = (
             find_libraries(boost_libs, spec['boost'].prefix,
