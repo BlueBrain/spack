@@ -100,7 +100,7 @@ class Neuron(CMakePackage):
     depends_on("py-pytest",   when="+python+tests")
     # Numpy is required for Vector.as_numpy()
     depends_on("py-numpy",    when="+python", type=("build", "run"))
-    depends_on("py-cython",   when="+python", type=("build", "link", "run"))
+    depends_on("py-cython",   when="+rx3d", type="build")
     depends_on("tau",         when="+profile")
 
     conflicts("+cmake",   when="@0:7.8.0b,2018-10")
@@ -434,11 +434,11 @@ class Neuron(CMakePackage):
         else:
             assign_operator = "="
         filter_file("CC {0} {1}".format(assign_operator, env["CC"]),
-                    "CC {0} {1}".format(assign_operator, cc_compiler),
+                    "CC = {0}".format(cc_compiler),
                     nrnmech_makefile,
                     **kwargs)
         filter_file("CXX {0} {1}".format(assign_operator, env["CXX"]),
-                    "CXX {0} {1}".format(assign_operator, cxx_compiler),
+                    "CXX = {0}".format(cxx_compiler),
                     nrnmech_makefile,
                     **kwargs)
 
@@ -446,48 +446,16 @@ class Neuron(CMakePackage):
             filter_file(env["CC"], cc_compiler, nrniv_makefile, **kwargs)
             filter_file(env["CXX"], cxx_compiler, nrniv_makefile, **kwargs)
 
-    @when("+python")
-    def set_python_path(self, env):
-        for pydir in (
-                self.spec.prefix.lib64.python,
-                self.spec.prefix.lib.python,
-        ):
-            if os.path.isdir(pydir):
-                env.prepend_path("PYTHONPATH", pydir)
-                break
-
-    def setup_build_environment(self, env):
-        if "darwin" in self.spec.architecture:
-            env.unset("PYTHONHOME")
-
     def setup_run_environment(self, env):
         env.prepend_path("PATH", join_path(self.basedir, "bin"))
         env.prepend_path("LD_LIBRARY_PATH", join_path(self.basedir, "lib"))
-        if self.spec.satisfies("+python"):
-            self.set_python_path(env)
-            # Unset PYTHONHOME to avoid "import site" issue in the build
-            if "darwin" in self.spec.architecture:
-                env.unset("PYTHONHOME")
         if self.spec.satisfies("+mpi"):
             env.set("MPICC_CC", self.compiler.cc)
             env.set("MPICXX_CXX", self.compiler.cxx)
-            env.set("CC", self.spec["mpi"].mpicc)
-            env.set("CXX", self.spec["mpi"].mpicxx)
 
     def setup_dependent_build_environment(self, env, dependent_spec):
         env.prepend_path("PATH", join_path(self.basedir, "bin"))
         env.prepend_path("LD_LIBRARY_PATH", join_path(self.basedir, "lib"))
-        if self.spec.satisfies("+mpi"):
-            env.set("CC", self.spec["mpi"].mpicc)
-            env.set("CXX", self.spec["mpi"].mpicxx)
-        if "darwin" in self.spec.architecture:
-            env.unset("PYTHONHOME")
-
-    def setup_dependent_run_environment(self, env, dependent_spec):
-        if self.spec.satisfies("+mpi"):
-            env.set("CC", self.spec["mpi"].mpicc)
-            env.set("CXX", self.spec["mpi"].mpicxx)
-        self.set_python_path(env)
 
     def setup_dependent_package(self, module, dependent_spec):
         dependent_spec.package.neuron_basedir = self.basedir
