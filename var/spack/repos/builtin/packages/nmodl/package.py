@@ -14,7 +14,7 @@ class Nmodl(CMakePackage):
     git      = "https://github.com/BlueBrain/nmodl.git"
 
     version('develop', branch='master', submodules=True)
-    version('0.4a', commit="c30ea06", submodules=True)
+    version('0.3b', commit="c30ea06", submodules=True)
     version('0.3a', commit="86fc52d", submodules=True)
     version('0.2', tag='0.2', submodules=True)
 
@@ -28,19 +28,15 @@ class Nmodl(CMakePackage):
     depends_on('py-sympy@1.2:')
     depends_on('py-pyyaml@3.13:')
 
-    def get_cmake_args(self):
+    def cmake_args(self):
         spec = self.spec
-        options = [] 
+        options = []
         # installation with pgi fails when debug symbols are added
         if '%pgi' in spec:
             options.append('-DCMAKE_BUILD_TYPE=Release')
         else:
             options.append('-DCMAKE_BUILD_TYPE=RelWithDebInfo')
-
         return options
-
-    def cmake_args(self):
-        return self.get_cmake_args()
 
     def setup_build_environment(self, env):
         env.prepend_path('PYTHONPATH', self.prefix.lib.python)
