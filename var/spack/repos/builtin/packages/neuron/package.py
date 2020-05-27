@@ -447,13 +447,13 @@ class Neuron(CMakePackage):
             filter_file(env["CXX"], cxx_compiler, nrniv_makefile, **kwargs)
 
     @when("+python")    
-    def set_python_path(self, env):    
-        for pydir in (    
-                self.spec.prefix.lib64.python,    
-                self.spec.prefix.lib.python,    
-        ):    
-            if os.path.isdir(pydir):    
-                env.prepend_path("PYTHONPATH", pydir)    
+    def set_python_path(self, env):
+        for pydir in (
+            self.spec.prefix.lib64.python,
+            self.spec.prefix.lib.python,
+        ):
+            if os.path.isdir(pydir):
+                env.prepend_path("PYTHONPATH", pydir)
                 break
 
     def setup_run_environment(self, env):
@@ -462,8 +462,8 @@ class Neuron(CMakePackage):
         if self.spec.satisfies("+mpi"):
             env.set("MPICC_CC", self.compiler.cc)
             env.set("MPICXX_CXX", self.compiler.cxx)
-        if self.spec.satisfies("+python"):    
-            self.set_python_path(env) 
+        if self.spec.satisfies("+python"):
+            self.set_python_path(env)
 
     def setup_dependent_build_environment(self, env, dependent_spec):
         env.prepend_path("PATH", join_path(self.basedir, "bin"))
