@@ -11,10 +11,15 @@ class Nmodl(CMakePackage):
 
     homepage = "https://github.com/BlueBrain/nmodl.git"
     url      = "https://github.com/BlueBrain/nmodl.git"
+    git      = "https://github.com/BlueBrain/nmodl.git"
 
-    version('develop', branch='master', git=url, submodules=True, get_full_repo=True)
+    version('develop', branch='master', submodules=True)
+    version('0.3b', commit="c30ea06", submodules=True)
+    version('0.3a', commit="86fc52d", submodules=True)
+    version('0.2', tag='0.2', submodules=True)
 
-    depends_on('bison@3.0:', type='build')
+    depends_on('bison@3.0:3.4.99', when='@:0.3', type='build')
+    depends_on('bison@3.0:', when='@0.3.1:', type='build')
     depends_on('cmake@3.3.0:', type='build')
     depends_on('flex@2.6:', type='build')
     depends_on('python@3.6.0:')
@@ -23,6 +28,18 @@ class Nmodl(CMakePackage):
     depends_on('py-sympy@1.2:')
     depends_on('py-pyyaml@3.13:')
 
-    def setup_environment(self, spack_env, run_env):
-        run_env.prepend_path('PYTHONPATH', self.prefix.lib.python)
+    def cmake_args(self):
+        spec = self.spec
+        options = []
+        # installation with pgi fails when debug symbols are added
+        if '%pgi' in spec:
+            options.append('-DCMAKE_BUILD_TYPE=Release')
+        else:
+            options.append('-DCMAKE_BUILD_TYPE=RelWithDebInfo')
+        return options
 
+    def setup_build_environment(self, env):
+        env.prepend_path('PYTHONPATH', self.prefix.lib.python)
+
+    def setup_run_environment(self, env):
+        env.prepend_path('PYTHONPATH', self.prefix.lib.python)

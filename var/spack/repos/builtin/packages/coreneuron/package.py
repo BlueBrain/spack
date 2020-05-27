@@ -16,11 +16,16 @@ class Coreneuron(CMakePackage):
 
     homepage = "https://github.com/BlueBrain/CoreNeuron"
     url      = "https://github.com/BlueBrain/CoreNeuron"
+    git      = "https://github.com/BlueBrain/CoreNeuron"
 
-    version('develop', git=url, branch='master', submodules=True)
-    version('0.16', git=url, tag='0.16', submodules=True)
-    version('0.15', git=url, tag='0.15', submodules=True)
-    version('0.14', git=url, tag='0.14', submodules=True)
+    version('develop', branch='master', submodules=True)
+    version('0.18', tag='0.18', submodules=True)
+    version('0.17', tag='0.17', submodules=True)
+    version('0.16', tag='0.16', submodules=True, preferred=True)
+    version('0.15', tag='0.15', submodules=True)
+    version('0.14', tag='0.14', submodules=True)
+
+    patch('0001-Fixes-for-NMODL-MOD2C-binary.patch', when='@0.17+nmodl')
 
     variant('debug', default=False, description='Build debug with O0')
     variant('gpu', default=False, description="Enable GPU build")
@@ -51,7 +56,8 @@ class Coreneuron(CMakePackage):
     depends_on('tau', when='+profile')
 
     # nmodl specific dependency
-    depends_on('nmodl', when='+nmodl')
+    depends_on('nmodl@0.3b', when='@0.17:+nmodl')
+    depends_on('nmodl@0.3a', when='@0:0.16+nmodl')
     depends_on('eigen@3.3.4:~metis~scotch~fftw~suitesparse~mpfr', when='+nmodl')
     depends_on('ispc', when='+ispc')
 
@@ -68,7 +74,13 @@ class Coreneuron(CMakePackage):
     # sympy and ispc options are only usable with nmodl
     conflicts('+sympyopt', when='~sympy')
     conflicts('+sympy', when='~nmodl')
+    conflicts('+sympy', when='coreneuron@0.17')  # issue with include directories
     conflicts('+ispc', when='~nmodl')
+
+    # raise conflict when trying to install '+gpu' without PGI compiler
+    gpu_compiler_message = "For gpu build use %pgi"
+    conflicts('%gcc', when='+gpu', msg=gpu_compiler_message)
+    conflicts('%intel', when='+gpu', msg=gpu_compiler_message)
 
     @run_before('build')
     def profiling_wrapper_on(self):
@@ -92,7 +104,7 @@ class Coreneuron(CMakePackage):
                 flags = '-g -xMIC-AVX512 -O2 -qopt-report=5'
         if '+gpu' in spec:
             flags = '-O2'
-            flags += '-Minline=size:1000,levels:100,'
+            flags += ' -Minline=size:1000,levels:100,'
             flags += 'totalsize:40000,maxsize:4000'
             flags += ' -ta=tesla:cuda%s' % (spec['cuda'].version.up_to(2))
         if '+debug' in spec:
@@ -128,11 +140,11 @@ class Coreneuron(CMakePackage):
 
         if spec.satisfies('+nmodl'):
             options.append('-DCORENRN_ENABLE_NMODL=ON')
-            options.append('-DCORENRN_NMODL_ROOT=%s' % spec['nmodl'].prefix)
+            options.append('-DCORENRN_NMODL_DIR=%s' % spec['nmodl'].prefix)
             flags += ' -I%s -I%s' % (spec['nmodl'].prefix.include,
                                      spec['eigen'].prefix.include.eigen3)
 
-        nmodl_options = 'codegen --force passes --verbatim-rename --inline'
+        nmodl_options = 'codegen --force'
 
         if spec.satisfies('+ispc'):
             options.append('-DCORENRN_ENABLE_ISPC=ON')
@@ -188,8 +200,8 @@ class Coreneuron(CMakePackage):
             env['CXX'] = 'tau_cxx'
 
         if spec.satisfies('+nmodl'):
-            options.append('-DCORENRN_ENABLE_NMODL=ON')
-            options.append('-DCORENRN_NMODL_DIR=%s' % spec['nmodl'].prefix)
+            options.append('-DENABLE_NMODL=ON')
+            options.append('-DNMODL_ROOT=%s' % spec['nmodl'].prefix)
             flags += ' -I%s -I%s' % (spec['nmodl'].prefix.include,
                                      spec['eigen'].prefix.include.eigen3)
 
