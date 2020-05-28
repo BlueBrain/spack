@@ -153,24 +153,21 @@ class SimModel(Package):
 
         if (self.spec.satisfies('^neuron~binary') or
                 self.spec.satisfies('^neuron+binary+cmake')):
-            lib_suffix = ".so"
+            lib_suffix = '.so'
             # Install libnrnmech - might have several links
             if self.spec.satisfies('^neuron+cmake'):
                 libnrnmech_path = self.nrnivmodl_outdir
-                if "darwin" in self.spec.architecture:
-                    lib_suffix = ".dylib"
+                if 'darwin' in self.spec.architecture:
+                    lib_suffix = '.dylib'
             else:
-                libnrnmech_path = self.nrnivmodl_outdir + "/.libs"
+                libnrnmech_path = self.nrnivmodl_outdir + '/.libs'
             for f in find(libnrnmech_path,
                           'libnrnmech*' + lib_suffix + '*',
                           recursive=False):
                 if not os.path.islink(f):
                     bname = os.path.basename(f)
-                    if self.spec.satisfies('^neuron+binary+cmake'):
-                        lib_dst = prefix.lib.join(bname)
-                    else:
-                        lib_dst = prefix.lib.join(
-                            bname[:bname.find('.')] + self.lib_suffix + '.so')
+                    lib_dst = prefix.lib.join(
+                        bname[:bname.find('.')] + self.lib_suffix + lib_suffix)
                     shutil.move(f, lib_dst)  # Move so its not copied twice
                     break
             else:

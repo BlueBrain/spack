@@ -12,8 +12,6 @@ import llnl.util.tty as tty
 # Definitions
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
-_LIB_SUFFIX = "_nd"
-
 
 class NeurodamusModel(SimModel):
     """An 'abstract' base package for Simulation Models. Therefore no version.
@@ -92,7 +90,9 @@ class NeurodamusModel(SimModel):
         # link_flag += ' '
         #         + spec['synapsetool'].package.dependency_libs(spec).joined()
 
-        self.mech_name += _LIB_SUFFIX  # Final lib name
+        if self.spec.satisfies('^neuron+binary+cmake'):
+            self.mech_name = ""  # keep lib name as libnrnmech.so for binary neuron
+
         if spec.satisfies('+synapsetool'):
             base_include_flag = "-DENABLE_SYNTOOL"
         else:
@@ -152,7 +152,14 @@ class NeurodamusModel(SimModel):
             #  - NRNMECH_LIB_PATH the combined lib (used by neurodamus-py)
             #  - BGLIBPY_MOD_LIBRARY_PATH is the pure mechanism
             #        (used by bglib-py)
-            if '_nd.' in libnrnmech_name:
+            libnrnmech_name = 'libnrnmech'
+            if "darwin" in self.spec.architecture:
+                lib_suffix = ".dylib"
+            else:
+                lib_suffix = ".so"
+            libnrnmech_name += lib_suffix
+
+            if libnrnmech_name == 'libnrnmech.so':
                 env.set('NRNMECH_LIB_PATH', libnrnmech_name)
             else:
                 env.set('BGLIBPY_MOD_LIBRARY_PATH', libnrnmech_name)
