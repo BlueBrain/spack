@@ -446,6 +446,11 @@ class Neuron(CMakePackage):
             filter_file(env["CC"], cc_compiler, nrniv_makefile, **kwargs)
             filter_file(env["CXX"], cxx_compiler, nrniv_makefile, **kwargs)
 
+    @when("~cmake")
+    def setup_dependent_build_environment(self, env, dependent_spec):
+        env.prepend_path("PATH", join_path(self.basedir, "bin"))
+        env.prepend_path("LD_LIBRARY_PATH", join_path(self.basedir, "lib"))
+
     def setup_run_environment(self, env):
         env.prepend_path("PATH", join_path(self.basedir, "bin"))
         env.prepend_path("LD_LIBRARY_PATH", join_path(self.basedir, "lib"))
