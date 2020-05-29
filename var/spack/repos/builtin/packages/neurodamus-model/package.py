@@ -13,6 +13,7 @@ import llnl.util.tty as tty
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
 
+
 class NeurodamusModel(SimModel):
     """An 'abstract' base package for Simulation Models. Therefore no version.
        Eventually in the future Models are independent entities,
@@ -152,7 +153,7 @@ class NeurodamusModel(SimModel):
             #  - NRNMECH_LIB_PATH the combined lib (used by neurodamus-py)
             #  - BGLIBPY_MOD_LIBRARY_PATH is the pure mechanism
             #        (used by bglib-py)
-            if "darwin" in self.spec.architecture:
+            if 'darwin' in self.spec.architecture:
                 lib_suffix = ".dylib"
             else:
                 lib_suffix = ".so"

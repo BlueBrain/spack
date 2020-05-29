@@ -153,12 +153,13 @@ class SimModel(Package):
 
         if (self.spec.satisfies('^neuron~binary') or
                 self.spec.satisfies('^neuron+binary+cmake')):
-            lib_suffix = '.so'
+            if 'darwin' in self.spec.architecture:
+                lib_suffix = '.dylib'
+            else:
+                lib_suffix = '.so'
             # Install libnrnmech - might have several links
             if self.spec.satisfies('^neuron+cmake'):
                 libnrnmech_path = self.nrnivmodl_outdir
-                if 'darwin' in self.spec.architecture:
-                    lib_suffix = '.dylib'
             else:
                 libnrnmech_path = self.nrnivmodl_outdir + '/.libs'
             for f in find(libnrnmech_path,
