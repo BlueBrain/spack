@@ -90,8 +90,8 @@ class NeurodamusModel(SimModel):
         # link_flag += ' '
         #         + spec['synapsetool'].package.dependency_libs(spec).joined()
 
-        if self.spec.satisfies('^neuron+binary+cmake'):
-            self.mech_name = ""  # keep lib name as libnrnmech.so for binary neuron
+        # Create the library with all the mod files as libnrnmech.so/.dylib
+        self.mech_name = ''
 
         if spec.satisfies('+synapsetool'):
             base_include_flag = "-DENABLE_SYNTOOL"
