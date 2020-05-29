@@ -48,7 +48,7 @@ packages:
       - architecture
       - compiler
     specs:
-      - emsim
+      - emsim ^brion@3.1.0
       - meshball
       - regiodesics@0.1.2
 
