@@ -71,7 +71,7 @@ class Neuron(CMakePackage):
         default=True,
         description="Build Python module with setup.py",
     )
-    variant("rx3d",       default=False,  description="Enable cython translated 3-d rxd. Depends on pysetup")
+    variant("rx3d",       default=True,  description="Enable cython translated 3-d rxd. Depends on pysetup")
     variant("shared",     default=True,  description="Build shared libraries")
     variant("tests",      default=False, description="Enable unit tests")
 
@@ -139,6 +139,14 @@ class Neuron(CMakePackage):
             args.append("-DNRN_ENABLE_BINARY_SPECIAL=ON")
 
         return args
+
+    # Create symlink in share/nrn/lib for the python libraries
+    # which is the place that neuron expects the library similarly
+    # to autotools installation
+    @when("+cmake+python")
+    @run_after("install")
+    def symlink_python_lib(self):
+        os.symlink(self.prefix.lib.python, self.prefix.share.nrn.lib.python)
 
     # ==============================================
     # == Autotools build system related functions ==
