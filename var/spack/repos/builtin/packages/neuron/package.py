@@ -143,6 +143,7 @@ class Neuron(CMakePackage):
     # Create symlink in share/nrn/lib for the python libraries
     # which is the place that neuron expects the library similarly
     # to autotools installation
+    # See : https://github.com/neuronsimulator/nrn/issues/567
     @when("+cmake+python")
     @run_after("install")
     def symlink_python_lib(self):
