@@ -153,12 +153,7 @@ class NeurodamusModel(SimModel):
             #  - NRNMECH_LIB_PATH the combined lib (used by neurodamus-py)
             #  - BGLIBPY_MOD_LIBRARY_PATH is the pure mechanism
             #        (used by bglib-py)
-            if 'darwin' in self.spec.architecture:
-                dso_suffix = ".dylib"
-            else:
-                dso_suffix = ".so"
-
-            if 'libnrnmech' + dso_suffix in libnrnmech_name:
+            if 'libnrnmech.' in libnrnmech_name:
                 env.set('NRNMECH_LIB_PATH', libnrnmech_name)
             else:
                 env.set('BGLIBPY_MOD_LIBRARY_PATH', libnrnmech_name)

@@ -455,6 +455,8 @@ class Neuron(CMakePackage):
             filter_file(env["CC"], cc_compiler, nrniv_makefile, **kwargs)
             filter_file(env["CXX"], cxx_compiler, nrniv_makefile, **kwargs)
 
+    # Added because the bin and lib directories are inside x86_64 dir in the
+    # installation directory of autotools installation
     @when("~cmake")
     def setup_dependent_build_environment(self, env, dependent_spec):
         env.prepend_path("PATH", join_path(self.basedir, "bin"))
