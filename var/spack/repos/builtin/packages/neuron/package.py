@@ -144,10 +144,10 @@ class Neuron(CMakePackage):
     # which is the place that neuron expects the library similarly
     # to autotools installation
     # See : https://github.com/neuronsimulator/nrn/issues/567
-    @when("+cmake+python")
     @run_after("install")
     def symlink_python_lib(self):
-        os.symlink(self.prefix.lib.python, self.prefix.share.nrn.lib.python)
+        if "+cmake+python" in self.spec:
+            os.symlink(self.prefix.lib.python, self.prefix.share.nrn.lib.python)
 
     # ==============================================
     # == Autotools build system related functions ==
