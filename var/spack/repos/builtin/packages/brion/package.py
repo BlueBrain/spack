@@ -43,6 +43,8 @@ class Brion(CMakePackage):
     depends_on('highfive@2.1.1 +boost ~mpi', when='@3.1.0')
     depends_on('mvdtool ~mpi')
 
+    patch('hf.patch')
+
     def patch(self):
         choose_python_path = 'CMake/common/ChoosePython.cmake' \
             if self.spec.version == Version('3.1.0') \
