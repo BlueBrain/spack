@@ -24,7 +24,7 @@ packages:
       - archngv@0.0.0
       - asciitoh5@1.0
       - brainbuilder@0.11.7
-      - brion@3.1.0 +python
+      - brion@3.2.0 +python
       - connectome-tools@0.3.2
       - spatial-index@0.2.1
       - spykfunc@0.15.4
@@ -120,7 +120,7 @@ packages:
       - nest@2.18.0
       - py-efel@3.0.80
       - py-bglibpy@4.2.23 ^neuron%intel@19.0.4
-      - py-bluepy@0.14.7
+      - py-bluepy@0.14.8
       - py-bluepymm@0.6.38 ^neuron%intel@19.0.4
       - py-bluepyopt@1.9.27 ^neuron%intel@19.0.4
 
