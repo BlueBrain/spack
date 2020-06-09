@@ -29,7 +29,7 @@ class Brion(CMakePackage):
     depends_on('bbptestdata', type=('build', 'test'))
 
     depends_on('python@3.4:', type=('build', 'run'), when='+python')
-    depends_on('py-numpy', type=('build', 'run'), when='+python')
+    depends_on('py-numpy', type=('build', 'run', 'test'), when='+python')
 
     depends_on('boost +shared', when='~python')
     depends_on('boost +shared +python', when='+python')
@@ -71,3 +71,9 @@ class Brion(CMakePackage):
             ninja()
             if '+doc' in self.spec:
                 ninja('doxygen', 'doxycopy')
+
+    @run_after('build')
+    @when('+python')
+    def test(self):
+        with working_dir('spack-build/lib', create=False):
+            python('-c', 'import brain; print(brain)')
