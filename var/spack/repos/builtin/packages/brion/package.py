@@ -75,5 +75,10 @@ class Brion(CMakePackage):
     @run_after('build')
     @when('+python')
     def test(self):
-        with working_dir('spack-build/lib', create=False):
+        python_lib_path = None
+        if os.path.exists('spack-build/lib'):
+            python_lib_path = 'spack-build/lib'
+        elif os.path.exists('spack-build/lib64'):
+            python_lib_path = 'spack-build/lib64'
+        with working_dir(python_lib_path, create=False):
             python('-c', 'import brain; print(brain)')
