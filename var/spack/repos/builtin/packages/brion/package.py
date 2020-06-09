@@ -59,8 +59,7 @@ class Brion(CMakePackage):
 
     @when('+python')
     def setup_run_environment(self, env):
-        site_dir = (self.spec['python']
-                    .package.site_packages_dir.split(os.sep)[1:])
+        site_dir = self._get_site_dir()
         for target in (self.prefix.lib, self.prefix.lib64):
             pathname = os.path.join(target, *site_dir)
             if os.path.isdir(pathname):
@@ -72,13 +71,16 @@ class Brion(CMakePackage):
             if '+doc' in self.spec:
                 ninja('doxygen', 'doxycopy')
 
-    @run_after('build')
     @when('+python')
+    @run_after('install')
     def test(self):
-        python_lib_path = None
-        if os.path.exists('spack-build/lib'):
-            python_lib_path = 'spack-build/lib'
-        elif os.path.exists('spack-build/lib64'):
-            python_lib_path = 'spack-build/lib64'
-        with working_dir(python_lib_path, create=False):
-            python('-c', 'import brain; print(brain)')
+        site_dir = self._get_site_dir()
+        for target in (self.prefix.lib, self.prefix.lib64):
+            pathname = os.path.join(target, *site_dir)
+            if os.path.isdir(pathname):
+                with working_dir(pathname):
+                    python('-c', 'import brain; print(brain)')
+
+    def _get_site_dir(self):
+        return (self.spec['python']
+                    .package.site_packages_dir.split(os.sep)[1:])
