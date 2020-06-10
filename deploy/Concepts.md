@@ -1,6 +1,6 @@
 # Conceptual Deployment of Software Stacks with Spack
 
-These instructions were compiled in prepariation for our continuous
+These instructions were compiled in preparation for our continuous
 deployment with Jenkins.
 While the concepts presented here still hold true, the details of the
 implementation may have evolved over time.
@@ -27,9 +27,9 @@ cd spack/deploy
 Setup virtual environment:
 
 ```
-DEPLOYMENT_VIRTUALENV=${PWD}/venv
-virtualenv -p $(which python) ${DEPLOYMENT_VIRTUALENV} --clear
-. ${DEPLOYMENT_VIRTUALENV}/bin/activate
+DEPLOYMENT_VIRTUALENV="${PWD}/venv"
+virtualenv -p "$(which python)" "${DEPLOYMENT_VIRTUALENV}" --clear
+. "${DEPLOYMENT_VIRTUALENV}/bin/activate"
 pip install --force-reinstall -U .
 ```
 
@@ -288,9 +288,9 @@ compilers.
 The deployment will need a checkout of Spack and licenses for proprietary
 software already present in the directory structure.
 
-    $ export DEPLOYMENT_ROOT=${PWD}/test
-    $ git clone git@github.com:BlueBrain/spack.git ${DEPLOYMENT_ROOT}/deploy/spack
-    $ git clone ssh://bbpcode.epfl.ch/user/kumbhar/spack-licenses ${DEPLOYMENT_ROOT}/deploy/spack/etc/spack/licenses
+    $ export DEPLOYMENT_ROOT="${PWD}/test"
+    $ git clone git@github.com:BlueBrain/spack.git "${DEPLOYMENT_ROOT}/deploy/spack"
+    $ git clone ssh://bbpcode.epfl.ch/user/kumbhar/spack-licenses "${DEPLOYMENT_ROOT}/deploy/spack/etc/spack/licenses"
 
 ### Generating all specs
 
@@ -298,7 +298,7 @@ The deployment script can be found in the root of this repository as
 `deploy.sh`.
 To generate and install the specs to be installed for all stages, use:
 
-    $ export DEPLOYMENT_ROOT=${PWD}/test
+    $ export DEPLOYMENT_ROOT="${PWD}/test"
     $ ./deploy.sh -g all
     ### updating the deployment virtualenv
     ### generating specs for compilers
