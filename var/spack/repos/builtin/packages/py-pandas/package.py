@@ -34,6 +34,7 @@ class PyPandas(PythonPackage):
         'pandas.api.extensions'
     ]
 
+    version('1.0.3', sha256='32f42e322fb903d0e189a4c10b75ba70d90958cc4f66a1781ed027f1a1d14586')
     version('0.25.1', sha256='cb2e197b7b0687becb026b84d3c242482f20cbb29a9981e43604eb67576da9f6')
     version('0.25.0', sha256='914341ad2d5b1ea522798efa4016430b66107d05781dbfe7cf05eba8f37df995')
     version('0.24.2', sha256='4f919f409c433577a501e023943e582c57355d50a724c589e78bc1d551a535a2')
