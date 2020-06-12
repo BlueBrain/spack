@@ -18,10 +18,10 @@ class Coreneuron(CMakePackage):
     url      = "https://github.com/BlueBrain/CoreNeuron"
     git      = "https://github.com/BlueBrain/CoreNeuron"
 
-    version('develop', branch='master', submodules=True, preferred=True)
+    version('develop', branch='master', submodules=True)
     version('0.18', tag='0.18', submodules=True)
     version('0.17', tag='0.17', submodules=True)
-    version('0.16', tag='0.16', submodules=True)
+    version('0.16', tag='0.16', submodules=True, preferred=True)
     version('0.15', tag='0.15', submodules=True)
     version('0.14', tag='0.14', submodules=True)
     patch('0001-Fixes-for-NMODL-MOD2C-binary.patch', when='@0.17+nmodl')
@@ -123,13 +123,14 @@ class Coreneuron(CMakePackage):
             env['CC']  = 'tau_cc'
             env['CXX'] = 'tau_cxx'
 
+        enable_reporting = ('-DCORENRN_ENABLE_REPORTINGLIB=%s' if '@0.17:0.18' in spec else '-DCORENRN_ENABLE_REPORTING=%s')
+
         options =\
             ['-DCORENRN_ENABLE_SPLAYTREE_QUEUING=ON',
              '-DCMAKE_C_FLAGS=%s' % flags,
              '-DCMAKE_CXX_FLAGS=%s' % flags,
              '-DCMAKE_BUILD_TYPE=CUSTOM',
-             '-DCORENRN_ENABLE_REPORTING=%s'
-             % ('ON' if '+report' in spec else 'OFF'),
+             enable_reporting % ('ON' if '+report' in spec else 'OFF'),
              '-DCORENRN_ENABLE_MPI=%s' % ('ON' if '+mpi' in spec else 'OFF'),
              '-DCORENRN_ENABLE_OPENMP=%s'
              % ('ON' if '+openmp' in spec else 'OFF'),
@@ -185,7 +186,7 @@ class Coreneuron(CMakePackage):
         options =\
             ['-DENABLE_SPLAYTREE_QUEUING=ON',
              '-DCMAKE_BUILD_TYPE=CUSTOM',
-             '-DENABLE_REPORTING=%s'
+             '-DENABLE_REPORTINGLIB=%s'
                 % ('ON' if '+report' in spec else 'OFF'),
              '-DENABLE_MPI=%s' % ('ON' if '+mpi' in spec else 'OFF'),
              '-DCORENEURON_OPENMP=%s' % ('ON' if '+openmp' in spec else 'OFF'),
@@ -240,7 +241,7 @@ class Coreneuron(CMakePackage):
                             '-DENABLE_OPENACC_INFO=ON'])
             # PGI compiler not able to compile nrnreport.cpp when enabled
             # OpenMP, OpenACC and Reporting. Disable ReportingLib for GPU
-            options.append('-DENABLE_REPORTING=OFF')
+            options.append('-DENABLE_REPORTINGLIB=OFF')
 
         # Suppport for previous neurodamus package
         if '^neurodamus-base' in spec:
