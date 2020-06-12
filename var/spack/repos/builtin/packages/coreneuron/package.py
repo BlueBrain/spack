@@ -123,7 +123,8 @@ class Coreneuron(CMakePackage):
             env['CC']  = 'tau_cc'
             env['CXX'] = 'tau_cxx'
 
-        enable_reporting = ('-DCORENRN_ENABLE_REPORTINGLIB=%s' if '@0.17:0.18' in spec else '-DCORENRN_ENABLE_REPORTING=%s')
+        enable_reporting = ('-DCORENRN_ENABLE_REPORTINGLIB=%s' 
+            if '@0.17:0.18' in spec else '-DCORENRN_ENABLE_REPORTING=%s')
 
         options =\
             ['-DCORENRN_ENABLE_SPLAYTREE_QUEUING=ON',
