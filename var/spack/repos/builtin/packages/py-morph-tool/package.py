@@ -19,9 +19,7 @@ class PyMorphTool(PythonPackage):
     version('0.2.1', tag='morph-tool-v0.2.1', git='ssh://bbpcode.epfl.ch/nse/morph-tool')
     version('0.1.14', tag='morph-tool-v0.1.14', git='ssh://bbpcode.epfl.ch/nse/morph-tool')
 
-
     depends_on('py-setuptools', type=('build', 'run'))
-
     depends_on('neuron+python', when='@0.2.1:', type='run')
     depends_on('py-bluepyopt@1.9.37:', type='run', when='@0.2.1:')
     depends_on('py-click@7.0:', type='run')
