@@ -19,9 +19,10 @@ class Coreneuron(CMakePackage):
     git      = "https://github.com/BlueBrain/CoreNeuron"
 
     version('develop', branch='master', submodules=True)
+    version('0.19', tag='0.19', submodules=True, preferred=True)
     version('0.18', tag='0.18', submodules=True)
     version('0.17', tag='0.17', submodules=True)
-    version('0.16', tag='0.16', submodules=True, preferred=True)
+    version('0.16', tag='0.16', submodules=True)
     version('0.15', tag='0.15', submodules=True)
     version('0.14', tag='0.14', submodules=True)
     patch('0001-Fixes-for-NMODL-MOD2C-binary.patch', when='@0.17+nmodl')
@@ -123,8 +124,10 @@ class Coreneuron(CMakePackage):
             env['CC']  = 'tau_cc'
             env['CXX'] = 'tau_cxx'
 
-        enable_reporting = ('-DCORENRN_ENABLE_REPORTINGLIB=%s'
-            if '@0.17:0.18' in spec else '-DCORENRN_ENABLE_REPORTING=%s')
+        if '@0.17:0.18' in spec:
+            enable_reporting = '-DCORENRN_ENABLE_REPORTINGLIB=%s'
+        else:
+            enable_reporting = '-DCORENRN_ENABLE_REPORTING=%s'
 
         options =\
             ['-DCORENRN_ENABLE_SPLAYTREE_QUEUING=ON',

@@ -8,31 +8,27 @@ from spack import *
 
 class LibsonataReport(CMakePackage):
     """
-    `libsonata` provides C++ API for reading SONATA Nodes / Edges
+    `libsonatareport` provides C++ API for writing SONATA reports
 
     See also:
     https://github.com/AllenInstitute/sonata/blob/master/docs/SONATA_DEVELOPER_GUIDE.md
     """
     homepage = "https://github.com/BlueBrain/libsonata"
-    # Using my fork for testing
     git = "https://github.com/BlueBrain/libsonata.git"
 
-    version('reports', branch='reports', preferred=True, submodules=True, get_full_repo=True)
+    version('0.1a', commit='4490b29d245ad3', submodules=True, get_full_repo=True)
     version('develop', branch='master', submodules=False, get_full_repo=True)
-    version('0.1.2', tag='v0.1.2', submodules=False, get_full_repo=True)
-    version('0.1.0', tag='v0.1.0', submodules=False, get_full_repo=True)
-    version('0.0.3', tag='v0.0.3', submodules=False)
 
     variant('mpi', default=True, description="Enable MPI backend")
 
     depends_on('cmake@3.3:', type='build')
-    depends_on('py-setuptools-scm', type='build', when='@0.1:')
+    depends_on('py-setuptools-scm', type='build')
+    depends_on('catch~single_header')
     depends_on('fmt@4.0:')
     depends_on('highfive+mpi', when='+mpi')
     depends_on('highfive~mpi', when='~mpi')
     depends_on('mpi', when='+mpi')
-    depends_on('catch~single_header', when='@0.1.3:')
-    depends_on('spdlog', when='@0.1.3:')
+    depends_on('spdlog')
 
     def cmake_args(self):
         result = [
@@ -58,7 +54,7 @@ class LibsonataReport(CMakePackage):
         """
         search_paths = [[self.prefix.lib64, False], [self.prefix.lib, False]]
         for path, recursive in search_paths:
-            libs = find_libraries(['libsonata', 'libsonatareport'], root=path,
+            libs = find_libraries(['libsonatareport'], root=path,
                                   shared=True, recursive=False)
             if libs:
                 return libs
