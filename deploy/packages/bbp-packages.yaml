@@ -23,11 +23,12 @@ packages:
     specs:
       - archngv@0.0.0
       - asciitoh5@1.0
-      - brainbuilder@0.11.7
+      - brainbuilder@0.12.0
       - brion@3.1.0 +python
+      - brion@3.2.0 +python
       - connectome-tools@0.3.2
       - spatial-index@0.2.1
-      - spykfunc@0.15.5
+      - spykfunc@0.15.6
       - psp-validation@0.2.1
       - py-pytouchreader@1.4.6
       - py-basalt@0.2.9
@@ -36,10 +37,10 @@ packages:
       - py-bbp-analysis-framework@1.6.42
       - py-morphology-repair-workflow@1.0.4
       - py-simwriter@1.0.1
-      - py-morph-tool@0.1.14
+      - py-morph-tool@0.2.5
       - py-morphio@2.3.4
       - py-neurodamus
-      - py-sonata-network-reduction@0.0.6 ^neuron%intel@19.0.4^py-ipython%gcc
+      - py-sonata-network-reduction@0.0.8 ^neuron%intel@19.0.4^py-ipython%gcc
 
   gnu-stable-serial-ophiophob:
     target_matrix:
@@ -79,7 +80,7 @@ packages:
       - mpi
       #- python
     specs:
-      - placement-algorithm@2.0.8
+      - placement-algorithm@2.1.0
 
   #### sub-cellular ####
 
@@ -133,7 +134,7 @@ packages:
       - architecture
       - compiler
     specs:
-      - neurodamus-core+common@2.10.1
+      - neurodamus-core+common@2.11.0
       - ultraliser
 
   intel-stable:
@@ -164,7 +165,7 @@ packages:
       - mpi
       - python
     specs:
-      - neurodamus-core~common@2.10.1
+      - neurodamus-core~common@2.11.0
       - neurodamus-neocortex+coreneuron@0.3
       - neurodamus-hippocampus+coreneuron@0.4
       - neurodamus-thalamus+coreneuron@0.3

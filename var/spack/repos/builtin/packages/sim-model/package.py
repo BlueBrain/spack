@@ -194,7 +194,11 @@ class SimModel(Package):
 
     def _setup_build_environment_common(self, env):
         env.unset('LC_ALL')
-        # MPI flags should be the same as run environment, i.e. no wrappers
+        # MPI wrappers know the actual compiler from OMPI_CC or MPICH_CC, which
+        # at build-time, are set to compiler wrappers. While that is correct,
+        # we dont want for with nrnivmodl since flags have been calculated
+        # manually. The chosen way to override those (unknown name) env vars
+        # is using setup_run_environment() from the MPI package.
         if 'mpi' in self.spec:
             self.spec['mpi'].package.setup_run_environment(env)
 

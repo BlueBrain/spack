@@ -27,7 +27,7 @@ packages:
       - darshan-util
       - doxygen@1.8.15
       - emacs@26.1
-      - environment-modules@3.2.10
+      - environment-modules@4.5.1
       - ffmpeg
       - flex@2.6.3
       - gdb~python@8.2
@@ -37,7 +37,8 @@ packages:
       - gmp@6.1.2
       - graphviz@2.42.2
       - help2man@1.47.4
-      - hpctoolkit
+      - hpctoolkit@2019.08.14
+      - hpcviewer@2020.05
       - hpe-mpi@2.21
       - intel-mpi@2018.1.163
       - isl@0.18
