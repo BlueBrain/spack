@@ -20,6 +20,7 @@ class PyCython(PythonPackage):
         'Cython.Tempita', 'pyximport',
     ]
 
+    version('0.29.16', sha256='232755284f942cbb3b43a06cd85974ef3c970a021aef19b5243c03ee2b08fa05')
     version('0.29.13', sha256='c29d069a4a30f472482343c866f7486731ad638ef9af92bfe5fca9c7323d638e')
     version('0.29.7',  sha256='55d081162191b7c11c7bfcb7c68e913827dfd5de6ecdbab1b99dab190586c1e8')
     version('0.29.5',  sha256='9d5290d749099a8e446422adfb0aa2142c711284800fb1eb70f595101e32cbf1')

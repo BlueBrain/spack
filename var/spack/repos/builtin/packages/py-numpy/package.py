@@ -27,6 +27,7 @@ class PyNumpy(PythonPackage):
         'numpy.distutils.command', 'numpy.distutils.fcompiler'
     ]
 
+    version('1.19.0', sha256='76766cc80d6128750075378d3bb7812cf146415bd29b588616f72c943c00d598')
     version('1.17.3', sha256='a0678793096205a4d784bd99f32803ba8100f639cf3b932dc63b21621390ea7e')
     version('1.17.2', sha256='73615d3edc84dd7c4aeb212fa3748fb83217e00d201875a47327f55363cef2df')
     version('1.17.1', sha256='f11331530f0eff69a758d62c2461cd98cdc2eae0147279d8fc86e0464eb7e8ca')
@@ -70,12 +71,17 @@ class PyNumpy(PythonPackage):
     depends_on('python@2.7:2.8,3.4:', type=('build', 'run'))
     depends_on('python@2.7:2.8,3.5:', type=('build', 'run'), when='@1.16:')
     depends_on('python@3.5:', type=('build', 'run'), when='@1.17:')
+    depends_on('python@3.6:', type=('build', 'run'), when='@1.19:')
     depends_on('py-setuptools', type='build')
+    # Check pyproject.toml for updates to the required cython version
+    depends_on('py-cython@0.29.13:', when='@1.18.0:', type='build')
+    depends_on('py-cython@0.29.14:', when='@1.18.1:', type='build')
     depends_on('blas',   when='+blas')
     depends_on('lapack', when='+lapack')
 
     depends_on('py-nose@1.0.0:', when='@:1.14', type='test')
     depends_on('py-pytest', when='@1.15:', type='test')
+    depends_on('py-hypothesis', when='@1.19:', type='test')
 
     # Allows you to specify order of BLAS/LAPACK preference
     # https://github.com/numpy/numpy/pull/13132
