@@ -71,7 +71,6 @@ class PyNumpy(PythonPackage):
     depends_on('python@2.7:2.8,3.4:', type=('build', 'run'))
     depends_on('python@2.7:2.8,3.5:', type=('build', 'run'), when='@1.16:')
     depends_on('python@3.5:', type=('build', 'run'), when='@1.17:')
-    depends_on('python@3.6:', type=('build', 'run'), when='@1.19:')
     depends_on('py-setuptools', type='build')
     # Check pyproject.toml for updates to the required cython version
     depends_on('py-cython@0.29.13:', when='@1.18.0:', type='build')
@@ -81,7 +80,6 @@ class PyNumpy(PythonPackage):
 
     depends_on('py-nose@1.0.0:', when='@:1.14', type='test')
     depends_on('py-pytest', when='@1.15:', type='test')
-    depends_on('py-hypothesis', when='@1.19:', type='test')
 
     # Allows you to specify order of BLAS/LAPACK preference
     # https://github.com/numpy/numpy/pull/13132
