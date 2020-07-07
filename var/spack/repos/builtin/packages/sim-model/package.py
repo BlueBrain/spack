@@ -101,12 +101,11 @@ class SimModel(Package):
         assert os.path.isdir(mods_location) and find(mods_location, '*.mod',
                                                      recursive=False),\
             'Invalid mods dir: ' + mods_location
-        nrnivmodl_params = ['-n', self.mech_name,
-                            '-i', include_flag,
+        nrnivmodl_params = ['-i', include_flag,
                             '-l', link_flag,
                             '-V',
                             'mod']
-        with working_dir('build_' + self.mech_name, create=True):
+        with working_dir('build_core', create=True):
             force_symlink(mods_location, 'mod')
             which('nrnivmodl-core')(*nrnivmodl_params)
             output_dir = os.path.basename(self.nrnivmodl_outdir)
@@ -139,7 +138,7 @@ class SimModel(Package):
         prefix = self.prefix
 
         if self.spec.satisfies('+coreneuron'):
-            with working_dir('build_' + mech_name):
+            with working_dir('build_core'):
                 if self.spec.satisfies('^coreneuron@0.0:0.14'):
                     raise Exception('Coreneuron versions before 0.14 are'
                                     'not supported by Neurodamus model')
