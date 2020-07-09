@@ -725,9 +725,31 @@ class BaseContext(tengine.Context):
         return specs + literals
 
     def _create_module_list_of(self, what):
-        m = self.conf.module
-        return [m.make_layout(x).use_name
-                for x in getattr(self.conf, what)]
+        mod = self.conf.module
+        kind = mod.__name__.rsplit('.', 1)[-1]
+        index = dict()
+
+        def _load_indices(s):
+            if len(index):
+                return
+            root = mod.make_layout(s).dirname()
+            index.update(read_module_index(root))
+            for ups in read_module_indices():
+                index.update(ups.get(kind, {}))
+
+        def _valid(spec):
+            if not spec.external:
+                _load_indices(spec)
+                if spec.dag_hash() not in index:
+                    tty.warn("Skipping whitelisted module for {0} as an "
+                             "auto-loaded dependency, no module for /{1}"
+                             .format(str(spec.name), spec.dag_hash()[:8]))
+                    return False
+            return True
+
+        return [mod.make_layout(x).use_name
+                for x in getattr(self.conf, what)
+                if _valid(x)]
 
     @tengine.context_property
     def verbose(self):
