@@ -605,6 +605,7 @@ class BaseContext(tengine.Context):
 
     def __init__(self, configuration):
         self.conf = configuration
+        self.concurrent = set()
 
     @tengine.context_property
     def spec(self):
@@ -740,7 +741,10 @@ class BaseContext(tengine.Context):
         def _valid(spec):
             if not spec.external:
                 _load_indices(spec)
-                if spec.dag_hash() not in index:
+                if (
+                    spec.dag_hash() not in index
+                    and not (self.concurrent and spec.dag_hash() in self.concurrent)
+                ):
                     tty.warn("Skipping whitelisted module for {0} as an "
                              "auto-loaded dependency, no module for /{1}"
                              .format(str(spec.name), spec.dag_hash()[:8]))
@@ -799,13 +803,15 @@ class BaseModuleFileWriter(object):
         # ... and return the first match
         return choices.pop(0)
 
-    def write(self, overwrite=False):
+    def write(self, overwrite=False, concurrent=None):
         """Writes the module file.
 
         Args:
             overwrite (bool): if True it is fine to overwrite an already
                 existing file. If False the operation is skipped an we print
                 a warning to the user.
+            concurrent: A list of DAG hashes that will have modules created
+                for them
         """
         # Return immediately if the module is blacklisted
         if self.conf.blacklisted:
@@ -850,6 +856,7 @@ class BaseModuleFileWriter(object):
         # 2. update with package specific context
         # 3. update with 'modules.yaml' specific context
 
+        self.context.concurrent = concurrent
         context = self.context.to_dict()
 
         # Attribute from package
