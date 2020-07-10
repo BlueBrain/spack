@@ -19,7 +19,7 @@ class Nmodl(CMakePackage):
     version('0.2', tag='0.2', submodules=True)
 
     depends_on('bison@3.0:3.4.99', when='@:0.3', type='build')
-    depends_on('bison@3.0:', when='@0.3.1:', type='build')
+    depends_on('bison@3.0.5:', when='@0.3.1:', type='build')
     depends_on('cmake@3.3.0:', type='build')
     depends_on('flex@2.6:', type='build')
     depends_on('python@3.6.0:')
