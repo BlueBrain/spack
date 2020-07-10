@@ -85,7 +85,8 @@ class SimModel(Package):
             # Only link with coreneuron when dependencies are passed
             if dependencies:
                 include_flag += ' -DENABLE_CORENEURON'
-                include_flag += ' -I%s' % self.spec['coreneuron'].prefix.include
+                include_flag += ' -I%s' % \
+                                self.spec['coreneuron'].prefix.include
                 link_flag += ' ' + libnrncoremech.ld_flags
 
         # Neuron mechlib and special
