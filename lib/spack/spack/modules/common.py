@@ -739,16 +739,17 @@ class BaseContext(tengine.Context):
                 index.update(ups.get(kind, {}))
 
         def _valid(spec):
-            if not spec.external:
-                _load_indices(spec)
-                if (
-                    spec.dag_hash() not in index
-                    and not (self.concurrent and spec.dag_hash() in self.concurrent)
-                ):
-                    tty.warn("Skipping whitelisted module for {0} as an "
-                             "auto-loaded dependency, no module for /{1}"
-                             .format(str(spec.name), spec.dag_hash()[:8]))
-                    return False
+            if spec.external:
+                return True
+            _load_indices(spec)
+            if (
+                spec.dag_hash() not in index
+                and spec.dag_hash() not in self.concurrent
+            ):
+                tty.warn("Skipping whitelisted module for {0} as an "
+                         "auto-loaded dependency, no module for /{1}"
+                         .format(str(spec.name), spec.dag_hash()[:8]))
+                return False
             return True
 
         return [mod.make_layout(x).use_name
@@ -856,7 +857,7 @@ class BaseModuleFileWriter(object):
         # 2. update with package specific context
         # 3. update with 'modules.yaml' specific context
 
-        self.context.concurrent = concurrent
+        self.context.concurrent = concurrent or set()
         context = self.context.to_dict()
 
         # Attribute from package
