@@ -42,7 +42,7 @@ class Flex(AutotoolsPackage):
     patch('https://github.com/westes/flex/commit/24fd0551333e7eded87b64dd36062da3df2f6380.patch', sha256='09c22e5c6fef327d3e48eb23f0d610dcd3a35ab9207f12e0f875701c677978d3', when='@2.6.4')
     # 2.6.4 fails to install with gettext@0.19 because of
     # AM_GNU_GETTEXT_VERSION set to 0.18
-    patch('gettext@0.20.patch', when='@2.6.4 ^gettext@0.20.0:')
+    patch('gettext@0.20.patch', when='@2.6.4 ^gettext@0.20:')
 
     @property
     def force_autoreconf(self):
