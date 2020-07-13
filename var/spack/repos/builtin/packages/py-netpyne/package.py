@@ -8,8 +8,9 @@ from spack import *
 
 
 class PyNetpyne(PythonPackage):
-    """Netpyne: A python package to facilitate the development, parallel simulation,
-    optimization and analysis of multiscale biological neuronal networks in NEURON."""
+    """Netpyne: A python package to facilitate the development,
+     parallel simulation, optimization and analysis of multiscale
+    biological neuronal networks in NEURON."""
 
     homepage = "http://www.netpyne.org/"
     git      = "https://github.com/Neurosim-lab/netpyne.git"
