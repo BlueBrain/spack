@@ -42,7 +42,7 @@ class Spykfunc(PythonPackage):
     depends_on('spark+hadoop@2.3.2rc2:', type='run')
     depends_on('hadoop@:2.999', type='run')
 
-    depends_on('py-bb5', type=('build', 'run'))
+    depends_on('py-bb5', type=('build', 'run'), when='@:0.15.6')
     depends_on('py-docopt', type=('build', 'run'))
     depends_on('py-future', type=('build', 'run'))
     depends_on('py-funcsigs', type=('build', 'run'))
@@ -70,8 +70,9 @@ class Spykfunc(PythonPackage):
         env.set('SPARK_HOME', self.spec['spark'].prefix)
         env.set('HADOOP_HOME', self.spec['hadoop'].prefix)
 
-        env.prepend_path('PATH',
-                         os.path.join(self.spec['py-bb5'].prefix, 'bin'))
+        if self.spec.satisfies('@:0.15.6'):
+            env.prepend_path('PATH',
+                             os.path.join(self.spec['py-bb5'].prefix, 'bin'))
         env.prepend_path('PATH',
                          os.path.join(self.spec['py-sparkmanager'].prefix,
                                       'bin'))
