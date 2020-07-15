@@ -35,6 +35,8 @@ packages:
         version: [2.9.0]
     hdf5:
         variants: +hl
+    icu4c:
+        version: [64.1]
     intel-mkl:
         version: [2018.3.222]
     intel-tbb:
