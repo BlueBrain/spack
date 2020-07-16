@@ -139,7 +139,7 @@ packages:
       - python
     specs:
       - py-numpy
-      - py-scipy
+      - py-scipy%gcc
       - py-matplotlib
       - python-dev
       - py-scikit-learn
