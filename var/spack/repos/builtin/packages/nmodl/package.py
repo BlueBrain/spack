@@ -23,9 +23,9 @@ class Nmodl(CMakePackage):
     depends_on('cmake@3.3.0:', type='build')
     depends_on('flex@2.6:', type='build')
     depends_on('python@3.6.0:')
-    depends_on('py-jinja2@2.7:')
-    depends_on('py-pytest@3.0:')
-    depends_on('py-sympy@1.2:')
+    depends_on('py-jinja2@2.10:')
+    depends_on('py-pytest@4.0.0:')
+    depends_on('py-sympy@1.3:')
     depends_on('py-pyyaml@3.13:')
 
     def cmake_args(self):
