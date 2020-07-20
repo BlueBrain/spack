@@ -29,4 +29,4 @@ class PyNetpyne(PythonPackage):
     depends_on('py-scipy', type='run')
 
     depends_on('python@3.6:')
-    depends_on('neuron+coreneuron+python')
+    depends_on('neuron+coreneuron+python', type='run')
