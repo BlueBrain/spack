@@ -11,9 +11,8 @@ class PyBluepyefe(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/BluePyEfe"
     url = "https://pypi.io/packages/source/b/bluepyefe/bluepyefe-0.3.13.tar.gz"
-
-    version('develop', branch='master')
-    version('0.3.13', commit='163ee6e48c4091c0a2347800d85c61d357cf26b4')
+    
+    version('0.3.13', sha256='e274780a34e802eae9ba146782f0b9b088734b38bdc2d6da936d79369306b726')
 
     depends_on('py-setuptools', type='build')
     depends_on('py-numpy', type='run')
