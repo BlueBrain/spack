@@ -18,3 +18,4 @@ class PyIgor(PythonPackage):
     depends_on('py-numpy', type='run')
     depends_on('py-nose', type='run')
     depends_on('py-matplotlib', type='run')
+
