@@ -12,7 +12,7 @@ class PyIgor(PythonPackage):
     homepage = "http://blog.tremily.us/posts/igor/"
     url = "https://pypi.io/packages/source/i/igor/igor-0.3.tar.gz"
 
-    version('0.3', branch='master')
+    version('0.3', url=url)
 
     depends_on('py-setuptools', type='build')
     depends_on('py-numpy', type='run')
