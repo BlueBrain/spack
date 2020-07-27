@@ -134,7 +134,7 @@ packages:
       - architecture
       - compiler
     specs:
-      - neurodamus-core+common@2.11.0
+      - neurodamus-core+common@2.11.1
       - ultraliser
 
   intel-stable:
@@ -165,7 +165,7 @@ packages:
       - mpi
       - python
     specs:
-      - neurodamus-core~common@2.11.0
+      - neurodamus-core~common@2.11.1
       - neurodamus-neocortex+coreneuron@0.3
       - neurodamus-hippocampus+coreneuron@0.4
       - neurodamus-thalamus+coreneuron@0.3
