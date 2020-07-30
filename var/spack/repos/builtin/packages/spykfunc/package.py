@@ -57,6 +57,7 @@ class Spykfunc(PythonPackage):
     depends_on('py-sparkmanager', type=('build', 'run'))
 
     patch('setup-spark3.patch', when='@:0.15.6 ^spark@3:')
+    patch('properties-spark3.patch', when='@:0.15.6 ^spark@3:')
 
     def setup_build_environment(self, env):
         # This is a rather ugly setup to run spykfunc without having to
