@@ -200,9 +200,9 @@ The information for external packages is stored in
         paths:
           xz@5.2: /usr
     --
-      zeromq:
+      libzmq:
         paths:
-          zeromq@4.2.5 +libsodium: /gpfs/bbp.cscs.ch/apps/hpc/jenkins/deploy/external-libraries/2019-01-04/linux-rhel7-x86_64/gcc-6.4.0/zeromq-4.2.5-qvzt3welbs
+          libzmq@4.2.5 +libsodium: /gpfs/bbp.cscs.ch/apps/hpc/jenkins/deploy/external-libraries/2019-01-04/linux-rhel7-x86_64/gcc-6.4.0/libzmq-4.2.5-qvzt3welbs
     --
       zlib:
         paths:

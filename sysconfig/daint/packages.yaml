@@ -58,7 +58,7 @@ packages:
             hdf5@1.10.5.1+mpi+hl arch=cray-cnl6-haswell: /opt/cray/pe/hdf5-parallel/1.10.5.1/gnu/7.1
         buildable: False
         version: [1.10.5.1]
-    zeromq:
+    libzmq:
         variants: ~libsodium
     zlib:
         paths:

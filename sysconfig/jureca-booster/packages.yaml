@@ -68,7 +68,7 @@ packages:
             intel-mkl@2019.1.144: /usr/local/software/jurecabooster/Stages/2019a/software/imkl/2019.3.199-ipsmpi-2019a-mt
         version: [2019.1.144]
         buildable: False
-    zeromq:
+    libzmq:
         version: [4.1.4]
         variants: ~libsodium
     libtool:
