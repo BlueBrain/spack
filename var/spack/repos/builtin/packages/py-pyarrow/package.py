@@ -43,7 +43,7 @@ class PyPyarrow(PythonPackage):
 
     @property
     def build_directory(self):
-        if self.spec.satisfies('@0.14.1:'):
+        if self.spec.satisfies('@0.14.1:0.15.0'):
             return 'python'
         return '.'
 
