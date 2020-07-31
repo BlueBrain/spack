@@ -728,7 +728,7 @@ EOF
         log "found the following uninstalled specs"
         echo "${spec_list}"
         log "checking specs"
-        spack spec -Il ${spec_list}
+        spack -d spec -Il ${spec_list}
 
         setup_mirror "${what}"
         populate_mirror "${what}" "${spec_list}"
