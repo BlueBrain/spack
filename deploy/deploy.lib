@@ -721,7 +721,7 @@ EOF
     spack find -lv
 
     log "gathering specs"
-    spack filter -d --not-installed $(< ${HOME}/specs.txt)
+    spack -d filter --not-installed $(< ${HOME}/specs.txt)
     spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
 
     # Only perform installation for actionable items
