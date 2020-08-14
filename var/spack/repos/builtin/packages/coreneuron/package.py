@@ -41,7 +41,7 @@ class Coreneuron(CMakePackage):
 
     # nmodl specific options
     variant('nmodl', default=False, description="Use NMODL instead of MOD2C")
-    variant('codegenopt', default=True, description="Use NMODL with codedgen ionvar copies optimizations")
+    variant('codegenopt', default=False, description="Use NMODL with codedgen ionvar copies optimizations")
     variant('sympy', default=False, description="Use NMODL with SymPy to solve ODEs")
     variant('sympyopt', default=False, description="Use NMODL with SymPy Optimizations")
     variant('ispc', default=False, description="Enable ISPC backend")
@@ -79,7 +79,7 @@ class Coreneuron(CMakePackage):
     conflicts('+sympyopt', when='~sympy')
     conflicts('+sympy', when='~nmodl')
     conflicts('+sympy', when='coreneuron@0.17')  # issue with include directories
-    conflicts('~codegenopt', when='~nmodl')
+    conflicts('+codegenopt', when='~nmodl')
     conflicts('+ispc', when='~nmodl')
 
     # raise conflict when trying to install '+gpu' without PGI compiler
@@ -155,8 +155,8 @@ class Coreneuron(CMakePackage):
 
         nmodl_options = 'codegen --force'
 
-        if spec.satisfies('~codegenopt'):
-            nmodl_options += ' --opt-ionvar-copy=FALSE'
+        if spec.satisfies('+codegenopt'):
+            nmodl_options += ' --opt-ionvar-copy=TRUE'
 
         if spec.satisfies('+ispc'):
             options.append('-DCORENRN_ENABLE_ISPC=ON')
@@ -219,8 +219,8 @@ class Coreneuron(CMakePackage):
 
         nmodl_options = 'codegen --force passes --verbatim-rename --inline'
 
-        if spec.satisfies('~codegenopt'):
-            nmodl_options += ' --opt-ionvar-copy=FALSE'
+        if spec.satisfies('+codegenopt'):
+            nmodl_options += ' --opt-ionvar-copy=TRUE'
 
         if spec.satisfies('+ispc'):
             options.append('-DENABLE_ISPC_TARGET=ON')
