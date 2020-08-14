@@ -75,13 +75,11 @@ class Coreneuron(CMakePackage):
     depends_on('neurodamus-base@plasticity', when='@plasticity')
     depends_on('neurodamus-base@hippocampus', when='@hippocampus')
 
-    
-
     # sympy, codegen and ispc options are only usable with nmodl
     conflicts('+sympyopt', when='~sympy')
     conflicts('+sympy', when='~nmodl')
     conflicts('+sympy', when='coreneuron@0.17')  # issue with include directories
-    conflicts('~codegenopt', when='~nmodl') 
+    conflicts('~codegenopt', when='~nmodl')
     conflicts('+ispc', when='~nmodl')
 
     # raise conflict when trying to install '+gpu' without PGI compiler
