@@ -19,10 +19,12 @@ class PyShapely(PythonPackage):
         'shapely.examples', 'shapely.speedups', 'shapely.vectorized',
     ]
 
+    version('1.7.1', sha256='1641724c1055459a7e2b8bbe47ba25bdc89554582e62aec23cb3f3ca25f9b129')
     version('1.6.4.post2', sha256='c4b87bb61fc3de59fc1f85e71a79b0c709dc68364d9584473697aad4aa13240f')
     version('1.6.4', sha256='b10bc4199cfefcf1c0e5d932eac89369550320ca4bdf40559328d85f1ca4f655')
 
-    depends_on('python@2.6:', type=('build', 'run'))
+    depends_on('python@2.6:2.99', type=('build', 'run'), when='@:1.6.99')
+    depends_on('python@3:', type=('build', 'run'), when='@1.7:')
     depends_on('py-setuptools', type='build')
     depends_on('py-cython', type='build')
     depends_on('py-numpy', type=('build', 'run'))
