@@ -1,9 +1,7 @@
-# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2020 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
-from spack import *
 
 
 class Eigen(CMakePackage):
@@ -12,10 +10,8 @@ class Eigen(CMakePackage):
     """
 
     homepage = 'http://eigen.tuxfamily.org/'
-    url      = 'https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.gz'
-    git      = 'https://gitlab.com/libeigen/eigen.git'
+    url = 'https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.gz'
 
-    version('develop', submodules=True)
     version('3.3.7', sha256='d56fbad95abf993f8af608484729e3d87ef611dd85b3380a8bad1d5cbc373a57')
     version('3.3.6', sha256='e7cd8c94d6516d1ada9893ccc7c9a400fcee99927c902f15adba940787104dba')
     version('3.3.5', sha256='383407ab3d0c268074e97a2cbba84ac197fd24532f014aa2adc522355c1aa2d0')
@@ -28,34 +24,21 @@ class Eigen(CMakePackage):
     version('3.2.9', sha256='f683b20259ad72c3d384c00278166dd2a42d99b78dcd589ed4a6ca74bbb4ca07')
     version('3.2.8', sha256='64c54781cfe9eefef2792003ab04b271d4b2ec32eda6e9cdf120d7aad4ebb282')
     version('3.2.7', sha256='0ea9df884873275bf39c2965d486fa2d112f3a64b97b60b45b8bc4bb034a36c1')
+    version('3.2.6', sha256='e097b8dcc5ad30d40af4ad72d7052e3f78639469baf83cffaadc045459cda21f')
+    version('3.2.5', sha256='8068bd528a2ff3885eb55225c27237cf5cda834355599f05c2c85345db8338b4')
 
-    variant('metis', default=False,
-            description='Enables metis permutations in sparse algebra')
-    variant('scotch', default=False,
-            description='Enables scotch/pastix sparse factorization methods')
-    variant('fftw', default=False,
-            description='Enables FFTW backend for the FFT plugin')
-    variant('suitesparse', default=False,
-            description='Enables SuiteSparse sparse factorization methods')
-    variant('mpfr', default=False,
-            description='Enables the multi-precisions floating-point plugin')
+    # From http://eigen.tuxfamily.org/index.php?title=Main_Page#Requirements
+    # "Eigen doesn't have any dependencies other than the C++ standard
+    # library."
     variant('build_type', default='RelWithDebInfo',
             description='The build type to build',
             values=('Debug', 'Release', 'RelWithDebInfo'))
 
-    # TODO : dependency on googlehash, superlu, adolc missing
-    depends_on('metis@5:', when='+metis')
-    depends_on('scotch', when='+scotch')
-    depends_on('fftw', when='+fftw')
-    depends_on('suite-sparse', when='+suitesparse')
-    depends_on('mpfr@2.3.0:', when='+mpfr')
-    depends_on('gmp', when='+mpfr')
+    # TODO: latex and doxygen needed to produce docs with make doc
+    # TODO: Other dependencies might be needed to test this package
 
-    patch('find-ptscotch.patch', when='@3.3.4')
-
-    def setup_environment(self, spack_env, run_env):
-        run_env.prepend_path('CPATH',
-                             join_path(self.prefix, 'include', 'eigen3'))
+    def setup_run_environment(self, env):
+        env.prepend_path('CPATH', self.prefix.include.eigen3)
 
     @property
     def headers(self):
