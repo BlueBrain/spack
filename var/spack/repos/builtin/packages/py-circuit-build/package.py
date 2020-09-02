@@ -17,7 +17,7 @@ class PyCircuitBuild(PythonPackage):
 
     depends_on('py-setuptools', type=('build', 'run'))
 
-    depends_on('py-click@7.0:', type='run')
-    depends_on('snakemake@5.6:', type='run')
+    depends_on('py-click@7.0:7.99', type='run')
+    depends_on('snakemake@5.6:5.99', type='run')
     depends_on('py-pyyaml@5.0:', type='run')
 
