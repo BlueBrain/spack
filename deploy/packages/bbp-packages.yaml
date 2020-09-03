@@ -26,11 +26,11 @@ packages:
       - brainbuilder@0.14.0
       - brion@3.1.0 +python
       - brion@3.2.0 +python
+      - circuit-build@3.1.1
       - connectome-tools@0.3.2
       - spatial-index@0.2.1
       - spykfunc@0.15.7
       - psp-validation@0.3.1
-      - py-circuit-build@3.1.0
       - py-pytouchreader@1.4.6
       - py-basalt@0.2.9
       - py-entity-management@1.2.2

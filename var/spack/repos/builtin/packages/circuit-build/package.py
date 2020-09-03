@@ -6,14 +6,14 @@
 from spack import *
 
 
-class PyCircuitBuild(PythonPackage):
-    """Pythonic API for building circuits"""
+class CircuitBuild(PythonPackage):
+    """Command Line API for building circuits"""
 
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/common/circuit-build"
     git      = "ssh://bbpcode.epfl.ch/common/circuit-build"
 
     version('develop', branch='master')
-    version('3.1.0', tag='circuit-build-v3.1.0')
+    version('3.1.1', tag='circuit-build-v3.1.1')
 
     depends_on('py-setuptools', type=('build', 'run'))
 

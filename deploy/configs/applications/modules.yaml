@@ -34,6 +34,7 @@ modules:
       - brayns-brainatlas
       - brayns-topologyviewer
       - brion+python
+      - circuit-build
       - connectome-tools
       - emsim
       - functionalizer
@@ -55,7 +56,6 @@ modules:
       - py-bluepymm
       - py-bluepyopt
       - py-bluepysnap
-      - py-circuit-build
       - py-efel
       - py-entity-management
       - py-jupyter-notebook
