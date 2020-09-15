@@ -42,6 +42,10 @@ modules:
       - 'py-bluepyopt'
       - 'brion+python'
       - 'py-sonata-network-reduction'
+      - 'py-bglibpy'
+      - 'psp-validation'
+      - 'py-bluepysnap'
+      - 'py-neurodamus'
     blacklist:
       - '%gcc'
       - '%intel'

@@ -306,18 +306,17 @@ class PyNumpy(PythonPackage):
 
         return args
 
-    def setup_run_environment(self, env):
+    def setup_dependent_build_environment(self, env, dependent_spec):
         # Quick fix for the cases when python/numpy are external packages
-        if 'python' not in self.spec:
-            return
-        python_version = self.spec['python'].version.up_to(2)
-
+        #if not 'python' in self.spec:
+        #    return
+        #python_version = self.spec['python'].version.up_to(2)
+        python_version = '3.8'
         include_path = join_path(
             self.prefix.lib,
             'python{0}'.format(python_version),
             'site-packages',
             'numpy/core/include')
-
         env.prepend_path('CPATH', include_path)
 
     def build_test(self):

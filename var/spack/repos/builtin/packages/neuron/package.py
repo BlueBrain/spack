@@ -149,7 +149,9 @@ class Neuron(CMakePackage):
                 model for model in self.spec.variants["model_tests"].value))
         if "+mpi" in self.spec:
             args.append("-DNRN_ENABLE_MPI=ON")
-            if "~coreneuron" in self.spec:
+            if "cray" in self.spec.architecture:
+                args.append("-DNRN_ENABLE_MPI_DYNAMIC=OFF")
+            else:
                 args.append("-DNRN_ENABLE_MPI_DYNAMIC=ON")
         else:
             args.append("-DNRN_ENABLE_MPI=OFF")
@@ -435,6 +437,12 @@ class Neuron(CMakePackage):
             cc_compiler = self.spec["mpi"].mpicc
             cxx_compiler = self.spec["mpi"].mpicxx
 
+        # In Cray systems we overwrite the spack compiler with CC or CXX
+        # accordingly
+        if "cray" in self.spec.architecture:
+            cc_compiler = "cc"
+            cxx_compiler = "CC"
+
         libtool_makefile = join_path(self.prefix,
                                      "share/nrn/libtool")
         nrniv_makefile = join_path(self.prefix,
@@ -460,11 +468,6 @@ class Neuron(CMakePackage):
                             libtool_makefile,
                             **kwargs)
             filter_file(env["CXX"], cxx_compiler, libtool_makefile, **kwargs)
-            # In Cray systems we overwrite the spack compiler with CC or CXX
-            # accordingly
-            if "cray" in self.spec.architecture:
-                filter_file(env["CC"], "cc", libtool_makefile, **kwargs)
-                filter_file(env["CXX"], "CC", libtool_makefile, **kwargs)
 
         # The assign_operator should follow any changes done in
         # "bin/nrnivmodl_makefile_cmake.in" and "bin/nrnmech_makefile.in"
@@ -482,7 +485,6 @@ class Neuron(CMakePackage):
                     "CXX = {0}".format(cxx_compiler),
                     nrnmech_makefile,
                     **kwargs)
-
         if self.spec.satisfies("~cmake"):
             filter_file(env["CC"], cc_compiler, nrniv_makefile, **kwargs)
             filter_file(env["CXX"], cxx_compiler, nrniv_makefile, **kwargs)
