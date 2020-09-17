@@ -91,7 +91,9 @@ class Mvapich2(AutotoolsPackage):
     variant(
         'file_systems',
         description='List of the ROMIO file systems to activate',
-        values=auto_or_any_combination_of('ime', 'lustre', 'gpfs', 'nfs', 'ufs'),
+        values=auto_or_any_combination_of(
+            'ime', 'lustre', 'gpfs', 'nfs', 'ufs'
+        ),
     )
 
     depends_on('findutils', type='build')
