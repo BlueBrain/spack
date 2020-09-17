@@ -75,7 +75,7 @@ class Mvapich2(AutotoolsPackage):
     variant(
         'fabrics',
         description='The fabric enabled for this build',
-        default='mrail',
+        default='psm',
         values=(
             'psm', 'psm2', 'sock', 'nemesisib', 'nemesis', 'mrail',
             'nemesisibtcp', 'nemesistcpib', 'nemesisofi'
