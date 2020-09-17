@@ -58,10 +58,10 @@ packages:
         paths:
             m4@1.4.16: /usr
         version: [1.4.16]
-    # can not be installed with python 3
     mvapich2:
         variants: ch3_rank_bits=32 fabrics=mrail file_systems=ime,gpfs,nfs,ufs process_managers=slurm threads=multiple ~alloca~cuda~debug+regcache
         version: [2.3.2]
+    # can not be installed with python 3
     node-js:
         paths:
             node-js@6.12.2: /usr
