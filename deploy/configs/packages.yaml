@@ -59,7 +59,7 @@ packages:
             m4@1.4.16: /usr
         version: [1.4.16]
     mvapich2:
-        variants: ch3_rank_bits=32 fabrics=mrail file_systems=ime,gpfs,nfs,ufs process_managers=slurm threads=multiple ~alloca~cuda~debug+regcache
+        variants: fabrics=mrail file_systems=ime,gpfs process_managers=slurm
         version: [2.3.2]
     # can not be installed with python 3
     node-js:
