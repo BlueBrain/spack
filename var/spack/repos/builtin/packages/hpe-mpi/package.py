@@ -6,6 +6,7 @@
 from tempfile import TemporaryFile
 
 import os
+from os.path import dirname
 import stat
 
 from llnl.util.filesystem import find
@@ -21,6 +22,9 @@ class HpeMpi(Package):
     version('2.21',
             sha256='2f27ad2e92ef0004b9a4dfb3b76837d1b657c43ff89f4deef99be58a322a80b7',
             url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.21.tar.xz')
+    version('2.21.hmpt',
+            sha256='27aa203ff8820e2db3672a59dd0c681b4affffa466255712ed1b32a0c6c8efb1',
+            url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.21.hmpt.tar.xz')
 
     provides('mpi')
 
@@ -42,13 +46,9 @@ class HpeMpi(Package):
         for mpic in find(self.stage.source_path, 'mpic*'):
             mode = os.stat(mpic).st_mode
             os.chmod(mpic, mode | stat.S_IWRITE)
-            filter_file(r'-I(.*mpiroot)', r'-isystem\1', mpic)
 
-        install_tree(
-            join_path(self.stage.source_path,
-                      'opt/hpe/hpc/mpt/mpt-' + str(self.spec.version)),
-            prefix
-        )
+        root_dir = dirname(dirname(find(self.stage.source_path, 'mpicc')[0]))
+        install_tree(root_dir, prefix)
 
     def setup_dependent_build_environment(self, env, dependent_spec):
         bindir = self.prefix.bin
