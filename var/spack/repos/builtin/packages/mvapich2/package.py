@@ -194,6 +194,7 @@ class Mvapich2(AutotoolsPackage):
         for x in ('ime', 'lustre', 'gpfs', 'nfs', 'ufs'):
             if 'file_systems={0}'.format(x) in spec:
                 fs.append(x)
+               # TODO : when IME package will be added, replace these paths
                 if x == 'ime':
                     opts = ["CFLAGS=-I/opt/ddn/ime/include",
                             "LDFLAGS=-L/opt/ddn/ime/lib",
