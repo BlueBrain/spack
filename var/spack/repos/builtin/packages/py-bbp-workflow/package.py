@@ -12,12 +12,9 @@ class PyBbpWorkflow(PythonPackage):
     homepage = 'https://bbpcode.epfl.ch/code/#/admin/projects/nse/bbp-workflow'
     git      = 'ssh://bbpcode.epfl.ch/nse/bbp-workflow'
 
-    version('1.5.9.dev0', tag='bbp-workflow-v1.5.9.dev0')
+    version('2.0.2', tag='bbp-workflow-v2.0.2')
 
     depends_on('py-setuptools', type=('build'))
-
-    # remove when luigi supports 6
-    depends_on('py-tornado@5:5.99', type=('build', 'run'))
 
     depends_on('py-luigi', type='run')
     depends_on('py-entity-management', type='run')
