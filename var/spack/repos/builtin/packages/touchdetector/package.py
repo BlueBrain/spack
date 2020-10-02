@@ -54,7 +54,7 @@ class Touchdetector(CMakePackage):
     depends_on('libxml2', when='@:4.4')
     depends_on('zlib', when='@:4.4')
 
-    patch("no-wall.patch", when='@5:5.999')
+    patch("no-wall.patch", when='@5:5.4.999')
 
     def cmake_args(self):
         args = [
