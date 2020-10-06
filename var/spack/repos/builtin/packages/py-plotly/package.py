@@ -12,6 +12,7 @@ class PyPlotly(PythonPackage):
     homepage = "https://plot.ly/python/"
     url      = "https://github.com/plotly/plotly.py/archive/v2.2.0.tar.gz"
 
+    version('4.1.0', sha256='69699d3b4af6828482388b22d1bd8b617a2cfc67cfbfb8ef7d4eb06b8d46beff')
     version('3.0.0', sha256='aa8e0020e139f1a3413df578ec3e3162c6ccb2d4c6d66f6fd98547c3ff83ce0b')
     version('2.2.0', sha256='dad2a49fe355dddb6ae159e96c10ac22413a33cbac513b4dbf3791e63ec33c1f')
 
