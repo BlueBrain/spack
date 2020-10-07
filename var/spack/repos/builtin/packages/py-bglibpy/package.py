@@ -30,6 +30,7 @@ class PyBglibpy(PythonPackage):
     depends_on('py-h5py~mpi@2.3:', type='run')
     depends_on('py-bluepy', type='run')
     depends_on('py-libsonata', type='run')
+    depends_on('py-pyrsistent@:0.17', type='run')
 
     def setup_run_environment(self, env):
         env.set('NEURON_INIT_MPI', "0")
