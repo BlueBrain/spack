@@ -31,3 +31,6 @@ class PyMorphTool(PythonPackage):
     depends_on('py-pyyaml', when='@:0.1.14', type='run')
     depends_on('py-numpy@1.14:', type='run')
     depends_on('py-pandas@1.0.3:', when='@0.2.5:', type='run')
+    depends_on('py-dask@2.19:', when='@0.2.10:', type='run')
+    depends_on('py-plotly@4.1:', when='@0.2.10:', type='run')
+    depends_on('py-xmltodict@0.12:', when='@0.2.10:', type='run')
