@@ -25,7 +25,7 @@ class PySonataNetworkReduction(PythonPackage):
 
     depends_on('py-numpy@1.14:', type='run')
     depends_on('py-h5py@2.10:', type='run')
-    depends_on('py-pandas@0.25:0.30', type='run')
+    depends_on('py-pandas@0.25', type='run')
     depends_on('py-lxml@4.3.4:', type='run')
     depends_on('py-pyyaml@5.3:', type='run')
     depends_on('py-tqdm@4.34:', type='run')
