@@ -89,7 +89,7 @@ def pyfiles(search_paths, exclude=()):
                     yield os.path.join(root, filename)
 
 
-def check_python_versions(files):
+def check_python_versions(files, warn_only_py26=False):
     """Check that a set of Python files works with supported Ptyhon versions"""
     # This is a dict dict mapping:
     #   version -> filename -> reasons
@@ -97,6 +97,7 @@ def check_python_versions(files):
     # Reasons are tuples of (lineno, string), where the string is the
     # cause for a version incompatibility.
     all_issues = {}
+    non_fatal_issue_count = 0
 
     # Parse files and run pyqver on each file.
     for path in files:
@@ -107,6 +108,9 @@ def check_python_versions(files):
         for ver, reasons in versions.items():
             if ver <= spack_min_supported:
                 continue
+
+            if ver == (2, 7) and warn_only_py26:
+                non_fatal_issue_count += 1
 
             # Record issues. Mark exceptions with '# nopyqver' comment
             for lineno, cause in reasons:
@@ -142,8 +146,8 @@ def check_python_versions(files):
         for msg in messages:
             print(fmt % msg)
 
-    # Fail this test if there were issues.
-    assert not all_issues
+    # Fail this test if there were no fatal issues.
+    assert len(all_issues) == non_fatal_issue_count
 
 
 @pytest.mark.maybeslow
@@ -156,4 +160,5 @@ def test_core_module_compatibility():
 @pytest.mark.maybeslow
 def test_package_module_compatibility():
     """Test that all spack packages work with supported Python versions."""
-    check_python_versions(pyfiles([spack.paths.packages_path]))
+    check_python_versions(pyfiles([spack.paths.packages_path]),
+                          warn_only_py26=True)
