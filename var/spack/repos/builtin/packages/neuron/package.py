@@ -368,10 +368,11 @@ class Neuron(CMakePackage):
         neuron"s configure we dynamically find the architecture-
         specific directory by looking for a specific binary.
         """
-        return subprocess.check_output(
+        return subprocess.Popen(
             ['awk', '-F=', '$1 == "MODSUBDIR" { print $2; exit; }',
-             str(self.prefix.bin.nrnivmodl)]
-        ).decode().strip()
+             str(self.prefix.bin.nrnivmodl)],
+             stdout=subprocess.PIPE
+        ).communicate()[0].decode().strip()
 
     @property
     def basedir(self):
