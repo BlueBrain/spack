@@ -371,7 +371,7 @@ class Neuron(CMakePackage):
         return subprocess.Popen(
             ['awk', '-F=', '$1 == "MODSUBDIR" { print $2; exit; }',
              str(self.prefix.bin.nrnivmodl)],
-             stdout=subprocess.PIPE
+            stdout=subprocess.PIPE
         ).communicate()[0].decode().strip()
 
     @property
