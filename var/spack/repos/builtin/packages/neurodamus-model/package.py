@@ -28,7 +28,7 @@ class NeurodamusModel(SimModel):
     # 'run' mode will load the same mpi module
     depends_on("mpi", type=('build', 'run'))
     depends_on('neurodamus-core', type=('build', 'run'))
-    depends_on('neurodamus-core@:3.0', type=('build', 'run'), when='@:1.0')
+    depends_on('neurodamus-core@:2.99', type=('build', 'run'), when='@:0.99')
     depends_on('neurodamus-core@develop', type=('build', 'run'), when='@develop')
     depends_on('hdf5+mpi')
     depends_on('reportinglib')
