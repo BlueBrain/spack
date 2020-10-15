@@ -6,7 +6,6 @@
 from spack import *
 
 
-# replace all 'x-y' with 'xY' (e.g. 'Py-morph-tool' -> 'PyMorphTool')
 class PyCurrentscape(PythonPackage):
     """Module to easily plot currentscape."""
 
