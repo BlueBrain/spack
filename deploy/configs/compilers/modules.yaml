@@ -33,7 +33,7 @@ modules:
       - 'intel-parallel-studio'
       - 'llvm'
       - 'pgi'
-      - 'nvidia-hpc-sdk'
+      - 'nvhpc'
     blacklist:
       - '%gcc'
     gcc:
@@ -66,6 +66,12 @@ modules:
           MPICC_CC: 'clang'
           MPICXX_CXX: 'clang++'
           MPIF90_F90: 'gfortran'
+    nvhpc:
+      environment:
+        set:
+          MPICC_CC: 'nvc'
+          MPICXX_CXX: 'nvc++'
+          MPIF90_F90: 'nvfortran'
   tcl:
     all:
       filter:
@@ -79,7 +85,7 @@ modules:
       - 'intel-parallel-studio'
       - 'llvm'
       - 'intel'
-      - 'nvidia-hpc-sdk'
+      - 'nvhpc'
     blacklist:
       - '%gcc'
     gcc:
@@ -112,3 +118,9 @@ modules:
           MPICC_CC: 'clang'
           MPICXX_CXX: 'clang++'
           MPIF90_F90: 'gfortran'
+    nvhpc:
+      environment:
+        set:
+          MPICC_CC: 'nvc'
+          MPICXX_CXX: 'nvc++'
+          MPIF90_F90: 'nvfortran'

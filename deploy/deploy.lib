@@ -309,7 +309,7 @@ configure_compilers() {
                     log "updated ${f} with newer GCC"
                 fi
             done
-        elif [[ ${line} = *"pgi"* || ${line} = *"nvidia-hpc-sdk"* ]]; then
+        elif [[ ${line} = *"pgi"* || ${line} = *"nvhpc"* ]]; then
             #update pgi modules for network installation
             PGI_DIR=$(dirname $(which makelocalrc))
             makelocalrc ${PGI_DIR} -gcc ${GCC_DIR}/bin/gcc -gpp ${GCC_DIR}/bin/g++ -g77 ${GCC_DIR}/bin/gfortran -x -net
@@ -413,7 +413,7 @@ populate_mirror() {
 
     if [[ "${what}" = "compilers" ]]; then
         log "populating mirror with proprietary compilers"
-        for compiler in intel intel-parallel-studio pgi nvidia-hpc-sdk; do
+        for compiler in intel intel-parallel-studio pgi nvhpc; do
             mkdir -p ${SPACK_PROPRIETARY_MIRROR_DIR}/${compiler}
             cp ${DEPLOYMENT_DATA}/${compiler}/* ${SPACK_PROPRIETARY_MIRROR_DIR}/${compiler}/
         done
@@ -778,7 +778,7 @@ EOF
 
     if [[ "${export_packages[${what}]}" = "yes" ]]; then
         log "augmenting packages.yaml"
-        spack export --scope=user --module tcl --explicit --exclude 'allinea|py-.*|neuron|hdf5|intel-parallel-studio|pgi|nvidia-hpc-sdk' arch=${BASE_ARCHITECTURE} > "${HOME}/packages.yaml"
+        spack export --scope=user --module tcl --explicit --exclude 'allinea|py-.*|neuron|hdf5|intel-parallel-studio|pgi|nvhpc' arch=${BASE_ARCHITECTURE} > "${HOME}/packages.yaml"
     else
         log "copying packages.yaml"
         cp "${HOME}/.spack/packages.yaml" "${HOME}"
