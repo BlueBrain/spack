@@ -14,7 +14,7 @@ class PyCurrentscape(PythonPackage):
     git = "ssh://bbpcode.epfl.ch/cells/currentscape"
 
     version("develop", branch="master")
-    version("0.0.1.dev0", tag="currentscape-v0.0.1.dev0")
+    version("0.0.1", tag="currentscape-v0.0.1")
 
     depends_on("py-setuptools", type="build")
     depends_on("py-numpy", type="run")
