@@ -33,6 +33,7 @@ modules:
       - 'intel-parallel-studio'
       - 'llvm'
       - 'pgi'
+      - 'nvidia-hpc-sdk'
     blacklist:
       - '%gcc'
     gcc:
@@ -78,6 +79,7 @@ modules:
       - 'intel-parallel-studio'
       - 'llvm'
       - 'intel'
+      - 'nvidia-hpc-sdk'
     blacklist:
       - '%gcc'
     gcc:
