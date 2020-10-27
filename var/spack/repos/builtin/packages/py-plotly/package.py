@@ -20,3 +20,4 @@ class PyPlotly(PythonPackage):
     depends_on('py-requests@2.3.0:', type=('build', 'run'))
     depends_on('py-six@1.8.0:', type=('build', 'run'))
     depends_on('py-pytz@2014.9:', type=('build', 'run'))
+    depends_on('py-retrying@1.3.3:', type=('build', 'run'))
