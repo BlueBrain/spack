@@ -20,6 +20,10 @@ class Cuda(Package):
 
     homepage = "https://developer.nvidia.com/cuda-zone"
 
+    version('11.1.0',
+            sha256='858cbab091fde94556a249b9580fadff55a46eafbcb4d4a741d2dcd358ab94a5',
+            expand=False,
+            url="https://developer.download.nvidia.com/compute/cuda/11.1.0/local_installers/cuda_11.1.0_455.23.05_linux.run")
     version('10.1.243',
             sha256='e7c22dc21278eb1b82f34a60ad7640b41ad3943d929bebda3008b72536855d31',
             expand=False,
