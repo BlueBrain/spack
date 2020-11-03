@@ -56,8 +56,11 @@ class Cuda(Package):
     # Mojave support -- only macOS High Sierra 10.13 is supported.
     conflicts('arch=darwin-mojave-x86_64')
 
-    def setup_environment(self, spack_env, run_env):
-        run_env.set('CUDA_HOME', self.prefix)
+    def setup_run_environment(self, env):
+        env.set('CUDA_HOME', self.prefix)
+
+    def setup_dependent_run_environment(self, env, dependent_spec):
+        env.prepend_path('LD_LIBRARY_PATH', self.spec.prefix.lib64)
 
     def install(self, spec, prefix):
         runfile = glob(join_path(self.stage.source_path, 'cuda*_linux*'))[0]
@@ -100,6 +103,3 @@ class Cuda(Package):
             if 'compat' not in lib.split(os.sep):
                 filtered_libs.append(lib)
         return LibraryList(filtered_libs)
-
-    def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
-        spack_env.prepend_path('LD_LIBRARY_PATH', self.spec.prefix.lib64)
