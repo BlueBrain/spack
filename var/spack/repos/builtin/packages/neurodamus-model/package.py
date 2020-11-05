@@ -16,7 +16,7 @@ _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
 
 def version_from_model_core_deps(model_core_dep_v):
     """Creates version specification which depend on both the model
-       and core versions. 
+       and core versions.
        E.g. using model 1.0 and core 3.0.1 it will define a version
        '1.1-3.0.1' which uses tag 1.1 and depends on core 3.0.1
     """
@@ -25,7 +25,7 @@ def version_from_model_core_deps(model_core_dep_v):
         version(this_version, tag=model_v, submodules=True, get_full_repo=True)
         depends_on("neurodamus-core@" + core_v, when="@" + this_version)
 
- 
+
 class NeurodamusModel(SimModel):
     """An 'abstract' base package for Simulation Models. Therefore no version.
        Eventually in the future Models are independent entities,

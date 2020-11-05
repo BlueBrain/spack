@@ -3,7 +3,8 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 from spack import *
-from spack.pkg.builtin.neurodamus_model import NeurodamusModel, version_from_model_core_deps
+from spack.pkg.builtin.neurodamus_model import NeurodamusModel, \
+    version_from_model_core_deps
 
 
 class NeurodamusThalamus(NeurodamusModel):
