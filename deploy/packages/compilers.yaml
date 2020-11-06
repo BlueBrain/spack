@@ -52,4 +52,4 @@ packages:
       - architecture
       - compiler
     specs:
-      - llvm@9.0.0
+      - 'llvm@11.0.0 build_type=RelWithDebInfo +cuda cuda_arch=70 +all_targets +omp_tsan +python +mlir'

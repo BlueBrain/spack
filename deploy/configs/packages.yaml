@@ -53,7 +53,7 @@ packages:
             libtool@2.4.2: /usr
         version: [2.4.2]
     llvm:
-        variants: +link_dylib
+        variants: +shared_libs
     m4:
         paths:
             m4@1.4.16: /usr
