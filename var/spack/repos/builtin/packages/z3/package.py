@@ -20,8 +20,8 @@ class Z3(MakefilePackage):
 
     phases = ['bootstrap', 'build', 'install']
 
-    variant('python', default=False, description='Enable python support')
-    depends_on('python', when='+python')
+    variant('python', default=False, description='Enable python binding')
+    depends_on('python', type=('build', 'run'))
 
     build_directory = 'build'
 
