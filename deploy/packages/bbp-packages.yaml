@@ -169,7 +169,6 @@ packages:
       - mpi
       - python
     specs:
-      # Can we deploy always the latest? Versions are now bit more stable (and long)
       - neurodamus-core@3.0.2~common
       - neurodamus-neocortex@1.1-3.0.2+coreneuron
       - neurodamus-hippocampus@1.1-3.0.2+coreneuron
