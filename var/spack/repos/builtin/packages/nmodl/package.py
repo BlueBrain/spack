@@ -40,7 +40,7 @@ class Nmodl(CMakePackage):
         else:
             options.append('-DCMAKE_BUILD_TYPE=RelWithDebInfo')
 
-        if "+legacy-unit" in self.spec:
+        if "+legacy-unit" in spec:
             options.append('-DNMODL_ENABLE_LEGACY_UNITS=ON')
 
         return options
