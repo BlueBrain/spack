@@ -29,8 +29,6 @@ class PyMinisValidation(PythonPackage):
     depends_on('py-bluepy-configfile@0.1.10:', type='run')
     depends_on('py-bglibpy@4.3:', type='run')
 
-
     def setup_run_environment(self, env):
         env.set('NEURON_INIT_MPI', "0")
         env.unset('PMI_RANK')
-
