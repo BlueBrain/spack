@@ -4,8 +4,8 @@ compilers:
     paths:
       cc: /usr/bin/clang-8
       cxx: /usr/bin/clang++-8
-      f77:
-      fc:
+      f77: /usr/bin/gfortran
+      fc: /usr/bin/gfortran
     flags: {}
     operating_system: centos8
     target: x86_64

@@ -24,7 +24,6 @@ modules:
     all:
       autoload: 'all'
       suffixes:
-          '^python@2.7.12': 'python2'
           'neuron~mpi': 'serial'
       filter:
         environment_blacklist: ['CPATH', 'LIBRARY_PATH']
