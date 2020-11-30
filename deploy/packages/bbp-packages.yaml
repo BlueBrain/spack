@@ -140,7 +140,7 @@ packages:
       - architecture
       - compiler
     specs:
-      - neurodamus-core+common
+      - neurodamus-core@3.1.0+common
       - ultraliser
 
   intel-stable:
