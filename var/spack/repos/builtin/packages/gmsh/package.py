@@ -139,20 +139,8 @@ class Gmsh(CMakePackage):
             options.append('-DENABLE_COMPRESSED_IO:BOOL=ON')
 
         return options
-    
-    def setup_build_environment(self, env):
-        if "+oce" in self.spec:
-            env.prepend_path('CASROOT', self.spec['oce'].prefix)
-        if "+petsc" in self.spec:
-            env.prepend_path('PETSC_DIR', self.spec['petsc'].prefix)
-        if "+tetgen" in self.spec:
-            env.prepend_path('TETGEN_DIR', self.spec['tetgen'].prefix)
-        if "+netgen" in self.spec:
-            env.prepend_path('NETGEN_DIR', self.spec['netgen'].prefix)
-        if "+slepc" in self.spec:
-            env.prepend_path('SLEPC_DIR', self.spec['slepc'].prefix)
 
-    def setup_run_environment(self, env):
+    def setup_build_environment(self, env):
         if "+oce" in self.spec:
             env.prepend_path('CASROOT', self.spec['oce'].prefix)
         if "+petsc" in self.spec:
