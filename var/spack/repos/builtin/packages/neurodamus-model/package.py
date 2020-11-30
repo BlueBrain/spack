@@ -122,16 +122,25 @@ class NeurodamusModel(SimModel):
         else:
             base_include_flag = ""
 
-        include_flag, link_flag = self._build_mods('mod', "",
-                                                   base_include_flag,
-                                                   'mod_core')
+        include_flag, link_flag = self._build_mods(
+            'mod', "", base_include_flag, 'mod_core'
+        )
 
         # Create rebuild script
+        if spec.satisfies('+coreneuron'):
+            nrnivmodlcore_call = str(which("nrnivmodl-core"))
+            for param in self._nrnivmodlcore_params(include_flag, link_flag):
+                nrnivmodlcore_call += " '{}'".format(param)
+        else:
+            nrnivmodlcore_call = ''
+
         with open(_BUILD_NEURODAMUS_FNAME, "w") as f:
-            f.write(
-                _BUILD_NEURODAMUS_TPL.format(nrnivmodl=str(which('nrnivmodl')),
-                                             incflags=include_flag,
-                                             loadflags=link_flag))
+            f.write(_BUILD_NEURODAMUS_TPL.format(
+                nrnivmodl=str(which('nrnivmodl')),
+                incflags=include_flag,
+                loadflags=link_flag,
+                nrnivmodlcore_call=nrnivmodlcore_call
+            ))
         os.chmod(_BUILD_NEURODAMUS_FNAME, 0o770)
 
     def install(self, spec, prefix):
@@ -201,6 +210,15 @@ if [ "$#" -eq 0 ]; then
 fi
 
 # run with nrnivmodl in path
-set -x
-'{nrnivmodl}' -incflags '{incflags} '"$2" -loadflags '{loadflags} '"$3" "$1"
+set -xe
+
+
+if [ -n "{nrnivmodlcore_call}" ]; then
+    {nrnivmodlcore_call} "$1"
+    libpath=$(dirname */libcorenrnmech*)
+    extra_loadflags="-L $libpath -l corenrnmech"
+fi
+
+'{nrnivmodl}' -incflags '{incflags} '"$2" -loadflags \
+    '{loadflags} '"$extra_loadflags $3" "$1"
 """
