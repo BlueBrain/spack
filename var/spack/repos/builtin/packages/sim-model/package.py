@@ -86,7 +86,7 @@ class SimModel(Package):
             # 'ENABLE_CORENEURON' only now, otherwise mods assume neuron
             # Only link with coreneuron when dependencies are passed
             if dependencies:
-                include_flag += self._add_corenrn_include_flag()
+                include_flag += self._coreneuron_include_flag()
                 link_flag += ' ' + libnrncoremech.ld_flags
 
         # Neuron mechlib and special
@@ -102,7 +102,7 @@ class SimModel(Package):
     def _nrnivmodlcore_params(self, inc_flags, link_flags):
         return ['-n', self.mech_name, '-i', inc_flags, '-l', link_flags, '-V']
 
-    def _add_corenrn_include_flag(self):
+    def _coreneuron_include_flag(self):
         return ' -DENABLE_CORENEURON' \
             + ' -I%s' % self.spec['coreneuron'].prefix.include
 

@@ -131,6 +131,7 @@ class NeurodamusModel(SimModel):
             nrnivmodlcore_call = str(which("nrnivmodl-core"))
             for param in self._nrnivmodlcore_params(include_flag, link_flag):
                 nrnivmodlcore_call += " '%s'" % param
+            include_flag += " " + self._coreneuron_include_flag()
         else:
             nrnivmodlcore_call = ''
 
@@ -223,7 +224,7 @@ if [ -n "{nrnivmodlcore_call}" ]; then
     done
     {nrnivmodlcore_call} _core_mods
     libpath=$(dirname */libcorenrnmech*)
-    extra_loadflags="-L $libpath -l corenrnmech"
+    extra_loadflags="-L $libpath -lcorenrnmech"
 fi
 
 '{nrnivmodl}' -incflags '{incflags} '"$2" -loadflags \
