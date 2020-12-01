@@ -99,8 +99,8 @@ class SimModel(Package):
         assert os.path.isfile(os.path.join(output_dir, 'special'))
         return include_flag_raw, link_flag_raw
 
-    def _nrnivmodlcore_params(self, include_flag, link_flag):
-        return ['-n', self.mech_name, '-i', include_flag, '-l', link_flag, '-V']
+    def _nrnivmodlcore_params(self, inc_flags, link_flags):
+        return ['-n', self.mech_name, '-i', inc_flags, '-l', link_flags, '-V']
 
     def _add_corenrn_include_flag(self):
         return ' -DENABLE_CORENEURON' \

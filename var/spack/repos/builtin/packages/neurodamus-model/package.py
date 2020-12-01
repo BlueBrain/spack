@@ -130,7 +130,7 @@ class NeurodamusModel(SimModel):
         if spec.satisfies('+coreneuron'):
             nrnivmodlcore_call = str(which("nrnivmodl-core"))
             for param in self._nrnivmodlcore_params(include_flag, link_flag):
-                nrnivmodlcore_call += " '{}'".format(param)
+                nrnivmodlcore_call += " '%s'" % param
         else:
             nrnivmodlcore_call = ''
 
@@ -214,7 +214,14 @@ set -xe
 
 
 if [ -n "{nrnivmodlcore_call}" ]; then
-    {nrnivmodlcore_call} "$1"
+    mkdir _core_mods
+    touch $1/neuron_only_mods.txt  # ensure exists
+    for f in $1/*.mod; do
+        if ! grep $(basename $f) $1/neuron_only_mods.txt; then
+            cp $f _core_mods/
+        fi
+    done
+    {nrnivmodlcore_call} _core_mods
     libpath=$(dirname */libcorenrnmech*)
     extra_loadflags="-L $libpath -l corenrnmech"
 fi
