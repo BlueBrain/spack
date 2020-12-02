@@ -91,12 +91,18 @@ class NeurodamusModel(SimModel):
         # only bring from core those specified
         if spec.satisfies("+coreneuron"):
             shutil.copytree('mod', 'mod_core', True)
+            core_nrn_mods = set()
             with open(core_prefix.lib.mod.join(_CORENRN_MODLIST_FNAME))\
                     as core_mods:
                 for aux_mod in core_mods:
                     mod_fil = core_prefix.lib.mod.join(aux_mod.strip())
                     if os.path.isfile(mod_fil):
                         shutil.copy(mod_fil, 'mod_core')
+                        core_nrn_mods.add(aux_mod)
+            with working_dir(core_prefix.lib.mod):
+                all_mods = set(f for f in os.listdir() if f.endswith(".mod"))
+            with open(join_path('mod', 'neuron_only_mods.txt'), 'w') as blackl:
+                blackl.write("\n".join(all_mods - core_nrn_mods) + "\n")
 
         # Neurodamus model may not have python scripts
         mkdirp('python')
