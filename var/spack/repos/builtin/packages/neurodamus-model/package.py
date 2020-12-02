@@ -219,6 +219,10 @@ fi
 # run with nrnivmodl in path
 set -xe
 
+if [ ! -d "$1" ]; then
+    echo "Please provide a valid directory with mod files"
+    exit -1
+fi
 
 if [ -n "{nrnivmodlcore_call}" ]; then
     mkdir -p _core_mods
