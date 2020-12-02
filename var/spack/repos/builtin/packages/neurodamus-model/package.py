@@ -235,4 +235,9 @@ fi
 
 '{nrnivmodl}' -incflags '{incflags} '"$2" -loadflags \
     '{loadflags} '"$extra_loadflags $3" "$1"
+
+# Final Cleanup
+if [ -d _core_mods ]; then
+    rm -rf _core_mods
+fi
 """
