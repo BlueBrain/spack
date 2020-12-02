@@ -172,10 +172,10 @@ packages:
       - python
     specs:
       - neurodamus-core@3.1.0~common
-      - neurodamus-neocortex@1.1-3.0.2+coreneuron
-      - neurodamus-hippocampus@1.1-3.0.2+coreneuron
-      - neurodamus-thalamus@1.1-3.0.2+coreneuron
-      - neurodamus-mousify@1.1-3.0.2+coreneuron
-      - neurodamus-neocortex@1.1-3.0.2+coreneuron^coreneuron+knl
-      - neurodamus-hippocampus@1.1-3.0.2+coreneuron^coreneuron+knl
-      - neurodamus-thalamus@1.1-3.0.2+coreneuron^coreneuron+knl
+      - neurodamus-neocortex@1.1-3.1.0+coreneuron
+      - neurodamus-hippocampus@1.1-3.1.0+coreneuron
+      - neurodamus-thalamus@1.1-3.1.0+coreneuron
+      - neurodamus-mousify@1.1-3.1.0+coreneuron
+      - neurodamus-neocortex@1.1-3.1.0+coreneuron^coreneuron+knl
+      - neurodamus-hippocampus@1.1-3.1.0+coreneuron^coreneuron+knl
+      - neurodamus-thalamus@1.1-3.1.0+coreneuron^coreneuron+knl
