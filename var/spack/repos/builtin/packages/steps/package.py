@@ -29,7 +29,7 @@ class Steps(CMakePackage):
     variant("coverage", default=False, description="Enable code coverage")
     variant("bundle", default=False, description="Use bundled libraries")
     variant("stochtests", default=True, description="Add stochastic tests to ctests")
-    variant("timemory", default=False, description="Add timemory API for time/memory measurement")
+    variant("timemory", default=False, description="Add timemory API to instrument time/memory")
 
     depends_on("boost")
     depends_on("blas")
@@ -46,7 +46,6 @@ class Steps(CMakePackage):
     depends_on("py-scipy", type=("build", "test"))
     depends_on("py-matplotlib", type=("build", "test"))
     depends_on("python")
-    depends_on('git', type='build', when='+codechecks')
     depends_on("py-cmake-format", type="build", when="+codechecks")
     depends_on('py-pre-commit', type='build', when='+codechecks')
     depends_on('py-pyyaml', type='build', when='+codechecks')
