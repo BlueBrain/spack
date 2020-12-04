@@ -225,7 +225,8 @@ if [ ! -d "$1" ]; then
 fi
 
 if [ -n "{nrnivmodlcore_call}" ]; then
-    mkdir -p _core_mods
+    rm -rf _core_mods
+    mkdir _core_mods
     touch $1/neuron_only_mods.txt  # ensure exists
     for f in $1/*.mod; do
         if ! grep $(basename $f) $1/neuron_only_mods.txt; then

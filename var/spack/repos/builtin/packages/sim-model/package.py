@@ -100,7 +100,7 @@ class SimModel(Package):
         return include_flag_raw, link_flag_raw
 
     def _nrnivmodlcore_params(self, inc_flags, link_flags):
-        return ['-n', self.mech_name, '-i', inc_flags, '-l', link_flags, '-V']
+        return ['-n', self.mech_name, '-i', inc_flags, '-l', link_flags]
 
     def _coreneuron_include_flag(self):
         return ' -DENABLE_CORENEURON' \
