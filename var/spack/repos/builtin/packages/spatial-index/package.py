@@ -14,6 +14,9 @@ class SpatialIndex(PythonPackage):
     depends_on("py-setuptools")
     depends_on("cmake")
     depends_on("boost")
+    depends_on("py-morphio")
+    depends_on("py-mvdtool~mpi")
+    depends_on("py-morpho-kit")
 
     version('0.2.1', tag='0.2.1', submodules=True)
     version('0.1.0', tag='0.1.0', submodules=True)
