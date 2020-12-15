@@ -40,7 +40,6 @@ class Nmodl(CMakePackage):
         else:
             options.append('-DNMODL_ENABLE_PYTHON_BINDINGS=OFF')
 
-
         # installation with pgi fails when debug symbols are added
         if '%pgi' in spec:
             options.append('-DCMAKE_BUILD_TYPE=Release')
