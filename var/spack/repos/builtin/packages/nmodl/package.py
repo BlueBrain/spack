@@ -19,7 +19,7 @@ class Nmodl(CMakePackage):
     version('0.2', tag='0.2', submodules=True)
 
     variant("legacy-unit", default=True, description="Enable legacy units")
-    variant("pybind11", default=False, description="Enable python bindings")
+    variant("python", default=False, description="Enable python bindings")
 
     depends_on('bison@3.0:3.4.99', when='@:0.3', type='build')
     depends_on('bison@3.0.5:', when='@0.3.1:', type='build')
@@ -35,7 +35,7 @@ class Nmodl(CMakePackage):
         spec = self.spec
         options = []
 
-        if "+pybind11" in spec:
+        if "+python" in spec:
             options.append('-DNMODL_ENABLE_PYTHON_BINDINGS=ON')
         else:
             options.append('-DNMODL_ENABLE_PYTHON_BINDINGS=OFF')
