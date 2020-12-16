@@ -18,4 +18,3 @@ class Ultraliser(CMakePackage):
     depends_on('ilmbase')
     depends_on('vtk')
     depends_on('hdf5+hl+cxx')
-    
