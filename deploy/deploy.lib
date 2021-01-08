@@ -329,14 +329,19 @@ configure_compilers() {
         elif [[ ${line} = *"pgi"* || ${line} = *"nvhpc"* ]]; then
             #update pgi modules for network installation
             PGI_DIR=$(dirname $(which makelocalrc))
-            makelocalrc ${PGI_DIR} -gcc ${GCC_DIR}/bin/gcc -gpp ${GCC_DIR}/bin/g++ -g77 ${GCC_DIR}/bin/gfortran -x -net
+            PGI_TMPDIR=$(mktemp -d -p .)
+            makelocalrc ${PGI_DIR} -d "${PGI_TMPDIR}" -gcc ${GCC_DIR}/bin/gcc -gpp ${GCC_DIR}/bin/g++ -g77 ${GCC_DIR}/bin/gfortran -x -net
             #configure pgi network license
-            template=$(ls -rt ${PGI_DIR}/localrc* | tail -n 1)
+            template=$(ls -rt "${PGI_TMPDIR}"/localrc* | tail -n 1)
+            log ">>> NVIDIA localrc template"
+            cat "${template}"
+            log "<<< NVIDIA localrc template"
             gpu_nodes=$(sinfo -h -N -o %n\ %f|awk '/volta/ {if (!c[$1]) {print $1}; c[$1]=1}')
             jenkins_nodes=$(squeue -h -o %N\ %j -u bbprelman|awk '/ BB5-[0-9]+$/ {print $1}')
             for node in bbpv1 bbpv2 bbptadm tds03 tds04 ${gpu_nodes} ${jenkins_nodes}; do
                 cp $template $PGI_DIR/localrc.$node || true
             done
+            rm -rf "${PGI_TMPDIR}"
         fi
         cmd=${cmd/load/unload}
         echo "${cmd}"
