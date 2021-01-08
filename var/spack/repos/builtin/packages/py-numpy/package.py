@@ -312,7 +312,7 @@ class PyNumpy(PythonPackage):
 
         return args
 
-    def setup_environment(self, spack_env, run_env):
+    def setup_run_environment(self, env):
         # Quick fix for the cases when python/numpy are external packages
         if not 'python' in self.spec:
             return
@@ -324,7 +324,7 @@ class PyNumpy(PythonPackage):
             'site-packages',
             'numpy/core/include')
 
-        run_env.prepend_path('CPATH', include_path)
+        env.prepend_path('CPATH', include_path)
 
     def build_test(self):
         # `setup.py test` is not supported.  Use one of the following

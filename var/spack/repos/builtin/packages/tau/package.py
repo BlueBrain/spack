@@ -348,11 +348,11 @@ class Tau(Package):
                             self.compiler.cxx, self.prefix.lib +
                             "/" + makefile, backup=False, string=True)
 
-    def setup_run_environment(self, env):
+    def get_makefiles(self):
         pattern = join_path(self.prefix.lib, 'Makefile.*')
         return glob.glob(pattern)
 
-    def setup_environment(self, spack_env, run_env):
+    def setup_run_environment(self, env):
         files = self.get_makefiles()
 
         # This function is called both at install time to set up
