@@ -113,7 +113,9 @@ class Tau(Package):
     #     filter_file(r' -M', r' -Q', 'tools/src/tau_cc.sh')
     #     filter_file(r' -M', r' -Q', 'tools/src/tau_cxx.sh')
 
-    # filter_compiler_wrappers('tau_cc.sh', 'Makefile.tau', relative_root='bin')
+    # filter_compiler_wrappers('tau_cc.sh',
+    #                          'Makefile.tau',
+    #                          relative_root='bin')
 
     # ADIOS2, SQLite only available from 2.29.1 on
     conflicts('+adios2', when='@:2.29.1')
@@ -148,11 +150,13 @@ class Tau(Package):
             if spec.satisfies('%intel'):
                 compiler_options.append('-fortran=intel')
             elif spec.satisfies('%pgi'):
-                # @bbp we don't have pgfortran but fc is set to gfortran in packages.yaml
-                # to compiler mpi libraries
+                # @bbp we don't have pgfortran but fc is set to gfortran
+                # in packages.yaml to compiler mpi libraries
                 pass
             else:
-                compiler_options.append('-fortran=%s' % self.compiler.fc_names[0])
+                compiler_options.append(
+                    '-fortran=%s' % self.compiler.fc_names[0]
+                )
         ##########
 
         # on bg-q we dont need compiler names. We also have to set fortran

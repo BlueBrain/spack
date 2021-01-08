@@ -113,12 +113,6 @@ class PyNumpy(PythonPackage):
     # GCC 4.8 is the minimum version that works
     conflicts('%gcc@:4.7', msg='GCC 4.8+ required')
 
-    def setup_dependent_package(self, module, dependent_spec):
-        if 'python' in self.spec:
-            python_version = self.spec['python'].version.up_to(2)
-        else:
-            python_version = dependent_spec['python'].version.up_to(2)
-
     def flag_handler(self, name, flags):
         # -std=c99 at least required, old versions of GCC default to -std=c90
         if self.spec.satisfies('%gcc@:5.1') and name == 'cflags':
@@ -314,7 +308,7 @@ class PyNumpy(PythonPackage):
 
     def setup_run_environment(self, env):
         # Quick fix for the cases when python/numpy are external packages
-        if not 'python' in self.spec:
+        if 'python' not in self.spec:
             return
         python_version = self.spec['python'].version.up_to(2)
 
