@@ -193,6 +193,11 @@ def merge_config_rules(configuration, spec):
     # Attach options that are spec-independent to the spec-specific
     # configuration
 
+    # Use only generated module files for the above
+    load_only_generated = module_specific_configuration.get(
+        'load_only_generated', False)
+    spec_configuration['load_only_generated'] = load_only_generated
+
     # Hash length in module files
     hash_length = module_specific_configuration.get('hash_length', 7)
     spec_configuration['hash_length'] = hash_length
@@ -415,6 +420,13 @@ class BaseConfiguration(object):
             _check_tokens_are_valid(projection, message=msg)
 
         return projections
+
+    @property
+    def load_only_generated(self):
+        """Returns if only generated module files should be loaded as
+        dependencies.
+        """
+        return self.conf.get('load_only_generated', False)
 
     @property
     def template(self):
@@ -718,6 +730,7 @@ class BaseContext(tengine.Context):
     def _create_module_list_of(self, what):
         mod = self.conf.module
         kind = mod.__name__.rsplit('.', 1)[-1]
+        validate = self.conf.load_only_generated
         index = dict()
 
         def _load_indices(s):
@@ -729,7 +742,7 @@ class BaseContext(tengine.Context):
                 index.update(ups.get(kind, {}))
 
         def _valid(spec):
-            if spec.external:
+            if spec.external or not validate:
                 return True
             _load_indices(spec)
             if (
