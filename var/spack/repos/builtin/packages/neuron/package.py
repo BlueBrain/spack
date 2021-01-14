@@ -440,11 +440,9 @@ class Neuron(CMakePackage):
                 filter_file(env["CC"], "cc", libtool_makefile, **kwargs)
                 filter_file(env["CXX"], "CC", libtool_makefile, **kwargs)
 
-        # nrnmech_makefile exists in both cmake and autotools buildsi
-        if self.spec.satisfies("+cmake"):
-            assign_operator = "?="
-        else:
-            assign_operator = "="
+        # The assign_operaton should follow any changes done in "bin/nrnivmodl_makefile_cmake.in"
+        # and "bin/nrnmech_makefile.in" when assigning CC and CXX variables
+        assign_operator = "="
         filter_file("CC {0} {1}".format(assign_operator, env["CC"]),
                     "CC = {0}".format(cc_compiler),
                     nrnmech_makefile,
