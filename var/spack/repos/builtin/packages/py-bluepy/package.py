@@ -54,7 +54,7 @@ class PyBluepy(PythonPackage):
     depends_on('py-pandas@0.17:', type='run', when='@:1.0.0')
 
     # lazy / cached properties (change of backend for caching)
-    depends_on('py-cache_property@1.0:', type='run', when='@2.0.0:')
+    depends_on('py-cached-property@1.0:', type='run', when='@2.0.0:')
     depends_on('py-lazy@1.0:', type='run', when='@:1.0.0')
 
     # common to bluepy <2 and >2 versions
