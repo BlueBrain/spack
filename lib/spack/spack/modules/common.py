@@ -193,11 +193,6 @@ def merge_config_rules(configuration, spec):
     # Attach options that are spec-independent to the spec-specific
     # configuration
 
-    # Use only generated module files for the above
-    load_only_generated = module_specific_configuration.get(
-        'load_only_generated', False)
-    spec_configuration['load_only_generated'] = load_only_generated
-
     # Hash length in module files
     hash_length = module_specific_configuration.get('hash_length', 7)
     spec_configuration['hash_length'] = hash_length
