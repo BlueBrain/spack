@@ -12,6 +12,7 @@ class PyH5py(PythonPackage):
 
     homepage = "http://www.h5py.org/"
     pypi     = "h5py/h5py-3.1.0.tar.gz"
+    url      = "https://pypi.io/packages/source/h/h5py/h5py-2.10.0.tar.gz"
     git      = "https://github.com/h5py/h5py.git"
 
     version('master', branch='master')
