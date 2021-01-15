@@ -19,7 +19,9 @@ level = "long"
 
 
 def setup_parser(subparser):
-    arguments.add_common_arguments(subparser, ['jobs', 'test', 'overwrite', 'yes_to_all'])
+    arguments.add_common_arguments(
+        subparser,
+        ['jobs', 'test', 'overwrite', 'yes_to_all'])
     subparser.add_argument(
         '-d', '--source-path', dest='source_path', default=None,
         help="path to source directory. defaults to the current directory")
