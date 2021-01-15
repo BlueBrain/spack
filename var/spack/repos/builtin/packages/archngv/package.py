@@ -15,7 +15,7 @@ class Archngv(PythonPackage):
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/molecularsystems/ArchNGV"
     git      = "ssh://bbpcode.epfl.ch/molecularsystems/ArchNGV"
 
-    version('develop', branch='master')
+    # version('develop', branch='master')
     # version('0.0.0', tag='archngv-v0.0.0', preferred=True)
 
     depends_on('python@3.6:', type=('build', 'run'))
@@ -34,7 +34,7 @@ class Archngv(PythonPackage):
     depends_on('py-tess@0.2.2:', type='run')
     depends_on('py-trimesh@2.21.15:', type='run')
 
-    depends_on('py-bluepy@0.13.5:', type='run')
+    # depends_on('py-bluepy@0.13.5:', type='run')
     depends_on('py-morphmath', type='run')
     depends_on('py-morphspatial', type='run')
     depends_on('py-spatial-index', type='run')

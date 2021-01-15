@@ -29,8 +29,9 @@ class PyBluepy(PythonPackage):
 
     depends_on('py-setuptools', type=('build', 'run'))
 
-    # the version of bluepy <2 needed multiple dependencies compatible with h5py < 3.0.0 and
-    # bluepy > 2 needs h5py > 3.0.0. Hence the following switches :
+    # the version of bluepy <2 needed multiple dependencies compatible
+    # with h5py < 3.0.0 and bluepy > 2 needs h5py > 3.0.0. Hence the
+    # following switches :
 
     # h5py
     depends_on('py-h5py~mpi@3.0.0:', type='run', when='@2.0.0:')
