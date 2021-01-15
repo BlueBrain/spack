@@ -9,7 +9,8 @@ from spack import *
 class Archngv(PythonPackage):
     """NGV builder"""
 
-    # This package is not deployed anymore but is still pip installable instead
+    # This package is not deployed anymore but is
+    # still pip installable instead
 
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/molecularsystems/ArchNGV"
     git      = "ssh://bbpcode.epfl.ch/molecularsystems/ArchNGV"
