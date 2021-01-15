@@ -9,11 +9,13 @@ from spack import *
 class Archngv(PythonPackage):
     """NGV builder"""
 
+    # This package is not deployed anymore but is still pip installable instead
+
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/molecularsystems/ArchNGV"
     git      = "ssh://bbpcode.epfl.ch/molecularsystems/ArchNGV"
 
     version('develop', branch='master')
-    version('0.0.0', tag='archngv-v0.0.0', preferred=True)
+    # version('0.0.0', tag='archngv-v0.0.0', preferred=True)
 
     depends_on('python@3.6:', type=('build', 'run'))
     depends_on('py-setuptools', type=('build', 'run'))
