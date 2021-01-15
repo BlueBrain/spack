@@ -336,6 +336,7 @@ configure_compilers() {
             makelocalrc ${PGI_DIR} -d "${PGI_TMPDIR}" -gcc ${GCC_DIR}/bin/gcc -gpp ${GCC_DIR}/bin/g++ -g77 ${GCC_DIR}/bin/gfortran -x -net
             #configure pgi network license
             template=$(ls -rt "${PGI_TMPDIR}"/localrc* | tail -n 1)
+            echo "set PREOPTIONS=-D__GCC_ATOMIC_TEST_AND_SET_TRUEVAL=1;" >> "${template}"
             log "NVIDIA localrc template"
             cat "${template}"
             gpu_nodes=$(sinfo -h -N -o %n\ %f|awk '/volta/ {if (!c[$1]) {print $1}; c[$1]=1}')
