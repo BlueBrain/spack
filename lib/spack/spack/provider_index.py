@@ -80,10 +80,10 @@ class _IndexBase(object):
         except TypeError:
             import llnl.util.tty as tty
             tty.warn(
-                'detected non-concretized specs for provider of {0}'
+                'detected "weird" specs for provider of {0}'
                 .format(virtual_spec.name)
             )
-            return sorted(s.copy() for s in result if s.concrete)
+            return sorted(s.copy() for s in result if all(s._cmp_key()))
 
     def __contains__(self, name):
         return name in self.providers
