@@ -78,11 +78,7 @@ class _IndexBase(object):
         try:
             return sorted(s.copy() for s in result)
         except TypeError:
-            for res in result:
-                print(res.concrete)
-                print(res._cmp_key())
-                print(res.copy()._cmp_key())
-            raise
+            return sorted(s.copy() for s in result if s.concrete)
 
     def __contains__(self, name):
         return name in self.providers
