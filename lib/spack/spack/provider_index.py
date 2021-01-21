@@ -78,6 +78,11 @@ class _IndexBase(object):
         try:
             return sorted(s.copy() for s in result)
         except TypeError:
+            import llnl.util.tty as tty
+            tty.warn(
+                'detected non-concretized specs for provider of {0}'
+                .format(virtual_spec.name)
+            )
             return sorted(s.copy() for s in result if s.concrete)
 
     def __contains__(self, name):
