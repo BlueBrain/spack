@@ -356,6 +356,7 @@ configure_compilers() {
         cmd=${cmd/unload/show/}
         full_module_path="$(${cmd}|&sed -ne '2{s/:$// p}')"
 
+        echo sed '/modules: \[\]/ d;s#\( *\)spec: '"${spec/llvm/clang}"'#&\n\1modules: ['"${full_module_path}"']#' ${HOME}/.spack/compilers.yaml
         sed '/modules: \[\]/ d;s#\( *\)spec: '"${spec/llvm/clang}"'#&\n\1modules: ['"${full_module_path}"']#' ${HOME}/.spack/compilers.yaml
     done
 
