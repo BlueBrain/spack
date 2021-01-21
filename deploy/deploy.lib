@@ -352,6 +352,11 @@ configure_compilers() {
         cmd=${cmd/load/unload}
         echo "${cmd}"
         ${cmd}
+
+        cmd=${cmd/unload/show/}
+        full_module_path="$(${cmd}|&sed -ne '2{s/:$// p}')"
+
+        sed '/modules: \[\]/ d;s/\( *\)spec: '"${spec/llvm/clang}"'/&\n\1modules: ['"${full_module_path}"']/' ${HOME}/.spack/compilers.yaml
     done
 
     sed  -i 's#.*f\(77\|c\): null#      f\1: /usr/bin/gfortran#' ${HOME}/.spack/compilers.yaml
