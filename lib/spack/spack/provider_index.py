@@ -79,6 +79,7 @@ class _IndexBase(object):
             return sorted(s.copy() for s in result)
         except TypeError:
             for res in result:
+                print(res.concrete)
                 print(res._cmp_key())
                 print(res.copy()._cmp_key())
             raise
