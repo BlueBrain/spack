@@ -83,7 +83,12 @@ class _IndexBase(object):
                 'detected "weird" specs for provider of {0}'
                 .format(virtual_spec.name)
             )
-            return sorted(s.copy() for s in result if all(s._cmp_key()))
+            clones = []
+            for s in result:
+                clone = s.clone()
+                if clone._cmp_key()[1] is not None:
+                    clones.append(clone)
+            return sorted(clones)
 
     def __contains__(self, name):
         return name in self.providers
