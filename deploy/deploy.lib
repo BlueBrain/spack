@@ -356,7 +356,7 @@ configure_compilers() {
         cmd=${cmd/unload/show/}
         full_module_path="$(${cmd}|&sed -ne '2{s/:$// p}')"
         spec=${spec%%[+ ]*}             # truncate variants
-        spec=${spec/llvm/.clang}        # LLVM identifies as clang with some garbage in front
+        spec=${spec/llvm/clang}         # LLVM identifies as clang
         spec=${spec/20.0.2/19.1.2.254}  # Intel identifies as an older version
         # Remove empty module definitions, as they may appear anywhere
         # under the compiler key. Further, purge some garbage where clang's
