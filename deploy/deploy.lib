@@ -358,11 +358,17 @@ configure_compilers() {
         spec=${spec%%[+ ]*}             # truncate variants
         spec=${spec/llvm/.clang}        # LLVM identifies as clang with some garbage in front
         spec=${spec/20.0.2/19.1.2.254}  # Intel identifies as an older version
-        echo sed -i -e '/modules: \[\]/ d;s#\( *\)spec: '"${spec}"'.*$#&\n\1modules: ['"${full_module_path}"']#' ${HOME}/.spack/compilers.yaml
+        # Remove empty module definitions, as they may appear anywhere
+        # under the compiler key. Further, purge some garbage where clang's
+        # spec spans multiple lines with a quote in front.
+        #
+        # After removing all unnecessary stuff, re-add the appropriate
+        # module definition with a full path.
         sed -i -e '
             /modules: \[\]/ d;
             /^\s*Target:.\s*$/ d;
             /^\s*$/ d;
+            s#spec: .clang#spec: clang#
             s#\( *\)spec: '"${spec}"'#&\n\1modules: ['"${full_module_path}"']#' ${HOME}/.spack/compilers.yaml
     done
 

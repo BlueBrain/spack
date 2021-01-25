@@ -75,6 +75,19 @@ class _IndexBase(object):
                     result.update(spec_set)
 
         # Return providers in order. Defensively copy.
+        #
+        # Some BlueBrain additions here:
+        #
+        # Sometimes the provider index contains seemingly unconcretized
+        # specs, and the sorting crashes with
+        #
+        # unorderable types: str() < NoneType()
+        #
+        # Here we go through the provided "specs" and weed out everything
+        # that has a None value in the comparison key to prevent this.
+        # Debug output shows that this seems to happen for "elfutils" and
+        # that there are normally two unconcretized entries, and two
+        # concretized ones.
         try:
             return sorted(s.copy() for s in result)
         except TypeError:
@@ -86,7 +99,8 @@ class _IndexBase(object):
             clones = []
             for s in result:
                 clone = s.clone()
-                if clone._cmp_key()[0][1] is not None:
+                spec_key, _ = clone._cmp_key)
+                if spec_key[1] is not None:
                     clones.append(clone)
             return sorted(clones)
 
