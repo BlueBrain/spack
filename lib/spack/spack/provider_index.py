@@ -86,7 +86,7 @@ class _IndexBase(object):
             clones = []
             for s in result:
                 clone = s.clone()
-                if clone._cmp_key()[1] is not None:
+                if clone._cmp_key()[0][1] is not None:
                     clones.append(clone)
             return sorted(clones)
 
