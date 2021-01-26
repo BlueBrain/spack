@@ -330,11 +330,6 @@ configure_compilers() {
                     log "updated ${f} with newer GCC"
                 fi
             done
-            INTEL_LIB="$(readlink -f "${INTEL_DIR}/lib/intel64")"
-            env_mods="
-    environment:
-      append_path:
-        LD_LIBRARY_PATH: ${INTEL_LIB}"
         elif [[ ${line} = *"pgi"* || ${line} = *"nvhpc"* ]]; then
             #update pgi modules for network installation
             PGI_DIR=$(dirname $(which makelocalrc))
@@ -375,7 +370,7 @@ configure_compilers() {
             /^\s*Target:.\s*$/ d;
             /^\s*$/ d;
             s#spec: .clang#spec: clang#
-            s#\( *\)spec: '"${spec}"'#&\n\1modules: ['"${full_module_path}"']'"${env_mods}"'#' ${HOME}/.spack/compilers.yaml
+            s#\( *\)spec: '"${spec}"'#&\n\1modules: ['"${full_module_path}"']#' ${HOME}/.spack/compilers.yaml
     done
 
     sed  -i 's#.*f\(77\|c\): null#      f\1: /usr/bin/gfortran#' ${HOME}/.spack/compilers.yaml
