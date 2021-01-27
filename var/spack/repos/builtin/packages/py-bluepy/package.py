@@ -65,11 +65,11 @@ class PyBluepy(PythonPackage):
     depends_on('brion+python@3.1.0:', type='run')
     depends_on('py-bluepy-configfile@0.1.11:', type='run')
     depends_on('py-numpy@1.8:', type='run')
+    depends_on('py-pylru@1.2:', type='run')
 
     # for old versions of bluepy <2.0.0
     depends_on('py-enum34@1.0:', type='run', when='^python@:3.3.99')
     depends_on('py-lxml@3.3:', type='run', when='@:1.0.0')
-    depends_on('py-pylru@1.0:', type='run', when='@:1.0.0')
     depends_on('py-pyyaml@3.10:', type='run', when='@:1.0.0')
     depends_on('py-six@1.0:', type='run', when='@:1.0.0')
     depends_on('py-sqlalchemy@1.0:', type='run', when='@:1.0.0')
