@@ -34,6 +34,6 @@ class PspValidation(PythonPackage):
     depends_on('py-bglibpy@4.3.15:4.999', type='run')
     depends_on('py-bluepy@0.16.0:1.999', type='run')
     depends_on('py-efel@3.0.39:', type='run')
-    depends_on('neuron+python@7.8:', when='@0.2.2:',type='run')
+    depends_on('neuron+python@7.8:', when='@0.2.2:', type='run')
 
     depends_on('py-mock@3.0.5', when='@:0.3.1', type='build')  # remove in 2020
