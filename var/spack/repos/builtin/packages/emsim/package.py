@@ -14,16 +14,11 @@ class Emsim(CMakePackage):
 
     generator = 'Ninja'
 
+    version('develop')
     version('1.0.0', tag='v1.0.0', submodules=True)
+    version('1.0.1', tag='v1.0.1')
 
     depends_on('cmake@3.1:', type='build')
     depends_on('ninja', type='build')
-    depends_on('brion +python')
-    # Eyescale cmake requires Python (!)
-    depends_on('python@3.6:', type='build')
+    depends_on('brion@3.3.1')
     depends_on('ispc', type='build')
-
-    patch('cmake.patch')
-
-    def cmake_args(self):
-        return ['-DDISABLE_SUBPROJECTS=ON']
