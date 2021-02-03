@@ -36,6 +36,7 @@ class Libsonata(CMakePackage):
     depends_on('mpi', when='+mpi')
     depends_on('catch2', when='@0.1.3:')
     depends_on('spdlog', when='@0.1.3:')
+    depends_on('nlohmann-json', when='@0.1.7:')
 
     def cmake_args(self):
         result = [
