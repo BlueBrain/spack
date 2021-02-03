@@ -25,6 +25,6 @@ class PyMorphValidator(PythonPackage):
     depends_on('py-morph-tool@2.3.0:', type='run')
     depends_on('py-neurom@1.7.0:', type='run')
     depends_on('py-bluepy@2.0.0:', type='run')
-    depends_on('py-seaborn@0.10.1:', type='run')
-    depends_on('py-tqdm@4.46.0:', type='run')
+    depends_on('py-seaborn@0.9.0:', type='run')
+    depends_on('py-tqdm@4.45.0:', type='run')
     depends_on('py-matplotlib@2.2.0:', type='run')
