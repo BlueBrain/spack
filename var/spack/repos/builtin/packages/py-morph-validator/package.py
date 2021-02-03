@@ -7,15 +7,13 @@
 from spack import *
 
 
-class PyMorphologyRepairWorkflow(PythonPackage):
+class PyMorphValidator(PythonPackage):
     """Python library neuron morphology analysis"""
 
-    homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/nse/morphology-repair-workflow"
-    git      = "ssh://bbpcode.epfl.ch/nse/morphology-repair-workflow"
+    homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/nse/morph-validator"
+    git      = "ssh://bbpcode.epfl.ch/nse/morph-validator"
     version('develop', branch='master')
-    version('2.0.2', tag='morphology-repair-workflow-v2.0.2')
-    version('2.0.1', tag='morphology-repair-workflow-v2.0.1')
-    version('1.0.4', tag='morphology-repair-workflow-v1.0.4')
+    version('0.2.2', tag='morph-validator-v0.2.2')
 
     depends_on('py-setuptools', type=('build', 'run'))
 
