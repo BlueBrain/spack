@@ -13,30 +13,24 @@ class LibsonataReport(CMakePackage):
     See also:
     https://github.com/AllenInstitute/sonata/blob/master/docs/SONATA_DEVELOPER_GUIDE.md
     """
-    homepage = "https://github.com/BlueBrain/libsonata"
-    git = "https://github.com/BlueBrain/libsonata.git"
+    homepage = "https://github.com/BlueBrain/libsonatareport"
+    git = "https://github.com/BlueBrain/libsonatareport.git"
 
-    version('0.1.6', commit='a738b0189f81fa', submodules=True, get_full_repo=True)
-    version('0.1.5', commit='55567360dab0e8', submodules=True, get_full_repo=True)
-    version('0.1.4', commit='3881a52ad7fe8b', submodules=True, get_full_repo=True)
     version('develop', branch='master', submodules=False, get_full_repo=True)
+    version('0.1a', tag='0.1a', submodules=False)
 
     variant('mpi', default=True, description="Enable MPI backend")
 
     depends_on('cmake@3.3:', type='build')
-    depends_on('py-setuptools-scm', type='build')
-    depends_on('catch2')
-    depends_on('fmt@4.0:')
-    depends_on('highfive+mpi', when='+mpi')
-    depends_on('highfive~mpi', when='~mpi')
     depends_on('mpi', when='+mpi')
     depends_on('spdlog')
+    depends_on('hdf5 ~mpi', when='~mpi')
+    depends_on('hdf5 +mpi', when='+mpi')
 
     def cmake_args(self):
         result = [
-            '-DEXTLIB_FROM_SUBMODULES=ON',
-            '-DREPORTS_ONLY=ON',
-            '-DCMAKE_CXX_FLAGS=-DFMT_HEADER_ONLY=1'
+            '-DSONATA_REPORT_ENABLE_SUBMODULES=OFF',
+            '-DSONATA_REPORT_ENABLE_TEST=OFF',
         ]
         if self.spec.satisfies('+mpi'):
             result.extend([
@@ -46,7 +40,7 @@ class LibsonataReport(CMakePackage):
                 '-DCMAKE_CXX_COMPILER:STRING={0}'.format(
                     self.spec['mpi'].mpicxx
                 ),
-                '-DREPORTS_ENABLE_MPI=ON',
+                '-DSONATA_REPORT_ENABLE_MPI=ON',
             ])
         return result
 
