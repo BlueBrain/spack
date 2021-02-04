@@ -25,7 +25,6 @@ class PyBluepysnap(PythonPackage):
     version('0.1.2', sha256='aa29c1344258c1ca0cf7f5f53f3080025b9d098e3366872369586ad7ccf334a2')
 
     depends_on('py-setuptools', type=('build', 'run'))
-    depends_on('py-functools32', type='run', when='^python@:3.1.99')
 
     depends_on('py-pandas@0.24.0:', type='run')
     depends_on('py-libsonata@0.1.4:', type='run')
