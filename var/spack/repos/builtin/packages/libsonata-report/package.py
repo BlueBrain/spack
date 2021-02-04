@@ -31,17 +31,10 @@ class LibsonataReport(CMakePackage):
         result = [
             '-DSONATA_REPORT_ENABLE_SUBMODULES=OFF',
             '-DSONATA_REPORT_ENABLE_TEST=OFF',
+            '-DSONATA_REPORT_ENABLE_WARNING_AS_ERROR=OFF',
         ]
         if self.spec.satisfies('+mpi'):
-            result.extend([
-                '-DCMAKE_C_COMPILER:STRING={0}'.format(
-                    self.spec['mpi'].mpicc
-                ),
-                '-DCMAKE_CXX_COMPILER:STRING={0}'.format(
-                    self.spec['mpi'].mpicxx
-                ),
-                '-DSONATA_REPORT_ENABLE_MPI=ON',
-            ])
+            result.append('-DSONATA_REPORT_ENABLE_MPI=ON')
         return result
 
     @property
