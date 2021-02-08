@@ -32,4 +32,3 @@ class ConnectomeTools(PythonPackage):
 
     depends_on('py-bluepy@0.13.3:1.999', when='@:0.3.4', type='run')
     depends_on('py-voxcell@2.5.6:2.999', when='@:0.3.4', type='run')
-
