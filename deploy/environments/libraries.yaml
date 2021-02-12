@@ -27,6 +27,7 @@ spack:
     - boost+python@1.70.0
     - boost+python@1.73.0
     - catch2
+    - cli-tools
     - deflect
     - eigen
     - fmt
