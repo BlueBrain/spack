@@ -80,3 +80,14 @@ class PyBluepy(PythonPackage):
         filter_file("'jsonschema>=2.3.0',", "", "setup.py")
         filter_file("'progressbar2>=3.18',", "", "setup.py")
         filter_file("'shapely>=1.3.2',", "", "setup.py")
+
+    @property
+    def import_modules(self):
+        if self.version < Version('2.0.0'):
+            # don't run import tests on older versions
+            return []
+        # bluepy.index is excluded because it depends on libFLATIndex
+        modules = ['bluepy', 'bluepy.impl', 'bluepy.utils', 'bluepy.geometry']
+        # TODO: remove .v2 tests once they are removed from BluePy
+        modules += ['bluepy.v2', 'bluepy.v2.impl']
+        return modules
