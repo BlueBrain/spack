@@ -86,8 +86,5 @@ class PyBluepy(PythonPackage):
         if self.version < Version('2.0.0'):
             # don't run import tests on older versions
             return []
-        # bluepy.index is excluded because it depends on libFLATIndex
-        modules = ['bluepy', 'bluepy.impl', 'bluepy.utils', 'bluepy.geometry']
-        # TODO: remove .v2 tests once they are removed from BluePy
-        modules += ['bluepy.v2', 'bluepy.v2.impl']
-        return modules
+        # exclude bluepy.index because it requires libFLATIndex, unavailable on spack
+        return [m for m in super(PyBluepy, self).import_modules if m != 'bluepy.index']
