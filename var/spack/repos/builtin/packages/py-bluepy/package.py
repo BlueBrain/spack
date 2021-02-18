@@ -63,7 +63,7 @@ class PyBluepy(PythonPackage):
     depends_on('py-libsonata@0.1.6:', type='run', when='^python@3.6:')
     depends_on('py-libsonata@0.1.3:0.1.4', type='run', when='^python@:3.5.99')
 
-    # brion changed python package name in 3.3.0 and brion bump in bluepy==2.1.0
+    # brion changed package name in 3.3.0 and brion bump in bluepy==2.1.0
     depends_on('brion+python@3.1.0:3.2.0', type='run', when='@:2.0.9')
     depends_on('brion+python@3.3.0:', type='run', when='@2.1.0:')
 
