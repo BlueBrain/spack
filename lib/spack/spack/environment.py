@@ -1147,6 +1147,7 @@ class Environment(object):
         concretized_specs = []
         for uspec, uspec_constraints in zip(
                 self.user_specs, self.user_specs.specs_as_constraints):
+            print(uspec)
             if uspec not in old_concretized_user_specs:
                 concrete = _concretize_from_constraints(uspec_constraints)
                 self._add_concrete_spec(uspec, concrete)
