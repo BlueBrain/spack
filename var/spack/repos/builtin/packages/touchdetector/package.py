@@ -10,8 +10,8 @@ class Touchdetector(CMakePackage):
     """Detects touches between cells
     """
     homepage = "https://bbpgitlab.epfl.ch/hpc/touchdetector"
-    url      = "https://:@bbpgitlab.epfl.ch:8443/hpc/touchdetector.git"
-    git      = "https://:@bbpgitlab.epfl.ch:8443/hpc/touchdetector.git"
+    url      = "git@bbpgitlab.epfl.ch:hpc/touchdetector.git"
+    git      = "git@bbpgitlab.epfl.ch:hpc/touchdetector.git"
 
     version('develop', submodules=True)
     version('5.5.1', tag='5.5.1', submodules=True)
