@@ -28,11 +28,15 @@ class PyBglibpy(PythonPackage):
 
     depends_on('py-setuptools', type=('build', 'run'))
     depends_on('neuron+python', type='run')
-    depends_on('py-numpy', type='run')
-    depends_on('py-matplotlib', type='run')
+    depends_on('py-numpy@1.8:', type='run')
+    depends_on('py-matplotlib@3.0.3:', type='run')
     depends_on('py-cachetools', type='run')
     depends_on('py-h5py~mpi@2.3:', type='run')
-    depends_on('py-bluepy', type='run')
+
+    # bluepy
+    depends_on('py-bluepy@:2.0', type='run', when='@:4.4.20')
+    depends_on('py-bluepy@2.1:', type='run', when='@4.4.36:')
+
     depends_on('py-libsonata', type='run')
 
     # skip import test, because bglibpy needs HOC_LIBRARY_PATH
