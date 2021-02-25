@@ -25,6 +25,7 @@ class LibsonataReport(CMakePackage):
     depends_on('cmake@3.3:', type='build')
     depends_on('mpi', when='+mpi')
     depends_on('spdlog')
+    depends_on('fmt')
     depends_on('hdf5 ~mpi', when='~mpi')
     depends_on('hdf5 +mpi', when='+mpi')
 
