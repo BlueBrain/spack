@@ -16,7 +16,7 @@ class Libsonata(CMakePackage):
     homepage = "https://github.com/BlueBrain/libsonata"
     git = "https://github.com/BlueBrain/libsonata.git"
 
-    version('test_patch', branch='remote_from_libsonata_report', preferred=True, get_full_repo=True, submodules=False)
+    version('test_patch', branch='remove_from_libsonata_report', preferred=True, get_full_repo=True, submodules=False)
     version('develop', branch='master', submodules=False, get_full_repo=True)
     version('0.1.8', tag='v0.1.8', submodules=False, get_full_repo=True)
     version('0.1.6', tag='v0.1.6', submodules=False, get_full_repo=True)
