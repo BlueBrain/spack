@@ -30,6 +30,8 @@ class LibsonataReport(CMakePackage):
     depends_on('highfive +mpi', when='+mpi')
     depends_on('hdf5 ~mpi', when='~mpi')
     depends_on('hdf5 +mpi', when='+mpi')
+    depends_on('sonata ~mpi', when='~mpi')
+    depends_on('sonata +mpi', when='+mpi')
 
     def cmake_args(self):
         result = [
