@@ -35,7 +35,7 @@ spack:
     - neurodamus-hippocampus+coreneuron%intel
     - neurodamus-hippocampus+coreneuron%intel^coreneuron+knl
     - neurodamus-mousify+coreneuron%intel
-    - neurodamus-neocortex+coreneuron%intel
+    - neurodamus-neocortex+coreneuron%intel^neuron+debug^coreneuron+debug
     - neurodamus-neocortex+coreneuron%intel^coreneuron+knl
     - neurodamus-thalamus+coreneuron%intel
     - neurodamus-thalamus+coreneuron%intel^coreneuron+knl
