@@ -33,6 +33,7 @@ class PyNeurodamus(PythonPackage):
     # We depend on Neurodamus but let the user decide which one
     depends_on('python@3.4:',      type=('build', 'run'))
     depends_on('py-setuptools',    type=('build', 'run'))
+    depends_on('neuron',           type='run')
     depends_on('py-h5py',          type='run')
     depends_on('py-numpy',         type='run')
     depends_on('py-docopt',        type='run')
