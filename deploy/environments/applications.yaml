@@ -48,7 +48,7 @@ spack:
     - py-bluepy
     - py-bluepyefe
     - py-bluepymm%gcc ^neuron%intel^freetype%gcc
-    - py-bluepyopt%gcc ^neuron%intel^freetype%gcc
+    - py-bluepyopt%gcc ^neuron%intel
     - py-bluepysnap
     - py-currentscape
     - py-efel
