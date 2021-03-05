@@ -67,6 +67,9 @@ class PyBluepy(PythonPackage):
     depends_on('brion+python@3.1.0:3.2.0', type='run', when='@:2.0.9')
     depends_on('brion+python@3.3.0:', type='run', when='@2.1.0:')
 
+    # TODO: explicit dependency with hdf5 to avoid limitation of concretizer
+    depends_on('hdf5~mpi')
+
     depends_on('py-bluepy-configfile@0.1.11:', type='run')
     depends_on('py-numpy@1.8:', type='run')
     depends_on('py-pylru@1.2:', type='run')
