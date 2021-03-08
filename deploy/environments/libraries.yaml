@@ -30,10 +30,9 @@ spack:
     - deflect
     - eigen
     - fmt
-    - gmsh
+    - gmsh+metis+mpi+oce+openmp+shared
     - hdf5~mpi
     - highfive~mpi
-    - hypre+metis+mpi+oce+openmp+shared
     - libarchive
     - libxml2
     - metis+int64
