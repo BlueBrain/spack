@@ -29,4 +29,3 @@ class PyMorphio(PythonPackage):
     depends_on('py-numpy', type='run')
     depends_on('hdf5 +mpi', type=('build', 'run'), when='+mpi')
     depends_on('hdf5 ~mpi', type=('build', 'run'), when='~mpi')
-    depends_on('mpi', when='+mpi')
