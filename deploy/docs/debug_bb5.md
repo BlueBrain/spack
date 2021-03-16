@@ -19,7 +19,7 @@ during concretization, the following steps may help debug issues.
 3. Copy the environment that the CI is attempting to build somewhere under
    your control:
    ```console
-   cp -R ${PR_BASE}/data/build_enironment .
+   cp -R ${PR_BASE}/data/build_environment .
    ```
    If the concretization of the build environment fails, it is easier to
    re-use the installation directory of the CI for packages that have been
