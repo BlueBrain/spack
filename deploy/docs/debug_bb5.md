@@ -14,7 +14,7 @@ during concretization, the following steps may help debug issues.
 2. Move your own configuration files out of the way. If the official
    instructions are following, one can use:
    ```console
-   for fn in ${SPACK_ROOT}/etc/spack/*.yaml; do mv ${fn}{,.old} done
+   for fn in ${SPACK_ROOT}/etc/spack/*.yaml; do mv ${fn}{,.old}; done
    ```
 3. Copy the environment that the CI is attempting to build somewhere under
    your control:
