@@ -51,6 +51,7 @@ spack:
     - py-bluepymm%gcc ^neuron%intel
     - py-bluepyopt%gcc ^neuron%intel
     - py-bluepysnap
+    - py-cgal-pybind
     - py-currentscape
     - py-efel
     - py-entity-management
@@ -63,6 +64,7 @@ spack:
     - py-pytouchreader
     - py-simwriter
     - py-sonata-network-reduction%gcc ^neuron%intel^py-ipython%gcc
+    - py-rtree
     - regiodesics
     - reportinglib%intel
     - spatial-index

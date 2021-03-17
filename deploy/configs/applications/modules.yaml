@@ -58,6 +58,7 @@ modules:
       - py-bluepymm
       - py-bluepyopt
       - py-bluepysnap
+      - py-cgal-pybind
       - py-currentscape
       - py-efel
       - py-entity-management
@@ -70,6 +71,7 @@ modules:
       - py-neurodamus
       - py-simwriter
       - py-sonata-network-reduction
+      - py-rtree
       - py-pytouchreader
       - regiodesics
       - reportinglib
