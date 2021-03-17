@@ -37,6 +37,7 @@ class PythonDev(BundlePackage):
     depends_on('py-simplejson', type=('build', 'run'))
     depends_on('py-six', type=('build', 'run'))
     depends_on('py-sympy', type=('build', 'run'))
+    depends_on('py-tox', type=('build', 'run'))
     depends_on('py-virtualenv', type=('build', 'run'))
     depends_on('py-virtualenv-clone', type=('build', 'run'))
     depends_on('py-virtualenvwrapper', type=('build', 'run'))
