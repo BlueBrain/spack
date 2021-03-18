@@ -13,7 +13,7 @@ class PyNeurodamus(PythonPackage):
     git      = "ssh://bbpcode.epfl.ch/sim/neurodamus-py"
 
     version('develop', branch='master')
-    version('2.5.0',   tag='2.5.0')
+    version('2.4.1',   branch='sandbox/jblanco/summation_coreneuron')
     version('2.4.0',   tag='2.4.0')
     version('2.3.1',   tag='2.3.1')
     version('2.3.0',   tag='2.3.0')
