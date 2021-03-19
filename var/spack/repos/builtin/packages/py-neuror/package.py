@@ -23,5 +23,5 @@ class PyNeuror(PythonPackage):
     depends_on('py-pandas@1.0.3:', type='run')
     depends_on('py-pyquaternion@0.9.2:', type='run')
     depends_on('py-plotly-helper', type='run')
-    depends_on('py-neurom@mut_morphio', type='run')
+    depends_on('py-neurom@2:', type='run')
     depends_on('py-morphio@2.7.0:', type='run')
