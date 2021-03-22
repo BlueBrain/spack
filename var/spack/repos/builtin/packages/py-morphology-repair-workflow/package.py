@@ -32,7 +32,7 @@ class PyMorphologyRepairWorkflow(PythonPackage):
     depends_on('py-morph-tool@0.2.3:', type='run')
     depends_on('py-morphio@2.5.0:', type='run')
     depends_on('py-neuror@1.1.9:', type='run')
-    depends_on('py-neurom@2:', type='run')
+    depends_on('py-neurom@2.0:', type='run')
 
     depends_on('py-morph-validator@0.2.2:', type='run')
     depends_on('py-neuroc@0.2.4:', type='run')

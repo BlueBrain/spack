@@ -23,7 +23,7 @@ class PyNeuror(PythonPackage):
     depends_on('py-matplotlib@2.2.3:', type='run')
     depends_on('py-morph-tool@0.1.14:', type='run')
     depends_on('py-morphio@2.1.1:', type='run')
-    depends_on('py-neurom@2:', type='run')
+    depends_on('py-neurom@2.0:', type='run')
     depends_on('py-numpy@1.19.2:', type='run')
     depends_on('py-nptyping@1.3.0:', type='run')
     depends_on('py-pandas@0.24.2:', type='run')
