@@ -38,8 +38,8 @@ class PyNeurom(PythonPackage):
     depends_on('py-pandas@1.0.5:', type='run', when='@2.0:')
 
     # >= 1.6.0, < 2.0
-    depends_on('py-h5py~mpi@3.1.0:', type='run', when='@1.6:1.999')
+    depends_on('py-h5py@3.1.0:', type='run', when='@1.6:1.999')
     depends_on('py-pandas@1.0.5:', type='run', when='@1.6:1.999')
 
     # < 1.6.0
-    depends_on('py-h5py~mpi@2.7.1:2.999', type='run', when='@:1.5.999')
+    depends_on('py-h5py@2.7.1:2.999', type='run', when='@:1.5.999')
