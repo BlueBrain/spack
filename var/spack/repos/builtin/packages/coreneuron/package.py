@@ -117,18 +117,6 @@ class Coreneuron(CMakePackage):
             flags = '-xHost -qopt-report=5'
             if '+knl' in spec:
                 flags = '-xMIC-AVX512 -qopt-report=5'
-        if '+gpu' in spec:
-            flags += ' -Minline=size:1000,levels:100,'
-            flags += 'totalsize:40000,maxsize:4000'
-            # Enable OpenACC execution on GPU
-            flags += ' -acc=gpu'
-            # CUDA_HOME should be set in the compile environment because of the
-            # cuda dependency, and that's enough to tell the compiler to use
-            # that version instead of one that was bundled with the compiler:
-            # https://docs.nvidia.com/hpc-sdk/archive/20.9/compilers/hpc-compilers-user-guide/index.html#cuda-toolkit-versions
-            # Note that passing -gpu=cudaX.Y will override CUDA_HOME and will
-            # only work if the given version is available as part of the nvhpc
-            # SDK.
         # when pdt is used for instrumentation, the gcc's unint128 extension
         # is activated from random123 which results in compilation error
         if '+profile' in spec:
