@@ -35,8 +35,8 @@ class PyBluepy(PythonPackage):
     # following switches :
 
     # h5py
-    depends_on('py-h5py~mpi@3.0.0:', type='run', when='@2.0.0:')
-    depends_on('py-h5py~mpi@2.3:2.99', type='run', when='@:1.0.0')
+    depends_on('py-h5py@3.0.0:', type='run', when='@2.0.0:')
+    depends_on('py-h5py@2.3:2.99', type='run', when='@:1.0.0')
 
     # neurom
     depends_on('py-neurom@1.6.0:', type='run', when='@2.0.0:')
