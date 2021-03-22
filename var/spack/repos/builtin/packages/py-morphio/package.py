@@ -22,6 +22,8 @@ class PyMorphio(PythonPackage):
     version('2.1.2', tag='v2.1.2', submodules=True, get_full_repo=True)
     version('2.0.8', tag='v2.0.8', submodules=True, get_full_repo=True)
 
+    variant('mpi', default=True, description="Use parallel HDF5 when needed")
+
     depends_on('py-setuptools', type='build')
     depends_on('py-setuptools-scm', type='build')
 
