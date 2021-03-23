@@ -51,7 +51,6 @@ spack:
     - py-bluepymm%gcc ^neuron%intel
     - py-bluepyopt%gcc ^neuron%intel
     - py-bluepysnap
-    - py-cgal-pybind
     - py-currentscape
     - py-efel
     - py-entity-management
