@@ -27,3 +27,4 @@ class PyMorphio(PythonPackage):
 
     depends_on('cmake@3.2:', type='build')
     depends_on('py-numpy', type='run')
+    depends_on('hdf5', type=('build', 'run'))
