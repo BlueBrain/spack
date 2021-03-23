@@ -63,7 +63,6 @@ spack:
     - py-pytouchreader
     - py-simwriter
     - py-sonata-network-reduction%gcc ^neuron%intel^py-ipython%gcc
-    - py-rtree
     - regiodesics
     - reportinglib%intel
     - spatial-index
