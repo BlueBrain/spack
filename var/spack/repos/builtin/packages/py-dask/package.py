@@ -14,7 +14,7 @@ class PyDask(PythonPackage):
 
     maintainers = ['skosukhin']
 
-    version('2021.3.1', sha256='0dd19b4ac92b21932ee145848a00d88ee83461e5ee1d0862a270b5fba1b9620e')
+    version('2021.3.1', sha256='1fa7e1809e7c50c5505297b03e6ee161e0695df73b4c4051b5b1c8fd670bf5d7')
     version('2.30.0', sha256='a1669022e25de99b227c3d83da4801f032415962dac431099bf0534648e41a54')
     version('2.19.0', sha256='e18035cebc2a32e9d483f76d7718f846e95a0f75e6b0fe192a21328c236a465b')
     version('2.16.0', sha256='2af5b0dcd48ce679ce0321cf91de623f4fe376262789b951fefa3c334002f350')
