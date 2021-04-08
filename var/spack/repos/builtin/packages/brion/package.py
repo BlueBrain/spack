@@ -38,14 +38,14 @@ class Brion(CMakePackage):
 
     depends_on('libsonata@0.1.2', when='@:3.1.0')
     depends_on('libsonata', when='@3.2.0:')
-    depends_on('morphio')
 
     # TODO: bzip2 is a dependency of boost. Needed here because of linking
     # issue (libboost_iostreams.so.1.68.0 not finding libbz2.so)
     depends_on('bzip2')
     depends_on('lunchbox', when='@3.1.0')
     depends_on('vmmlib', when='@3.1.0')
-    depends_on('highfive +boost')
+    depends_on('highfive@2.2.2 +boost', when='@3.3.2:')
+    depends_on('highfive@2.2.1 +boost', when='@3.2.0:3.3.1')
     depends_on('highfive@2.1.1 +boost', when='@3.1.0')
     depends_on('mvdtool')
     depends_on('glm')
