@@ -35,6 +35,8 @@ class Libmonitor(AutotoolsPackage):
     patch('libmonitorkrell-0000.patch', when='@2013.02.18+krellpatch')
     patch('libmonitorkrell-0001.patch', when='@2013.02.18+krellpatch')
     patch('libmonitorkrell-0002.patch', when='@2013.02.18+krellpatch')
+    # Todo : temporary patch from mwkrentel for HPE-MPI
+    patch('libmonitorkrell-0003.gpu.patch',  when='+hpctoolkit')
 
     signals = 'SIGBUS, SIGSEGV, SIGPROF, 36, 37, 38'
 

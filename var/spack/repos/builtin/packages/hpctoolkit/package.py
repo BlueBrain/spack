@@ -21,6 +21,8 @@ class Hpctoolkit(AutotoolsPackage):
 
     version('develop', branch='develop')
     version('master',  branch='master')
+    # Todo : Custom release based on recent gpu workshop
+    version('2021.04.04', commit='a8233a1d9d6e816866dcd16edfeb78a21ac2c24d')
     version('2021.03.01', commit='68a051044c952f0f4dac459d9941875c700039e7')
     version('2020.08.03', commit='d9d13c705d81e5de38e624254cf0875cce6add9a')
     version('2020.07.21', commit='4e56c780cffc53875aca67d6472a2fb3678970eb')

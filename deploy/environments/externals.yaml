@@ -49,7 +49,7 @@ spack:
     - graphviz
     - hdf5~mpi@1.10.7
     - help2man
-    - hpctoolkit@2020.03.01
+    - hpctoolkit@2021.04.04+mpi+cuda^dyninst@10.2.1
     - hpcviewer
     - hpe-mpi@2.22.hmpt
     - intel-mkl

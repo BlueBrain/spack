@@ -1,0 +1,13 @@
+diff --git a/src/pthread.c b/src/pthread.c
+index d63f46f..d0926f0 100644
+--- a/src/pthread.c
++++ b/src/pthread.c
+@@ -1173,7 +1173,7 @@ MONITOR_WRAP_NAME(pthread_exit)(void *data)
+     struct monitor_thread_node *tn;
+ 
+     tn = monitor_get_tn();
+-    if (tn == NULL || tn->tn_is_main) {
++    if (tn != NULL && tn->tn_is_main) {
+ 	MONITOR_DEBUG1("pthread_exit called from main thread\n");
+ 	monitor_end_process_fcn(MONITOR_EXIT_NORMAL);
+     }
