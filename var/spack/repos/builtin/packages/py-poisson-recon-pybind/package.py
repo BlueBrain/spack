@@ -7,7 +7,10 @@ from spack import *
 
 
 class PyPoissonReconPybind(PythonPackage):
-    """Internal Python bindings for PoissonRecon's surface reconstruction algorithm"""
+    """
+    Internal Python bindings for PoissonRecon's surface reconstruction 
+    algorithm
+    """
 
     homepage = "https://bbpgitlab.epfl.ch/nse/poisson-recon-pybind"
     git      = "git@bbpgitlab.epfl.ch:nse/poisson-recon-pybind.git"
