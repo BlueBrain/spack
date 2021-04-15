@@ -8,7 +8,7 @@ from spack import *
 
 class PyPoissonReconPybind(PythonPackage):
     """
-    Internal Python bindings for PoissonRecon's surface reconstruction 
+    Internal Python bindings for PoissonRecon's surface reconstruction
     algorithm
     """
 
