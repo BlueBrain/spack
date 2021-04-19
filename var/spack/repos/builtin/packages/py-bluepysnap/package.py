@@ -42,7 +42,7 @@ class PyBluepysnap(PythonPackage):
     depends_on('py-h5py@3.0.1:', type='run', when='@0.8.0:')
 
     depends_on('py-neurom@1.3:1.5.99', type='run', when='@:0.7.9')
-    depends_on('py-neurom@1.6:', type='run', when='@0.8.0:')
+    depends_on('py-neurom@1.6:1.99.99', type='run', when='@0.8.0:')
 
     # python2 only so only < 0.8.0
     depends_on('py-pathlib2@2.3:', type='run', when='@:0.7.9')
