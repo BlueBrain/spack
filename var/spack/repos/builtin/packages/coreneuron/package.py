@@ -91,7 +91,6 @@ class Coreneuron(CMakePackage):
     # enabled OpenMP, OpenACC and Reporting. Disable ReportingLib for GPU", but
     # with the contemporary develop version it seems to work. Encode this
     # knowledge as a conflict between +report and +gpu for older versions.
-    conflicts('+report', when='coreneuron@:1.0a+gpu+openmp')
     conflicts('+report', when='coreneuron@:1.0b+gpu+openmp')
 
     # raise conflict when trying to install '+gpu' without PGI compiler
