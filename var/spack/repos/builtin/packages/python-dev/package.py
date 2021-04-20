@@ -19,6 +19,7 @@ class PythonDev(BundlePackage):
     depends_on('py-black', type=('build', 'run'))
     depends_on('py-click', type=('build', 'run'))
     depends_on('py-clustershell', type=('build', 'run'))
+    depends_on('py-cmake-format', type=('build', 'run'))
     depends_on('py-cython', type=('build', 'run'))
     depends_on('py-h5py', type=('build', 'run'))
     depends_on('py-jedi', type=('build', 'run'))
