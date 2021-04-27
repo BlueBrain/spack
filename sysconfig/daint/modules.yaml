@@ -33,6 +33,7 @@ modules:
     naming_scheme: '${PACKAGE}/${VERSION}'
     hash_length: 0
     whitelist:
+      - 'emsim'
       - 'neurodamus'
       - 'neurodamus-neocortex'
       - 'neurodamus-hippocampus'

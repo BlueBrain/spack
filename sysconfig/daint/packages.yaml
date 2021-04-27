@@ -49,7 +49,7 @@ packages:
     - spec: openssl@system
       prefix: /usr
   cmake:
-    buildable: false
+    buildable: true
     version: [3.15.3]
     externals:
     - spec: cmake@3.14.5
@@ -94,7 +94,7 @@ packages:
     version: [1.15.1]
     buildable: false
     externals:
-    - spec: py-numpy@1.15.1
+    - spec: py-numpy@1.18.2
       prefix: /opt/python/3.8.2.1
   py-scipy:
     version: [1.1.0]
