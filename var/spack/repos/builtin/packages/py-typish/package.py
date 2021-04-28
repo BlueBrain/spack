@@ -19,4 +19,3 @@ class PyTypish(PythonPackage):
     version('1.9.2', sha256='d0cd35aade6f974b2509771ac92aa1a5b4d9efe9c2c34127734539fd28e7145c')
 
     depends_on('py-setuptools', type='build')
-

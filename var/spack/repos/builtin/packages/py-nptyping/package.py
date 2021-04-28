@@ -13,8 +13,6 @@ class PyNptyping(PythonPackage):
 
     version('1.0.1', sha256='a00e672bfdaddc99aa6b25dd1ae89d7d58d2b76e8ad099bd69577bac2598589f')
 
-
     depends_on('py-setuptools', type='build')
     depends_on('py-typish@1.5.2:', type=('build', 'run'))
     depends_on('py-numpy', type=('build', 'run'))
-
