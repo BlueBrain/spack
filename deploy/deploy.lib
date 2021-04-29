@@ -460,13 +460,8 @@ populate_mirror() {
     shift
     spec_list="$*"
 
-    if [[ "${what}" = "compilers" ]]; then
-        log "populating mirror with proprietary compilers"
-        for compiler in intel intel-parallel-studio pgi nvhpc; do
-            mkdir -p ${SPACK_PROPRIETARY_MIRROR_DIR}/${compiler}
-            cp ${DEPLOYMENT_DATA}/${compiler}/* ${SPACK_PROPRIETARY_MIRROR_DIR}/${compiler}/
-        done
-    fi
+    log "populating mirror with proprietary softwares"
+    rsync -av "${DEPLOYMENT_DATA}/" "${SPACK_PROPRIETARY_MIRROR_DIR}"
 
     if [[ "${SOURCECACHE:-x}" != "true" ]]; then
         return
