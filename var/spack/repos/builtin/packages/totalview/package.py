@@ -27,11 +27,14 @@ class Totalview(Package):
     license_files = ['licenses/license.dat']
     license_vars = ['TV_LICENSE_FILE']
 
+    # TODO : replace this with os.getcwd() when Matthias fix mirror handling
+    mirror_dir = "/gpfs/bbp.cscs.ch/apps/hpc/download/totalview"
+
     # As the install of Totalview is via multiple tarballs, the base install
     # will be the documentation.  The architecture-specific tarballs are added
     # as resources dependent on the specific architecture used.
-    version('2020.3.11',
-            sha256='f43a8795930a5be2eee1152c8040a0706521e0780fe38bb51eb69b8ce5cfb07e')
+    version('2021.1.16',
+            sha256='4c51c7b6ab6b6afa7635ba2e9fc3b0ef833806f775a0ad0da26b13d6320625dd')
     version('2019.2.18',
             sha256='09e5c554032af945f8cf147dd548421267e50e906cc9686fb5cd0e8e63fcf650')
 
@@ -43,10 +46,10 @@ class Totalview(Package):
     # resource once the target architecture is known.
     resource(
         name='x86_64',
-        url='file://{0}/totalview_2020.3.11_linux_x86-64.tar'.format(os.getcwd()),
+        url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/totalview/totalview_2021.1.16_linux_x86-64.tar',
         destination='.',
-        sha256='9910076cf424b9524de56fc1e5557376b65a9a0398410c1223cde2bc411b82cd',
-        when='@2020.3.11 target=x86_64:')
+        sha256='129e991d3ce4df9f9f04adbf79b62d3c2706d7732ec305f3d3c97a6b4d1f5a13',
+        when='@2021.1.16 target=x86_64:')
     resource(
         name='x86_64',
         url='totalview_{0}_linux_x86-64.tar'.format(version),
@@ -67,7 +70,7 @@ class Totalview(Package):
         when='@2019.2.18 target=ppc64le:')
 
     def url_for_version(self, version):
-        return "file://{0}/totalview.{1}-doc.tar".format(os.getcwd(), version)
+        return "file://{0}/totalview.{1}-doc.tar".format(self.mirror_dir, version)
 
     def setup_run_environment(self, env):
         env.prepend_path('PATH',
