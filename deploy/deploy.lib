@@ -467,16 +467,21 @@ populate_mirror() {
         return
     fi
 
-    log "populating mirror for ${what}"
+    # TODO this should either
+    # * be updated to pull the specs for the current environment
+    # * removed as we now have an official Spack mirror *and* the source
+    #   cache
+    #
+    # log "populating mirror for ${what}"
 
-    if [[ -z "${spec_list}" ]]; then
-        log "...found no new packages"
-        return 0
-    fi
+    # if [[ -z "${spec_list}" ]]; then
+    #     log "...found no new packages"
+    #     return 0
+    # fi
 
-    log "found the following specs"
-    echo "${spec_list}"
-    spack -d mirror create -D -d ${SPACK_SOURCE_MIRROR_DIR} ${spec_list}
+    # log "found the following specs"
+    # echo "${spec_list}"
+    # spack -d mirror create -D -d ${SPACK_SOURCE_MIRROR_DIR} ${spec_list}
 }
 
 copy_configuration() {
@@ -708,6 +713,7 @@ EOF
     spack reindex
 
     setup_mirror "${what}"
+    populate_mirror "${what}"
 
     log "starting deployment"
     install_start=$(date "+%Y-%m-%d %H:%M:%S")
