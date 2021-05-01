@@ -461,6 +461,7 @@ populate_mirror() {
     spec_list="$*"
 
     log "populating mirror with proprietary softwares"
+    mkdir -p "${SPACK_PROPRIETARY_MIRROR_DIR}"
     rsync -av "${DEPLOYMENT_DATA}/" "${SPACK_PROPRIETARY_MIRROR_DIR}"
 
     if [[ "${SOURCECACHE:-x}" != "true" ]]; then
