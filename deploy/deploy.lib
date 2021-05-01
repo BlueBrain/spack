@@ -379,14 +379,12 @@ configure_compilers() {
 setup_mirror() {
     what="$1"
     log "adding mirrors"
-    if [[ "${what}" = "compilers" ]]; then
-        if [[ -z "${SPACK_PROPRIETARY_MIRROR_DIR:+x}" ]]; then
-            log "...need to have \$SPACK_PROPRIETARY_MIRROR_DIR set!"
-            return 1
-        fi
-        log "...source mirror: ${SPACK_PROPRIETARY_MIRROR_DIR}"
-        spack mirror add --scope=user my_proprietary_mirror file://${SPACK_PROPRIETARY_MIRROR_DIR} || log "proprietary mirror already added!"
+    if [[ -z "${SPACK_PROPRIETARY_MIRROR_DIR:+x}" ]]; then
+        log "...need to have \$SPACK_PROPRIETARY_MIRROR_DIR set!"
+        return 1
     fi
+    log "...proprietary mirror: ${SPACK_PROPRIETARY_MIRROR_DIR}"
+    spack mirror add --scope=user my_proprietary_mirror file://${SPACK_PROPRIETARY_MIRROR_DIR} || log "proprietary mirror already added!"
 
     if [[ "${SOURCECACHE:-x}" = "true" ]]; then
         if [[ -z "${SPACK_SOURCE_MIRROR_DIR:+x}" ]]; then
