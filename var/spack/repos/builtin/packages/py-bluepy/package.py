@@ -24,7 +24,6 @@ class PyBluepy(PythonPackage):
     depends_on('py-pandas@1.0.0:', type='run', when='@2.0.0:')
     depends_on('py-bluepy-configfile@0.1.11:', type='run')
     depends_on('py-numpy@1.8:', type='run')
-    depends_on('py-morphio@3.0.0:', type='run')
 
     # the version of bluepy <2 needed multiple dependencies compatible
     # with h5py < 3.0.0 and bluepy > 2 needs h5py > 3.0.0. Hence the
@@ -42,6 +41,7 @@ class PyBluepy(PythonPackage):
 
     # morph-tool
     depends_on('py-morph-tool@2.4.0:', type='run', when='@2.3.0:')
+    depends_on('py-morphio@3.0.0:', type='run', when='@2.3.0:')
 
     # voxcell
     depends_on('py-voxcell@3.0.0:', type='run', when='@2.0.0:')
