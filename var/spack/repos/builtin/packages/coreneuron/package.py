@@ -68,7 +68,7 @@ class Coreneuron(CMakePackage):
     depends_on('tau', when='+profile')
 
     # nmodl specific dependency
-    depends_on('nmodl@0.3:', when='@1.0.0:+nmodl')
+    depends_on('nmodl@0.3.0:', when='@1.0.0:+nmodl')
     depends_on('nmodl@0.3b', when='@0.17:1.0b+nmodl')
     depends_on('nmodl@0.3a', when='@0:0.16+nmodl')
     depends_on('eigen@3.3.4:', when='+nmodl')
