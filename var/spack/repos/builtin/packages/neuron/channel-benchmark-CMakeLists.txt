@@ -1,0 +1,28 @@
+include(NeuronTestHelper)
+set(prefix "benchmark/channels") # everything is under this prefix in the repository
+nrn_add_test_group(
+  NAME external_channel_benchmark
+  SUBMODULE tests/channel-benchmark
+  OUTPUT asciispikes::out.dat
+  MODFILE_PATTERNS benchmark/channels/lib/modlib/*.mod
+  SCRIPT_PATTERNS "${prefix}/lib/hoclib/*.hoc" "${prefix}/*.txt" "${prefix}/*.asc")
+
+nrn_add_test(
+  GROUP external_channel_benchmark
+  NAME neuron
+  COMMAND "HOC_LIBRARY_PATH=${prefix}/lib/hoclib" special -c "strdef arg_datapath" -c
+          "arg_datapath = \"${prefix}\"" "${prefix}/lib/hoclib/init.hoc")
+
+# CoreNEURON's reports require MPI and segfault if it is not initialised. This is a crude
+# workaround.
+if(CORENRN_ENABLE_REPORTING)
+  set(special_mpi_arg -mpi)
+endif()
+nrn_add_test(
+  GROUP external_channel_benchmark
+  NAME coreneuron
+  REQUIRES coreneuron
+  COMMAND "HOC_LIBRARY_PATH=${prefix}/lib/hoclib" special ${special_mpi_arg} -c arg_coreneuron=1 -c
+          "strdef arg_datapath" -c "arg_datapath = \"${prefix}\"" "${prefix}/lib/hoclib/init.hoc")
+
+nrn_add_test_group_comparison(GROUP external_channel_benchmark)
