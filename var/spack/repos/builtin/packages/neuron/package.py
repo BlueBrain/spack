@@ -4,9 +4,13 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 import os
+import shutil
 import subprocess
 import sys
+import llnl.util.tty as tty
 from spack import *
+from spack.stage import Stage
+from spack.fetch_strategy import GitFetchStrategy
 from contextlib import contextmanager
 
 
@@ -62,6 +66,12 @@ class Neuron(CMakePackage):
     )
 
     variant("cmake",      default=True, description="Build NEURON using cmake")
+    variant(
+        "channel-benchmark",
+        default="disabled",
+        values=lambda x: True,
+        description="Commit from hpc/channel-benchmark repository to add.",
+    )
     variant("binary",     default=True, description="Create special as a binary instead of shell script")
     variant("coreneuron", default=False, description="Enable CoreNEURON support")
     variant("mod-compatibility",  default=True, description="Enable CoreNEURON compatibility for MOD files")
@@ -370,6 +380,60 @@ class Neuron(CMakePackage):
         if self.spec.satisfies("+coreneuron"):
             filter_file(r"GLOBAL minf", r"RANGE minf", "src/nrnoc/hh.mod")
             filter_file(r"TABLE minf", r":TABLE minf", "src/nrnoc/hh.mod")
+
+    @when("+cmake")
+    def patch(self):
+        # If channel-benchmark != disabled then add the hpc/channel-benchmark
+        # test repository and inject some extra CMake configuration to actually
+        # use it. This is an interim solution; the channel-benchmark repository
+        # should be made open source soon, at which point it can be a submodule
+        # of the NEURON repository and the CMake configuration can be committed
+        # there. There will still be an outstanding question of how to build
+        # NEURON against a **different** commit of the submodule from the one
+        # saved in the NEURON repository, which is important if you want to
+        # test a feature branch in channel-benchmark.
+        channel_benchmark_ref = self.spec.variants["channel-benchmark"].value
+        if channel_benchmark_ref == "disabled":
+            return
+        if not self.spec.satisfies("+tests"):
+            tty.warn(
+                "channel-benchmark!=disabled has no effect without +tests"
+            )
+        # Using commit= should always work, but it's sub-optimal if the
+        # variant value is actually a tag or branch name.
+        fetcher = GitFetchStrategy(
+            git="git@bbpgitlab.epfl.ch:hpc/channel-benchmark.git",
+            commit=channel_benchmark_ref,
+        )
+        # Use Spack's git wrapper to clone the repository, then rename it
+        # to sit in the right place. It seems awkward to clone it directly
+        # to the right place because Spack appends spack-src/
+        with Stage(
+            fetcher,
+            path=join_path(self.stage.source_path, "tmp-channel-benchmark"),
+        ) as stage:
+            fetcher.fetch()
+            os.rename(
+                stage.source_path,
+                join_path(
+                    self.stage.source_path, "external/tests/channel-benchmark"
+                ),
+            )
+        # Add a new CMakeLists.txt in a new subdirectory, append a call to
+        # add_subdirectory so that it gets picked up.
+        channel_benchmark_dir = join_path(
+            self.stage.source_path, "test", "external", "channel-benchmark"
+        )
+        mkdirp(channel_benchmark_dir)
+        shutil.copy(
+            join_path(self.package_dir, "channel-benchmark-CMakeLists.txt"),
+            join_path(channel_benchmark_dir, "CMakeLists.txt"),
+        )
+        filter_file(
+            r"^(add_subdirectory\(testcorenrn\))$",
+            "\\1\nadd_subdirectory(channel-benchmark)",
+            "test/external/CMakeLists.txt",
+        )
 
     # ==============================================
     # ============== Common functions ==============
