@@ -42,8 +42,11 @@ class PyBluepysnap(PythonPackage):
     depends_on('py-h5py@2.2:2.99', type='run', when='@:0.7.9')
     depends_on('py-h5py@3.0.1:', type='run', when='@0.8.0:')
 
+    # morphologies
     depends_on('py-neurom@1.3:1.5.99', type='run', when='@:0.7.9')
-    depends_on('py-neurom@1.6:1.99.99', type='run', when='@0.8.0:')
+    depends_on('py-neurom@1.6:1.99.99', type='run', when='@0.8.0:0.11.0')
+    depends_on('py-morph-tool@2.4.0:', type='run', when='@0.12.0:')
+    depends_on('py-morphio@3.0.0:', type='run', when='@0.12.0:')
 
     # python2 only so only < 0.8.0
     depends_on('py-pathlib2@2.3:', type='run', when='@:0.7.9')
