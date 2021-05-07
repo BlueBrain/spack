@@ -49,6 +49,7 @@ modules:
       - parquet-converters
       - placement-algorithm
       - psp-validation
+      - py-atlas-building-tools
       - py-basalt
       - py-bbp-analysis-framework
       - py-bbp-workflow

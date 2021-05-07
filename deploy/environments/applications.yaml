@@ -42,6 +42,7 @@ spack:
     - parquet-converters
     - placement-algorithm
     - psp-validation%gcc ^neuron%intel
+    - py-atlas-building-tools
     - py-basalt@0.2.9
     - py-bbp-analysis-framework
     - py-bbp-workflow
