@@ -6,7 +6,7 @@
 from spack import *
 
 
-class PyDiameterSynthesis(PythonPackage):
+class PyBluePyEmodel(PythonPackage):
     """Python library to optimize and evaluate electrical models."""
 
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/cells/BluePyEModel"
