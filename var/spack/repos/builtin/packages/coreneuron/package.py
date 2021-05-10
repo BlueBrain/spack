@@ -38,6 +38,7 @@ class Coreneuron(CMakePackage):
     variant('mpi', default=True, description="Enable MPI support")
     variant('openmp', default=False, description="Enable OpenMP support")
     variant('profile', default=False, description="Enable profiling using Tau")
+    variant('caliper', default=False, description="Enable Calipher instrumentation")
     variant('report', default=True, description="Enable SONATA and binary reports")
     variant('shared', default=True, description="Build shared library")
     variant('tests', default=False, description="Enable building tests")
@@ -63,6 +64,7 @@ class Coreneuron(CMakePackage):
     depends_on('libsonata-report', when='+report')
     depends_on('reportinglib+profile', when='+report+profile')
     depends_on('tau', when='+profile')
+    depends_on('caliper', when='+caliper')
 
     # nmodl specific dependency
     depends_on('nmodl@0.3b:', when='@0.17:+nmodl')
@@ -150,6 +152,9 @@ class Coreneuron(CMakePackage):
              '-DCORENRN_ENABLE_TIMEOUT=OFF',
              '-DPYTHON_EXECUTABLE=%s' % spec["python"].command.path
              ]
+
+        if spec.satisfies('+caliper'):
+            options.append('-DCORENRN_ENABLE_CALIPER_PROFILING=ON')
 
         if "+legacy-unit" in self.spec:
             options.append('-DCORENRN_ENABLE_LEGACY_UNITS=ON')
