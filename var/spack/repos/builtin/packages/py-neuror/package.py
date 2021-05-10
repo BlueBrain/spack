@@ -12,10 +12,10 @@ class PyNeuror(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/NeuroR"
     git = "https://github.com/BlueBrain/NeuroR.git"
-    url = "https://pypi.io/packages/source/n/neuror/NeuroR-1.2.2.tar.gz"
+    url = "https://pypi.io/packages/source/n/neuror/NeuroR-1.2.3.tar.gz"
 
     version('develop', branch='master')
-    version('1.2.2', sha256='cd2b243f0a1403cb07abe5a1530b276ec01057c9e7053dde0c309480ad818afe')
+    version('1.2.3', sha256='eb1c06748bf7706919cd78ab92bbb2420d5ac1dcaf54566c6f5aca403c63c215')
 
     depends_on('py-setuptools', type=('build', 'run'))
 
