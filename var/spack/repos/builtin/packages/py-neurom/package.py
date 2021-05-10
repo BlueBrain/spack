@@ -31,10 +31,6 @@ class PyNeurom(PythonPackage):
     depends_on('py-scipy@1.2.0:', type='run')
     depends_on('py-plotly@3.6.0:', type='run', when='+plotly')
 
-    # >= 2.0
-    depends_on('py-morphio@3.1.1:', type='run', when='@2.0:')
-    depends_on('py-pandas@1.0.5:', type='run', when='@2.0:')
-
     depends_on('py-morphio@3.1.1:', type='run', when='@2.0:')
     depends_on('py-pandas@1.0.5:', type='run', when='@1.6:')
     depends_on('py-h5py@3.1.0:', type='run', when='@1.6:1.999')
