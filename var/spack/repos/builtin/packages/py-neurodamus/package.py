@@ -13,6 +13,7 @@ class PyNeurodamus(PythonPackage):
     git      = "ssh://bbpcode.epfl.ch/sim/neurodamus-py"
 
     version('develop', branch='master')
+    version('2.5.3a',  branch='sandbox/jblanco/population_offsets')
     version('2.5.3',   tag='2.5.3')
     version('2.5.0',   tag='2.5.0')
     version('2.4.0',   tag='2.4.0')

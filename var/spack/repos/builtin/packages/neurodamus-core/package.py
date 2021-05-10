@@ -19,8 +19,8 @@ class NeurodamusCore(SimModel):
     homepage = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
     git      = "ssh://bbpcode.epfl.ch/sim/neurodamus-core"
 
-    version('develop', branch='master', get_full_repo=False)
-    version('3.2.2',  tag='3.2.2', get_full_repo=False)
+    version('develop', branch='sandbox/jblanco/population_offsets', get_full_repo=False)
+    version('3.2.2',  branch='sandbox/jblanco/population_offsets', get_full_repo=False)
     version('3.2.0',  tag='3.2.0', get_full_repo=False)
     version('3.1.0',  tag='3.1.0', get_full_repo=False)
     version('3.0.2',  tag='3.0.2', get_full_repo=False)

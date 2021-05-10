@@ -45,6 +45,7 @@ modules:
       - neurodamus-hippocampus
       - neurodamus-neocortex
       - neurodamus-thalamus
+      - neurodamus-thalamocortex
       - neurodamus-mousify
       - parquet-converters
       - placement-algorithm
