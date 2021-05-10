@@ -26,6 +26,6 @@ class PyTns(PythonPackage):
     depends_on('py-morphio@2.7.1:', type='run')
     depends_on('py-neurom@2:2.999', type='run')
     depends_on('py-numpy@1.15.0:', type='run')
-    depends_on('py-scipy@0.13:', type='run')
+    depends_on('py-scipy@0.13.3:', type='run')
     depends_on('py-tmd@2.0.8:', type='run')
     depends_on('py-jsonschema@3.0.1:', type='run')
