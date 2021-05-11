@@ -51,6 +51,7 @@ spack:
     - py-bluepymm%gcc ^neuron%intel
     - py-bluepyopt%gcc ^neuron%intel
     - py-bluepyemodel
+    - py-bluepyparallel
     - py-bluepysnap
     - py-currentscape
     - py-efel
