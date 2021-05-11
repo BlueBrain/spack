@@ -20,6 +20,7 @@ class Coreneuron(CMakePackage):
 
     version('develop', branch='master')
     # 1.0.0 > 1.0b > 1.0 as far as Spack is concerned
+    version('1.0.1', commit='251ee12', preferred=True)
     version('1.0.0', tag='1.0', preferred=True)
     version('1.0b', tag="1.0b", submodules=True)
     version('1.0a', commit="857551a", submodules=True)
