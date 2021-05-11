@@ -64,7 +64,8 @@ class Coreneuron(CMakePackage):
     depends_on('libsonata-report', when='+report')
     depends_on('reportinglib+profile', when='+report+profile')
     depends_on('tau', when='+profile')
-    depends_on('caliper', when='+caliper')
+    depends_on('caliper+mpi', when='+caliper+mpi')
+    depends_on('caliper~mpi', when='+caliper~mpi')
 
     # nmodl specific dependency
     depends_on('nmodl@0.3b:', when='@0.17:+nmodl')
