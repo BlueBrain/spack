@@ -57,6 +57,7 @@ modules:
       - py-bluepyefe
       - py-bluepymm
       - py-bluepyopt
+      - py-bluepyemodel
       - py-bluepysnap
       - py-currentscape
       - py-efel
