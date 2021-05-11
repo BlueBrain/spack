@@ -12,6 +12,7 @@ class PyBluePyEModel(PythonPackage):
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/cells/BluePyEModel"
     git      = "ssh://bbpcode.epfl.ch/cells/BluePyEModel"
 
+
     version('0.0.3', tag='bluepyemodel-v0.0.3')
 
     depends_on('py-setuptools', type='build')
@@ -24,5 +25,5 @@ class PyBluePyEModel(PythonPackage):
     depends_on('py-pandas@0.24:', type='run')
     depends_on('py-efel@3.0.80:', type='run')
     depends_on('py-morph-tool@2.4.4:', type='run')
-    depends_on('bluepyopt @ git+http://github.com/BlueBrain/BluePyOpt@CMA_clean#egg=bluepyopt', type='run')
-    depends_on('bluepyefe @ git+http://github.com/BlueBrain/BluePyEfe@BPE2#egg=bluepyefe', type='run')
+    depends_on('bluepyopt@CMA_clean', type='run')
+    depends_on('bluepyefe@BPE2', type='run')
