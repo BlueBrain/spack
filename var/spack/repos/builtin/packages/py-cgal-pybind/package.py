@@ -13,17 +13,16 @@ class PyCgalPybind(PythonPackage):
 
     version("develop", submodules=True)
     version(
-        "0.0.2",
-        commit="7aa1382d1628ccd51f692750a2b145b1df0694d9",
-        submodules=True,
-        git="ssh://bbpcode.epfl.ch/common/cgal-pybind",
-    )
-
-    version(
         "0.1.0",
         tag="cgal_pybind-v0.1.0",
         submodules=True,
         git="git@bbpgitlab.epfl.ch:nse/cgal-pybind.git",  # migration to gitlab
+    )
+    version(
+        "0.0.2",
+        commit="7aa1382d1628ccd51f692750a2b145b1df0694d9",
+        submodules=True,
+        git="ssh://bbpcode.epfl.ch/common/cgal-pybind",
     )
 
     depends_on("py-setuptools", type="build")
