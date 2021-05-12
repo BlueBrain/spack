@@ -13,8 +13,7 @@ class PyCgalPybind(PythonPackage):
     git = "git@bbpgitlab.epfl.ch:nse/cgal-pybind.git"
 
     version("develop", submodules=True)
-    version("0.1.0", commit="e705d703b18e9bc1207b9ac2c0eb32af9ef66306", submodules=True)
-    version("0.0.2", commit="7aa1382d1628ccd51f692750a2b145b1df0694d9", submodules=True)
+    version("0.1.0", tag="cgal_pybind-v0.1.0", submodules=True)
 
     depends_on("py-setuptools", type="build")
     depends_on("boost@1.50:")
