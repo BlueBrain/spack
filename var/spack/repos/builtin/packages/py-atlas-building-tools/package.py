@@ -7,7 +7,7 @@ from spack import *
 
 
 class PyAtlasBuildingTools(PythonPackage):
-    """Python tools to build brain region atlases."""
+    """BBP Python tools to build brain region atlases."""
     homepage = "https://bbpcode.epfl.ch/browse/code/nse/atlas-building-tools/tree/"
     git      = "ssh://bbpcode.epfl.ch/nse/atlas-building-tools"
 
