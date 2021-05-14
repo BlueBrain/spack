@@ -15,7 +15,7 @@ class PyAtlasBuildingTools(PythonPackage):
 
     depends_on('py-setuptools', type=('build', 'run'))
 
-    depends_on('py-cgal-pybind', type=('build', 'run'))
+    depends_on('py-cgal-pybind@0.1.0:', type=('build', 'run'))
     depends_on('py-click@7.0:', type=('build', 'run'))
     depends_on('py-networkx@2.4:', type=('build', 'run'))
     depends_on('py-nptyping@1.0.1:', type=('build', 'run'))
