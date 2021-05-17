@@ -24,7 +24,7 @@ class PyBluepyemodel(PythonPackage):
     depends_on('py-pandas@0.24:', type='run')
     depends_on('py-efel@3.0.80:', type='run')
     depends_on('py-morph-tool@2.4.4:', type='run')
-    depends_on('py-bluepyopt@CMA_clean', type='run')
+    depends_on('py-bluepyopt', type='run')
     depends_on('py-bluepyefe@BPE2', type='run')
     depends_on('py-ipyparallel@6.3:', type='run')
     depends_on('py-tqdm@4.28.1:', type='run')
