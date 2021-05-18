@@ -12,8 +12,7 @@ class PyBluepyparallel(PythonPackage):
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/cells/BluePyParallel"
     git      = "ssh://bbpcode.epfl.ch/cells/BluePyParallel"
 
-
-    version('0.0.5', tag='bluepyparallel-v0.0.5')
+    version('0.0.5', tag='BluePyParallel-v0.0.5')
 
     depends_on('py-setuptools', type='build')
 
