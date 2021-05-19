@@ -19,29 +19,17 @@ class Coreneuron(CMakePackage):
     git      = "https://github.com/BlueBrain/CoreNeuron"
 
     version('develop', branch='master')
-    version('1.0.2a', commit='c938e4f', submodules=True, preferred=True)
-    version('1.0.1', commit='251ee12', submodules=True)
-    version('1.0.0', tag='1.0', submodules=True)
-    version('1.0b', tag="1.0b", submodules=True)
-    version('1.0a', commit="857551a", submodules=True)
-    version('0.23b', commit="be131ec", submodules=True)
+    # 1.0.1 > 1.0.0.20210519 > 1.0 as far as Spack is concerned
+    version('1.0.0.20210519', commit='c938e4f')
+    version('1.0', tag='1.0')
     version('0.22', tag='0.22', submodules=True)
-    version('0.21a', commit="bf3c823", submodules=True)
-    version('0.20', tag='0.20', submodules=True)
-    version('0.19', tag='0.19', submodules=True)
-    version('0.18', tag='0.18', submodules=True)
-    version('0.17', tag='0.17', submodules=True)
-    version('0.16', tag='0.16', submodules=True)
-    version('0.15', tag='0.15', submodules=True)
-    version('0.14', tag='0.14', submodules=True)
-    patch('0001-Fixes-for-NMODL-MOD2C-binary.patch', when='@0.17+nmodl')
 
     variant('gpu', default=False, description="Enable GPU build")
     variant('knl', default=False, description="Enable KNL specific flags")
     variant('mpi', default=True, description="Enable MPI support")
     variant('openmp', default=False, description="Enable OpenMP support")
     variant('profile', default=False, description="Enable profiling using Tau")
-    variant('caliper', default=True, description="Enable Calipher instrumentation")
+    variant('caliper', default=False, description="Enable Caliper instrumentation")
     variant('report', default=True, description="Enable SONATA and binary reports")
     variant('shared', default=True, description="Build shared library")
     variant('tests', default=False, description="Enable building tests")
@@ -65,12 +53,12 @@ class Coreneuron(CMakePackage):
     depends_on('flex@2.6:', type='build', when='+nmodl')
     depends_on('mpi', when='+mpi')
     depends_on('reportinglib', when='+report')
-    depends_on('libsonata-report@1.0:', when='@1.0.1:+report')
-    depends_on('libsonata-report@:0.1', when='@:1.0.0+report')
+    depends_on('libsonata-report@1.0:', when='@1.0.0.20210519:+report')
+    depends_on('libsonata-report@:0.1', when='@:1.0.0.20210518+report')
     depends_on('reportinglib+profile', when='+report+profile')
     depends_on('tau', when='+profile')
-    depends_on('caliper+mpi', when='@1.0.2a:+caliper+mpi')
-    depends_on('caliper~mpi', when='@1.0.2a:+caliper~mpi')
+    depends_on('caliper+mpi', when='@1.0.0.20210519:+caliper+mpi')
+    depends_on('caliper~mpi', when='@1.0.0.20210519:+caliper~mpi')
 
     # nmodl specific dependency
     depends_on('nmodl@0.3.0:', when='@1.0.0:+nmodl')
@@ -96,8 +84,9 @@ class Coreneuron(CMakePackage):
     conflicts('+codegenopt', when='~nmodl')
     conflicts('+ispc', when='~nmodl')
 
-    # Caliper instrumentation is only supported after 1.0.1
-    conflicts('+caliper', when='@:1.0.1')
+    # Caliper instrumentation is only supported after 1.0.0.20210519
+    # Note: The 20210518 date is needed to specify a version before 20210519!
+    conflicts('+caliper', when='@:1.0.0.20210518')
 
     # An old comment said "PGI compiler not able to compile nrnreport.cpp when
     # enabled OpenMP, OpenACC and Reporting. Disable ReportingLib for GPU", but
