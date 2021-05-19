@@ -61,9 +61,8 @@ class Coreneuron(CMakePackage):
     depends_on('caliper~mpi', when='@1.0.0.20210519:+caliper~mpi')
 
     # nmodl specific dependency
-    depends_on('nmodl@0.3.0:', when='@1.0.0:+nmodl')
-    depends_on('nmodl@0.3b', when='@0.17:1.0b+nmodl')
-    depends_on('nmodl@0.3a', when='@0:0.16+nmodl')
+    depends_on('nmodl@0.3.0:', when='@1.0:+nmodl')
+    depends_on('nmodl@0.3b', when='@:0.22+nmodl')
     depends_on('eigen@3.3.4:', when='+nmodl')
     depends_on('ispc', when='+ispc')
 
@@ -80,7 +79,6 @@ class Coreneuron(CMakePackage):
     # sympy, codegen and ispc options are only usable with nmodl
     conflicts('+sympyopt', when='~sympy')
     conflicts('+sympy', when='~nmodl')
-    conflicts('+sympy', when='coreneuron@0.17')  # issue with include directories
     conflicts('+codegenopt', when='~nmodl')
     conflicts('+ispc', when='~nmodl')
 
@@ -92,7 +90,7 @@ class Coreneuron(CMakePackage):
     # enabled OpenMP, OpenACC and Reporting. Disable ReportingLib for GPU", but
     # with the contemporary develop version it seems to work. Encode this
     # knowledge as a conflict between +report and +gpu for older versions.
-    conflicts('+report', when='coreneuron@:1.0b+gpu+openmp')
+    conflicts('+report', when='coreneuron@:0.22+gpu+openmp')
 
     # raise conflict when trying to install '+gpu' without PGI compiler
     gpu_compiler_message = "For gpu build use %pgi or %nvhpc"
@@ -133,16 +131,12 @@ class Coreneuron(CMakePackage):
             env['CC']  = 'tau_cc'
             env['CXX'] = 'tau_cxx'
 
-        if '@0.17:0.18' in spec:
-            enable_reporting = '-DCORENRN_ENABLE_REPORTINGLIB=%s'
-        else:
-            enable_reporting = '-DCORENRN_ENABLE_REPORTING=%s'
-
         options =\
             ['-DCORENRN_ENABLE_SPLAYTREE_QUEUING=ON',
              '-DCMAKE_C_FLAGS=%s' % flags,
              '-DCMAKE_CXX_FLAGS=%s' % flags,
-             enable_reporting % ('ON' if '+report' in spec else 'OFF'),
+             '-DCORENRN_ENABLE_REPORTING=%s'
+             % ('ON' if '+report' in spec else 'OFF'),
              '-DCORENRN_ENABLE_MPI=%s' % ('ON' if '+mpi' in spec else 'OFF'),
              '-DCORENRN_ENABLE_OPENMP=%s'
              % ('ON' if '+openmp' in spec else 'OFF'),
@@ -194,83 +188,6 @@ class Coreneuron(CMakePackage):
             options.extend(['-DCUDA_HOST_COMPILER=%s' % gcc,
                             '-DCUDA_PROPAGATE_HOST_FLAGS=OFF',
                             '-DCORENRN_ENABLE_GPU=ON'])
-
-        return options
-
-    @when('@0:0.16')
-    def get_cmake_args(self):
-        spec   = self.spec
-        flags = self.get_flags()
-
-        options =\
-            ['-DENABLE_SPLAYTREE_QUEUING=ON',
-             '-DCMAKE_BUILD_TYPE=CUSTOM',
-             '-DENABLE_REPORTINGLIB=%s'
-                % ('ON' if '+report' in spec else 'OFF'),
-             '-DENABLE_MPI=%s' % ('ON' if '+mpi' in spec else 'OFF'),
-             '-DCORENEURON_OPENMP=%s' % ('ON' if '+openmp' in spec else 'OFF'),
-             '-DUNIT_TESTS=%s' % ('ON' if '+tests' in spec else 'OFF'),
-             '-DFUNCTIONAL_TESTS=%s' % ('ON' if '+tests' in spec else 'OFF'),
-             '-DENABLE_HEADER_INSTALL=ON',  # for corenrn-special
-             '-DDISABLE_NRN_TIMEOUT=ON'
-             ]
-
-        if spec.satisfies('+profile'):
-            env['CC']  = 'tau_cc'
-            env['CXX'] = 'tau_cxx'
-
-        if spec.satisfies('+nmodl'):
-            options.append('-DENABLE_NMODL=ON')
-            options.append('-DNMODL_ROOT=%s' % spec['nmodl'].prefix)
-            flags += ' -I%s -I%s' % (spec['nmodl'].prefix.include,
-                                     spec['eigen'].prefix.include.eigen3)
-
-        nmodl_options = 'codegen --force passes --verbatim-rename --inline'
-
-        if spec.satisfies('+codegenopt'):
-            nmodl_options += ' --opt-ionvar-copy=TRUE'
-
-        if spec.satisfies('+ispc'):
-            options.append('-DENABLE_ISPC_TARGET=ON')
-            if '+knl' in spec:
-                options.append('-DCMAKE_ISPC_FLAGS=-O2 -g --pic '
-                               '--target=avx512knl-i32x16')
-            else:
-                options.append('-DCMAKE_ISPC_FLAGS=-O2 -g --pic '
-                               '--target=host')
-
-        if spec.satisfies('+sympy'):
-            nmodl_options += ' sympy --analytic'
-
-        if spec.satisfies('+sympyopt'):
-            nmodl_options += ' --conductance --pade --cse'
-
-        options.append('-DNMODL_EXTRA_FLAGS=%s' % nmodl_options)
-
-        options.extend(['-DCMAKE_C_FLAGS=%s' % flags,
-                        '-DCMAKE_CXX_FLAGS=%s' % flags])
-
-        if spec.satisfies('~shared') or spec.satisfies('+gpu')\
-           or 'cray' in spec.architecture:
-            options.append('-DCOMPILE_LIBRARY_TYPE=STATIC')
-
-        if spec.satisfies('+gpu'):
-            gcc = which("gcc")
-            options.extend(['-DCUDA_HOST_COMPILER=%s' % gcc,
-                            '-DCUDA_PROPAGATE_HOST_FLAGS=OFF',
-                            '-DENABLE_SELECTIVE_GPU_PROFILING=ON',
-                            '-DENABLE_OPENACC=ON',
-                            '-DENABLE_OPENACC_INFO=ON'])
-            # PGI compiler not able to compile nrnreport.cpp when enabled
-            # OpenMP, OpenACC and Reporting. Disable ReportingLib for GPU
-            options.append('-DENABLE_REPORTINGLIB=OFF')
-
-        # Suppport for previous neurodamus package
-        if '^neurodamus-base' in spec:
-            modlib_dir = self.spec['neurodamus-base'].prefix.lib.modlib
-            modfile_list = '%s/coreneuron_modlist.txt' % modlib_dir
-            options.append('-DADDITIONAL_MECHS=%s' % modfile_list)
-            options.append('-DADDITIONAL_MECHPATH=%s' % modlib_dir)
 
         return options
 
