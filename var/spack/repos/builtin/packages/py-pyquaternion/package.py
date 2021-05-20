@@ -8,7 +8,7 @@ from spack import *
 
 
 class PyPyquaternion(PythonPackage):
-    """A full-featured Python module for representing and using quaternions."""
+    """Python morphology manipulation toolkit"""
 
     homepage = "https://kieranwynn.github.io/pyquaternion/"
     url      = "https://pypi.org/packages/source/p/pyquaternion/pyquaternion-0.9.5.tar.gz"

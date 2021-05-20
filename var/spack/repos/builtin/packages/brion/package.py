@@ -19,8 +19,7 @@ class Brion(CMakePackage):
     version('3.1.0', tag='3.1.0', submodules=True)
     version('3.2.0', tag='3.2.0', submodules=True)
     version('3.3.0', tag='3.3.0', submodules=True)
-    version('3.3.1', tag='3.3.1', submodules=True)
-    version('3.3.2', tag='3.3.2', submodules=True)
+    version('3.3.1', tag='3.3.1', submodules=True, preferred=True)
 
     variant('python', default=False, description='Build Python wrapping')
     variant('doc', default=False, description='Build documentation')
@@ -65,16 +64,13 @@ class Brion(CMakePackage):
                 '-DBRION_REQUIRE_PYTHON=%s' % ("ON" if "+python" in self.spec
                                                else "OFF")]
 
+    @when('+python')
     def setup_run_environment(self, env):
-        if self.spec.satisfies('+python'):
-            site_dir = self._get_site_dir()
-            for target in (self.prefix.lib, self.prefix.lib64):
-                pathname = os.path.join(target, *site_dir)
-                if os.path.isdir(pathname):
-                    env.prepend_path('PYTHONPATH', pathname)
-
-    def setup_dependent_run_environment(self, env, dependent_spec):
-        self.setup_run_environment(env)
+        site_dir = self._get_site_dir()
+        for target in (self.prefix.lib, self.prefix.lib64):
+            pathname = os.path.join(target, *site_dir)
+            if os.path.isdir(pathname):
+                env.prepend_path('PYTHONPATH', pathname)
 
     def build(self, spec, prefix):
         with working_dir(self.build_directory):
