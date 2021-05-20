@@ -602,12 +602,12 @@ class Stage(object):
         """
         Ensures the top-level (config:build_stage) directory exists.
         """
-        # User has full permissions and group has only read permissions
+        # Emulate file permissions for tempfile.mkdtemp.
         if not os.path.exists(self.path):
-            mkdirp(self.path, mode=stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP)
+            mkdirp(self.path, mode=stat.S_IRWXU)
         elif not os.path.isdir(self.path):
             os.remove(self.path)
-            mkdirp(self.path, mode=stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP)
+            mkdirp(self.path, mode=stat.S_IRWXU)
 
         # Make sure we can actually do something with the stage we made.
         ensure_access(self.path)
