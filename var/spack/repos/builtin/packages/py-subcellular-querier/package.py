@@ -12,7 +12,7 @@ class PySubcellularQuerier(PythonPackage):
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/nse/subcellular-querier"
     git = "ssh://bbpcode.epfl.ch/nse/subcellular-querier"
 
-    version('0.0.3', tag='brainbuilder-v0.0.3')
+    version('0.0.3', tag='subcellular-querier-v0.0.3')
 
     depends_on('py-setuptools', type=('build', 'run'))
 
