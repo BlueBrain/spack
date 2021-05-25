@@ -7,7 +7,7 @@ from spack import *
 
 
 class PySubcellularQuerier(PythonPackage):
-    """Query and transform data for the subcellular phase in circuit building."""
+    """Query and transform data for subcellular phase in circuit building."""
 
     homepage = "https://bbpcode.epfl.ch/code/#/admin/projects/nse/subcellular-querier"
     git = "ssh://bbpcode.epfl.ch/nse/subcellular-querier"
