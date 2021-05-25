@@ -16,6 +16,7 @@ class Brainbuilder(PythonPackage):
     version('0.16.1', tag='brainbuilder-v0.16.1')
 
     variant('reindex', default=True, description='Install requirements for reindex')
+    variant('subcellular', default=True, description='Install requirements for subcellular')
 
     depends_on('py-setuptools', type=('build', 'run'))
 
@@ -30,5 +31,9 @@ class Brainbuilder(PythonPackage):
     depends_on('py-libsonata@0.1.6:', type='run')
     depends_on('py-voxcell@3.0.0:', type='run')
 
-    # reindex
     depends_on('py-morphio@3.0.0:3.999', type='run', when='+reindex')
+
+    depends_on('py-attrs@:19.999', type='run', when='+subcellular')
+    depends_on('py-entity-management@0.1.11:0.999', type='run', when='+subcellular')
+    depends_on('py-subcellular-querier@0.0.3:', type='run', when='+subcellular')
+    depends_on('py-tables@3.4:', type='run', when='+subcellular')
