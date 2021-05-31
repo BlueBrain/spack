@@ -28,7 +28,7 @@ class PyRegionGrower(PythonPackage):
     depends_on('py-morphio@2.7:', type='run')
     depends_on('py-neuroc@0.2.6:', type='run')
     depends_on('py-neurom@2:2.999', type='run')
-    depends_on('py-morph-tool@2.5:', type='run')
+    depends_on('py-morph-tool@2.5.0:', type='run')
     depends_on('py-attrs@19.3.0:', type='run')
     depends_on('py-dask+dataframe+distributed@2.15.0:', type='run')
     depends_on('py-dask-mpi@2.21.0:', type='run')
