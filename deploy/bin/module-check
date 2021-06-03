@@ -10,6 +10,7 @@ MODULE=$4
 export MODULEPATH=""
 . ${CONFIG}
 
+module purge
 module load "${RELEASE}" "${MODULE}" 2> /dev/null
 source ${VENV}/bin/activate
 PIP_CHECK=$(python -mpip check || true)

@@ -12,17 +12,14 @@ STAGES="libraries applications"
 VENV=$(mktemp -d)/venv
 MAKEFILE=$(mktemp)
 
+trap "echo 'Removing temporary files'; rm -rf ${VENV} ${MAKEFILE}" EXIT
 echo "Using release: ${RELEASE}"
 
+module purge
 module load ${RELEASE} python
 
-if [[ ! -d ${VENV} ]]; then
-    python3 -mvenv ${VENV}
-    source ${VENV}/bin/activate
-else
-    source ${VENV}/bin/activate
-fi
-
+python3 -mvenv ${VENV}
+source ${VENV}/bin/activate
 pip install -U pip setuptools wheel
 
 mods=""
