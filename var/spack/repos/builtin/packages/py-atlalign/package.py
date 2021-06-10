@@ -28,4 +28,3 @@ class PyAtlalign(PythonPackage):
     depends_on('py-scipy', type=('run'))
     depends_on('py-tensorflow@2.4.0:', type=('run'))
     depends_on('py-tensorflow-addons', type=('run'))
-

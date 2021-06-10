@@ -15,7 +15,7 @@ class PyMlflow(PythonPackage):
     version('1.17.0', sha256='4898c58899e3101e09e2b37cf5bee7db04c5d73389a56942d3ef5a5e4396799e')
 
     depends_on('python@3.6:', type=('build', 'run'))
-    
+
     depends_on('py-click@7.0:', type=('run'))
     depends_on('py-cloudpickle', type=('run'))
     depends_on('py-databricks-cli@0.8.7:', type=('run'))
@@ -35,4 +35,3 @@ class PyMlflow(PythonPackage):
     depends_on('py-querystring-parser', type=('run'))
     depends_on('py-sqlparse@0.3.1:', type=('run'))
     depends_on('py-sqlalchemy', type=('run'))
-

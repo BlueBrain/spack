@@ -25,4 +25,3 @@ class PyImgaug(PythonPackage):
     depends_on('opencv +python', type=('run'))
     depends_on('py-imageio', type=('run'))
     depends_on('py-shapely', type=('run'))
-

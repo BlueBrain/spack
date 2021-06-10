@@ -18,4 +18,3 @@ class PyChartStudio(PythonPackage):
     depends_on('py-requests', type=('run'))
     depends_on('py-retrying@1.3.3:', type=('run'))
     depends_on('py-six', type=('run'))
-

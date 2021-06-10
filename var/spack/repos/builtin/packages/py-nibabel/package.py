@@ -16,7 +16,6 @@ class PyNibabel(PythonPackage):
 
     depends_on('python@3.6:', type=('build', 'run'))
     depends_on('py-setuptools@30.3.0:', type=('build', 'run'))
-    
+
     depends_on('py-numpy@1.14:', type='run')
     depends_on('py-packaging@14.3:', type='run')
-

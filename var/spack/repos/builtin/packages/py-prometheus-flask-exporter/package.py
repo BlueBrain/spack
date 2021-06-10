@@ -16,4 +16,3 @@ class PyPrometheusFlaskExporter(PythonPackage):
 
     depends_on('py-prometheus-client', type=('run'))
     depends_on('py-flask', type=('run'))
-

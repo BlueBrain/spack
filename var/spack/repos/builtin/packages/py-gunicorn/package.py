@@ -16,4 +16,3 @@ class PyGunicorn(PythonPackage):
 
     depends_on('python@3.5:', type=('build', 'run'))
     depends_on('py-setuptools@3.0:', type='build')
-

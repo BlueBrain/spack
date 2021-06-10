@@ -15,4 +15,3 @@ class PyTypeguard(PythonPackage):
     version('2.12.1', sha256='c2af8b9bdd7657f4bd27b45336e7930171aead796711bc4cfc99b4731bb9d051')
 
     depends_on('python@3.5.3:', type=('build', 'run'))
-

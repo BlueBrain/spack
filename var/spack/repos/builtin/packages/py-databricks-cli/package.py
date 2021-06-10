@@ -20,4 +20,3 @@ class PyDatabricksCli(PythonPackage):
     depends_on('py-requests@2.17.3:', type=('run'))
     depends_on('py-tabulate@0.7.7:', type=('run'))
     depends_on('py-six@1.10.0:', type=('run'))
-
