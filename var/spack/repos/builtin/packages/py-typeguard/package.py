@@ -9,7 +9,7 @@ from spack import *
 class PyTypeguard(PythonPackage):
     """Run-time type checker for Python."""
 
-    homepage = "https://www.example.com"
+    homepage = "https://pypi.org/project/typeguard/"
     url = "https://files.pythonhosted.org/packages/55/ba/8e6dd2fa02d95712e0e2ca0705f2f988287538f6927bba3ec0ceb719e708/typeguard-2.12.1.tar.gz"
 
     version('2.12.1', sha256='c2af8b9bdd7657f4bd27b45336e7930171aead796711bc4cfc99b4731bb9d051')
