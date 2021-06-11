@@ -9,7 +9,7 @@ from spack import *
 class PyAtlalign(PythonPackage):
     """Blue Brain multi-modal registration and alignment toolbox."""
 
-    homepage = "https://github.com/BlueBrain/atlas_alignment/"
+    homepage = "https://pypi.org/project/atlalign/"
     url = "https://files.pythonhosted.org/packages/74/b8/4382a758e4ccf5de26e35fb2b33863aea27b99e31e1ce9b4bc1e6bb593ef/atlalign-0.6.0.tar.gz"
 
     version('0.6.0', sha256='ecd74c89ecdca0a115252fa662e41b272dff2cdc3ea0d459daa5b7a672070b7c')
