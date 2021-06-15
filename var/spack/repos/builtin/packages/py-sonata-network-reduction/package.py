@@ -30,7 +30,7 @@ class PySonataNetworkReduction(PythonPackage):
     depends_on('py-bluepyopt@1.8.68:1.999', type='run')
     depends_on('py-joblib@0.14:0.99', type='run', when='@:0.1.1')
     depends_on('py-bglibpy@4.3:4.999', type='run')
-    depends_on('py-bluepysnap@0.5.2:0.99', type='run')
+    depends_on('py-bluepysnap@0.5.2:0.11.99', type='run')
     depends_on('neuron+python', type='run')
     depends_on('py-neuron-reduce@0.0.8:0.99', type='run')
     depends_on('py-morphio@2.3.9:2.999', type='run')
