@@ -13,7 +13,7 @@ class PySonataNetworkReduction(PythonPackage):
     git      = "ssh://bbpcode.epfl.ch/nse/sonata-network-reduction"
 
     version('develop', branch='master')
-    version('0.1.5', tag='sonata-network-reduction-v0.1.5')
+    version('0.1.5', tag='sonata-network-reduction-v0.1.6')
     version('0.1.0', tag='sonata-network-reduction-v0.1.0')
 
     depends_on('py-setuptools', type=('build', 'run'))
@@ -24,7 +24,7 @@ class PySonataNetworkReduction(PythonPackage):
     depends_on('py-pandas@0.25:1.99', type='run')
     depends_on('py-tqdm@4.34:4.99', type='run')
     depends_on('py-lxml@4.3.4:4.99', type='run', when='@:0.1.2')
-    depends_on('py-dask@2.0:2.21', type='run', when='@0.1.2:')
+    depends_on('py-dask@2.0:2.30', type='run', when='@0.1.2:')
     depends_on('py-dask-mpi@2.0:2.21', type='run', when='@0.1.2:')
     depends_on('py-distributed@2.0:2.21', type='run', when='@0.1.2:')
     depends_on('py-bluepyopt@1.8.68:1.999', type='run')
