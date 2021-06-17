@@ -16,6 +16,7 @@ class PyTensorflow(Package, CudaPackage):
     maintainers = ['adamjstewart', 'aweits']
     import_modules = ['tensorflow']
 
+    version('2.4.0',  sha256='26c833b7e1873936379e810a39d14700281125257ddda8cd822c89111db6f6ae')
     version('2.3.1',  sha256='ee534dd31a811f7a759453567257d1e643f216d8d55a25c32d2fbfff8153a1ac')
     version('2.3.0',  sha256='2595a5c401521f20a2734c4e5d54120996f8391f00bb62a57267d930bce95350')
     version('2.2.1',  sha256='e6a28e64236d729e598dbeaa02152219e67d0ac94d6ed22438606026a02e0f88')

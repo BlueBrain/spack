@@ -55,6 +55,7 @@ modules:
       - mvapich2
       - nvhpc
       - pgi
+      - py-tensorflow
       - python
       - snakemake
       - stat

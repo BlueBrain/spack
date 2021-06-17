@@ -66,6 +66,7 @@ spack:
     - openblas
     - optix
     - poppler
+    - py-tensorflow@2.4.0
     - python
     - qhull@2015.2
     - qt@5.14.2
