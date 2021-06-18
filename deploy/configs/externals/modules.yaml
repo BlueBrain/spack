@@ -111,3 +111,7 @@ modules:
           MPICC_CC: 'nvc'
           MPICXX_CXX: 'nvc++'
           MPIF90_F90: 'nvfortran'
+    py-tensorflow:
+      environment:
+        prepend_path:
+          PYTHONPATH: '${PREFIX}/lib64/python3.8/site-packages'
