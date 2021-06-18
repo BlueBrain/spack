@@ -13,7 +13,7 @@ class PySonataNetworkReduction(PythonPackage):
     git      = "ssh://bbpcode.epfl.ch/nse/sonata-network-reduction"
 
     version('develop', branch='master')
-    version('0.1.5', tag='sonata-network-reduction-v0.1.6')
+    version('0.1.7', tag='sonata-network-reduction-v0.1.7')
     version('0.1.0', tag='sonata-network-reduction-v0.1.0')
 
     depends_on('py-setuptools', type=('build', 'run'))
@@ -33,10 +33,10 @@ class PySonataNetworkReduction(PythonPackage):
     depends_on('py-bluepysnap@0.5.2:0.11.99', type='run')
     depends_on('neuron+python', type='run')
     depends_on('py-neuron-reduce@0.0.8:0.99', type='run')
-    depends_on('py-morphio@2.3.9:2.999', type='run')
-    depends_on('py-neurom@1.6.0:1.99', type='run', when='@0.1.3:')
+    depends_on('py-morphio@3.0.0:3.999', type='run', when='@0.1.2:')
+    depends_on('py-morphio@2.3.9:2.999', type='run', when='@:0.1.2')
     depends_on('py-neurom@1.4.18:1.5.99', type='run', when='@:0.1.2')
-    depends_on('py-morph-tool@0.2.7:2.4.99', type='run')
+    depends_on('py-morph-tool@0.2.7:2.99', type='run')
     depends_on('py-click@6.7:7.99', type='run')
     depends_on('py-aibs-circuit-converter@0.0.3:0.99', type='run')
     depends_on('py-pyyaml@5.3:5.99', type='run')
