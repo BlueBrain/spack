@@ -72,12 +72,6 @@ packages:
       prefix: /usr
   petsc:
     variants: ~fortran
-  py-tensorflow:
-    buildable: false
-    version: [2.4.0]
-    externals:
-    - spec: py-tensorflow cuda_arch=70 ^cuda@11.0.2
-      prefix: /gpfs/bbp.cscs.ch/apps/hpc/external/spack-packages/tensorflow/17-06-2021/tensorflow240_venv_py37_cuda11
   python:
     variants: +tk
     version: [3.8.3]
