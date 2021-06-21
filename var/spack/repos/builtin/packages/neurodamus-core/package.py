@@ -22,7 +22,6 @@ class NeurodamusCore(SimModel):
     version('develop', branch='master', get_full_repo=False)
     version('3.3.2', branch='sandbox/jblanco/section_target', get_full_repo=False)
     version('3.3.1',  tag='3.3.1', get_full_repo=False)
-    version('3.3.1',  tag='3.3.1', get_full_repo=False)
     version('3.3.0',  tag='3.3.0', get_full_repo=False)
     version('3.2.2',  tag='3.2.2', get_full_repo=False)
     version('3.2.0',  tag='3.2.0', get_full_repo=False)
