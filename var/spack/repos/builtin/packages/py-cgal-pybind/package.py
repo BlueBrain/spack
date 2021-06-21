@@ -25,6 +25,5 @@ class PyCgalPybind(PythonPackage):
     depends_on("py-numpy@1.12:", type=("build", "run"))
     depends_on('py-pytest', type='test')
 
-
     def test_install(self):
         python("-m", "pytest", "tests")
