@@ -3,26 +3,48 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+import platform
 
-class PyTensorflow(Package, CudaPackage):
+
+class PyTensorflow(Package):
     """TensorFlow is an Open Source Software Library for Machine Intelligence
-    """
+    This is a wheel based recipe as opposed to source-based installation in
+    the upstream spack."""
 
     homepage = "https://www.tensorflow.org"
-    url      = "https://files.pythonhosted.org/packages/9e/ad/c72996e4db140b17f352b9b334dc53304bd62983002d0b01f97ad3733fe2/tensorflow-2.4.2-cp38-cp38-manylinux2010_x86_64.whl"
+    url      = "https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-2.5.0-cp38-cp38-manylinux2010_x86_64.whl"
 
-    maintainers = ['adamjstewart', 'aweits']
+    maintainers = ['pramodk', 'matz-e']
     import_modules = ['tensorflow']
 
-    version('2.4.2',  sha256='a768ae4260f62df5e07f9e207b0267fa234cd3c3841c8454e207a9311c9600fc', expand=False)
+    # For now only support python 38 wheels on linux with gpu. Mac os urls
+    # are broken on the docuementation page. Below dict is setup so that this
+    # can be easily extended.
+    tensorflow_sha = {
+        ('2.5.0', 'gpu-2.5.0-cp38-cp38-manylinux2010_x86_64'): '43932117e5374e109a45b66231a007b62ffa170b7bd7776711e2d471beca01b7',
+        ('2.4.2', 'gpu-2.4.2-cp38-cp38-manylinux2010_x86_64'): 'a33acffb4816c5456eb0cbc1654e3f270d17245322aa3d7bfdd22a610c862e0a',
+    }
+
+    def wheel_url(version_id):
+        return (
+            'https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_{0}.whl' # noqa: E501
+        ).format(version_id)
+
+    # add all version
+    for key in tensorflow_sha.keys():
+        version(key[0], url=wheel_url(key[1]), sha256=tensorflow_sha[key], expand=False)
 
     extends('python')
+
+    depends_on('cudnn@8:')
+    depends_on('cuda@11:')
     depends_on('python@3:', type=('build', 'run'), when='@2.1:')
     depends_on('py-pip', type='build')
+    depends_on('py-numpy@1.16.0:',  type=('build', 'run'))
+    depends_on('py-h5py@2.10.0')
 
-    depends_on('py-numpy@1.16.0:',  type=('build', 'run'), when='@1.15:')
-    depends_on('cudnn')
-    depends_on('cuda')
+    # no versions for Mac OS added
+    conflicts('platform=darwin', msg='macOS is not supported')
 
     def install(self, spec, prefix):
         pip = which('pip')
@@ -34,3 +56,8 @@ class PyTensorflow(Package, CudaPackage):
         with working_dir('spack-test', create=True):
             for module in self.import_modules:
                 python('-c', 'import {0}'.format(module))
+
+    def setup_run_environment(self, env):
+        env.prepend_path('LD_LIBRARY_PATH', self.spec['cuda'].prefix.lib64)
+        env.prepend_path('LD_LIBRARY_PATH', self.spec['cuda'].prefix.extras.CUPTI.lib64) # noqa: E501
+        env.prepend_path('LD_LIBRARY_PATH', self.spec['cudnn'].prefix.lib64)
