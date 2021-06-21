@@ -3,7 +3,6 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-import platform
 
 
 class PyTensorflow(Package):
@@ -27,7 +26,7 @@ class PyTensorflow(Package):
 
     def wheel_url(version_id):
         return (
-            'https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_{0}.whl' # noqa: E501
+            'https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_{0}.whl'  # noqa: E501
         ).format(version_id)
 
     # add all version
@@ -38,10 +37,16 @@ class PyTensorflow(Package):
 
     depends_on('cudnn@8:')
     depends_on('cuda@11:')
-    depends_on('python@3:', type=('build', 'run'), when='@2.1:')
+    depends_on('python@3:', type=('build', 'run'))
+    depends_on('py-numpy', type=('build', 'run'))
     depends_on('py-pip', type='build')
-    depends_on('py-numpy@1.16.0:',  type=('build', 'run'))
-    depends_on('py-h5py@2.10.0')
+
+    # compatible versions of py-h5py and py-six needs to be added
+    # otherwise setup.py tries to uninstall them
+    depends_on('py-h5py@2.10:2.99', when='@:2.4.99')
+    depends_on('py-h5py@3:', when='@2.5:')
+    depends_on('py-six@:1.15.0', when='@:2.4.99', type=('build', 'run'))
+    depends_on('py-six@1.16:', when='@2.5:', type=('build', 'run'))
 
     # no versions for Mac OS added
     conflicts('platform=darwin', msg='macOS is not supported')
@@ -59,5 +64,5 @@ class PyTensorflow(Package):
 
     def setup_run_environment(self, env):
         env.prepend_path('LD_LIBRARY_PATH', self.spec['cuda'].prefix.lib64)
-        env.prepend_path('LD_LIBRARY_PATH', self.spec['cuda'].prefix.extras.CUPTI.lib64) # noqa: E501
+        env.prepend_path('LD_LIBRARY_PATH', self.spec['cuda'].prefix.extras.CUPTI.lib64)  # noqa: E501
         env.prepend_path('LD_LIBRARY_PATH', self.spec['cudnn'].prefix.lib64)
