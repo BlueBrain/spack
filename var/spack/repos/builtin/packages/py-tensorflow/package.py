@@ -4,7 +4,6 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 
-
 class PyTensorflow(Package):
     """TensorFlow is an Open Source Software Library for Machine Intelligence
     This is a wheel based recipe as opposed to source-based installation in
@@ -43,8 +42,8 @@ class PyTensorflow(Package):
 
     # compatible versions of py-h5py and py-six needs to be added
     # otherwise setup.py tries to uninstall them
-    depends_on('py-h5py@2.10:2.99', when='@:2.4.99')
-    depends_on('py-h5py@3:', when='@2.5:')
+    depends_on('py-h5py@2.10:2.99', when='@:2.4.99', type=('build', 'run'))
+    depends_on('py-h5py@3:', when='@2.5:', type=('build', 'run'))
     depends_on('py-six@:1.15.0', when='@:2.4.99', type=('build', 'run'))
     depends_on('py-six@1.16:', when='@2.5:', type=('build', 'run'))
 
