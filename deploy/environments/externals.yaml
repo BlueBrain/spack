@@ -67,6 +67,7 @@ spack:
     - optix
     - poppler
     - python
+    - py-tensorflow@2.4.2
     - qhull@2015.2
     - qt@5.14.2
     - readline
