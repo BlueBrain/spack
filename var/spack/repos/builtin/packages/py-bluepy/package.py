@@ -40,7 +40,7 @@ class PyBluepy(PythonPackage):
     depends_on('py-pylru@1.2:', type='run', when='@:2.2.9')
 
     # morph-tool
-    depends_on('py-morph-tool@2.4.3:2.999', type='run', when='@2.3.0:')
+    depends_on('py-morph-tool@2.5.1:2.999', type='run', when='@2.3.0:')
 
     # morphio
     depends_on('py-morphio@3.0.1:3.999', type='run', when='@2.3.0:')
@@ -50,7 +50,9 @@ class PyBluepy(PythonPackage):
     depends_on('py-voxcell@2.7.4:2.99', type='run', when='@0.14.16:0.16.0')
 
     # bluepysnap
-    depends_on('py-bluepysnap@0.12.0:', type='run', when='@2.0.0:')
+    depends_on('py-bluepysnap@0.12.0:0.999', type='run', when='@2.3.0:')
+    depends_on('py-bluepysnap@0.10.0:0.999', type='run', when='@2.2.0:')
+    depends_on('py-bluepysnap@0.8.0:0.999', type='run', when='@2.0.0:')
     depends_on('py-bluepysnap@0.4.1:0.7.1', type='run', when='@:1.0.0')
 
     # lazy / cached properties (change of backend for caching)
