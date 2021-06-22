@@ -19,7 +19,6 @@ class PyTensorflow(Package):
     # are broken on the docuementation page. Below dict is setup so that this
     # can be easily extended.
     tensorflow_sha = {
-        ('2.5.0', 'gpu-2.5.0-cp38-cp38-manylinux2010_x86_64'): '43932117e5374e109a45b66231a007b62ffa170b7bd7776711e2d471beca01b7',
         ('2.4.2', 'gpu-2.4.2-cp38-cp38-manylinux2010_x86_64'): 'a33acffb4816c5456eb0cbc1654e3f270d17245322aa3d7bfdd22a610c862e0a',
     }
 
