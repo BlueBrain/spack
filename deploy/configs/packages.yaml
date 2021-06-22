@@ -72,6 +72,8 @@ packages:
       prefix: /usr
   petsc:
     variants: ~fortran
+  py-tensorflow:
+    version: [2.4.2]
   python:
     variants: +tk
     version: [3.8.3]
