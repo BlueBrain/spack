@@ -15,6 +15,7 @@ class PyMlflow(PythonPackage):
     version('1.17.0', sha256='4898c58899e3101e09e2b37cf5bee7db04c5d73389a56942d3ef5a5e4396799e')
 
     depends_on('python@3.6:', type=('build', 'run'))
+    depends_on('py-setuptools', type='build')
 
     depends_on('py-click@7.0:', type=('run'))
     depends_on('py-cloudpickle', type=('run'))

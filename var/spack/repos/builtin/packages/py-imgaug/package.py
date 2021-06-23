@@ -15,6 +15,7 @@ class PyImgaug(PythonPackage):
     version('0.2.9', sha256='42b0c4c8cbe197d4f5dbd33960a1140f8a0d9c22c0a8851306ecbbc032092de8')
 
     depends_on('python@3.6:', type=('build', 'run'))
+    depends_on('py-setuptools', type='build')
 
     depends_on('py-six', type=('run'))
     depends_on('py-numpy@1.15:', type=('run'))

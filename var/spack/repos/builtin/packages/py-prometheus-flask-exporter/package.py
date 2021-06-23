@@ -14,5 +14,6 @@ class PyPrometheusFlaskExporter(PythonPackage):
 
     version('0.18.2', sha256='fc487e385d95cb5efd045d6a315c4ecf68c42661e7bfde0526af75ed3c4f8c1b')
 
+    depends_on('py-setuptools', type='build')
     depends_on('py-prometheus-client', type=('run'))
     depends_on('py-flask', type=('run'))

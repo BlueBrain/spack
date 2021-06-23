@@ -14,6 +14,8 @@ class PyChartStudio(PythonPackage):
 
     version('1.1.0', sha256='a17283b62470306d77060b200f13f9749c807dd15613c113d36f8d057f5c7019')
 
+    depends_on('py-setuptools', type='build')
+
     depends_on('py-plotly', type=('run'))
     depends_on('py-requests', type=('run'))
     depends_on('py-retrying@1.3.3:', type=('run'))

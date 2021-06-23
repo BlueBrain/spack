@@ -15,6 +15,7 @@ class PyDatabricksCli(PythonPackage):
     version('0.14.3', sha256='bdf89a3917a3f8f8b99163e38d40e66dc478c7408954747f145cd09816b05e2c')
 
     depends_on('python@3.6:', type=('build', 'run'))
+    depends_on('py-setuptools', type='build')
 
     depends_on('py-click@6.7:', type=('run'))
     depends_on('py-requests@2.17.3:', type=('run'))

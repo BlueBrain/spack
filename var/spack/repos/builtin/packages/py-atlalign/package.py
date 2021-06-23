@@ -15,6 +15,7 @@ class PyAtlalign(PythonPackage):
     version('0.6.0', sha256='ecd74c89ecdca0a115252fa662e41b272dff2cdc3ea0d459daa5b7a672070b7c')
 
     depends_on('python@3.6:', type=('build', 'run'))
+    depends_on('py-setuptools', type='build')
 
     depends_on('py-antspyx@0.2.7', type=('run'))
     depends_on('py-imgaug@:0.2', type=('run'))
