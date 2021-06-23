@@ -5,8 +5,8 @@
 
 
 class PySvgpath(PythonPackage):
-    """svg.path is a collection of objects that implement the different path commands
-    in SVG, and a parser for SVG path definitions.
+    """svg.path is a collection of objects that implement the different path
+    commands in SVG, and a parser for SVG path definitions.
     """
 
     homepage = "https://github.com/regebro/svg.path"
