@@ -16,6 +16,9 @@ class PyAntspyx(PythonPackage):
 
     depends_on('python@3.6:', type=('build', 'run'))
 
+    depends_on('cmake', type='build')
+    depends_on('itk')
+
     depends_on('py-pandas', type=('run'))
     depends_on('py-numpy', type=('run'))
     depends_on('py-scipy', type=('run'))
