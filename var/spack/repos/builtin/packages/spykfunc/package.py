@@ -16,6 +16,7 @@ class Spykfunc(PythonPackage):
     git      = "ssh://bbpcode.epfl.ch/building/Spykfunc"
 
     version('develop', submodules=True, get_full_repo=True)
+    version('0.16.0.20210624', commit='ff56d9', submodules=True, get_full_repo=True)
     version('0.16.0', tag='v0.16.0', submodules=True, get_full_repo=True)
     version('0.15.9', tag='v0.15.9', submodules=True, get_full_repo=True)
     version('0.15.7', tag='v0.15.7', submodules=True, get_full_repo=True)
@@ -32,7 +33,7 @@ class Spykfunc(PythonPackage):
     depends_on('boost', type=('build', 'link'), when='@0.15.4:')
     depends_on('morpho-kit', type=('build', 'link'), when='@0.15.4:')
 
-    depends_on('py-mvdtool~mpi', type=('build', 'run'), when='@0.14.4:0.16.0')
+    depends_on('py-mvdtool~mpi', type=('build', 'run'), when='@0.14.4:0.16.0.0')
 
     depends_on('python@3.6:')
     depends_on('py-cython', type='run', when='@:0.15.3')
@@ -46,7 +47,7 @@ class Spykfunc(PythonPackage):
     depends_on('py-funcsigs', type=('build', 'run'))
     # h5py needed for morphologies before, and to supplement libSONATA due
     # to missing API functionality
-    depends_on('py-h5py', type=('build', 'run'), when='@:0.15.1,0.17:')
+    depends_on('py-h5py', type=('build', 'run'))
     depends_on('py-hdfs', type=('build', 'run'))
     depends_on('py-jprops', type=('build', 'run'))
     depends_on('py-lazy-property', type=('build', 'run'))
@@ -65,7 +66,7 @@ class Spykfunc(PythonPackage):
 
     patch('setup-spark3.patch', when='@:0.15.6 ^spark@3:')
     patch('properties-spark3.patch', when='@:0.15.6 ^spark@3:')
-    patch('bogus-h5py.patch', when='@0.15.2:0.15.9')
+    patch('bogus-h5py.patch', when='@0.15.2:0.16.1')
 
     def patch(self):
         if self.spec.satisfies('@:0.16.0'):
