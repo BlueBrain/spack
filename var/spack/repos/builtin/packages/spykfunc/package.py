@@ -66,7 +66,7 @@ class Spykfunc(PythonPackage):
 
     patch('setup-spark3.patch', when='@:0.15.6 ^spark@3:')
     patch('properties-spark3.patch', when='@:0.15.6 ^spark@3:')
-    patch('bogus-h5py.patch', when='@0.15.2:0.16.1')
+    patch('bogus-h5py.patch', when='@0.15.2:0.16.0.0')
 
     def patch(self):
         if self.spec.satisfies('@:0.16.0'):
