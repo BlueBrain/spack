@@ -43,7 +43,7 @@ class PyTensorflow(Package):
     # otherwise setup.py tries to uninstall them
     depends_on('py-h5py@2.10:2.99', when='@:2.4.99', type=('build', 'run'))
     depends_on('py-h5py@3:', when='@2.5:', type=('build', 'run'))
-    depends_on('py-six@:1.15.0', when='@:2.4.99', type=('build', 'run'))
+    depends_on('py-six@1.15.0', when='@:2.4.99', type=('build', 'run'))
     depends_on('py-six@1.16:', when='@2.5:', type=('build', 'run'))
 
     # no versions for Mac OS added
