@@ -43,7 +43,7 @@ spack:
     - placement-algorithm
     - py-region-grower
     - psp-validation%gcc ^neuron%intel
-    - py-atlalign
+    - py-atlalign ^py-six@0.15.0
     - py-atlas-building-tools
     - py-basalt@0.2.9
     - py-bbp-analysis-framework
