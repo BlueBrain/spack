@@ -31,3 +31,5 @@ class PyAntspyx(PythonPackage):
     depends_on('py-chart-studio', type=('run'))
     depends_on('py-pillow', type=('run'))
     depends_on('py-nibabel', type=('run'))
+
+    patch('setup-purge-sklearn.diff', when='@0.2.7')
