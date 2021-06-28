@@ -56,7 +56,6 @@ modules:
       - nvhpc
       - pgi
       - python
-      - py-tensorflow
       - snakemake
       - stat
       - totalview
