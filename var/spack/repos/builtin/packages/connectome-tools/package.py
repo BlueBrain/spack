@@ -29,4 +29,3 @@ class ConnectomeTools(PythonPackage):
     depends_on('py-bluepy@2.3.0:2.999', type='run')
     depends_on('py-morphio@3.0.1:3.999', type='run')
     depends_on('py-voxcell@3.0:3.999', type='run')
-
