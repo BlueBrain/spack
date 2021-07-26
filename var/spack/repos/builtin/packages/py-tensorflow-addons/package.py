@@ -8,13 +8,13 @@ from spack import *
 
 class PyTensorflowAddons(PythonPackage):
     """
-    TensorFlow Addons is a repository of contributions that conform to well- established 
-    API patterns, but implement new functionality not available in core TensorFlow. 
-    TensorFlow natively supports a large number of operators, layers, metrics, losses, 
-    and optimizers. However, in a fast moving field like ML, there are many interesting 
-    new developments that cannot be integrated into core TensorFlow (because their 
-    broad applicability is not yet clear, or it is mostly used by a smaller subset of 
-    the community).
+    TensorFlow Addons is a repository of contributions that conform to
+    well-established API patterns, but implement new functionality not available in
+    core TensorFlow. TensorFlow natively supports a large number of operators,
+    layers, metrics, losses, and optimizers. However, in a fast moving field like
+    ML, there are many interesting new developments that cannot be integrated into
+    core TensorFlow (because their broad applicability is not yet clear, or it is
+    mostly used by a smaller subset of the community).
     """
 
     homepage = "https://pypi.org/project/tensorflow-addons/"
@@ -24,7 +24,7 @@ class PyTensorflowAddons(PythonPackage):
 
     maintainers = ['pramodk', 'matz-e']
     import_modules = ['tensorflow_addons']
-    
+
     extends('python')
     depends_on('python@3:', type=('build', 'run'))
     depends_on('py-pip', type='build')
@@ -34,11 +34,14 @@ class PyTensorflowAddons(PythonPackage):
     depends_on('py-typeguard@2.7:', type=('run'))
     # no versions for Mac OS added
     conflicts('platform=darwin', msg='macOS is not supported')
+
     def install(self, spec, prefix):
         pip = which('pip')
         pip('install', self.stage.archive_file, '--prefix={0}'.format(prefix))
+    
     @run_after('install')
     @on_package_attributes(run_tests=True)
+    
     def import_module_test(self):
         with working_dir('spack-test', create=True):
             for module in self.import_modules:
