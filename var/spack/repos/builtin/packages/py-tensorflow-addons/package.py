@@ -9,12 +9,13 @@ from spack import *
 class PyTensorflowAddons(PythonPackage):
     """
     TensorFlow Addons is a repository of contributions that conform to
-    well-established API patterns, but implement new functionality not available in
-    core TensorFlow. TensorFlow natively supports a large number of operators,
-    layers, metrics, losses, and optimizers. However, in a fast moving field like
-    ML, there are many interesting new developments that cannot be integrated into
-    core TensorFlow (because their broad applicability is not yet clear, or it is
-    mostly used by a smaller subset of the community).
+    well-established API patterns, but implement new functionality not
+    available in core TensorFlow. TensorFlow natively supports a large number
+    of operators, layers, metrics, losses, and optimizers. However, in a fast
+    moving field like ML, there are many interesting new developments that
+    cannot be integrated into core TensorFlow (because their broad
+    applicability is not yet clear, or it is mostly used by a smaller subset
+    of the community).
     """
 
     homepage = "https://pypi.org/project/tensorflow-addons/"
@@ -38,10 +39,9 @@ class PyTensorflowAddons(PythonPackage):
     def install(self, spec, prefix):
         pip = which('pip')
         pip('install', self.stage.archive_file, '--prefix={0}'.format(prefix))
-    
+
     @run_after('install')
     @on_package_attributes(run_tests=True)
-    
     def import_module_test(self):
         with working_dir('spack-test', create=True):
             for module in self.import_modules:
