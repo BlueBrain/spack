@@ -1,6 +1,5 @@
 stages:
   - setup
-  - update
   - compilers
   - externals
   - applications
@@ -27,29 +26,24 @@ default:
       when: always
     - when: never
 
-f_up:
-  extends: .spack_job
-  stage: .pre
-  script:
-    - touch spack
-
 clone_spack:
   extends: .spack_job
   stage: setup
   rules:
     - exists:
-      - spack
+      - "$DEPLOYMENT_ROOT/spack"
+      when: always
+    - when: never
   script:
-    - echo SPACK
+    - touch "$DEPLOYMENT_ROOT/spack"
 
 update_spack:
   extends: .spack_job
-  stage: update
+  stage: setup
+  rules:
+    - exists:
+      - "$DEPLOYMENT_ROOT/spack"
+      when: never
+    - when: always
   script:
-    - env|grep DEPLOYMENT_
-
-f_down:
-  extends: .spack_job
-  stage: .post
-  script:
-    - rm spack
+    - rm "$DEPLOYMENT_ROOT/spack"
