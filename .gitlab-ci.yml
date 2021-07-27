@@ -35,7 +35,7 @@ clone_spack:
       when: never
     - when: always
   script:
-    - touch "$DEPLOYMENT_ROOT/spack"
+    - mkdir -p "$DEPLOYMENT_ROOT/spack"
 
 update_spack:
   extends: .spack_job
@@ -46,4 +46,4 @@ update_spack:
       when: always
     - when: never
   script:
-    - rm "$DEPLOYMENT_ROOT/spack"
+    - rmdir "$DEPLOYMENT_ROOT/spack"
