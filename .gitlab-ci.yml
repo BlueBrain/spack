@@ -1,26 +1,42 @@
 stages:
   - setup
+  - update
   - compilers
   - externals
   - applications
   - checks
 
+default:
+  tags: [bb5_map]  # Will use a special deployment user
+  variables:
+    GIT_STRATEGY: none  # We'll do this ourselves
+
 .spack_job:
   variables:
-    DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins"
-    DEPLOYMENT_UPSTREAM: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins"
+    DEPLOYMENT_BRANCH: "transition-g2g"
+    DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/g2g"
+    DEPLOYMENT_UPSTREAM: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/g2g"
   rules:
-    - if: '$CI_EXTERNAL_PULL_REQUEST_IID'
-      variables:
-        DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/$CI_EXTERNAL_PULL_REQUEST_IID"
-      when: always
     - if: '$CI_COMMIT_REF_NAME == "transition-g2g"'  # $CI_DEFAULT_BRANCH
       when: always
+    - if: '$CI_EXTERNAL_PULL_REQUEST_IID'
+      variables:
+        DEPLOYMENT_BRANCH: "$CI_EXTERNAL_PULL_REQUEST_SOURCE_BRANCH_NAME"
+        DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/g2g/pulls/$CI_EXTERNAL_PULL_REQUEST_IID"
+      when: always
     - when: never
-  tags: [bb5_map]
 
-prepare_spack:
+clone_spack:
   extends: .spack_job
   stage: setup
+  rules:
+    - exists:
+      - spack
+  script:
+    - echo SPACK
+
+update_spack:
+  extends: .spack_job
+  stage: update
   script:
     - env|grep DEPLOYMENT_
