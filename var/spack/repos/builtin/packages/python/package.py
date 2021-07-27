@@ -941,9 +941,11 @@ class Python(AutotoolsPackage):
                 # Python libraries may be installed in lib or lib64
                 # See issues #18520 and #17126
                 for lib in ['lib', 'lib64']:
-                    python_paths.append(join_path(
+                    pth = join_path(
                         d.prefix, lib, 'python' + str(self.version.up_to(2)),
-                        'site-packages'))
+                        'site-packages')
+                    if os.path.exists(pth):
+                        python_paths.append(pth)
 
         pythonpath = ':'.join(python_paths)
         env.set('PYTHONPATH', pythonpath)
@@ -953,9 +955,11 @@ class Python(AutotoolsPackage):
         # dependent_spec and prepend it to PYTHONPATH
         if dependent_spec.package.extends(self.spec):
             for lib in ['lib', 'lib64']:
-                env.prepend_path('PYTHONPATH', join_path(
-                    dependent_spec.prefix, lib,
-                    'python' + str(self.version.up_to(2)), 'site-packages'))
+                pth = join_path(dependent_spec.prefix, lib,
+                                'python' + str(self.version.up_to(2)),
+                                'site-packages')
+                if os.path.exists(pth):
+                    env.prepend_path('PYTHONPATH', pth)
 
         # For run time environment set path for all dependent_spec
         # recursively and prepend it to PYTHONPATH
