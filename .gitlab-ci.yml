@@ -32,8 +32,8 @@ clone_spack:
   rules:
     - exists:
       - "$DEPLOYMENT_ROOT/spack"
-      when: always
-    - when: never
+      when: never
+    - when: always
   script:
     - touch "$DEPLOYMENT_ROOT/spack"
 
@@ -43,7 +43,7 @@ update_spack:
   rules:
     - exists:
       - "$DEPLOYMENT_ROOT/spack"
-      when: never
-    - when: always
+      when: always
+    - when: never
   script:
     - rm "$DEPLOYMENT_ROOT/spack"
