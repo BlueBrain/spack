@@ -24,3 +24,4 @@ prepare_spack:
   stage: setup
   script:
     - env|grep DEPLOYMENT_
+    - env
