@@ -10,9 +10,9 @@ stages:
     DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins"
     DEPLOYMENT_UPSTREAM: "$DEPLOYMENT_ROOT"
   rules:
-    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME'
+    - if: '$CI_EXTERNAL_PULL_REQUEST_IID'
       variables:
-        DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/$CI_MERGE_REQUEST_IID"
+        DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/pulls/$CI_EXTERNAL_PULL_REQUEST_IID"
       when: always
     - if: '$CI_COMMIT_REF_NAME == "transition-g2g"'  # $CI_DEFAULT_BRANCH
       when: always
