@@ -8,11 +8,10 @@ stages:
 
 default:
   tags: [bb5_map]  # Will use a special deployment user
-  variables:
-    GIT_STRATEGY: none  # We'll do this ourselves
 
 .spack_job:
   variables:
+    GIT_STRATEGY: none  # We'll do this ourselves
     DEPLOYMENT_BRANCH: "transition-g2g"
     DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/g2g"
     DEPLOYMENT_UPSTREAM: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/g2g"
