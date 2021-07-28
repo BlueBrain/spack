@@ -14,15 +14,15 @@ default:
     # We will do this ourselves, will be on GPFS
     GIT_STRATEGY: none
     DEPLOYMENT_BRANCH: "transition-g2g"
-    DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/g2g"
-    DEPLOYMENT_UPSTREAM: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/g2g"
+    DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/bsd"
+    DEPLOYMENT_UPSTREAM: "/gpfs/bbp.cscs.ch/ssd/apps/bsd"
   rules:
     - if: '$CI_COMMIT_REF_NAME == "transition-g2g"'  # $CI_DEFAULT_BRANCH
       when: always
     - if: '$CI_EXTERNAL_PULL_REQUEST_IID'
       variables:
         DEPLOYMENT_BRANCH: "$CI_EXTERNAL_PULL_REQUEST_SOURCE_BRANCH_NAME"
-        DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/jenkins/g2g/pulls/$CI_EXTERNAL_PULL_REQUEST_IID"
+        DEPLOYMENT_ROOT: "/gpfs/bbp.cscs.ch/ssd/apps/bsd/pulls/$CI_EXTERNAL_PULL_REQUEST_IID"
       when: always
     - when: never
 
