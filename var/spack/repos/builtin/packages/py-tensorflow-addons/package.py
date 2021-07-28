@@ -22,7 +22,7 @@ class PyTensorflowAddons(PythonPackage):
     url = "https://files.pythonhosted.org/packages/bf/57/1f478ae21b8cfefc1a55c764f8fbd6e016528b830b279a908002b9f9b9f5/tensorflow_addons-0.13.0-cp38-cp38-manylinux2010_x86_64.whl"
 
     # The version below just serves to trigger a rebuild!
-    version('0.13.0.20210728', sha256='eaa258923bbf48fcd3688177a9e1055f674854437c93ae461b1a166d08e06286', expand=False)
+    version('0.13.0.20210728', url=url, sha256='eaa258923bbf48fcd3688177a9e1055f674854437c93ae461b1a166d08e06286', expand=False)
     version('0.13.0', sha256='eaa258923bbf48fcd3688177a9e1055f674854437c93ae461b1a166d08e06286', expand=False)
 
     maintainers = ['pramodk', 'matz-e']
