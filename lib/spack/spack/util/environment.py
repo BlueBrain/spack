@@ -338,6 +338,7 @@ class EnvironmentModifications(object):
             return path
         values = values.split(os.pathsep)
         path = path.split(os.pathsep)
+
         def good(p):
             # If the path in question is already in the environment *and*
             # is a system path, don't add it to the environment

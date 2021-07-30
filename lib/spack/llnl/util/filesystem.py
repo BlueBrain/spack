@@ -641,6 +641,7 @@ def force_remove(*paths):
         except OSError:
             pass
 
+
 def copy_all(src, dst, copyfunc=shutil.copy):
     """Copy/process all files in a src dir into a destination dir.
     """
@@ -648,6 +649,7 @@ def copy_all(src, dst, copyfunc=shutil.copy):
     for name in os.listdir(src):
         pth = join_path(src, name)
         isdir(pth) or copyfunc(pth, dst)
+
 
 def make_link(src, dst):
     """Create a symlink in a given destination.
@@ -676,6 +678,7 @@ def make_link(src, dst):
     if os.path.islink(dst):
         os.remove(dst)
     os.symlink(src, dst)
+
 
 @contextmanager
 def working_dir(dirname, **kwargs):

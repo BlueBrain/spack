@@ -210,7 +210,8 @@ def elide_list(line_list, max_num=10):
         return line_list
 
 
-def disambiguate_spec(spec, env, local=False, installed=True, first=False, last_installed=False):
+def disambiguate_spec(spec, env, local=False, installed=True, first=False,
+                      last_installed=False):
     """Given a spec, figure out which installed package it refers to.
 
     Arguments:
@@ -223,11 +224,13 @@ def disambiguate_spec(spec, env, local=False, installed=True, first=False, last_
             database query. See ``spack.database.Database._query`` for details.
     """
     hashes = env.all_hashes() if env else None
-    return disambiguate_spec_from_hashes(spec, hashes, local, installed, first, last_installed)
+    return disambiguate_spec_from_hashes(spec, hashes, local, installed, first,
+                                         last_installed)
 
 
 def disambiguate_spec_from_hashes(spec, hashes, local=False,
-                                  installed=True, first=False, last_installed=False):
+                                  installed=True, first=False,
+                                  last_installed=False):
     """Given a spec and a list of hashes, get concrete spec the spec refers to.
 
     Arguments:

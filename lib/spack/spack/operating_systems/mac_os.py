@@ -23,6 +23,7 @@ def macos_sdk_path():
     xcrun = Executable('xcrun')
     return xcrun('--show-sdk-path', output=str, error=str).rstrip()
 
+
 class MacOs(OperatingSystem):
     """This class represents the macOS operating system. This will be
     auto detected using the python platform.mac_ver. The macOS
