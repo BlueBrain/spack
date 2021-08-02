@@ -3,6 +3,9 @@ spack:
   concretization: separately
   modules:
     tcl:
+      environment:
+        set:
+          '${PACKAGE}_ROOT': '${PREFIX}'
       whitelist:
         - arm-forge
         - bison
