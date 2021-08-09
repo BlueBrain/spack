@@ -34,7 +34,7 @@ class PyTensorflowAddons(Package):
     depends_on('py-pip', type='build')
 
     depends_on('py-setuptools', type='build')
-    depends_on('py-tensorflow@2.3:2.5', type=('run'), when='@0.13:')
+    depends_on('py-tensorflow@2.5', type=('run'), when='@0.13:')
     depends_on('py-tensorflow@2.4.0:2.4.2', type=('run'), when='@0.12.1')
     depends_on('py-typeguard@2.7:', type=('run'))
     # no versions for Mac OS added
