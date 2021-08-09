@@ -30,3 +30,5 @@ class PyAtlalign(PythonPackage):
     # Addons need to be in lockstep with TF
     depends_on('py-tensorflow@2.4', type=('run'))
     depends_on('py-tensorflow-addons@0.12', type=('run'))
+
+    patch('lpips.patch', when='@0.6.0')
