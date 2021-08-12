@@ -8,9 +8,10 @@ from spack import *
 
 class PyAtlasBuildingTools(PythonPackage):
     """BBP Python tools to build brain region atlases."""
-    homepage = "https://bbpcode.epfl.ch/browse/code/nse/atlas-building-tools/tree/"
-    git      = "ssh://bbpcode.epfl.ch/nse/atlas-building-tools"
+    homepage = "https://bbpgitlab.epfl.ch/nse/atlas-building-tools"
+    git      = "git@bbpgitlab.epfl.ch:nse/atlas-building-tools.git"
 
+    version('0.1.4', tag='atlas-building-tools-v0.1.4')
     version('0.1.3', tag='atlas-building-tools-v0.1.3')
     version('0.1.2', tag='atlas-building-tools-v0.1.2')
     version('0.1.1', tag='atlas_building_tools-v0.1.1')
