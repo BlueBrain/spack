@@ -17,7 +17,6 @@ class PyAtlasBuildingTools(PythonPackage):
     version('0.1.1', tag='atlas_building_tools-v0.1.1')
 
     depends_on('py-setuptools', type=('build', 'run'))
-
     depends_on('py-cgal-pybind@0.1.1:', type=('build', 'run'), when='@0.1.2:')
     depends_on('py-cgal-pybind@0.1.0:', type=('build', 'run'), when='@0.1.1')
     depends_on('py-click@7.0:', type=('build', 'run'))
