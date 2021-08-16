@@ -55,7 +55,7 @@ class Touchdetector(CMakePackage):
     depends_on('zlib', when='@:4.4')
 
     depends_on('morphio@2.0.8:', when='@4.5:5.1')
-    depends_on('mvdtool@2.1.0:', when='@5.1.1:5.6.0')
+    depends_on('mvdtool@2.1.0:', when='@5.1.1:5.5.999')
     depends_on('mvdtool@1.5.1:2.0.0', when='@4.5:5.1')
 
     patch("no-wall.patch", when='@5:5.4.999')
