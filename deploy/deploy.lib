@@ -248,9 +248,7 @@ update_chain_config() {
     chains="${add}${add:+ }${chains}"
 
     if [[ -n "${chains}" ]]; then
-        if [[ -z "$suffix" ]]; then
-            echo "upstreams:"
-        fi
+        echo "upstreams:"
         log "chaining up ${what}"
         for stage in ${chains}; do
             log "...adding ${stage}"
@@ -684,6 +682,8 @@ EOF
         update_module_path "${what}" "yes"
         DEPLOYMENT_ROOT="${OLD_DEPLOYMENT_ROOT}"
         export DEPLOYMENT_ROOT
+        # Delete any additional "upstream:" lines
+        sed -i -e '2,999{/foo:/d}' "${HOME}/.spack/upstreams.yaml"
     fi
 
     # This directory may fail intel builds, pre-emptively remove it.
