@@ -729,7 +729,6 @@ class BaseContext(tengine.Context):
         index = dict()
 
         def _load_indices(s):
-            nonlocal index
             if len(index):
                 return
             root = mod.make_layout(s).dirname()
