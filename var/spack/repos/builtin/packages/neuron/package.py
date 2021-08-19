@@ -63,6 +63,7 @@ class Neuron(CMakePackage):
 
     variant("cmake",      default=True, description="Build NEURON using cmake")
     variant("binary",     default=True, description="Create special as a binary instead of shell script (until 8.0.0)")
+    conflicts("+binary", when='@8.0.1:')
     variant("coreneuron", default=False, description="Enable CoreNEURON support")
     variant("mod-compatibility",  default=True, description="Enable CoreNEURON compatibility for MOD files")
     variant("cross-compile",  default=False, description="Build for cross-compile environment")
