@@ -18,9 +18,6 @@ class Coreneuron(CMakePackage):
     url      = "https://github.com/BlueBrain/CoreNeuron"
     git      = "https://github.com/BlueBrain/CoreNeuron"
 
-    # Build with `ninja` instead of `make`
-    generator = 'Ninja'
-
     version('develop', branch='master')
     # 1.0.1 > 1.0.0.20210519 > 1.0 as far as Spack is concerned
     version('1.0.0.20210708', commit='d54a3aa')
@@ -47,6 +44,10 @@ class Coreneuron(CMakePackage):
     variant('sympyopt', default=False, description="Use NMODL with SymPy Optimizations")
     variant('ispc', default=False, description="Enable ISPC backend")
     variant("legacy-unit", default=True, description="Enable legacy units")
+
+    # Build with `ninja` instead of `make`
+    generator = 'Ninja'
+    depends_on('ninja', type='build')
 
     depends_on('bison', type='build')
     depends_on('cmake@3:', type='build')

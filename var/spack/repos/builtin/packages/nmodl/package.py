@@ -13,9 +13,6 @@ class Nmodl(CMakePackage):
     url      = "https://github.com/BlueBrain/nmodl.git"
     git      = "https://github.com/BlueBrain/nmodl.git"
 
-    # Build with `ninja` instead of `make`
-    generator = 'Ninja'
-
     version('develop', branch='master', submodules=True)
     # 0.3.0 > 0.3b > 0.3 as far as Spack is concerned
     version('0.3.0', tag='0.3', preferred=True)
@@ -25,6 +22,10 @@ class Nmodl(CMakePackage):
 
     variant("legacy-unit", default=True, description="Enable legacy units")
     variant("python", default=False, description="Enable python bindings")
+
+    # Build with `ninja` instead of `make`
+    generator = 'Ninja'
+    depends_on('ninja', type='build')
 
     depends_on('bison@3.0:3.4.99', when='@:0.3', type='build')
     depends_on('bison@3.0.5:', when='@0.3.1:', type='build')
