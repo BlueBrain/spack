@@ -24,6 +24,9 @@ class Neuron(CMakePackage):
     url = "http://www.neuron.yale.edu/ftp/neuron/versions/v7.5/nrn-7.5.tar.gz"
     git = "https://github.com/neuronsimulator/nrn"
 
+    # Build with `ninja` instead of `make`
+    generator = 'Ninja'
+
     # Patch which reverts 81a7a39 for numerical compat
     patch("revert_Import3d_numerical_format.master.patch", when="@7.8.0c:")
     patch("revert_Import3d_numerical_format.patch", when="@7.8.0:7.8.0b")

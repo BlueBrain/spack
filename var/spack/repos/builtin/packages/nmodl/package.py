@@ -13,6 +13,9 @@ class Nmodl(CMakePackage):
     url      = "https://github.com/BlueBrain/nmodl.git"
     git      = "https://github.com/BlueBrain/nmodl.git"
 
+    # Build with `ninja` instead of `make`
+    generator = 'Ninja'
+
     version('develop', branch='master', submodules=True)
     # 0.3.0 > 0.3b > 0.3 as far as Spack is concerned
     version('0.3.0', tag='0.3', preferred=True)

@@ -18,6 +18,9 @@ class Coreneuron(CMakePackage):
     url      = "https://github.com/BlueBrain/CoreNeuron"
     git      = "https://github.com/BlueBrain/CoreNeuron"
 
+    # Build with `ninja` instead of `make`
+    generator = 'Ninja'
+
     version('develop', branch='master')
     # 1.0.1 > 1.0.0.20210519 > 1.0 as far as Spack is concerned
     version('1.0.0.20210708', commit='d54a3aa')
