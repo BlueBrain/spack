@@ -14,6 +14,8 @@ class PyNeurom(PythonPackage):
     url = "https://pypi.io/packages/source/n/neurom/neurom-2.2.1.tar.gz"
 
     version('develop', branch='master')
+    version('3.0.0',  sha256='05f5f5c4292dfa23f3319347cf2a7c147732ba0140b9db0bc94e535ac74be8da')
+    version('2.3.1',  sha256='d399b2ff22b4dfc1d9ac0f28be49d631a7a48a3fe0b9f13cb880ff60d0a1beba')
     version('2.2.1',  sha256='72f6a552b53ced520a3ccb1a2986ff95ff91df99d9227213f671f87a8d8b6499')
     version('2.1.2',  sha256='6ca24ce628cfa00ba63bc3bd362e9ad1cd337a4ad4d02a5a58ed82ec8e61ce97')
     version('1.8.0',  sha256='d364d3b184bd96cbe5fa601ae24f6b7d431fa42de646e3011a33d56f3cfc247c')
