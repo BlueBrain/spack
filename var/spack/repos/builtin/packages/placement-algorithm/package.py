@@ -37,4 +37,4 @@ class PlacementAlgorithm(PythonPackage):
     depends_on('py-voxcell@2.7:', when='@2.1.0:', type='run')
     depends_on('py-dask@2.15:', when='@2.0.12:', type='run')
 
-    depends_on('py-region-grower@0.1.5:', type='run')
+    depends_on('py-region-grower@0.1.5:0.1.99', type='run')
