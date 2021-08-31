@@ -25,7 +25,7 @@ class PyRegionGrower(PythonPackage):
     depends_on('py-tns@:2.4.5', type='run')
     depends_on('py-voxcell@2.7:', type='run')
     depends_on('py-diameter-synthesis@:0.2.4', type='run')
-    depends_on('py-morphio@2.7:', type='run')
+    depends_on('py-morphio@2.7:2.99', type='run')
     depends_on('py-neuroc@:0.2.7', type='run')
     depends_on('py-neurom@2.2.1:2.999', type='run')
     depends_on('py-morph-tool@:2.7.99', type='run')
