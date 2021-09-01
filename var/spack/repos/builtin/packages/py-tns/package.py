@@ -20,8 +20,7 @@ class PyTns(PythonPackage):
     depends_on('py-setuptools', type='build')
 
     depends_on('py-matplotlib@1.3.1:', type='run')
-    depends_on('py-morphio@3.0:3.999', type='run', when='@2.5.0:')
-    depends_on('py-morphio@2.7.1:2.99', type='run', when='@:2.4.99')
+    depends_on('py-morphio@3.0:3.999', type='run')
     depends_on('py-neurom@3:3.999', type='run', when='@2.5.0:')
     depends_on('py-neurom@2:2.99', type='run', when='@:2.4.99')
     depends_on('py-numpy@1.15.0:', type='run')

@@ -25,8 +25,7 @@ class PlacementAlgorithm(PythonPackage):
     depends_on('py-pandas@0.19:', type='run')
     depends_on('py-six', type='run')
 
-    depends_on('py-morphio@3.0:3.999', type='run', when='@2.2.0:')
-    depends_on('py-morphio@2.0.5:2.99', type='run', when='@:2.1.99')
+    depends_on('py-morphio@3.0:3.999', type='run')
     depends_on('py-morph-tool@2.9.0:', type='run', when='@2.2.0:')
     depends_on('py-morph-tool@0.1.3:2.8.99', type='run', when='@:2.1.99')
     depends_on('py-neurom@3.0:3.999', type='run', when='@2.2.0:')
