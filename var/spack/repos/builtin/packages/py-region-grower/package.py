@@ -15,6 +15,7 @@ class PyRegionGrower(PythonPackage):
     version('develop', branch='master')
     version('0.3.0', tag='region-grower-v0.3.0')
     version('0.2.4', tag='region-grower-v0.2.4')
+    version('0.1.10', tag='region-grower-v0.1.10')
 
     depends_on('py-setuptools', type='build')
 
