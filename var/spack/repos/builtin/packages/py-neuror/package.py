@@ -15,7 +15,7 @@ class PyNeuror(PythonPackage):
     url = "https://pypi.io/packages/source/n/neuror/NeuroR-1.2.3.tar.gz"
 
     version('develop', branch='master')
-    version('1.4.0', sha256='9cffc1523c4506b1c6d0af3f9d753b32a76cfdb8e7e47dae82d82aba58e41612')
+    version('1.4.1', sha256='86ba939f57e2742abfceca82df966b79bfcdd5cc20bedd4c96c63e5275cf0e61')
     version('1.3.0', sha256='c06147a7f4e976cdb6cf0f7c82388d3e7e5880a8fb3ded14f4c3e7ea3711876b')
 
     depends_on('py-setuptools', type=('build', 'run'))
