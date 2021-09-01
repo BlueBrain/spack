@@ -16,12 +16,6 @@ class PyTns(PythonPackage):
     version('space2', branch='space2')
     version('2.5.0', tag='TNS-v2.5.0')
     version('2.4.5', tag='TNS-v2.4.5')
-    version('2.4.4', tag='TNS-v2.4.4')
-    version('2.4.2', tag='TNS-v2.4.2')
-    version('2.3.2', tag='TNS-v2.3.2')
-    version('2.2.7', tag='tns-v2.2.7')
-    version('2.0.4', tag='tns-v2.0.4')
-    version('1.0.8', tag='tns-v1.0.8')
 
     depends_on('py-setuptools', type='build')
 

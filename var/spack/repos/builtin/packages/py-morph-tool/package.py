@@ -16,9 +16,6 @@ class PyMorphTool(PythonPackage):
     version('develop', branch='master')
     version('2.9.0', sha256='c60d4010e17ddcc3f53c864c374fffee05713c8f8fd2ba4eed7706041ce1fa47')
     version('2.8.0', sha256='3676d200e30313afee60ba7e232edb76ffa2f3926211eb251df63ffedae96a57')
-    version('2.5.1', sha256='bffe0d4ec4cd0e98bce5efc8af01a7ccb06b5787f379d420bc154c58067134d0')
-    version('2.4.7', sha256='d95ce62309e9594d9241852e3c9e39462b05bd71fb781090da6235cb471459d9')
-    version('2.4.1', sha256='b1db7837c73ca27c7e596e3461104b0ae0d9036a48d41cae2d79a7e7d7a4f451')
 
     depends_on('py-setuptools', type=('build', 'run'))
 
@@ -35,7 +32,5 @@ class PyMorphTool(PythonPackage):
     depends_on('py-bluepyopt@1.9.37:', type='run')
 
     depends_on('py-neurom@3.0:3.999', type='run', when='@2.9.0:')
-    depends_on('py-neurom@2.0:2.999', type='run', when='@2.5.1:2.8.99')
-    depends_on('py-neurom@1.8:1.999', type='run', when='@:2.4.99')
-    depends_on('py-morphio@3.0:3.999', type='run', when='@2.5.1:')
-    depends_on('py-morphio@2.7.0:2.999', type='run', when='@:2.4.99')
+    depends_on('py-neurom@2.0:2.999', type='run', when='@:2.8.99')
+    depends_on('py-morphio@3.0:3.999', type='run')

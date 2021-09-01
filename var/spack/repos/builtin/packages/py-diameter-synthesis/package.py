@@ -14,8 +14,6 @@ class PyDiameterSynthesis(PythonPackage):
 
     version('0.2.5', tag='diameter-synthesis-v0.2.5')
     version('0.2.4', tag='diameter-synthesis-v0.2.4')
-    version('0.1.11', tag='diameter-synthesis-v0.1.11')
-    version('0.1.7', tag='diameter-synthesis-v0.1.7')
 
     depends_on('py-setuptools', type='build')
 

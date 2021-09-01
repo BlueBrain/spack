@@ -15,11 +15,6 @@ class PlacementAlgorithm(PythonPackage):
     version('develop', branch='master')
     version('2.2.0', tag='placement-algorithm-v2.2.0')
     version('2.1.4', tag='placement-algorithm-v2.1.4')
-    version('2.1.2', tag='placement-algorithm-v2.1.2')
-    version('2.1.1', tag='placement-algorithm-v2.1.1')
-    version('2.1.0', tag='placement-algorithm-v2.1.0')
-    version('2.0.10', tag='placement-algorithm-v2.0.10')
-    version('2.0.8', tag='placement-algorithm-v2.0.8')
 
     build_directory = 'python'
 

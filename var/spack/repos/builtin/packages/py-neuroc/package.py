@@ -16,8 +16,6 @@ class PyNeuroc(PythonPackage):
     version('develop', branch='master')
     version('0.2.8', tag='neuroc-v0.2.8')
     version('0.2.7', tag='neuroc-v0.2.7')
-    version('0.2.6', tag='neuroc-v0.2.6')
-    version('0.2.4', tag='neuroc-v0.2.4')
 
     depends_on('py-setuptools', type=('build', 'run'))
 
