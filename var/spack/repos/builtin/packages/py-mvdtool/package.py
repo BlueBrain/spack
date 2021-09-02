@@ -15,6 +15,9 @@ class PyMvdtool(PythonPackage):
     git      = "https://github.com/BlueBrain/MVDTool.git"
 
     version('develop', branch='master', submodules=True, get_full_repo=False)
+    version('2.4.2', tag='v2.4.2', submodules=True, get_full_repo=False)
+    # Version 2.4.1 might have some issue in installing via Spack
+    # Please use a more recent version.
     version('2.4.1', tag='v2.4.1', submodules=True, get_full_repo=False)
     version('2.4.0', tag='v2.4.0', submodules=True, get_full_repo=False)
     version('2.3.6', tag='v2.3.6', submodules=True, get_full_repo=False)
