@@ -15,15 +15,15 @@ class PyNeuror(PythonPackage):
     url = "https://pypi.io/packages/source/n/neuror/NeuroR-1.2.3.tar.gz"
 
     version('develop', branch='master')
-    version('1.4.1', sha256='86ba939f57e2742abfceca82df966b79bfcdd5cc20bedd4c96c63e5275cf0e61')
+    version('1.4.2', sha256='f5e18ebddf59a60ce650c24eb49042057cf97990d63aee3ceb58b7acff823255')
     version('1.3.0', sha256='c06147a7f4e976cdb6cf0f7c82388d3e7e5880a8fb3ded14f4c3e7ea3711876b')
 
     depends_on('py-setuptools', type=('build', 'run'))
 
     depends_on('py-click@7.0:', type='run')
     depends_on('py-matplotlib@2.2.3:', type='run')
-    depends_on('py-morph-tool@2.8.0:', type='run', when='@1.4.0:')
-    depends_on('py-morph-tool@0.1.14:2.7.9', type='run', when='@:1.3.99')
+    depends_on('py-morph-tool@2.9.0:', type='run', when='@1.4.0:')
+    depends_on('py-morph-tool@0.1.14:2.8.9', type='run', when='@:1.3.99')
     depends_on('py-morphio@3.0:3.999', type='run')
     depends_on('py-neurom@3.0:3.999', type='run', when='@1.4.0:')
     depends_on('py-neurom@2.0:2.99', type='run', when='@:1.3.99')
