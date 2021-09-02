@@ -12,7 +12,7 @@ class PyLibsonata(PythonPackage):
     homepage = "https://github.com/BlueBrain/libsonata"
     git = "https://github.com/BlueBrain/libsonata.git"
 
-    version('develop', branch='master', submodules=False, get_full_repo=True)
+    version('develop', branch='master', submodules=True, get_full_repo=True)
     # Important: v0.1.9 contains an external dependency that cannot be easily
     # resolved by Spack. Hence, the temp. versions v0.1.9.YYYYMMDD add fixes,
     # which will be included in future official releases (v0.1.10 and above).
