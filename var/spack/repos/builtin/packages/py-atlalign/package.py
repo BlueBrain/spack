@@ -32,3 +32,6 @@ class PyAtlalign(PythonPackage):
     depends_on('py-tensorflow-addons@0.12.1', type=('run'))
 
     patch('lpips.patch', when='@0.6.0')
+
+    def patch(self):
+        filter_file('"tensorflow>=[0-9.]+",', '', 'setup.py')

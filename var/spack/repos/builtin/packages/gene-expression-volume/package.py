@@ -28,6 +28,10 @@ class GeneExpressionVolume(PythonPackage):
     depends_on('py-pytest', type='test')
     depends_on('py-mock', type='test')
 
+    def patch(self):
+        filter_file('"lpips_tf.+egg=lpips_tf",', '', 'setup.py')
+        filter_file('"tensorflow==[0-9.]+",', '', 'setup.py')
+
     @run_after('install')
     @on_package_attributes(run_tests=True)
     def test_install(self):

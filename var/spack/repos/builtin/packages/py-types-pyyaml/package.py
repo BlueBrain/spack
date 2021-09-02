@@ -6,7 +6,7 @@
 from spack import *
 
 
-class PyTypesPyaml(PythonPackage):
+class PyTypesPyyaml(PythonPackage):
     """Typing stubs for PyYAML."""
 
     homepage = "https://github.com/python/typeshed"
