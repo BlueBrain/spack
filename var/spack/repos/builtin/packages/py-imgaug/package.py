@@ -27,6 +27,5 @@ class PyImgaug(PythonPackage):
     depends_on('py-imageio', type=('run'))
     depends_on('py-shapely', type=('run'))
 
-
     def patch(self):
         filter_file(', "opencv-python"', '', 'setup.py')

@@ -7,8 +7,8 @@ from spack import *
 
 
 class GeneExpressionVolume(PythonPackage):
-    """BBP command line interface for the re-alignment of 2D images and 
-    the creation of 3D gene expression volumes. 
+    """BBP command line interface for the re-alignment of 2D images and
+    the creation of 3D gene expression volumes.
     Used by the atlas building pipeline.
     """
     homepage = "https://bbpgitlab.epfl.ch/nse/gene-expression-volume"

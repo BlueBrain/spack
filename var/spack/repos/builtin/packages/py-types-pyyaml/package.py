@@ -15,4 +15,3 @@ class PyTypesPyyaml(PythonPackage):
     version('5.4.6', sha256='745dcb4b1522423026bcc83abb9925fba747f1e8602d902f71a4058f9e7fb662')
 
     depends_on('py-setuptools', type=('build'))
-
