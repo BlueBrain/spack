@@ -23,7 +23,7 @@ class PyBglibpy(PythonPackage):
     depends_on('py-cachetools', type='run')
     depends_on('py-h5py@2.3:', type='run')
 
-    depends_on('py-bluepy@2.1:', type='run')
+    depends_on('py-bluepy@2.1:2.999', type='run')
     depends_on('py-libsonata', type='run')
 
     # skip import test, because bglibpy needs HOC_LIBRARY_PATH
