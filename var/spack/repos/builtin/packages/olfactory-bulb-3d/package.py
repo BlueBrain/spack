@@ -27,7 +27,7 @@ import glob
 from spack import *
 
 
-class OlfactoryBulbBenchmark(Package):
+class OlfactoryBulb3d(Package):
     """FIXME: Put a proper description of your package here."""
 
     # FIXME: Add a proper url for your package's homepage here.
@@ -48,12 +48,12 @@ class OlfactoryBulbBenchmark(Package):
     variant('sympy', default=False, description="Enable sympy solver with NMODL translator")
 
     depends_on('neuron@develop~legacy-unit~rx3d%intel')
-    depends_on('coreneuron@develop~gpu~nmodl~sympy%intel', when='~gpu~nmodl~sympy')
-    depends_on('coreneuron@develop~gpu+nmodl~sympy%intel ^nmodl@develop%gcc', when='+nmodl')
-    depends_on('coreneuron@develop~gpu+nmodl+sympy%intel ^nmodl@develop%gcc', when='+nmodl+sympy')
-    depends_on('coreneuron@develop+gpu~nmodl~sympy%nvhpc@21.2 ^nmodl@develop%gcc', when='+gpu')
-    depends_on('coreneuron@develop+gpu+nmodl~sympy%nvhpc@21.2 ^nmodl@develop%gcc', when='+gpu+nmodl')
-    depends_on('coreneuron@develop+gpu+nmodl+sympy%nvhpc@21.2 ^nmodl@develop%gcc', when='+gpu+nmodl+sympy')
+    depends_on('coreneuron@develop+caliper~legacy-unit~report~gpu~nmodl~sympy%intel ^caliper%gcc@2.6.0:+cuda cuda_arch=70', when='~gpu~nmodl~sympy')
+    depends_on('coreneuron@develop+caliper~legacy-unit~report~gpu+nmodl~sympy%intel ^caliper%gcc@2.6.0:+cuda cuda_arch=70 ^nmodl@develop%gcc', when='+nmodl')
+    depends_on('coreneuron@develop+caliper~legacy-unit~report~gpu+nmodl+sympy%intel ^caliper%gcc@2.6.0:+cuda cuda_arch=70 ^nmodl@develop%gcc', when='+nmodl+sympy')
+    depends_on('coreneuron@develop+caliper~legacy-unit~report+gpu~nmodl~sympy%nvhpc@21.2 ^caliper%gcc@2.6.0:+cuda cuda_arch=70 ^nmodl@develop%gcc', when='+gpu')
+    depends_on('coreneuron@develop+caliper~legacy-unit~report+gpu+nmodl~sympy%nvhpc@21.2 ^caliper%gcc@2.6.0:+cuda cuda_arch=70 ^nmodl@develop%gcc', when='+gpu+nmodl')
+    depends_on('coreneuron@develop+caliper~legacy-unit~report+gpu+nmodl+sympy%nvhpc@21.2 ^caliper%gcc@2.6.0:+cuda cuda_arch=70 ^nmodl@develop%gcc', when='+gpu+nmodl+sympy')
     conflicts('+sympy', when='~nmodl')
 
     def install(self, spec, prefix):
