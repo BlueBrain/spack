@@ -12,7 +12,7 @@ class Eigen(CMakePackage):
     homepage = 'http://eigen.tuxfamily.org/'
     url = 'https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.gz'
 
-    # BBP mirrored version with CUDA fixes from CERN, need until 3.5 official release
+    # BBP mirrored version with CUDA fixes from CERN (needs until 3.5 release)
     version('3.5a1', sha256='bb43c3d0b5673405c6e40acf5a10d7b853c494a1270bdf197633ba56ca58b715',
             url="https://github.com/BlueBrain/eigen/archive/refs/tags/v3.5-alpha.1.tar.gz")
     version('3.3.8', sha256='146a480b8ed1fb6ac7cd33fec9eb5e8f8f62c3683b3f850094d9d5c35a92419a', preferred=True)
