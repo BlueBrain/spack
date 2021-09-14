@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-from spack.build_system.python import PythonPackage
+from spack.build_systems.python import PythonPackage
 from spack.directives import depends_on, version
 
 class PyOpencvPython(PythonPackage):
