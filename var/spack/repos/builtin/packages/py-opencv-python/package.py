@@ -6,6 +6,7 @@
 from spack.build_systems.python import PythonPackage
 from spack.directives import depends_on, version
 
+
 class PyOpencvPython(PythonPackage):
     """Pre-built CPU-only OpenCV packages for Python."""
 
@@ -19,4 +20,3 @@ class PyOpencvPython(PythonPackage):
     depends_on('py-numpy', type='build')
     depends_on('py-setuptools', type='build')
     depends_on('py-scikit-build', type='build')
-

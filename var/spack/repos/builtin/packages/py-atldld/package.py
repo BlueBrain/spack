@@ -31,4 +31,3 @@ class PyAtldld(PythonPackage):
     depends_on('py-pandas', type='run')
     depends_on('py-requests', type='run')
     depends_on('py-scikit-image', type='run')
-
