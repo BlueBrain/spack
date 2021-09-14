@@ -22,17 +22,6 @@ class PyAtldld(PythonPackage):
     depends_on('py-setuptools', type='build')
     depends_on('py-setuptools-scm', type='build')
 
-    # "Pillow",
-    # "appdirs",
-    # "click",
-    # "dataclasses; python_version < '3.7'",
-    # "matplotlib",
-    # "numpy",
-    # "opencv-python",
-    # "pandas",
-    # "requests",
-    # "scikit-image",
-
     depends_on('py-pillow', type='run')
     depends_on('py-appdirs', type='run')
     depends_on('py-click', type='run')
@@ -42,3 +31,4 @@ class PyAtldld(PythonPackage):
     depends_on('py-pandas', type='run')
     depends_on('py-requests', type='run')
     depends_on('py-scikit-image', type='run')
+
