@@ -14,13 +14,42 @@ class PyAtlannot(PythonPackage):
 
     maintainers = ['EmilieDel', 'Stannislav']
 
-    version('0.1.0', commit='f5c1746013a03f71846d4da6d2c47b515a824b79')
+    version('0.1.1', commit='5271681de15f23e1df6f8556405b03218541d241')
 
     depends_on('python@3.7:', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
     depends_on('py-setuptools-scm', type='build')
 
-    depends_on('py-antspyx@0.2.7', type=('run'))
+    # "antspyx==0.2.4",
+    # "atldld==0.2.2",
+    # "dvc[ssh]>=2",
+    # "matplotlib",
+    # "numpy",
+    # "ipython",
+    # "ipywidgets",
+    # "nibabel",
+    # "pynrrd",
+    # "scipy",
+    # "toml",
+    # "tqdm",
+
+    # depends_on('py-antspyx@0.2.4', type=('run'))
+    depends_on('py-atldld@0.2.2', type=('run'))
+    # depends_on('py-dvc', type=('run'))
     depends_on('py-matplotlib', type=('run'))
     depends_on('py-numpy', type=('run'))
+    
+    # from the "interactive" extra
+    depends_on('py-ipython', type=('run'))
+    depends_on('py-ipywidgets', type=('run'))
+    depends_on('py-nibabel', type=('run'))
+    depends_on('py-pynrrd', type=('run'))
+    depends_on('py-scipy', type=('run'))
+    depends_on('py-toml', type=('run'))
+    depends_on('py-tqdm', type=('run'))
+
+    depends_on('py-pytest', type=('test'))
+    depends_on('py-pytest-cov', type=('test'))
+    depends_on('py-tox', type=('test'))
+
 
