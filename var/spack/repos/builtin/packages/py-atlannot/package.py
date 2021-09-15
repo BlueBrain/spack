@@ -19,27 +19,15 @@ class PyAtlannot(PythonPackage):
     depends_on('python@3.7:', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
     depends_on('py-setuptools-scm', type='build')
-
-    # "antspyx==0.2.4",
-    # "atldld==0.2.2",
-    # "dvc[ssh]>=2",
-    # "matplotlib",
-    # "numpy",
-    # "ipython",
-    # "ipywidgets",
-    # "nibabel",
-    # "pynrrd",
-    # "scipy",
-    # "toml",
-    # "tqdm",
-
+    
+    # Installation requirements
     depends_on('py-antspyx@0.2.4', type=('run'))
     depends_on('py-atldld@0.2.2', type=('run'))
     # depends_on('py-dvc', type=('run'))
     depends_on('py-matplotlib', type=('run'))
     depends_on('py-numpy', type=('run'))
     
-    # from the "interactive" extra
+    # From the "interactive" extra, but seem to be needed for unit tests
     depends_on('py-ipython', type=('run'))
     depends_on('py-ipywidgets', type=('run'))
     depends_on('py-nibabel', type=('run'))
