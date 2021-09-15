@@ -140,7 +140,6 @@ spack:
     - py-morph-tool@2.8.0%gcc ^neuron%intel
     - py-neurodamus+all_deps
     - py-notebook
-    - py-opencv-python
     - py-pytouchreader
     - py-region-grower
     - py-region-grower@0.2.4
