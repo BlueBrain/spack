@@ -10,7 +10,7 @@ from spack.directives import depends_on, version
 class PyAtlannot(PythonPackage):
     """Alignment of brain atlas annotations."""
 
-    womepage = 'https://bbpgitlab.epfl.ch/project/proj101/atlas_annotation'
+    homepage = 'https://bbpgitlab.epfl.ch/project/proj101/atlas_annotation'
     git = 'git@bbpgitlab.epfl.ch:project/proj101/atlas_annotation.git'
 
     maintainers = ['EmilieDel', 'Stannislav']
@@ -28,7 +28,7 @@ class PyAtlannot(PythonPackage):
     depends_on('py-matplotlib', type=('run'))
     depends_on('py-numpy', type=('run'))
 
-    # From the "interactive" extra, but seem to be needed for unit tests
+    # From the "interactive" extra
     depends_on('py-ipython', type=('run'))
     depends_on('py-ipywidgets', type=('run'))
     depends_on('py-nibabel', type=('run'))
@@ -36,7 +36,3 @@ class PyAtlannot(PythonPackage):
     depends_on('py-scipy', type=('run'))
     depends_on('py-toml', type=('run'))
     depends_on('py-tqdm', type=('run'))
-
-    depends_on('py-pytest', type=('test'))
-    depends_on('py-pytest-cov', type=('test'))
-    depends_on('py-tox', type=('test'))
