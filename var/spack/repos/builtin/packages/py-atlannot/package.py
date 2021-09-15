@@ -6,11 +6,12 @@
 from spack.build_systems.python import PythonPackage
 from spack.directives import depends_on, version
 
+
 class PyAtlannot(PythonPackage):
     """Alignment of brain atlas annotations."""
 
-    homepage = "https://bbpgitlab.epfl.ch/project/proj101/atlas_annotation"
-    git = "git@bbpgitlab.epfl.ch:project/proj101/atlas_annotation.git"
+    womepage = 'https://bbpgitlab.epfl.ch/project/proj101/atlas_annotation'
+    git = 'git@bbpgitlab.epfl.ch:project/proj101/atlas_annotation.git'
 
     maintainers = ['EmilieDel', 'Stannislav']
 
@@ -19,14 +20,14 @@ class PyAtlannot(PythonPackage):
     depends_on('python@3.7:', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
     depends_on('py-setuptools-scm', type='build')
-    
+
     # Installation requirements
     depends_on('py-antspyx@0.2.4', type=('run'))
     depends_on('py-atldld@0.2.2', type=('run'))
     # depends_on('py-dvc', type=('run'))
     depends_on('py-matplotlib', type=('run'))
     depends_on('py-numpy', type=('run'))
-    
+
     # From the "interactive" extra, but seem to be needed for unit tests
     depends_on('py-ipython', type=('run'))
     depends_on('py-ipywidgets', type=('run'))
@@ -39,5 +40,3 @@ class PyAtlannot(PythonPackage):
     depends_on('py-pytest', type=('test'))
     depends_on('py-pytest-cov', type=('test'))
     depends_on('py-tox', type=('test'))
-
-
