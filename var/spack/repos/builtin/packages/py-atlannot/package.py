@@ -33,7 +33,7 @@ class PyAtlannot(PythonPackage):
     # "toml",
     # "tqdm",
 
-    # depends_on('py-antspyx@0.2.4', type=('run'))
+    depends_on('py-antspyx@0.2.4', type=('run'))
     depends_on('py-atldld@0.2.2', type=('run'))
     # depends_on('py-dvc', type=('run'))
     depends_on('py-matplotlib', type=('run'))
