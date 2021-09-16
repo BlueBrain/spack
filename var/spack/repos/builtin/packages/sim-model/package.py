@@ -107,13 +107,19 @@ class SimModel(Package):
             + ' -I%s' % self.spec['coreneuron'].prefix.include
 
     def _coreneuron_link_flag(self, libnrncoremech):
-        flags = ' ' + libnrncoremech.ld_flags
         # gpu build has static coreneuron library and hence cuda, openacc
         # and coreneuron libraries needs to be explicitly linked.
         # this will be simplified when we use `nrnivmodl -coreneuron mod`
         # way of building neurodamus
         if self.spec.satisfies('^coreneuron+gpu'):
-            flags += ' -acc -cuda -L%s -lcoreneuron' % self.spec['coreneuron'].prefix.lib
+            flags = ' -acc -gpu=cuda%s,cc60,cc70,cc80' % self.spec['cuda'].version.up_to(2)
+            flags += ' -cuda -rdynamic -lrt -Wl,--whole-archive '
+            flags += ' %s' % libnrncoremech.ld_flags
+            flags += ' -L%s -lcoreneuron' % self.spec['coreneuron'].prefix.lib
+            flags += ' -Wl,--no-whole-archive'
+            flags += ' -L{0} -Wl,-rpath,{0} -lmpi'.format(str(self.spec['mpi'].prefix.lib))
+        else:
+            flags = ' ' + libnrncoremech.ld_flags
         return flags
 
     def __build_mods_coreneuron(self, mods_location, link_flag, include_flag):
