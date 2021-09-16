@@ -728,6 +728,8 @@ EOF
     cp "${SPACK_ROOT}/deploy/environments/${what}.yaml" "${HOME}/build_environment/spack.yaml"
     log "concretizing environment"
     spack -D "${HOME}/build_environment" concretize -f
+    log "pre-fetching environment"
+    spack -D "${HOME}/build_environment" fetch
     log "installing environment"
     srun -N${BUILD_NODES:-1} --ntasks-per-node 4 -c12 -t24:0:0 -Aproj16 -Ccpu -pprod -J"spack!" slurmspack "${HOME}/build_environment"
 
