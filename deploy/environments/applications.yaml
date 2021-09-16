@@ -29,7 +29,9 @@ spack:
         - py-region-grower
         - psp-validation
         - py-atlalign
+        - py-atlannot
         - py-atlas-building-tools
+        - py-atldld
         - py-basalt
         - py-bbp-analysis-framework
         - py-bbp-workflow
@@ -42,6 +44,7 @@ spack:
         - py-bluepyparallel
         - py-bluepysnap
         - py-currentscape
+        - py-data-integrity-check
         - py-efel
         - py-entity-management
         - py-notebook
@@ -113,7 +116,9 @@ spack:
     - placement-algorithm@2.1.4
     - psp-validation%gcc ^neuron%intel
     - py-atlalign ^py-six@1.15.0
+    - py-atlannot
     - py-atlas-building-tools
+    - py-atldld
     - py-basalt@0.2.9
     - py-bbp-analysis-framework
     - py-bbp-workflow ^py-h5py~mpi
@@ -126,6 +131,7 @@ spack:
     - py-bluepyparallel
     - py-bluepysnap
     - py-currentscape
+    - py-data-integrity-check
     - py-efel
     - py-entity-management
     - py-minis-validation%gcc ^neuron%intel
@@ -151,4 +157,3 @@ spack:
     - touchdetector
     - ultraliser
     - unit-test-translator
-    # - zee
