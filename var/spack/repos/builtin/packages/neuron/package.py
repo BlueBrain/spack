@@ -75,6 +75,7 @@ class Neuron(CMakePackage):
     variant("multisend",  default=True,  description="Enable multi-send spike exchange")
     variant("profile",    default=False, description="Enable Tau profiling")
     variant("python",     default=True,  description="Enable python")
+    variant("caliper",    default=False, description="Enable Caliper profiling")
     variant(
         "pysetup",
         default=True,
@@ -108,6 +109,7 @@ class Neuron(CMakePackage):
     # Transient dependency
     #depends_on("gettext")
 
+    depends_on("caliper",     when="+caliper")
     depends_on("mpi",         when="+mpi")
     depends_on("py-mpi4py",   when="+mpi+python+tests")
     depends_on("ncurses",     when="~cross-compile")
@@ -165,6 +167,8 @@ class Neuron(CMakePackage):
             args.append('-DNRN_DYNAMIC_UNITS_USE_LEGACY=ON')
         if "+coreneuron" in self.spec:
             args.append('-DCORENEURON_DIR=' + self.spec["coreneuron"].prefix)
+        if "+caliper" in self.spec:
+            args.append('-DNRN_ENABLE_PROFILING=caliper')
 
         return args
 
