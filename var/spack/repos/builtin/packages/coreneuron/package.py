@@ -18,7 +18,7 @@ class Coreneuron(CMakePackage):
     url      = "https://github.com/BlueBrain/CoreNeuron"
     git      = "https://github.com/BlueBrain/CoreNeuron"
 
-    version('develop', branch='master')
+    version('1.1a', branch='pramodk/vector_routines_acc')
     # 1.0.1 > 1.0.0.20210519 > 1.0 as far as Spack is concerned
     version('1.0.0.20210708', commit='d54a3aa')
     version('1.0.0.20210610', commit='b4a25b4')
