@@ -728,9 +728,7 @@ EOF
     cp "${SPACK_ROOT}/deploy/environments/${what}.yaml" "${HOME}/build_environment/spack.yaml"
     log "concretizing environment"
     spack -D "${HOME}/build_environment" concretize -f
-    log "uninstalled stuffs"
-    installed-hashes -m -e "${HOME}/build_environment"
-    if [[ -z "$(installed-hashes -m -e "${HOME}/build_environment")" ]]; then
+    if [[ -n "$(installed-hashes -m -e "${HOME}/build_environment")" ]]; then
         log "pre-fetching environment"
         spack -D "${HOME}/build_environment" fetch -m
         log "installing environment"
