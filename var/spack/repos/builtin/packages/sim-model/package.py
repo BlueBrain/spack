@@ -87,7 +87,7 @@ class SimModel(Package):
             # Only link with coreneuron when dependencies are passed
             if dependencies:
                 include_flag += self._coreneuron_include_flag()
-                link_flag += ' ' + libnrncoremech.ld_flags
+                link_flag += self._coreneuron_link_flag(libnrncoremech)
 
         # Neuron mechlib and special
         with profiling_wrapper_on():
@@ -106,6 +106,16 @@ class SimModel(Package):
         return ' -DENABLE_CORENEURON' \
             + ' -I%s' % self.spec['coreneuron'].prefix.include
 
+    def _coreneuron_link_flag(self, libnrncoremech):
+        flags = ' ' + libnrncoremech.ld_flags
+        # gpu build has static coreneuron library and hence cuda, openacc
+        # and coreneuron libraries needs to be explicitly linked.
+        # this will be simplified when we use `nrnivmodl -coreneuron mod`
+        # way of building neurodamus
+        if self.spec.satisfies('^coreneuron+gpu'):
+            flags += ' -acc -cuda -L%s -lcoreneuron' % self.spec['coreneuron'].prefix.lib
+        return flags
+
     def __build_mods_coreneuron(self, mods_location, link_flag, include_flag):
         mods_location = os.path.abspath(mods_location)
         assert os.path.isdir(mods_location) and find(mods_location, '*.mod',
@@ -116,8 +126,11 @@ class SimModel(Package):
             force_symlink(mods_location, 'mod')
             which('nrnivmodl-core')(*(nrnivmodl_params + ['mod']))
             output_dir = os.path.basename(self.nrnivmodl_outdir)
-            mechlib = find_libraries('libcorenrnmech' + self.lib_suffix + '*',
-                                     output_dir)
+            corenrn_lib = 'libcorenrnmech' + self.lib_suffix + '*'
+            if self.spec.satisfies('^coreneuron+gpu'):
+                mechlib = find_libraries(corenrn_lib, output_dir, shared=False)
+            else:
+                mechlib = find_libraries(corenrn_lib, output_dir)
             assert len(mechlib.names) == 1,\
                 'Error creating corenrnmech. Found: ' + str(mechlib.names)
         return mechlib
