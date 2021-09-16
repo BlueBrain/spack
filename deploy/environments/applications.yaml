@@ -32,6 +32,7 @@ spack:
         - py-atlannot
         - py-atlas-building-tools
         - py-atldld
+        - py-atlinter
         - py-basalt
         - py-bba-datafetch
         - py-bba-webexporter
@@ -123,6 +124,7 @@ spack:
     - py-atlannot
     - py-atlas-building-tools
     - py-atldld
+    - py-atlinter
     - py-basalt@0.2.9
     - py-bba-datafetch
     - py-bba-webexporter
