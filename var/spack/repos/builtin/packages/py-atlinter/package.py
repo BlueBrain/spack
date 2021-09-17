@@ -25,9 +25,10 @@ class PyAtlinter(PythonPackage):
 
     # Installation requirements
     depends_on('py-atldld@0.2.2', type=('run'))
+    depends_on('py-numpy', type=('run'))
+    depends_on('py-pillow', type=('run'))
+    depends_on('py-pytorch-fid', type=('run'))
+    depends_on('py-requests', type=('run'))
     depends_on('py-torch+cuda', when='+cuda', type=('run'))
     depends_on('py-torch~cuda~cudnn~nccl', when='~cuda', type=('run'))
     depends_on('py-torchvision', type=('run'))
-    depends_on('py-numpy', type=('run'))
-    depends_on('py-pillow', type=('run'))
-    depends_on('py-requests', type=('run'))
