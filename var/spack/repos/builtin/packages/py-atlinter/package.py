@@ -31,4 +31,3 @@ class PyAtlinter(PythonPackage):
     depends_on('py-numpy', type=('run'))
     depends_on('py-pillow', type=('run'))
     depends_on('py-requests', type=('run'))
-    # depends_on('py-dvc', type=('run'))
