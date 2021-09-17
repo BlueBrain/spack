@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack.build_systems.python import PythonPackage
-from spack.directives import depends_on, version
+from spack.directives import depends_on, variant, version
 
 
 class PyAtlinter(PythonPackage):
@@ -23,12 +23,11 @@ class PyAtlinter(PythonPackage):
     depends_on('py-setuptools', type='build')
     depends_on('py-setuptools-scm', type='build')
 
-    # Installation requirements
-    depends_on('py-atldld@0.2.2', type=('run'))
-    depends_on('py-numpy', type=('run'))
-    depends_on('py-pillow', type=('run'))
-    depends_on('py-pytorch-fid', type=('run'))
-    depends_on('py-requests', type=('run'))
-    depends_on('py-torch+cuda', when='+cuda', type=('run'))
-    depends_on('py-torch~cuda~cudnn~nccl', when='~cuda', type=('run'))
-    depends_on('py-torchvision', type=('run'))
+    depends_on('py-atldld@0.2.2', type='run')
+    depends_on('py-numpy', type='run')
+    depends_on('py-pillow', type='run')
+    depends_on('py-pytorch-fid', type='run')
+    depends_on('py-requests', type='run')
+    depends_on('py-torch+cuda', when='+cuda', type='run')
+    depends_on('py-torch~cuda~cudnn~nccl', when='~cuda', type='run')
+    depends_on('py-torchvision', type='run')
