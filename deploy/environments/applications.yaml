@@ -54,6 +54,8 @@ spack:
         - py-morphology-repair-workflow
         - 'py-mvdtool%gcc'
         - 'py-neurodamus+all_deps'
+        - py-nexusforge
+        - py-nexus-sdk
         - py-simwriter
         - py-sonata-network-reduction
         - py-token-fetch
@@ -140,6 +142,8 @@ spack:
     - py-morph-tool%gcc ^neuron%intel
     - py-morph-tool@2.8.0%gcc ^neuron%intel
     - py-neurodamus+all_deps
+    - py-nexusforge
+    - py-nexus-sdk
     - py-notebook
     - py-pytouchreader
     - py-region-grower
