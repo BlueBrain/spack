@@ -7,9 +7,9 @@ from spack import *
 
 
 class PyBbaDatafetch(PythonPackage):
-    """This module is a (Python) CLI in charge of fetching datasets from 
-    Nexus, one file (or payload) at the time. It can fetch payloads and 
-    save them as JSON files or it can fetch binaries (distributions) 
+    """This module is a (Python) CLI in charge of fetching datasets from
+    Nexus, one file (or payload) at the time. It can fetch payloads and
+    save them as JSON files or it can fetch binaries (distributions)
     linked to resources.
     """
     homepage = "https://bbpgitlab.epfl.ch/dke/apps/blue_brain_atlas_data_fetch"

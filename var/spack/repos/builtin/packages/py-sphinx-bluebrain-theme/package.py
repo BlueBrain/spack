@@ -7,7 +7,7 @@ from spack import *
 
 
 class PySphinxBluebrainTheme(PythonPackage):
-    """Sphinx BlueBrain Theme is the standard Blue Brain Project 
+    """Sphinx BlueBrain Theme is the standard Blue Brain Project
     documentation theme."""
 
     homepage = "https://github.com/BlueBrain/sphinx-bluebrain-theme.git"

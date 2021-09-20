@@ -21,7 +21,7 @@ class PyNexusSdk(PythonPackage):
     depends_on('py-sseclient', type=('build', 'run'))
     depends_on('py-pytest', type='test')
     depends_on('py-pytest-cov', type='test')
-    
+
     @run_after('install')
     @on_package_attributes(run_tests=True)
     def test_install(self):

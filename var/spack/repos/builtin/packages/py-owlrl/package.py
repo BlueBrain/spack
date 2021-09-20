@@ -5,7 +5,7 @@
 
 
 class PyOwlrl(PythonPackage):
-    """A simple implementation of the OWL2 RL Profile, as well as a basic 
+    """A simple implementation of the OWL2 RL Profile, as well as a basic
     RDFS inference, on top of RDFLib. Based mechanical forward chaining.
     """
 

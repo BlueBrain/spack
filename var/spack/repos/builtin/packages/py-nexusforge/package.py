@@ -7,20 +7,20 @@ from spack import *
 
 
 class PyNexusforge(PythonPackage):
-    """Blue Brain Nexus Forge is a domain-agnostic, generic and 
-    extensible Python framework enabling non-expert users to create and 
+    """Blue Brain Nexus Forge is a domain-agnostic, generic and
+    extensible Python framework enabling non-expert users to create and
     manage knowledge graphs by making it easy to:
 
     - Discover and reuse available knowledge resources such as ontologies
     and schemas to shape, constraint, link and add semantics to datasets.
 
-    - Build knowledge graphs from datasets generated from heterogenous 
+    - Build knowledge graphs from datasets generated from heterogenous
     sources and formats. Defining, executing and sharing data mappers to
-    transform data from a source format to a target one conformant to schemas 
+    transform data from a source format to a target one conformant to schemas
     and ontologies.
 
-    - Interface with various stores offering knowledge graph storage, 
-    management and scaling capabilities, for example Nexus Core store or 
+    - Interface with various stores offering knowledge graph storage,
+    management and scaling capabilities, for example Nexus Core store or
     in-memory store.
 
     - Validate and register data and metadata.
@@ -53,7 +53,7 @@ class PyNexusforge(PythonPackage):
     depends_on('py-pytest-bdd@3.4.0', type='test')
     depends_on('py-pytest-mock', type='test')
     depends_on('py-codecov', type='test')
-    
+
     @run_after('install')
     @on_package_attributes(run_tests=True)
     def test_install(self):
