@@ -18,4 +18,4 @@ class PySphinxBluebrainTheme(PythonPackage):
     depends_on('py-setuptools', type='build')
     depends_on('py-setuptools-scm', type='build')
     depends_on('python@3.6:', type=('build', 'run'))
-    depends_on('py-sphinx@2.0.0:', when='@0.4.1:', type=('build', 'run'))
+    depends_on('py-sphinx@2.0.0:', type=('build', 'run'))
