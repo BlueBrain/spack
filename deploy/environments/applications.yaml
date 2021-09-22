@@ -34,6 +34,7 @@ spack:
         - py-atldld
         - py-basalt
         - py-bba-datafetch
+        - py-bba-webexporter
         - py-bbp-analysis-framework
         - py-bbp-workflow
         - py-bglibpy
@@ -57,6 +58,7 @@ spack:
         - 'py-neurodamus+all_deps'
         - py-nexusforge
         - py-nexus-sdk
+        - py-randomaccessbuffer
         - py-simwriter
         - py-sonata-network-reduction
         - py-token-fetch
@@ -124,6 +126,7 @@ spack:
     - py-atldld
     - py-basalt@0.2.9
     - py-bba-datafetch
+    - py-bba-webexporter
     - py-bbp-analysis-framework
     - py-bbp-workflow ^py-h5py~mpi
     - py-bglibpy%gcc ^neuron%intel
@@ -148,6 +151,7 @@ spack:
     - py-nexus-sdk
     - py-notebook
     - py-pytouchreader
+    - py-randomaccessbuffer
     - py-region-grower
     - py-region-grower@0.2.4
     - py-simwriter
