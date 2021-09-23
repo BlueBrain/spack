@@ -49,7 +49,10 @@ class OlfactoryBulb3d(Package):
 
     depends_on('neuron@develop~legacy-unit~rx3d~coreneuron%intel')
     depends_on('caliper%gcc@2.6.0:+cuda cuda_arch=70')
-    depends_on('nmodl@develop%gcc', when='+nmodl')
+    depends_on('nmodl@develop%gcc~legacy-unit', when='+nmodl')
+    depends_on('py-jinja2%gcc', when='+nmodl')
+    depends_on('py-sympy%gcc', when='+nmodl')
+    depends_on('py-pyyaml%gcc', when='+nmodl')
     depends_on('coreneuron@develop+caliper~legacy-unit~report~gpu~nmodl~sympy%intel', when='~gpu~nmodl~sympy')
     depends_on('coreneuron@develop+caliper~legacy-unit~report~gpu+nmodl~sympy%intel', when='~gpu+nmodl~sympy')
     depends_on('coreneuron@develop+caliper~legacy-unit~report~gpu+nmodl+sympy%intel', when='~gpu+nmodl+sympy')
