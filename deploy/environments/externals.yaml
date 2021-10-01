@@ -25,6 +25,7 @@ spack:
         - hpctoolkit
         - hpcviewer
         - hpe-mpi
+        - hpe-mpi@2.24.hmpt
         - intel-mpi
         - ispc
         - julia
