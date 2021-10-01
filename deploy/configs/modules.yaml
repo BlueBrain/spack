@@ -20,11 +20,12 @@ modules:
       environment:
         set:
           '${PACKAGE}_ROOT': '${PREFIX}'
-    # Don't set any environment (like CMAKE_ROOT), it'll interfere with
-    # library finding. `::` overrides with the empty set.
+    # CMAKE_ROOT is globally set by the above but interferes with CMake's
+    # working, thus unset it again
     cmake:
       environment:
-        set:: {}
+        unset:
+          - CMAKE_ROOT
     gcc:
       environment:
         set:
