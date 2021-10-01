@@ -118,6 +118,8 @@ class SimModel(Package):
             flags += ' -L%s -lcoreneuron' % self.spec['coreneuron'].prefix.lib
             flags += ' -Wl,--no-whole-archive'
             flags += ' -L{0} -Wl,-rpath,{0} -lmpi'.format(str(self.spec['mpi'].prefix.lib))
+            if self.spec.satisfies('^coreneuron+caliper+gpu'):
+                flags += ' -L{} -lcaliper'.format(self.spec['caliper'].prefix.lib64)
         else:
             flags = ' ' + libnrncoremech.ld_flags
         return flags
