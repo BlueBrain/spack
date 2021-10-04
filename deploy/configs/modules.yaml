@@ -17,15 +17,6 @@ modules:
     all:
       autoload: 'all'
       load_only_generated: true
-      environment:
-        set:
-          '${PACKAGE}_ROOT': '${PREFIX}'
-    # CMAKE_ROOT is globally set by the above but interferes with CMake's
-    # working, thus unset it again
-    cmake:
-      environment:
-        unset:
-          - CMAKE_ROOT
     gcc:
       environment:
         set:
