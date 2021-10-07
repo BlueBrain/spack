@@ -22,7 +22,7 @@ class HpeMpi(Package):
     version('2.21',
             sha256='2f27ad2e92ef0004b9a4dfb3b76837d1b657c43ff89f4deef99be58a322a80b7',
             url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.21.tar.xz')
-    version('2.22',
+    version('2.22.nohmpt',
             sha256='258eb3714b09254911be7b30baec8ccbebbd84f4a9301d817c862e5a4051edea',
             url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.22.tar.xz')
     version('2.21.hmpt',
@@ -35,6 +35,9 @@ class HpeMpi(Package):
     version('2.24.hmpt',
             sha256='d8e5caf0097e23289c0e228b7f29e208115ece14abfadeeff7c16640a0e1a0aa',
             url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.24.hmpt.tar.xz')
+    version('2.24',
+            sha256='c79ccc44cd7c85b92026df8ebfbc4ed15c7f533d2d6cb0234f3e88c7b9f2f4f9',
+            url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.24.tar.xz')
 
     provides('mpi')
 
