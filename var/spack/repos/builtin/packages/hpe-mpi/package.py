@@ -38,6 +38,9 @@ class HpeMpi(Package):
     version('2.24',
             sha256='c79ccc44cd7c85b92026df8ebfbc4ed15c7f533d2d6cb0234f3e88c7b9f2f4f9',
             url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.24.tar.xz')
+    version('2.25',
+            sha256='72553047021e65bca02767c965b114e7e32393fe615c7476eab645e3ee0ffdb9',
+            url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.25.tar.xz')
 
     provides('mpi')
 
