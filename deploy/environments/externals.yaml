@@ -110,7 +110,7 @@ spack:
     - readline
     - snakemake
     - sqlite
-    - stat@4.0.2.999
+    - stat@4.1.0
     - symengine@0.3.0
     - timemory
     - totalview

@@ -1,0 +1,12 @@
+diff --git a/scripts/STATGUI.in b/scripts/STATGUI.in
+index 7faae26..c1bf677 100644
+--- a/scripts/STATGUI.in
++++ b/scripts/STATGUI.in
+@@ -75,6 +75,6 @@ if test -z "$LMON_FE_ENGINE_TIMEOUT" ; then
+ fi
+ 
+ export PATH=$PATH:@DOTBINDIR@
+-export PYTHONPATH=@pythondir@:@pyexecdir@:@PYTHONPATH@
++export PYTHONPATH=@pythondir@:@pyexecdir@:@PYTHONPATH@:$PYTHONPATH
+ 
+ exec @STATPYTHON@ @pythondir@/STATmain.py gui $@
