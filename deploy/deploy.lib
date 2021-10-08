@@ -312,15 +312,13 @@ configure_compilers() {
         GCC_DIR=$(spack location --install-dir gcc@${BASE_GCC_VERSION})
         # Use the Spack configuration to grab the matching module for GCC;
         # requires GCC to be compiler found beforehand.
-        GCC_MODULES="$(spack config get compilers|sed -n '
-            /^\s*spec: gcc@${BASE_GCC_VERSION}/,/^\s*modules:/
-            {
-                /^\s*modules:/
-                {
-                    s/^\s*modules: \[\(.*\)\]$/\1/;
-                    p
+        GCC_MODULES="$(spack config get compilers|sed -n "
+            /^\s*spec: gcc@${BASE_GCC_VERSION}/,/^\s*modules:/ {
+                /^\s*modules:/ {
+                    s/^\s*modules: \[\(.*\)\]\$/\1/;
+                    p;
                 }
-            }')"
+            }")"
         log "...using gcc ${BASE_GCC_VERSION} from ${GCC_DIR}"
         if [[ ${spec} = *"intel"* ]]; then
             # update intel modules to use newer gcc in .cfg files
