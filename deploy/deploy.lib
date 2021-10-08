@@ -362,7 +362,7 @@ configure_compilers() {
         full_module_path="$(${cmd}|&sed -ne '2{s/:$// p}')"
         if [[ $line = *"nvhpc"* ]]; then
             if [[ -n $GCC_MODULES ]]; then
-                full_module_path="${full_module_path},${GCC_MODULES}"
+                full_module_path="${GCC_MODULES},${full_module_path}"
             else
                 log "unable to add GCC module(s) to NVHPC definition"
                 exit 1
