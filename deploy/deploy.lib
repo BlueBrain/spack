@@ -624,16 +624,22 @@ copy_modules() {
     local what="$1"
     local part=${2:-}
 
-    local source="$(install_dir ${what})/modules${part:+_}${part}"
-    local source_upstream="$(install_dir ${what})/modules"
+    local source="$(install_dir ${what})/modules"
     local target="${DEPLOYMENT_ROOT}/modules/${what}/$(date +%Y-%m)"
 
-    if [[ $what != $part ]]; then
-        log "copying module files into local upstream directory"
-        log "...from ${source}"
-        log "...into ${source_upstream}"
-        mkdir -p ${source_upstream}
-        rsync -av "${source}/" "${source_upstream}"
+    if [[ -n $part ]]; then
+        log "merging module files"
+        mkdir -p ${source}
+        for team in ${source}_*; do
+            log "...from ${team}"
+            log "...into ${source}"
+            rsync -av "${team}/" "${source}"
+        done
+        log "merging module index"
+        echo "module_index:" > "${source}/tcl/module-index.yaml"
+        for team in ${source}_*; do
+            tail -n +2 "${team}/tcl/module-index.yaml" >> "${source}/tcl/module-index.yaml"
+        done
     fi
 
     log "copying module files"
