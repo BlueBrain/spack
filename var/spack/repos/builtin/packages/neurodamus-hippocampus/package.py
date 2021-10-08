@@ -20,6 +20,7 @@ class NeurodamusHippocampus(NeurodamusModel):
     # IMPORTANT: Register versions (only) here to make them stable
     # Final version name is combined e.g. "1.0-3.0.1"
     model_core_dep_v = (
+        ('1.5.0.20211001', '3.3.2', '1ac4754dbfde8d2b31bd8eb2d8719a6caf2cec60'),
         ('1.5.0.20210917', '3.3.2', '1ac4754dbfde8d2b31bd8eb2d8719a6caf2cec60'),
         ('1.5', '3.3.2'),
         ('1.4.1', '3.2.0'),
