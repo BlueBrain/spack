@@ -310,6 +310,15 @@ configure_compilers() {
         fi
 
         GCC_DIR=$(spack location --install-dir gcc@${BASE_GCC_VERSION})
+        # Use the Spack configuration to grab the matching module for GCC;
+        # requires GCC to be compiler found beforehand.
+        GCC_MODULES="$(spack config get compilers|sed -n "
+            /^\s*spec: gcc@${BASE_GCC_VERSION}/,/^\s*modules:/ {
+                /^\s*modules:/ {
+                    s/^\s*modules: \[\(.*\)\]\$/\1/;
+                    p;
+                }
+            }")"
         log "...using gcc ${BASE_GCC_VERSION} from ${GCC_DIR}"
         if [[ ${spec} = *"intel"* ]]; then
             # update intel modules to use newer gcc in .cfg files
@@ -351,6 +360,14 @@ configure_compilers() {
 
         cmd=${cmd/unload/show/}
         full_module_path="$(${cmd}|&sed -ne '2{s/:$// p}')"
+        if [[ $line = *"nvhpc"* ]]; then
+            if [[ -n $GCC_MODULES ]]; then
+                full_module_path="${GCC_MODULES},${full_module_path}"
+            else
+                log "unable to add GCC module(s) to NVHPC definition"
+                exit 1
+            fi
+        fi
         spec=${spec%%[+ ]*}             # truncate variants
         spec=${spec/llvm/clang}         # LLVM identifies as clang
         spec=${spec/20.0.2/19.1.2.254}  # Intel identifies as an older version
@@ -624,8 +641,23 @@ copy_modules() {
     local what="$1"
     local part=${2:-}
 
-    local source="$(install_dir ${what})/modules${part:+_}${part}"
+    local source="$(install_dir ${what})/modules"
     local target="${DEPLOYMENT_ROOT}/modules/${what}/$(date +%Y-%m)"
+
+    if [[ -n $part ]]; then
+        log "merging module files"
+        mkdir -p ${source}
+        for team in ${source}_*; do
+            log "...from ${team}"
+            log "...into ${source}"
+            rsync -av "${team}/" "${source}"
+        done
+        log "merging module index"
+        echo "module_index:" > "${source}/tcl/module-index.yaml"
+        for team in ${source}_*; do
+            tail -n +2 "${team}/tcl/module-index.yaml" >> "${source}/tcl/module-index.yaml"
+        done
+    fi
 
     log "copying module files"
     log "...from ${source}"
