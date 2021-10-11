@@ -33,8 +33,7 @@ class HpeMpi(Package):
             url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.22.hmpt.tar.xz')
     version('2.25.hmpt',
             sha256='70ceccca4dccd1865e778b01a631c7e85ea0913d7dbea6608d59ad4be3738187',
-            url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.25.hmpt.tar.xz',
-            preferred=True)
+            url='file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.25.hmpt.tar.xz')
 
     provides('mpi')
 
