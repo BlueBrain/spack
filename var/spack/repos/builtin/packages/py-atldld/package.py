@@ -26,7 +26,7 @@ class PyAtldld(PythonPackage):
     depends_on("py-setuptools-scm", type="build")
 
     depends_on("py-appdirs", when="@0.3.1:", type="run")
-    depends_on("py-click", when="@0.3.0:", type="run")
+    depends_on("py-click@8:", when="@0.3.0:", type="run")
     depends_on("py-dataclasses", when="@0.3.1: ^python@3.6", type="run")
     depends_on("py-matplotlib", type="run")
     depends_on("py-numpy", type="run")
