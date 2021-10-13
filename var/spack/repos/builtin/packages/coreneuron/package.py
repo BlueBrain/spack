@@ -18,8 +18,9 @@ class Coreneuron(CMakePackage):
     url      = "https://github.com/BlueBrain/CoreNeuron"
     git      = "https://github.com/BlueBrain/CoreNeuron"
 
+    version('develop', branch='master')
     # 1.0.1 > 1.0.0.20210519 > 1.0 as far as Spack is concerned
-    version('1.0.0.20211008', commit='d70ad73b5d16f9368d70ad62f5ef2a564d5c7ea4') # d/dt sync + instrumentation
+    version('1.0.0.20211008', commit='ed4a78c2662a550486b9640a35b693ba1f684292') # d/dt sync + instrumentation
     version('1.0.0.20211001', commit='697b89e53abbb0f0a970b553ef64efd63df4700a') # d/dt sync to gpu
     version('1.0.0.20210917', commit='e2737dd')
     version('1.0.0.20210708', commit='d54a3aa')

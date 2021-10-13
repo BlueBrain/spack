@@ -109,7 +109,7 @@ class Neuron(CMakePackage):
     depends_on("readline", when=sys.platform != "darwin")
 
     # Transient dependency
-    #depends_on("gettext")
+    depends_on("gettext")
 
     depends_on("caliper",     when="+caliper")
     depends_on("mpi",         when="+mpi")
@@ -118,7 +118,7 @@ class Neuron(CMakePackage):
     depends_on("python@2.6:", when="+python", type=("build", "link", "run"))
     depends_on("py-pytest",   when="+python+tests")
     # Numpy is required for Vector.as_numpy()
-    #depends_on("py-numpy",    when="+python", type=("build", "run"))
+    depends_on("py-numpy",    when="+python", type=("build", "run"))
     depends_on("py-cython",   when="+rx3d", type="build")
     depends_on("tau",         when="+profile")
     depends_on("coreneuron+legacy-unit", when="+coreneuron+legacy-unit")
