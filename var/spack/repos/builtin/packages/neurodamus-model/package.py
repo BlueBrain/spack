@@ -20,9 +20,15 @@ def version_from_model_core_deps(model_core_dep_v):
        E.g. using model 1.1 and core 3.0.1 it will define a version
        '1.1-3.0.1' which takes model from tag 1.1 and depends on core@3.0.1
     """
-    for model_v, core_v in model_core_dep_v:
+    for tup in model_core_dep_v:
+        if len(tup) == 2:
+            model_v, core_v = tup
+            git_ref = {'tag': model_v}
+        else:
+            model_v, core_v, commit = tup
+            git_ref = {'commit': commit}
         this_version = model_v + "-" + core_v  # e.g. 1.1-3.0.2
-        version(this_version, tag=model_v, submodules=True, get_full_repo=True)
+        version(this_version, submodules=True, get_full_repo=True, **git_ref)
         depends_on('neurodamus-core@' + core_v, type='build',
                    when='@' + this_version)
 

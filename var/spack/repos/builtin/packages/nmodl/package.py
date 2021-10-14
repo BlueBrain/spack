@@ -15,6 +15,9 @@ class Nmodl(CMakePackage):
 
     version('develop', branch='master', submodules=True)
     # 0.3.0 > 0.3b > 0.3 as far as Spack is concerned
+    version('0.3.0.20211001', commit='d28f0bee20bc55ccda9ba9371f2118127138100d') # this is on master
+    version('0.3.0.20210921', commit='746aed7f3ee8849dfff6423bb5d7b93b6aa07c0e') # pramodk/net_init_acc_fix branch
+    version('0.3.0.20210917', commit='1845c2746faaedaad533de069417bdce084a1bac')
     version('0.3.0', tag='0.3', preferred=True)
     version('0.3b', commit="c30ea06", submodules=True)
     version('0.3a', commit="86fc52d", submodules=True)
@@ -27,8 +30,8 @@ class Nmodl(CMakePackage):
     generator = 'Ninja'
     depends_on('ninja', type='build')
 
-    depends_on('bison@3.0:3.4.99', when='@:0.3', type='build')
-    depends_on('bison@3.0.5:', when='@0.3.1:', type='build')
+    depends_on('bison@3.0:3.4.99', when='@:0.3.0.20210916', type='build')
+    depends_on('bison@3.0.5:', when='@0.3.0.20210917:', type='build')
     depends_on('cmake@3.3.0:', type='build')
     depends_on('flex@2.6:', type='build')
     depends_on('python@3.6.0:')
