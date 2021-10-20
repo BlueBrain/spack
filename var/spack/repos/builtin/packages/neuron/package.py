@@ -32,6 +32,7 @@ class Neuron(CMakePackage):
     patch("fix_brew_py_18e97a2d.patch", when="@7.8.0c")
 
     version("develop", branch="master")
+    version('8.0.0.20211015', commit='1b3223feccb3e0eb494b17ced61e111a99e11b5d')
     version('8.0.0.20211001', commit='464541abbf72fe58de77b16bf0e1df425a280b89') # master
     version("8.0.0.20210917", commit="6cdbef8d1541965a11c41329d993daafcdd971dc")
     version("8.0.0", tag="8.0.0", preferred=True)
