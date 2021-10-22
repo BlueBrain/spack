@@ -33,6 +33,7 @@ spack:
         - nvhpc
         - pgi
         - python
+        - singularity
         - snakemake
         - stat
         - totalview
@@ -106,6 +107,7 @@ spack:
     - qhull@2015.2
     - qt@5.14.2
     - readline
+    - singularity@3.8.3
     - snakemake
     - sqlite
     - stat@4.0.2.999
