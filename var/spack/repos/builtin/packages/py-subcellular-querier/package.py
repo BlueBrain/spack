@@ -16,10 +16,10 @@ class PySubcellularQuerier(PythonPackage):
 
     depends_on('py-setuptools', type=('build', 'run'))
 
-    depends_on('py-entity-management@0.1.10:0.999', type='run')
-    depends_on('py-tables@3.4.4:', type='run')
-    depends_on('py-pandas@0.24.1:', type='run')
-    depends_on('py-python-magic@0.4.15:', type='run')
-    depends_on('py-pathlib2@2.3.3:', type='run')
-    depends_on('py-click@7.0:', type='run')
-    depends_on('py-requests@2.21.0:', type='run')
+    depends_on('py-entity-management@0.1.10:0.999', type=('build', 'run'))
+    depends_on('py-tables@3.4.4:', type=('build', 'run'))
+    depends_on('py-pandas@0.24.1:', type=('build', 'run'))
+    depends_on('py-python-magic@0.4.15:', type=('build', 'run'))
+    depends_on('py-pathlib2@2.3.3:', type=('build', 'run'))
+    depends_on('py-click@7.0:', type=('build', 'run'))
+    depends_on('py-requests@2.21.0:', type=('build', 'run'))
