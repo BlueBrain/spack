@@ -187,7 +187,8 @@ class Cuda(Package):
         # https://gist.github.com/ax3l/9489132
         # for details.
 
-        # CUDA 10.1 on ppc64le fails to copy some files, the workaround is adapted from
+        # CUDA 10.1 on ppc64le fails to copy some files, the workaround is
+        # adapted from
         # https://forums.developer.nvidia.com/t/cuda-10-1-243-10-1-update-2-ppc64le-run-file-installation-issue/82433
         # See also #21170
         if spec.satisfies('@10.1.243') and platform.machine() == 'ppc64le':
@@ -200,10 +201,11 @@ class Cuda(Package):
 
         if self.spec.satisfies('@:8.0.61'):
             # Perl 5.26 removed current directory from module search path.
-            # We are addressing this by exporting `PERL5LIB` earlier, but for some
-            # reason, it is not enough. One more file needs to be extracted before
-            # running the actual installer. This solution is one of the commonly
-            # found on the Internet, when people try to install CUDA <= 8 manually.
+            # We are addressing this by exporting `PERL5LIB` earlier, but for
+            # some reason, it is not enough. One more file needs to be
+            # extracted before running the actual installer. This solution is
+            # one of the commonly found on the Internet, when people try to
+            # install CUDA <= 8 manually.
             # For example: https://askubuntu.com/a/1087842
             arguments = [runfile, '--tar', 'mxvf', './InstallUtils.pm']
             install_shell(*arguments)
