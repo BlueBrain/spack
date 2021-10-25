@@ -181,3 +181,10 @@ class Openssl(Package):   # Uses Fake Autotools, should subclass Package
 
     def setup_build_environment(self, env):
         env.set('PERL', self.spec['perl'].prefix.bin.perl)
+
+    # PKG_CONFIG_PATH is not set especially when openssl is external
+    def setup_dependent_build_environment(self, env, dependent_spec):
+        pkg_config_dir = self.prefix.lib64.pkgconfig
+        if not os.path.exists(pkg_config_dir):
+            pkg_config_dir = self.prefix.lib.pkgconfig
+        env.append_path('PKG_CONFIG_PATH', pkg_config_dir)
