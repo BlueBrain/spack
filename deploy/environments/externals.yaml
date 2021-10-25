@@ -34,6 +34,7 @@ spack:
         - pgi
         - python
         - singularity
+        - singularityce
         - snakemake
         - stat
         - totalview
@@ -108,6 +109,7 @@ spack:
     - qt@5.14.2
     - readline
     - singularity@3.8.3
+    - singularityce@3.9.0-rc.1
     - snakemake
     - sqlite
     - stat@4.0.2.999

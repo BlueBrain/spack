@@ -166,4 +166,6 @@ class Singularityce(SingularityBase):
     maintainers = ['alalazo']
     version('master', branch='master')
 
+    # as part of PoC, we want to test latest upcoming release
+    version('3.9.0-rc.1', sha256='ee1f5f439bbe2589c3f7b602da19af05771b720649310515f0fe5e4acbf5f310')
     version('3.8.0', sha256='5fa2c0e7ef2b814d8aa170826b833f91e5031a85d85cd1292a234e6c55da1be1')
