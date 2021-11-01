@@ -32,6 +32,7 @@ class Neuron(CMakePackage):
     patch("fix_brew_py_18e97a2d.patch", when="@7.8.0c")
 
     version("develop", branch="master")
+    version("tests", branch="magkanar/olfactory_test")
     version("8.0.0", tag="8.0.0", preferred=True)
     version("8.0b",  commit="eb8d038")
     version("8.0a",  tag="8.0a")
@@ -83,7 +84,7 @@ class Neuron(CMakePackage):
     variant("rx3d",       default=True,  description="Enable cython translated 3-d rxd. Depends on pysetup")
     variant("shared",     default=True,  description="Build shared libraries")
     variant("tests",      default=False, description="Enable unit tests")
-    variant("model_tests", default="None", description="Enable detailed model tests included in neuron")
+    variant("model_tests", default="None", description="Enable detailed model tests included in neuron", multi=True, values=("None", "olfactory", "channel-benchmark"))
     variant("legacy-unit", default=True,   description="Enable legacy units")
 
     variant("codechecks", default=False,
@@ -143,8 +144,9 @@ class Neuron(CMakePackage):
                                                              "+rx3d",
                                                              "+coreneuron",
                                                              "+tests"]]
-        if self.spec.variants['model_tests'].value != "None":
-            args.append('-DNRN_ENABLE_MODEL_TESTS:STRING={}'.format(self.spec.variants['model_tests'].value))
+        if self.spec.variants['model_tests'].value != ("None",):
+            args.append('-DNRN_ENABLE_MODEL_TESTS={}'.format(",".join(
+                model for model in self.spec.variants["model_tests"].value)))
         if "+mpi" in self.spec:
             args.append("-DNRN_ENABLE_MPI=ON")
             if "~coreneuron" in self.spec:
@@ -166,7 +168,6 @@ class Neuron(CMakePackage):
             args.append('-DNRN_DYNAMIC_UNITS_USE_LEGACY=ON')
         if "+coreneuron" in self.spec:
             args.append('-DCORENEURON_DIR=' + self.spec["coreneuron"].prefix)
-
         return args
 
     # Create symlink in share/nrn/lib for the python libraries
