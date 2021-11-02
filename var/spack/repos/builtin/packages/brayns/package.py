@@ -36,7 +36,8 @@ class Brayns(CMakePackage):
     depends_on('ispc', type='build')
     depends_on('ninja', type='build')
 
-    depends_on('assimp', when='+assimp')
+    depends_on('assimp@5.0.1', when='@1.1.1: +assimp')
+    depends_on('assimp@4.1.0', when='@:1.1.0 +assimp')
     depends_on('bbptestdata', type='test', when='+test')
     depends_on('brion', when='+brion')
     depends_on('deflect ~deflect-qt', when='+deflect')
@@ -67,7 +68,7 @@ class Brayns(CMakePackage):
             )
         for cmake_filename in find(self.stage.source_path, "CMakeLists.txt"):
             filter_file(r'\$\{GLEW_LIBRARIES\}', 'GLEW', cmake_filename)
-        if self.spec.satisfies('@1.0:'):
+        if self.spec.satisfies('@1.0:1.1'):
             filter_file(r'cast<const uint8_t \*const',
                         'cast<const uint8_t *',
                         'plugins/Rockets/encoder.cpp')

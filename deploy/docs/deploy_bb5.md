@@ -1,5 +1,7 @@
 # Deploying software on BlueBrain5
 
+## Modules on BlueBrain5
+
 Essential software used to build and simulate our brain models is deployed
 centrally on BlueBrain5, as well as some utilities to facilitate easier
 software development.
@@ -15,14 +17,16 @@ If no modules are available, the following will restore the setup:
 
     $ . /gpfs/bbp.cscs.ch/apps/hpc/jenkins/config/modules.sh
 
+## Updating deployed software versions
+
 To update the version of any of these modules, first we have to make sure
 that the corresponding software is built by edit the corresponding Spack
 environment:
 
-    $ nvim spack/deploy/environments/applications.yaml
+    $ nvim spack/deploy/environments/applications_${team}.yaml
 
 The above environment definition provides the end-user software that is
-developed by BlueBrain.
+developed by BlueBrain, split by team.
 Version specifications are only required if the deployed version should be
 static and not change with updates to the package file.
 Please ensure that:
@@ -44,13 +48,24 @@ deployment chain (all found in `spack/deploy/environments`):
 
 Changes to any file should be committed and result in a pull request on
 Github.
+
+## Testing pull requests for updates
+
 Jenkins will build the additional software required, with all output
 available in a separate directory:
 
-    $ ls /gpfs/bbp.cscs.ch/apps/hpc/jenkins/pulls/165
+    $ ls /gpfs/bbp.cscs.ch/apps/hpc/jenkins/pulls/12345
     config  deploy  mirror  spack
 
 Software packages and modules should be updated upon pull request merge and
 a nightly basis.
 The `config` directory contains the same configuration files as the regular
 deployment and can be used instead.
+To test the pull request, clean the environment and source the
+corresponding modules:
+
+    $ module purge     # remove anything that may pollute the shell environment
+    $ unset MODULEPATH # start with a clean slate, no interference
+    $ . /gpfs/bbp.cscs.ch/apps/hpc/jenkins/pulls/${MY_PULL_REQUEST_NUMBER}/config/modules.sh
+    $ module load unstable
+    $ module load ${SOFTWARE_I_JUST_UPDATED}
