@@ -30,16 +30,16 @@ class PyAtlannot(PythonPackage):
     depends_on("py-setuptools-scm", type="build")
 
     # Installation requirements
-    depends_on("py-antspyx@0.2.4", type=("run"))
-    depends_on("py-atldld@0.2.2", type=("run"))
-    depends_on("py-matplotlib", type=("run"))
-    depends_on("py-numpy", type=("run"))
-    depends_on("py-pynrrd", type=("run"))
+    depends_on("py-antspyx@0.2.4", type=("build", "run"))
+    depends_on("py-atldld@0.2.2", type=("build", "run"))
+    depends_on("py-matplotlib", type=("build", "run"))
+    depends_on("py-numpy", type=("build", "run"))
+    depends_on("py-pynrrd", type=("build", "run"))
 
     # From the "interactive" extra
-    depends_on("py-ipython", type=("run"))
-    depends_on("py-ipywidgets", type=("run"))
-    depends_on("py-nibabel", type=("run"))
-    depends_on("py-scipy", type=("run"))
-    depends_on("py-toml", type=("run"))
-    depends_on("py-tqdm", type=("run"))
+    depends_on("py-ipython", type=("build", "run"))
+    depends_on("py-ipywidgets", type=("build", "run"))
+    depends_on("py-nibabel", type=("build", "run"))
+    depends_on("py-scipy", type=("build", "run"))
+    depends_on("py-toml", type=("build", "run"))
+    depends_on("py-tqdm", type=("build", "run"))
