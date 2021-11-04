@@ -10,7 +10,7 @@ from spack.directives import depends_on, version
 class PyAtlannot(PythonPackage):
     """Alignment of brain atlas annotations."""
 
-    homepage = "atlas-annotation.rtfd.io"
+    homepage = "https://atlas-annotation.rtfd.io"
     maintainers = ["EmilieDel", "Stannislav"]
 
     version(
