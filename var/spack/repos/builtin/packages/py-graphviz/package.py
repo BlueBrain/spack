@@ -11,6 +11,7 @@ class PyGraphviz(PythonPackage):
     """Simple Python interface for Graphviz"""
 
     homepage = "https://github.com/xflr6/graphviz"
+    url      = "https://pypi.io/packages/source/g/graphviz/graphviz-0.10.1.zip"
     pypi = "graphviz/graphviz-0.10.1.zip"
 
     version('0.13.2', sha256='60acbeee346e8c14555821eab57dbf68a169e6c10bce40e83c1bf44f63a62a01')
