@@ -44,11 +44,12 @@ class Opencv(CMakePackage, CudaPackage):
     # Defined in `modules/*/CMakeLists.txt` using
     # `ocv_add_module(...)` and `ocv_define_module(...)`
     modules = [
-        'apps', 'calib3d', 'core', 'dnn', 'features2d', 'flann', 'gapi', 'highgui',
-        'imgcodecs', 'imgproc', 'java', 'java_bindings_generator', 'js',
-        'js_bindings_generator', 'ml', 'objc', 'objc_bindings_generator', 'objdetect',
-        'photo', 'python2', 'python3', 'python_bindings_generator', 'python_tests',
-        'stitching', 'ts', 'video', 'videoio', 'world'
+        'apps', 'calib3d', 'core', 'dnn', 'features2d', 'flann', 'gapi',
+        'highgui', 'imgcodecs', 'imgproc', 'java', 'java_bindings_generator',
+        'js', 'js_bindings_generator', 'ml', 'objc', 'objc_bindings_generator',
+        'objdetect', 'photo', 'python2', 'python3',
+        'python_bindings_generator', 'python_tests', 'stitching', 'ts',
+        'video', 'videoio', 'world',
     ]
 
     for mod in modules:
@@ -61,17 +62,18 @@ class Opencv(CMakePackage, CudaPackage):
     # using `OCV_OPTION(WITH_* ...)`
     components = [
         '1394', 'ade', 'android_mediandk', 'android_native_camera', 'aravis',
-        'avfoundation', 'cap_ios', 'carotene', 'clp', 'cpufeatures', 'cublas', 'cuda',
-        'cudnn', 'cufft', 'directx', 'dshow', 'eigen', 'ffmpeg', 'freetype', 'gdal',
-        'gdcm', 'gphoto2', 'gstreamer', 'gtk', 'gtk_2_x', 'halide', 'hpx',
-        'imgcodec_hdr', 'imgcode_pfm', 'imgcodec_pxm', 'imgcodec_sunraster',
-        'inf_engine', 'ipp', 'itt', 'jasper', 'jpeg', 'lapack', 'librealsense', 'mfx',
-        'msmf', 'msmf_dxva', 'ngraph', 'nvcuvid', 'onnx', 'opencl', 'openclamdblas',
-        'openclamdfft', 'opencl_d3d11_nv', 'opencl_svm', 'openexr', 'opengl',
-        'openjpeg', 'openmp', 'openni', 'openni2', 'openvx', 'plaidml', 'png',
-        'protobuf', 'pthreads_pf', 'pvapi', 'qt', 'quirc', 'tbb', 'tengine', 'tiff',
-        'ueye', 'v4l', 'va', 'va_intel', 'vtk', 'vulcan', 'webp', 'win32ui', 'ximea',
-        'xine'
+        'avfoundation', 'cap_ios', 'carotene', 'clp', 'cpufeatures', 'cublas',
+        'cuda', 'cudnn', 'cufft', 'directx', 'dshow', 'eigen', 'ffmpeg',
+        'freetype', 'gdal', 'gdcm', 'gphoto2', 'gstreamer', 'gtk', 'gtk_2_x',
+        'halide', 'hpx', 'imgcodec_hdr', 'imgcode_pfm', 'imgcodec_pxm',
+        'imgcodec_sunraster', 'inf_engine', 'ipp', 'itt', 'jasper', 'jpeg',
+        'lapack', 'librealsense', 'mfx', 'msmf', 'msmf_dxva', 'ngraph',
+        'nvcuvid', 'onnx', 'opencl', 'openclamdblas', 'openclamdfft',
+        'opencl_d3d11_nv', 'opencl_svm', 'openexr', 'opengl', 'openjpeg',
+        'openmp', 'openni', 'openni2', 'openvx', 'plaidml', 'png', 'protobuf',
+        'pthreads_pf', 'pvapi', 'qt', 'quirc', 'tbb', 'tengine', 'tiff',
+        'ueye', 'v4l', 'va', 'va_intel', 'vtk', 'vulcan', 'webp', 'win32ui',
+        'ximea', 'xine',
     ]
 
     for component in components:
@@ -157,8 +159,9 @@ class Opencv(CMakePackage, CudaPackage):
 
     # OpenCV modules (conflicts)
     # Defined in `apps/*/CMakeLists.txt` using `ocv_add_application(...)`
-    # Different apps require different modules, but no way to control which apps
-    # are installed. If +apps is requested, make sure all apps can be built.
+    # Different apps require different modules, but no way to control
+    # which apps are installed. If +apps is requested, make sure all
+    # apps can be built.
     conflicts('+apps', when='~calib3d')
     conflicts('+apps', when='~core')
     conflicts('+apps', when='~dnn')
@@ -362,7 +365,10 @@ class Opencv(CMakePackage, CudaPackage):
             args.extend([
                 self.define('BUILD_JASPER', False),
                 self.define('JASPER_LIBRARY', jasper.libs[0]),
-                self.define('JASPER_INCLUDE_DIR', jasper.headers.directories[0])
+                self.define(
+                    'JASPER_INCLUDE_DIR',
+                    jasper.headers.directories[0],
+                )
             ])
 
         # Python
