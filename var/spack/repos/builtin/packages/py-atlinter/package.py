@@ -32,8 +32,8 @@ class PyAtlinter(PythonPackage):
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm", type="build")
 
-    depends_on("mxnet+cuda+cudnn+nccl", when="@0.1.1:+cuda", type=("build", "run"))
-    depends_on("mxnet~cuda~cudnn~nccl", when="@0.1.1:~cuda", type=("build", "run"))
+    depends_on("mxnet+cuda", when="@0.1.1:+cuda", type=("build", "run"))
+    depends_on("mxnet~cuda", when="@0.1.1:~cuda", type=("build", "run"))
     depends_on("py-atlannot", when="@0.2.2:", type=("build", "run"))
     depends_on("py-atldld@0.2.2", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
