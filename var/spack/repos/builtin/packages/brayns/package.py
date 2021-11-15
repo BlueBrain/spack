@@ -66,7 +66,7 @@ class Brayns(CMakePackage):
     def patch(self):
         cmake_common_file = 'CMake/common/CommonCompiler.cmake'
         if can_access(self.stage.source_path + "/" + cmake_common_file) \
-            and self.spec.satisfies('%gcc@9:'):
+                and self.spec.satisfies('%gcc@9:'):
             filter_file(
                 r'-Werror',
                 '-Werror -Wno-error=deprecated-copy',
@@ -94,18 +94,17 @@ class Brayns(CMakePackage):
             '-DBRAYNS_DEFLECT_ENABLED={0}'.format(
                 'ON' if '+deflect' in self.spec else 'OFF')
         ]
-        
+
         if self.spec.satisfies('@:1.1.0'):
             args.append('-DDISABLE_SUBPROJECTS=ON')
             args.append('-DBRAYNS_NETWORKING_ENABLED={0}'.format(
-                            'ON' if '+net' in self.spec else 'OFF'))
+                'ON' if '+net' in self.spec else 'OFF'))
             args.append('-DBRAYNS_ASSIMP_ENABLED={0}'.format(
-                            'ON' if '+assimp' in self.spec else 'OFF'))
+                'ON' if '+assimp' in self.spec else 'OFF'))
             args.append('-DBRAYNS_OSPRAY_ENABLED={0}'.format(
-                            'ON' if '+ospray' in self.spec else 'OFF'))
+                'ON' if '+ospray' in self.spec else 'OFF'))
             args.append('-DBRAYNS_CIRCUITVIEWER_ENABLED={0}'.format(
-                            'ON' if '+brion' in self.spec else 'OFF'))
-                        
+                'ON' if '+brion' in self.spec else 'OFF'))
 
         if '+opendeck' in self.spec:
             args.append('-DBRAYNS_OPENDECK_ENABLED=ON')
