@@ -105,13 +105,15 @@ class Brayns(CMakePackage):
                 'ON' if '+ospray' in self.spec else 'OFF'))
             args.append('-DBRAYNS_CIRCUITVIEWER_ENABLED={0}'.format(
                 'ON' if '+brion' in self.spec else 'OFF'))
+            
+            if '+optix' in self.spec:
+                args.append('-DBRAYNS_OPTIX_ENABLED=ON')
+                args.append('-DBRAYNS_OPTIX_TESTS_ENABLED=ON')
 
         if '+opendeck' in self.spec:
             args.append('-DBRAYNS_OPENDECK_ENABLED=ON')
             args.append('-DBRAYNS_VRPN_ENABLED=ON')
-        if self.spec.satisfies('@:1.1.0') and '+optix' in self.spec:
-            args.append('-DBRAYNS_OPTIX_ENABLED=ON')
-            args.append('-DBRAYNS_OPTIX_TESTS_ENABLED=ON')
+
         return args
 
     def check(self):
