@@ -166,7 +166,6 @@ class Neuron(CMakePackage):
         if "+coreneuron" in self.spec:
             args.append('-DCORENEURON_DIR=' + self.spec["coreneuron"].prefix)
 
-        args.append('-DCMAKE_PREFIX_PATH=/usr/X11') 
         return args
 
     # Create symlink in share/nrn/lib for the python libraries
