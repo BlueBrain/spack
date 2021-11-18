@@ -28,7 +28,7 @@ class Steps(CMakePackage):
     variant("bundle", default=False, description="Use bundled libraries")
     variant("stochtests", default=True, description="Add stochastic tests to ctests")
     variant("timemory", default=False, description="Add timemory API to instrument time/memory")
-    variant("build_type", default="RelWithDebInfoAndAssert", description="CMake build type",
+    variant("build_type", default="Release", description="CMake build type",
             values=("Debug", "Release", "RelWithDebInfo", "MinSizeRel", "RelWithDebInfoAndAssert"))
 
     depends_on("boost")
