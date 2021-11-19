@@ -38,8 +38,8 @@ class Brayns(CMakePackage):
 
     depends_on('git', when='@1.1.1:')
     depends_on('libsonata', when='@1.1.1: +brion')
-    depends_on('morphio', when='1.1.1: +brion')
-    depends_on('mvdtool', when='1.1.1: +brion')
+    depends_on('morphio', when='@1.1.1: +brion')
+    depends_on('mvdtool', when='@1.1.1: +brion')
     depends_on('assimp@5.0.1', when='@1.1.1: +assimp')
     depends_on('assimp@4.1.0', when='@:1.1.0 +assimp')
     depends_on('bbptestdata', type='test', when='+test')
