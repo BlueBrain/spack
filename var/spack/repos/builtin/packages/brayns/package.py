@@ -36,7 +36,7 @@ class Brayns(CMakePackage):
     depends_on('ispc', type='build')
     depends_on('ninja', type='build')
 
-    depends_on('git', when='@1.1.1:)
+    depends_on('git', when='@1.1.1:')
     depends_on('libsonata', when='@1.1.1: +brion')
     depends_on('morphio', when='1.1.1: +brion')
     depends_on('mvdtool', when='1.1.1: +brion')
