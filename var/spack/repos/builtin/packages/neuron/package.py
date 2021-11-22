@@ -32,7 +32,6 @@ class Neuron(CMakePackage):
     patch("fix_brew_py_18e97a2d.patch", when="@7.8.0c")
 
     version("develop", branch="master")
-    version("tests", branch="magkanar/olfactory_test")
     version("8.0.0", tag="8.0.0", preferred=True)
     version("8.0b",  commit="eb8d038")
     version("8.0a",  tag="8.0a")
