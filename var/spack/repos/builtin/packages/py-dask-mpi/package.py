@@ -14,6 +14,7 @@ class PyDaskMpi(PythonPackage):
 
     import_modules = ['dask_mpi']
 
+    version('2021.11.0', sha256='602d2e2d7816a4abc1eb17998e1acc93a43b6f82bf94a6accca169a42de21898')
     version('2.21.0', sha256='76e153fc8c58047d898970b33ede0ab1990bd4e69cc130c6627a96f11b12a1a7')
     version('2.0.0', sha256='774cd2d69e5f7154e1fa133c22498062edd31507ffa2ea19f4ab4d8975c27bc3')
 
