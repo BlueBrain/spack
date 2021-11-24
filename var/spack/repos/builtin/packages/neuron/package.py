@@ -144,8 +144,8 @@ class Neuron(CMakePackage):
                                                              "+coreneuron",
                                                              "+tests"]]
         if self.spec.variants['model_tests'].value != ("None",):
-            args.append('-DNRN_ENABLE_MODEL_TESTS={}'.format(",".join(
-                model for model in self.spec.variants["model_tests"].value)))
+            args.append('-DNRN_ENABLE_MODEL_TESTS=' + ",".join(
+                model for model in self.spec.variants["model_tests"].value))
         if "+mpi" in self.spec:
             args.append("-DNRN_ENABLE_MPI=ON")
             if "~coreneuron" in self.spec:
