@@ -18,6 +18,12 @@ and then activating it:
 All subsequent actions now act on this environment. To leave the
 environment, use the command `despacktivate` or `spack env deactivate`.
 
+To consider all software in the environment together, and only use one
+version of each package in the dependencies, set the `concretization`
+configuration to `together`:
+
+    $ spack config add spack:concretization=together
+
 First, we add TouchDetector to it:
 
     $ spack add touchdetector
