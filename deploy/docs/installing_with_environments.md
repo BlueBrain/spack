@@ -11,18 +11,17 @@ We can start by creating an environment:
 
     $ spack env create -d spamhameggs
 
-and then activating it:
+and then activating it, and fixing the configuration to consider all
+software together:
 
     $ spack env activate -d spamhameggs
+    $ spack config add spack:concretization=together
+
+This will make sure that every package is only built once, in the specified
+version.
 
 All subsequent actions now act on this environment. To leave the
 environment, use the command `despacktivate` or `spack env deactivate`.
-
-To consider all software in the environment together, and only use one
-version of each package in the dependencies, set the `concretization`
-configuration to `together`:
-
-    $ spack config add spack:concretization=together
 
 First, we add TouchDetector to it:
 
