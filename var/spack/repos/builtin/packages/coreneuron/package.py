@@ -142,7 +142,6 @@ class Coreneuron(CMakePackage):
 
         options =\
             ['-DCORENRN_ENABLE_SPLAYTREE_QUEUING=ON',
-             '-DCMAKE_C_FLAGS=%s' % flags,
              '-DCMAKE_CXX_FLAGS=%s' % flags,
              '-DCORENRN_ENABLE_REPORTING=%s'
              % ('ON' if '+report' in spec else 'OFF'),
@@ -154,6 +153,11 @@ class Coreneuron(CMakePackage):
              '-DCORENRN_ENABLE_TIMEOUT=OFF',
              '-DPYTHON_EXECUTABLE=%s' % spec["python"].command.path
              ]
+
+        # Versions after this only used C++, but we might still need C
+        # flags if mod2c is being built as a submodule.
+        if spec.satisfies('@:1.0.0.20210708') or spec.satisfies('~nmodl'):
+            options.append('-DCMAKE_C_FLAGS=%s' % flags)
 
         if spec.satisfies('+caliper'):
             options.append('-DCORENRN_ENABLE_CALIPER_PROFILING=ON')
