@@ -36,6 +36,7 @@ class Steps(CMakePackage):
     depends_on("blas")
     depends_on("lapack", when="+lapack")
     depends_on("lcov", when="+coverage", type="build")
+    depends_on("llvm", when="+codechecks", type="build")
     depends_on("metis+int64", when="@3.6.1:")
     depends_on("eigen", when="@3.6.1:")
     depends_on("mpi", when="+mpi")
