@@ -136,6 +136,8 @@ setup_spack:
         module_roots:
           tcl: $DEPLOYMENT_ROOT/stage_${CI_JOB_STAGE}/modules_tcl$DEPLOYMENT_SUFFIX
       EOF
+    # Keep Spack from complaining
+    - mkdir -p "${DEPLOYMENT_ROOT}/stage_${CI_JOB_STAGE}"
     # Hook up software from other stages if needed (also for PRs)
     - configure-upstreams > "spack_config/upstreams.yaml"
     # Sourcing should happen after upstreams to add upstream modules to the path

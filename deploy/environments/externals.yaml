@@ -110,7 +110,7 @@ spack:
     - snakemake
     - sqlite
     # Broken, broken, broken… :(
-    # - stat
+    - stat
     - totalview
     - valgrind~mpi
     - virtualgl
