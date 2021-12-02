@@ -372,7 +372,14 @@ update_config:
           root: \${HOME}/spack_install
           projections:
             all: install_\${COMPILERNAME}-\${COMPILERVER}-\${TARGET}/\${PACKAGE}-\${VERSION}-\${HASH:6}
+        source_cache: \$user_cache_path/sources
       EOF
+
+link_configuration:
+  needs: [update_config]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $DEPLOYMEN_DEFAULT_BRANCH'
+  script:
     # Link configuration into global deployment directory
     - ln -sf "$DEPLOYMENT_ROOT/config" "$DEPLOYMENT_BASE"
 

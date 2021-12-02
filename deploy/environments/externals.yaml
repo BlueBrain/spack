@@ -109,7 +109,6 @@ spack:
     - readline
     - snakemake
     - sqlite
-    # Broken, broken, broken… :(
     - stat
     - totalview
     - valgrind~mpi

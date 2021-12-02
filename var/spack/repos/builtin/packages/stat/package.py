@@ -15,6 +15,8 @@ class Stat(AutotoolsPackage):
     maintainers = ['lee218llnl']
 
     version('develop', branch='develop')
+    # That commit is 4.1.0 + a bunch of fixes, PYTHONPATH handling incuded
+    version('4.1.0-2021-12-02', commit='ff48de751f7716133cfb95a912ee8787da9acbeb')
     version('4.1.0', sha256='1d5b00afd563cf3bd9dd40818c44a03d7d4b13356216881513c058566c3b0080',
             url='https://github.com/LLNL/STAT/files/6193568/stat-4.1.0.tar.gz')
     version('4.0.2', sha256='9ece10dde8e1579c9db469ac8d2391b26e59498c0947dbb271c2d01d7ef0a65d',
