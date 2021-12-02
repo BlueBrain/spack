@@ -82,6 +82,10 @@ class NeurodamusModel(SimModel):
         if spec.variants['common_mods'].value != 'default':
             shutil.move('common', '_common_orig')
             force_symlink(spec.variants['common_mods'].value, 'common')
+        else:
+            # Newer models require fecthing common when working standalone
+            fetch_common = which("./fetch_common.bash")
+            fetch_common and fetch_common()
 
     def build_model(self, spec, prefix):
         """Build and install the bare model.
