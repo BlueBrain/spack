@@ -383,6 +383,14 @@ link_configuration:
     # Link configuration into global deployment directory
     - ln -sf "$DEPLOYMENT_ROOT/config" "$DEPLOYMENT_BASE"
 
+github_feedback:
+  needs: [update_config]
+  rules:
+    - if: $GITHUB_PULL_REQUEST_ID
+  script:
+    - export PATH="${DEPLOYMENT_ROOT}/spack/deploy/bin:${PATH}"
+    - give-github-feedback
+
 check_modules:
   needs: [update_config]
   variables:

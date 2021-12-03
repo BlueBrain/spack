@@ -62,7 +62,7 @@ class Stat(AutotoolsPackage):
     depends_on('python@:2.8', when='@:4.0.0')
     depends_on('py-pygtk', type=('build', 'run'), when='@:4.0.0 +gui')
     depends_on('py-enum34', type=('run'), when='@:4.0.0')
-    depends_on('py-xdot@1.0', when='@4.0.1: +gui')
+    depends_on('py-xdot@1.0', type=('build', 'run'), when='@4.0.1: +gui')
     depends_on('swig')
     depends_on('mpi', when='+examples')
     depends_on('boost')
@@ -93,3 +93,10 @@ class Stat(AutotoolsPackage):
         if '~examples' in spec:
             args.append('--disable-examples')
         return args
+
+    def setup_run_environment(self, env):
+        for d in self.spec.traverse(deptype=('run',), root=True):
+            python = self.spec['python']
+            if d.package.extends(python):
+                env.prepend_path('PYTHONPATH', join_path(
+                    d.prefix, python.package.site_packages_dir))
