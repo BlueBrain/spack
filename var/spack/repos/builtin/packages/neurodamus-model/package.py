@@ -48,8 +48,8 @@ class NeurodamusModel(SimModel):
 
     resource(
         name='common_mods',
-        git='ssh://bbpcode.epfl.ch/sim/models/common',
-        branch='master',
+        git='git@bbpgitlab.epfl.ch:hpc/sim/models/common.git',
+        branch='main',
         destination='ngv'
     )
 

@@ -1,4 +1,4 @@
-# Copyright 2013-2020 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -13,11 +13,8 @@ class Steps(CMakePackage):
     git      = "git@bbpgitlab.epfl.ch:hpc/HBP_STEPS.git"
 
     version("develop", branch="master", submodules=True)
-    version("3.6.0", submodules=True)
-    version("3.5.0b",  commit="b2be5fe", submodules=True)
-    version("3.4.1", submodules=True)
-    version("3.3.0", submodules=True)
-    version("3.2.0", submodules=True)
+    version("3.6.0", tag="3.6.0", submodules=True)
+    version("3.5.0b", commit="b2be5fe", submodules=True)
 
     variant("codechecks", default=False,
             description="Perform additional code checks like "
@@ -30,7 +27,9 @@ class Steps(CMakePackage):
     variant("coverage", default=False, description="Enable code coverage")
     variant("bundle", default=False, description="Use bundled libraries")
     variant("stochtests", default=True, description="Add stochastic tests to ctests")
-    variant("timemory", default=False, description="Add timemory API to instrument time/memory")
+    variant("build_type", default="RelWithDebInfo", description="CMake build type",
+            values=("Debug", "Release", "RelWithDebInfo", "MinSizeRel",
+                    "RelWithDebInfoAndAssert"))
 
     depends_on("boost")
     depends_on("blas")
@@ -58,7 +57,6 @@ class Steps(CMakePackage):
     depends_on("easyloggingpp", when="~bundle")
     depends_on("random123", when="~bundle")
     depends_on("sundials@:2.99.99+int64", when="~bundle")
-    depends_on("timemory", when="+timemory")
     conflicts("+distmesh~mpi",
               msg="steps+distmesh requires +mpi")
 
@@ -112,10 +110,10 @@ class Steps(CMakePackage):
         else:
             args.append("-DBUILD_STOCHASTIC_TESTS:BOOL=False")
 
-        if "+timemory" in spec:
-            args.append("-USE_TIMEMORY:BOOL=TRUE")
+        if "+codechecks" in spec:
+            args.append("-DSTEPS_FORMATTING:BOOL=ON")
         else:
-            args.append("-USE_TIMEMORY:BOOL=FALSE")
+            args.append("-DSTEPS_FORMATTING:BOOL=OFF")
 
         args.append('-DBLAS_LIBRARIES=' + spec['blas'].libs.joined(";"))
         args.append('-DPYTHON_EXECUTABLE='

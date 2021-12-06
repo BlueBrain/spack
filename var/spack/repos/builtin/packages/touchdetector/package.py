@@ -14,6 +14,7 @@ class Touchdetector(CMakePackage):
     git      = "git@bbpgitlab.epfl.ch:hpc/touchdetector.git"
 
     version('develop', submodules=True)
+    version('5.6.1', tag='5.6.1', submodules=True)
     version('5.6.0', tag='5.6.0', submodules=True)
     version('5.5.1', tag='5.5.1', submodules=True)
     version('5.5.0', tag='5.5.0', submodules=True)
@@ -34,7 +35,6 @@ class Touchdetector(CMakePackage):
     variant('openmp', default=False, description='Enables OpenMP support')
 
     depends_on('cmake', type='build')
-    depends_on('boost@1.50:')
     depends_on('catch2', when='@5.0.2:')
     depends_on('eigen', when='@4.5:')
     depends_on('fmt@:5.999', when='@4.5:')
@@ -45,7 +45,6 @@ class Touchdetector(CMakePackage):
     depends_on('range-v3@:0.4', when='@5.0.2:5.3.2')
     depends_on('range-v3@:0.10', when='@5.3.3:')
     depends_on('libsonata', when='@5.6.0:')
-    depends_on('highfive+mpi', when='@5.3.0:')
     depends_on('nlohmann-json', when='@5.3.3:')
 
     # Old dependencies
@@ -57,6 +56,9 @@ class Touchdetector(CMakePackage):
     depends_on('morphio@2.0.8:', when='@4.5:5.1')
     depends_on('mvdtool@2.1.0:', when='@5.1.1:5.5.999')
     depends_on('mvdtool@1.5.1:2.0.0', when='@4.5:5.1')
+
+    depends_on('highfive+mpi', when='@5.3.0:5.6.1')
+    depends_on('boost@1.50:', when='@:5.6.1')
 
     patch("no-wall.patch", when='@5:5.4.999')
 

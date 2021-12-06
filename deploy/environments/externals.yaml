@@ -15,7 +15,6 @@ spack:
         - darshan-runtime
         - darshan-util
         - doxygen
-        - emacs
         - environment-modules
         - flex
         - ffmpeg
@@ -39,6 +38,9 @@ spack:
         - totalview
         - valgrind
         - virtualgl
+        - freeimage
+        - ilmbase
+        - openexr
   packages:
     all:
       compiler: [gcc@9.3.0]
@@ -60,8 +62,8 @@ spack:
       variants: +mpi~cuda~cupti+caliper~gperftools~python
   specs:
     - llvm@12.0.0 +cuda cuda_arch=70 +omp_tsan +python ^cuda@11.0.2
-    - nvhpc@20.9 install_type=network
     - nvhpc@21.2 install_type=network
+    - nvhpc@21.9
     - arm-forge@20.2.0-Redhat-7.0-x86_64
     - bison
     - blender
@@ -71,13 +73,12 @@ spack:
     - cgal
     - cli-tools
     - cmake@3.15.7
-    - cuda@10.1.243
     - cuda@11.0.2
+    - cuda@11.4.2
     - cudnn@8.0.3.33-11.0-linux-x64
     - darshan-runtime
     - darshan-util
     - doxygen
-    - emacs
     - environment-modules@4.5.1
     - ffmpeg
     - flex
@@ -118,3 +119,7 @@ spack:
     - virtualgl
     - vrpn
     - zlib
+    # Viz needs; FreeImage should be axed ASAP
+    - freeimage
+    - ilmbase
+    - openexr
