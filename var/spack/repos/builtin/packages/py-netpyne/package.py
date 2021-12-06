@@ -16,6 +16,8 @@ class PyNetpyne(PythonPackage):
     git      = "https://github.com/Neurosim-lab/netpyne.git"
 
     version('develop', git=git, branch='master')
+    version('v1.0.0.2-20211125', git=git, commit='6bbbb73', preferred=True)
+    version('v1.0.0.2-20211124', git=git, commit='f10b3dc4a81989b00aedc363526b711181083d88')
     version('0.9.6', git=git, tag='v0.9.6')
 
     depends_on('py-setuptools', type='build')
