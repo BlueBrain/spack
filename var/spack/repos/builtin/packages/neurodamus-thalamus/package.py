@@ -45,4 +45,3 @@ class NeurodamusThalamus(NeurodamusModel):
         super().setup_common_mods(spec, prefix)
         if spec.satisfies("@1.6:"):
             force_symlink("../neocortex", "deps/neocortex")
-
