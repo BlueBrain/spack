@@ -17,7 +17,7 @@ class NetpyneMOne(Package):
     url      = "git@github.com:iomaganaris/M1.git"
     git      = "git@github.com:iomaganaris/M1.git"
 
-    version('0.1-20211206', git=git, commit='7930edb1813fcc72e02c23f8d1ecaee387b59a95')
+    version('0.1-20211206', git=git, commit='e015dc6fe44387dad4aa22ce14f2d86a15453e40')
     version('0.1-20211124', git=git, commit='a33587a782fa139f371ced7cc78b1f2799f72dec')
 
     depends_on('py-netpyne', type=('run'))
