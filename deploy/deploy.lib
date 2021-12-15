@@ -389,6 +389,7 @@ configure_compilers() {
     done
 
     sed  -i 's#.*f\(77\|c\): null#      f\1: /usr/bin/gfortran#' ${HOME}/.spack/compilers.yaml
+    spack-python set-compiler-flags.py --compiler-spec nvhpc@21.11 -- -tp skylake
 }
 
 setup_mirror() {
