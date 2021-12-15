@@ -60,7 +60,6 @@ class Brayns(CMakePackage):
     depends_on('vrpn', when='@:1.1.0 +opendeck')
     depends_on('optix@5.0.1', when='@:1.1.0 +optix')
     depends_on('cuda', when='@:1.1.0 +optix')
-    
 
     # patch('brion.patch', when='@develop')
     patch('fix_forgotten_algorithm.patch', when='@0.8.0')
