@@ -58,7 +58,7 @@ class Brayns(CMakePackage):
     depends_on('rockets', when='@:1.1.0 +net')
     depends_on('vrpn', when='@:1.1.0 +opendeck')
     depends_on('optix@5.0.1', when='@:1.1.0 +optix')
-    depends_on('cuda', when='+optix')
+    depends_on('cuda', when='@:1.1.0 +optix')
     depends_on('glm')
 
     # patch('brion.patch', when='@develop')
