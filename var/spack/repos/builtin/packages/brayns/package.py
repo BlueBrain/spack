@@ -46,7 +46,7 @@ class Brayns(CMakePackage):
     depends_on('bbptestdata', type='test', when='+test')
     depends_on('brion', when='+brion')
     depends_on('deflect ~deflect-qt', when='@:1.1.0 +deflect')
-    depends_on('freeimage' when='@:1.1.0')
+    depends_on('freeimage', when='@:1.1.0')
     depends_on('ffmpeg@4.2.2', when='+net')
     depends_on('glew', when='+viewer')
     depends_on('libarchive', when='@:1.1.0')
