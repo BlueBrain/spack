@@ -171,7 +171,7 @@ class Neuron(CMakePackage):
         # NVHPC 21.11 detects ABM support and defines __ABM__, which breaks
         # Random123 compilation
         if self.spec.satisfies('%nvhpc@21.11'):
-            compilation_flags.appennd('-mno-abm')
+            compilation_flags.append('-mno-abm')
         compilation_flags = ' '.join(compilation_flags)
         args.append("-DCMAKE_C_FLAGS=" + compilation_flags)
         args.append("-DCMAKE_CXX_FLAGS=" + compilation_flags)
