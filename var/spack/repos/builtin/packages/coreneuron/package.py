@@ -126,6 +126,10 @@ class Coreneuron(CMakePackage):
             flags = '-xHost -qopt-report=5'
             if '+knl' in spec:
                 flags = '-xMIC-AVX512 -qopt-report=5'
+        # NVHPC 21.11 detects ABM support and defines __ABM__, which breaks
+        # Random123 compilation
+        if spec.satisfies('%nvhpc@21.11'):
+            flags += ' -mno-abm'
         # when pdt is used for instrumentation, the gcc's unint128 extension
         # is activated from random123 which results in compilation error
         if '+profile' in spec:
