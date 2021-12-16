@@ -1,4 +1,5 @@
 import argparse
+import spack
 from spack.config import config
 
 parser = argparse.ArgumentParser(
