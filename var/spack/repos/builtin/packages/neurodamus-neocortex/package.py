@@ -16,21 +16,11 @@ class NeurodamusNeocortex(NeurodamusModel):
 
     # IMPORTANT: Register versions (only) here to make them stable
     # Final version name is combined e.g. "1.0-3.0.1"
-    model_core_dep_v = (
-        ('1.5', '3.3.3'),
-        ('1.4', '3.3.2'),
-        ('1.3', '3.2.0'),
-        ('1.2', '3.1.0'),
-        ('1.1', '3.0.2'),
+    model_ndamus_dep_v = (
+        ('1.6', '2.9.0a'),
     )
-    version_from_model_core_deps(model_core_dep_v)
-
-    # Legacy versions
+    version_from_model_core_deps(model_ndamus_dep_v)
     version('develop', branch='main', submodules=True, get_full_repo=True)
-    version('1.0', tag='1.0', submodules=True, get_full_repo=True)
-    version('0.3', tag='0.3-1', submodules=True, get_full_repo=True)
-    version('0.2', tag='0.2', submodules=True, get_full_repo=True)
-    version('0.1', tag='0.1', submodules=True, get_full_repo=True)
 
     variant('v5', default=True, description='Enable support for previous v5 circuits')
     variant('plasticity', default=False, description="Use optimized ProbAMPANMDA_EMS and ProbGABAAB_EMS")
