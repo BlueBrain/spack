@@ -32,7 +32,7 @@ class PyBluepyemodel(PythonPackage):
     depends_on('py-bluepy@2.4:', type=('build', 'run'))
     depends_on('py-morph-tool@2.8:', type=('build', 'run'))
     depends_on('py-fasteners@0.16:', type=('build', 'run'))
-    depends_on('neuron@8.0:', type=('build', 'run'))
+    depends_on('neuron+python@8.0:', type=('build', 'run'))
     # missing but needed
     depends_on('py-click@7.0:', type=('build', 'run'))
     depends_on('py-matplotlib@2.2:', type=('build', 'run'))
