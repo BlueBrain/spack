@@ -108,7 +108,7 @@ class NeurodamusModel(SimModel):
         This routine simply adds the additional mods to existing dirs
         so that incremental builds can actually happen.
         """
-        core_prefix = spec['neurodamus-core'].prefix
+        core_prefix = spec['py-neurodamus'].prefix
 
         # If we shall build mods for coreneuron,
         # only bring from core those specified
@@ -190,7 +190,7 @@ class NeurodamusModel(SimModel):
         shutil.move(_BUILD_NEURODAMUS_FNAME, prefix.bin)
 
         # Create mods links in share
-        force_symlink(spec['neurodamus-core'].prefix.lib.mod,
+        force_symlink(spec['py-neurodamus'].prefix.lib.mod,
                       prefix.share.mod_neurodamus)
         force_symlink(prefix.lib.mod, prefix.share.mod_full)
 
