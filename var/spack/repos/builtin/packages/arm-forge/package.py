@@ -18,6 +18,11 @@ class ArmForge(Package):
     # TODO: this mess should be fixed as soon as a way to parametrize/constrain
     #       versions (and checksums) based on the target platform shows up
 
+    version("21.1.2-Linux-x86_64",
+            sha256="2d4b366a3f23f3c9efba96bd6f8cce1f",
+            url="https://content.allinea.com/downloads/arm-forge-21.1.2-linux-x86_64.tar"
+    )
+
     version(
         "20.2.0-Redhat-7.0-x86_64",
         sha256="26592a77c42f970f724f15b70cc5ce6af1078fd0ef9243a37c3215916cfa7cf4",
