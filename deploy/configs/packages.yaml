@@ -74,8 +74,6 @@ packages:
       prefix: /usr
   petsc:
     variants: ~fortran
-  py-neurodamus:
-    variants: +all_deps
   python:
     variants: +tk
     version: [3.8.3]
