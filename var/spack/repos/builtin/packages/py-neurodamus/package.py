@@ -45,9 +45,10 @@ class PyNeurodamus(PythonPackage):
         mkdirp(self.prefix.share)
         for script in ('init.py', '_debug.py'):
             copy(script, self.prefix.share)
-        install_tree("core/hoc", self.prefix.lib.hoc)
-        install_tree("core/mod", self.prefix.lib.mod)
-        install_tree("core/python", self.prefix.lib.python)
+        if self.spec.satisfies('@2.9.0:'):
+            install_tree("core/hoc", self.prefix.lib.hoc)
+            install_tree("core/mod", self.prefix.lib.mod)
+            install_tree("core/python", self.prefix.lib.python)
 
     def setup_run_environment(self, env):
         PythonPackage.setup_run_environment(self, env)

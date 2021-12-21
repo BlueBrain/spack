@@ -14,18 +14,25 @@ _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
 
 
-def version_from_model_core_deps(model_ndamus_dep_v):
+def version_from_model_core_dep(model_v, core_v):
     """Creates version specification which depend on both the model
        and core versions.
        E.g. using model 1.1 and core 3.0.1 it will define a version
        '1.1-3.0.1' which takes model from tag 1.1 and depends on core@3.0.1
     """
-    for model_v, ndamus_v in model_ndamus_dep_v:
-        this_version = model_v + "-" + ndamus_v  # e.g. 1.1-3.0.2
-        version(this_version, tag=model_v, submodules=True, get_full_repo=True)
-        depends_on('py-neurodamus@' + ndamus_v,
-                   type=('build', 'run'),
-                   when='@' + this_version)
+    this_version = model_v + "-" + core_v  # e.g. 1.1-3.0.2
+    version(this_version, tag=model_v, submodules=True, get_full_repo=True)
+    depends_on('neurodamus-core@' + core_v, type='build',
+               when='@' + this_version)
+
+
+def version_from_model_ndpy_dep(model_v, ndamus_v):
+    """New version scheme following dependency on neurodamus-py
+    """
+    this_version = model_v + "-" + ndamus_v  # e.g. 1.1-3.0.2
+    version(this_version, tag=model_v, submodules=True, get_full_repo=True)
+    depends_on('py-neurodamus@' + ndamus_v, type=('build', 'run'),
+               when='@' + this_version)
 
 
 class NeurodamusModel(SimModel):
@@ -33,6 +40,7 @@ class NeurodamusModel(SimModel):
        Eventually in the future Models are independent entities,
        not tied to neurodamus
     """
+
     # NOTE: Several variants / dependencies come from SimModel
     variant('synapsetool', default=True,  description="Enable SynapseTool reader (for edges)")
     variant('mvdtool',     default=True,  description="Enable MVDTool reader (for nodes)")
@@ -48,14 +56,14 @@ class NeurodamusModel(SimModel):
         destination='common_latest'
     )
 
+    # Now we depend on neurodamus-py
+    depends_on('py-neurodamus@develop', type=('build', 'run'), when='@develop')
+
     # Note: We dont request link to MPI so that mpicc can do what is best
     # and dont rpath it so we stay dynamic.
     # 'run' mode will load the same mpi module
     depends_on("mpi", type=('build', 'run'))
 
-    # Version >=1.0 freezes core, but 1.0 is the last to not include -core_v
-    # neurodamus models should call `version_from_model_core_deps`
-    depends_on('neurodamus-py@develop', type=('build', 'run'), when='@develop')
     depends_on('hdf5+mpi')
     depends_on('reportinglib')
     depends_on('libsonata-report')
