@@ -35,6 +35,6 @@ class NeurodamusThalamus(NeurodamusModel):
     def setup_common_mods(self, spec, prefix):
         """Setup common mod files if provided through variant.
         """
-        super().setup_common_mods(spec, prefix)
+        NeurodamusModel.setup_common_mods(self, spec, prefix)
         if spec.satisfies("@1.6:"):
             force_symlink("../neocortex", "deps/neocortex")
