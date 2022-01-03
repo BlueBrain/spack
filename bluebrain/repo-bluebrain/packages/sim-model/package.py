@@ -168,7 +168,7 @@ class SimModel(Package):
             with working_dir("build_" + mech_name):
                 if self.spec.satisfies("^coreneuron@0.0:0.14"):
                     raise Exception(
-                        "Coreneuron versions before 0.14 are" "not supported by Neurodamus model"
+                        "Coreneuron versions before 0.14 are not supported by Neurodamus model"
                     )
                 elif self.spec.satisfies("^coreneuron@0.14:0.16.99"):
                     which("nrnivmech_install.sh", path=".")(prefix)
@@ -197,17 +197,20 @@ class SimModel(Package):
             which("sed")("-i.bak", 's#-dll .*#-dll %s "$@"#' % lib_dst, prefix.bin.special)
             os.remove(prefix.bin.join("special.bak"))
 
-    def _install_src(self, prefix):
-        """Copy original and translated c mods"""
+    def _install_src(self, prefix, destination_subdir=""):
+        """Copy original and translated c mods
+        """
         arch = os.path.basename(self.spec["neuron"].package.archdir)
-        mkdirp(prefix.lib.mod, prefix.lib.hoc, prefix.lib.python)
-        copy_all("mod", prefix.lib.mod)
-        copy_all("hoc", prefix.lib.hoc)
-        if os.path.isdir("python"):  # Recent neurodamus
-            copy_all("python", prefix.lib.python)
+        for folder in ("mod", "hoc", "python"):
+            if not os.path.isdir(folder):
+                continue
+            dest_dir = prefix.lib.join(destination_subdir).join(folder)
+            mkdirp(dest_dir)
+            copy_all(folder, dest_dir)
 
+        modc_dest_dir = prefix.share.join(destination_subdir).modc
         for cmod in find(arch, "*.c", recursive=False):
-            shutil.move(cmod, prefix.share.modc)
+            shutil.move(cmod, modc_dest_dir)
 
     def _setup_build_environment_common(self, env):
         env.unset("LC_ALL")
