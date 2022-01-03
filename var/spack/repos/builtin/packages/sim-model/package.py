@@ -185,18 +185,20 @@ class SimModel(Package):
                              prefix.bin.special)
                 os.remove(prefix.bin.join('special.bak'))
 
-    def _install_src(self, prefix):
+    def _install_src(self, prefix, destination_subdir=""):
         """Copy original and translated c mods
         """
         arch = os.path.basename(self.nrnivmodl_outdir)
-        mkdirp(prefix.lib.mod, prefix.lib.hoc, prefix.lib.python)
-        copy_all('mod', prefix.lib.mod)
-        copy_all('hoc', prefix.lib.hoc)
-        if os.path.isdir('python'):  # Recent neurodamus
-            copy_all('python', prefix.lib.python)
+        for folder in ("mod", "hoc", "python"):
+            if not os.path.isdir(folder):
+                continue
+            dest_dir = prefix.lib.join(destination_subdir).join(folder)
+            mkdirp(dest_dir)
+            copy_all(folder, dest_dir)
 
+        modc_dest_dir = prefix.share.join(destination_subdir).modc
         for cmod in find(arch, '*.c', recursive=False):
-            shutil.move(cmod, prefix.share.modc)
+            shutil.move(cmod, modc_dest_dir)
 
     def _setup_build_environment_common(self, env):
         env.unset('LC_ALL')

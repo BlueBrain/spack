@@ -110,7 +110,7 @@ class NeurodamusModel(SimModel):
         # Dont install intermediate src.
         SimModel.install(self, spec, prefix, install_src=False)
 
-    def merge_hoc_mod(self, spec, prefix):
+    def merge_hoc_mod(self, spec, prefix, copyfunc=make_link):
         """Add hocs, mods and python scripts from neurodamus-core.
 
         This routine simply adds the additional mods to existing dirs
@@ -119,7 +119,7 @@ class NeurodamusModel(SimModel):
         core_prefix = spec['py-neurodamus'].prefix
 
         # If we shall build mods for coreneuron,
-        # only bring from core those specified
+        # only bring from core those specified (into mod_core)
         if spec.satisfies("+coreneuron"):
             shutil.copytree('mod', 'mod_core', True)
             core_nrn_mods = set()
@@ -138,9 +138,9 @@ class NeurodamusModel(SimModel):
         # Neurodamus model may not have python scripts
         mkdirp('python')
 
-        copy_all(core_prefix.lib.hoc, 'hoc', make_link)
-        copy_all(core_prefix.lib.mod, 'mod', make_link)
-        copy_all(core_prefix.lib.python, 'python', make_link)
+        copy_all(core_prefix.lib.hoc, 'hoc', copyfunc)
+        copy_all(core_prefix.lib.mod, 'mod', copyfunc)
+        copy_all(core_prefix.lib.python, 'python', copyfunc)
 
     def build(self, spec, prefix):
         """ Build mod files from with nrnivmodl / nrnivmodl-core.
