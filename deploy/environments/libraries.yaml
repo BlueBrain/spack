@@ -14,7 +14,7 @@ spack:
         - py-cgal-pybind
         - py-dask-mpi
         - py-flake8
-        - py-libsonata%intel
+        - py-libsonata
         - py-mpi4py%gcc
         - python-dev
         - py-h5py+mpi%gcc
@@ -116,7 +116,7 @@ spack:
     - py-jinja2
     - py-jprops
     - py-lazy-property
-    - py-libsonata%intel
+    - py-libsonata
     - py-line-profiler
     - py-linecache2
     - py-lxml
