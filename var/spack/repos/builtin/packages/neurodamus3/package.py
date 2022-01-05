@@ -19,7 +19,7 @@ class Neurodamus3(NeurodamusModel):
 
     version('develop', submodules=True)
 
-    models = ("common", "neocortex")  #, "hippocampus", "thalamus", "mousify")
+    models = ("common", "neocortex", "hippocampus", "thalamus", "mousify")
     phases = ["build_" + model for model in models] + ["install"]
 
     def _build_model(self, model_name, spec, prefix):
@@ -46,7 +46,8 @@ class Neurodamus3(NeurodamusModel):
 
     def install(self, spec, prefix):
         for model_name in self.models:
-            self._install_src(prefix, destination_subdir=model_name)
+            with working_dir(model_name):
+                self._install_src(prefix, destination_subdir=model_name)
 
 
 def create_link_if_not_found(src, dst):
