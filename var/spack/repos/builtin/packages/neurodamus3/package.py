@@ -22,11 +22,15 @@ class Neurodamus3(NeurodamusModel):
     models = ("common", "neocortex", "hippocampus", "thalamus", "mousify")
     phases = ["build_" + model for model in models] + ["install"]
 
+    def model_install_prefix(self, model_name):
+        return prefix.lib.join(model_name)
+
     def _build_model(self, model_name, spec, prefix):
         with working_dir(model_name):
             self.mech_name = model_name
             NeurodamusModel.merge_hoc_mod(self, spec, prefix, create_link_if_not_found)
-            NeurodamusModel.build(self, spec, prefix)
+            extra_link_args = "-Wl,-rpath," + self.model_install_prefix(model_name).lib
+            NeurodamusModel.build(self, spec, prefix, extra_link_args)
 
     def build_common(self, spec, prefix):
         self._build_model("common", spec, prefix)
@@ -45,9 +49,14 @@ class Neurodamus3(NeurodamusModel):
         self._build_model("mousify", spec, prefix)
 
     def install(self, spec, prefix):
+        mkdirp(prefix.bin)
         for model_name in self.models:
+            model_install_prefix = self.model_install_prefix(model_name)
             with working_dir(model_name):
-                self._install_src(prefix, destination_subdir=model_name)
+                self._install_src(prefix, model_name)
+                self._install_binaries(model_install_prefix)
+            force_symlink(model_install_prefix.bin.special,
+                          prefix.bin.join("special-" + model_name))
 
 
 def create_link_if_not_found(src, dst):

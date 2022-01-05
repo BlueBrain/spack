@@ -107,7 +107,6 @@ class NeurodamusModel(SimModel):
             copy_all("common_latest/common/mod/ngv", "mod")
 
         SimModel._build_mods(self, 'mod', dependencies=[])  # No dependencies
-        # Dont install intermediate src.
         SimModel.install(self, spec, prefix, install_src=False)
 
     def merge_hoc_mod(self, spec, prefix, copyfunc=make_link):
@@ -142,14 +141,12 @@ class NeurodamusModel(SimModel):
         copy_all(core_prefix.lib.mod, 'mod', copyfunc)
         copy_all(core_prefix.lib.python, 'python', copyfunc)
 
-    def build(self, spec, prefix):
+    def build(self, spec, prefix, extra_link_flags=""):
         """ Build mod files from with nrnivmodl / nrnivmodl-core.
             To support shared libs, nrnivmodl is also passed RPATH flags.
         """
         # NOTE: sim-model now attempts to build all link and
         # include flags from the dependencies
-        # link_flag += ' '
-        #         + spec['synapsetool'].package.dependency_libs(spec).joined()
 
         # Create the library with all the mod files as libnrnmech.so/.dylib
         self.mech_name = ''
@@ -160,7 +157,7 @@ class NeurodamusModel(SimModel):
             base_include_flag = ""
 
         include_flag, link_flag = self._build_mods(
-            'mod', "", base_include_flag, 'mod_core'
+            'mod', extra_link_flags, base_include_flag, 'mod_core'
         )
 
         # Create rebuild script
@@ -189,18 +186,21 @@ class NeurodamusModel(SimModel):
         share/ <- neuron & coreneuron mod.c's (modc and modc_core)
         python/ If neurodamus-core comes with python, create links
         """
-        # base dest dirs already created by model install
-        # We install binaries normally, except lib has a suffix
-        self._install_binaries()
+        self._install_binaries(prefix)
 
-        # Install mods/hocs, and a builder script
         self._install_src(prefix)
-        shutil.move(_BUILD_NEURODAMUS_FNAME, prefix.bin)
 
-        # Create mods links in share
+        # Create neurodamus links in share
         force_symlink(spec['py-neurodamus'].prefix.lib.mod,
                       prefix.share.mod_neurodamus)
         force_symlink(prefix.lib.mod, prefix.share.mod_full)
+
+        self._install_neurodamus_builder_script(prefix)
+
+
+    def _install_neurodamus_builder_script(self, prefix):
+        spec = self.spec
+        shutil.move(_BUILD_NEURODAMUS_FNAME, prefix.bin)
 
         filter_file(r'UNKNOWN_NEURODAMUS_MODEL', r'%s' % spec.name,
                     prefix.lib.hoc.join('defvar.hoc'))
