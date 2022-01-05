@@ -209,6 +209,7 @@ class SimModel(Package):
             copy_all(folder, dest_dir)
 
         modc_dest_dir = prefix.share.join(destination_subdir).modc
+        mkdirp(modc_dest_dir)
         for cmod in find(arch, "*.c", recursive=False):
             shutil.move(cmod, modc_dest_dir)
 
