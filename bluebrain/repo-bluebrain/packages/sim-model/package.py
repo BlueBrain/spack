@@ -153,16 +153,17 @@ class SimModel(Package):
         if install_src:
             self._install_src(prefix)
 
-    def _install_binaries(self, mech_name=None):
+    def _install_binaries(self, prefix=None):
         # Install special
-        mkdirp(self.spec.prefix.bin)
-        mkdirp(self.spec.prefix.lib)
-        mkdirp(self.spec.prefix.share.modc)
+        prefix = prefix or self.prefix
+        mkdirp(prefix.bin)
+        mkdirp(prefix.lib)
+        mkdirp(prefix.share.modc)
 
-        mech_name = mech_name or self.mech_name
+        mech_name = self.mech_name
         nrnivmodl_outdir = self.spec["neuron"].package.archdir
         arch = os.path.basename(nrnivmodl_outdir)
-        prefix = self.prefix
+
 
         if self.spec.satisfies("+coreneuron"):
             with working_dir("build_" + mech_name):
