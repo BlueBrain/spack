@@ -88,7 +88,7 @@ setup_environment:
 atomic_build:
   needs: [setup_environment]
   trigger:
-    include: deploy/gitlab-ci.yml
+    include: bluebrain/deployment/gitlab-ci.yml
     strategy: depend
   variables:
     # Used to store artifacts in the right directory, grab dotenv
