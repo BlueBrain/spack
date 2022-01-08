@@ -9,8 +9,8 @@ spack:
         - meshball
         - ultraliser
   specs:
-    - brayns%gcc +brion ^ospray%intel target=x86_64 ^intel-tbb%intel
-    - brayns@1.1.0%gcc +brion ^brion@3.3.1 ^ospray%intel target=x86_64 ^intel-tbb%intel
+    - brayns%gcc +brion ^ospray%intel target=x86_64 ^intel-oneapi-tbb%intel
+    - brayns@1.1.0%gcc +brion ^brion@3.3.1 ^ospray%intel target=x86_64 ^intel-oneapi-tbb%intel
     - brion +python
     - meshball ^brion@3.1.0
     - ultraliser ^hdf5~mpi
