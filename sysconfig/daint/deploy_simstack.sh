@@ -55,8 +55,8 @@ export LC_CTYPE=en_US.UTF-8
 #spack install --dirty --keep-stage -v neuron~mpi %intel ^python@2.7.15
 
 # PYTHON 3 packages
-module load cray-python/3.8.2.1
-PYTHON_VERSION='^python@3.8.2.1'
+module load cray-python/3.8.5.0
+PYTHON_VERSION='^python@3.8.5.0'
 
 spack spec -Il neurodamus-hippocampus+coreneuron %intel $PYTHON_VERSION ^synapsetool%gcc ^spdlog%gcc
 spack install --dirty --keep-stage neurodamus-hippocampus+coreneuron %intel $PYTHON_VERSION ^synapsetool%gcc ^spdlog%gcc
