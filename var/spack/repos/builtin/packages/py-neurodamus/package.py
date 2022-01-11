@@ -53,3 +53,5 @@ class PyNeurodamus(PythonPackage):
     def setup_run_environment(self, env):
         PythonPackage.setup_run_environment(self, env)
         env.set('NEURODAMUS_PYTHON', self.prefix.share)
+        if self.spec.satisfies('@2.9.0:'):
+            env.set('HOC_LIBRARY_PATH', self.prefix.lib.hoc)

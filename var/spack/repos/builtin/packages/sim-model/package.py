@@ -129,16 +129,13 @@ class SimModel(Package):
         lib/ <- hoc, mod and lib*mech*.so
         share/ <- neuron & coreneuron mod.c's (modc and modc_core)
         """
-        mkdirp(prefix.bin)
-        mkdirp(prefix.lib)
-        mkdirp(prefix.share.modc)
-
         self._install_binaries()
 
         if install_src:
             self._install_src(prefix)
 
     def _install_binaries(self, prefix=None):
+        mkdirp(prefix.bin, prefix.lib)
         # Install special
         mech_name = self.mech_name
         arch = os.path.basename(self.nrnivmodl_outdir)
@@ -164,8 +161,8 @@ class SimModel(Package):
                 or self.spec.satisfies('^neuron+binary+cmake'):
             self._install_libnrnmech(prefix)
 
-
     def _install_libnrnmech(self, prefix):
+        mkdirp(prefix.lib)
         if self.spec.satisfies('^neuron+cmake'):
             libnrnmech_path = self.nrnivmodl_outdir
         else:
@@ -193,6 +190,7 @@ class SimModel(Package):
     def _install_src(self, prefix, destination_subdir=""):
         """Copy original and translated c mods
         """
+        mkdirp(prefix.share.modc)
         arch = os.path.basename(self.nrnivmodl_outdir)
         for folder in ("mod", "hoc", "python"):
             if not os.path.isdir(folder):

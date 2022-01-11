@@ -109,7 +109,7 @@ class NeurodamusModel(SimModel):
         SimModel._build_mods(self, 'mod', dependencies=[])  # No dependencies
         SimModel.install(self, spec, prefix, install_src=False)
 
-    def merge_hoc_mod(self, spec, prefix, copyfunc=make_link):
+    def merge_hoc_mod(self, spec, prefix, copyfunc=make_link, merge_hoc=True):
         """Add hocs, mods and python scripts from neurodamus-core.
 
         This routine simply adds the additional mods to existing dirs
@@ -137,7 +137,8 @@ class NeurodamusModel(SimModel):
         # Neurodamus model may not have python scripts
         mkdirp('python')
 
-        copy_all(core_prefix.lib.hoc, 'hoc', copyfunc)
+        if merge_hoc:
+            copy_all(core_prefix.lib.hoc, 'hoc', copyfunc)
         copy_all(core_prefix.lib.mod, 'mod', copyfunc)
         copy_all(core_prefix.lib.python, 'python', copyfunc)
 
@@ -195,13 +196,14 @@ class NeurodamusModel(SimModel):
                       prefix.share.mod_neurodamus)
         force_symlink(prefix.lib.mod, prefix.share.mod_full)
 
-        self._install_neurodamus_builder_script(prefix)
+        self._install_neurodamus_builder_script()
+        self._patch_neurodamus_version(prefix)
 
+    def _install_neurodamus_builder_script(self):
+        shutil.move(_BUILD_NEURODAMUS_FNAME, self.prefix.bin)
 
-    def _install_neurodamus_builder_script(self, prefix):
+    def _patch_neurodamus_version(self, prefix):
         spec = self.spec
-        shutil.move(_BUILD_NEURODAMUS_FNAME, prefix.bin)
-
         filter_file(r'UNKNOWN_NEURODAMUS_MODEL', r'%s' % spec.name,
                     prefix.lib.hoc.join('defvar.hoc'))
         filter_file(r'UNKNOWN_NEURODAMUS_VERSION', r'%s' % spec.version,
