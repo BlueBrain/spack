@@ -17,7 +17,7 @@ from llnl.util.filesystem import (
 )
 from llnl.util.lang import match_predicate
 
-from spack.directives import extends
+from spack.directives import conflicts, extends
 from spack.package import PackageBase, run_after
 
 
@@ -85,6 +85,15 @@ class PythonPackage(PackageBase):
     install_time_test_callbacks = ['test']
 
     extends('python')
+
+    # Python assumes that build flags used to build it (GCC, on BB5) can also
+    # be used with the compiler that is used to build Python extensions, which
+    # may be different.
+    conflicts('%nvhpc')
+
+    # Gamble that this isn't a bad idea in the long run.
+    conflicts('%intel')
+    conflicts('%oneapi')
 
     py_namespace = None
 
