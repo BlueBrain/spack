@@ -28,7 +28,8 @@ class Neurodamus3(NeurodamusModel):
     def _build_model(self, model_name, spec, prefix):
         with working_dir(model_name):
             self.mech_name = model_name
-            NeurodamusModel.merge_hoc_mod(self, spec, prefix, create_link_if_not_found)
+            NeurodamusModel.merge_hoc_mod(self, spec, prefix, create_link_if_not_found,
+                                          merge_hoc=False)
             extra_link_args = "-Wl,-rpath," + self.model_install_prefix(model_name).lib
             NeurodamusModel.build(self, spec, prefix, extra_link_args)
 
@@ -55,8 +56,14 @@ class Neurodamus3(NeurodamusModel):
             with working_dir(model_name):
                 self._install_src(prefix, model_name)
                 self._install_binaries(model_install_prefix)
+                if model_name == "common":
+                    self._install_neurodamus_builder_script()
             force_symlink(model_install_prefix.bin.special,
                           prefix.bin.join("special-" + model_name))
+
+    def setup_run_environment(self, env):
+        self._setup_run_environment_common(env)
+        env.set('MODELS_LIBRARY_PATH', self.prefix.lib)
 
 
 def create_link_if_not_found(src, dst):

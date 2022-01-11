@@ -164,7 +164,6 @@ class SimModel(Package):
         nrnivmodl_outdir = self.spec["neuron"].package.archdir
         arch = os.path.basename(nrnivmodl_outdir)
 
-
         if self.spec.satisfies("+coreneuron"):
             with working_dir("build_" + mech_name):
                 if self.spec.satisfies("^coreneuron@0.0:0.14"):
@@ -201,6 +200,7 @@ class SimModel(Package):
     def _install_src(self, prefix, destination_subdir=""):
         """Copy original and translated c mods
         """
+        mkdirp(prefix.share.modc)
         arch = os.path.basename(self.spec["neuron"].package.archdir)
         for folder in ("mod", "hoc", "python"):
             if not os.path.isdir(folder):
