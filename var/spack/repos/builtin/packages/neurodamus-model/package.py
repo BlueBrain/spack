@@ -13,6 +13,8 @@ import llnl.util.tty as tty
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
 
+PYNEURODAMUS_DEFAULT_V = '2.9.0'
+
 
 def version_from_model_core_dep(model_v, core_v):
     """Creates version specification which depend on both the model
@@ -26,7 +28,7 @@ def version_from_model_core_dep(model_v, core_v):
                when='@' + this_version)
 
 
-def version_from_model_ndpy_dep(model_v, ndamus_v):
+def version_from_model_ndpy_dep(model_v, ndamus_v=PYNEURODAMUS_DEFAULT_V):
     """New version scheme following dependency on neurodamus-py
     """
     this_version = model_v + "-" + ndamus_v  # e.g. 1.1-3.0.2

@@ -22,7 +22,7 @@ class NeurodamusMousify(NeurodamusModel):
     version('develop', branch='main', submodules=True, get_full_repo=True)
     # IMPORTANT: Register new versions only using version_from_model_*
     # Final version name is combined e.g. "1.0-3.0.1"
-    version_from_model_ndpy_dep('1.6', '2.9.0a')
+    version_from_model_ndpy_dep('1.6')
     version_from_model_core_dep('1.4', '3.3.3')
 
     version('develop', branch='main', submodules=True, get_full_repo=False)
