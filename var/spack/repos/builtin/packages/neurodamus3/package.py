@@ -4,10 +4,8 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 import os
-import shutil
 from spack import *
 from spack.pkg.builtin.neurodamus_model import NeurodamusModel
-from llnl.util import tty
 
 
 class Neurodamus3(NeurodamusModel):
@@ -28,10 +26,12 @@ class Neurodamus3(NeurodamusModel):
     def _build_model(self, model_name, spec, prefix):
         with working_dir(model_name):
             self.mech_name = model_name
-            NeurodamusModel.merge_hoc_mod(self, spec, prefix, create_link_if_not_found,
-                                          merge_hoc=False)
-            extra_link_args = "-Wl,-rpath," + self.model_install_prefix(model_name).lib
-            NeurodamusModel.build(self, spec, prefix, extra_link_args)
+            NeurodamusModel.merge_hoc_mod(
+                self, spec, prefix, create_link_if_not_found,
+                merge_hoc=False
+            )
+            ld_args = "-Wl,-rpath," + self.model_install_prefix(model_name).lib
+            NeurodamusModel.build(self, spec, prefix, ld_args)
 
     def build_common(self, spec, prefix):
         self._build_model("common", spec, prefix)
@@ -64,6 +64,7 @@ class Neurodamus3(NeurodamusModel):
     def setup_run_environment(self, env):
         self._setup_run_environment_common(env)
         env.set('MODELS_LIBRARY_PATH', self.prefix.lib)
+        env.prepend_path("PYTHONPATH", self.prefix.lib.common.python)
 
 
 def create_link_if_not_found(src, dst):
