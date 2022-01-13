@@ -1,0 +1,40 @@
+compilers:
+- compiler:
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    modules: []
+    operating_system: centos7
+    paths:
+      cc: /p/software/jusuf/stages/2019a/software/GCCcore/8.3.0/bin/gcc
+      cxx: /p/software/jusuf/stages/2019a/software/GCCcore/8.3.0/bin/g++
+      f77: /p/software/jusuf/stages/2019a/software/GCCcore/8.3.0/bin/gfortran
+      fc: /p/software/jusuf/stages/2019a/software/GCCcore/8.3.0/bin/gfortran
+    spec: gcc@8.3.0
+    target: x86_64
+- compiler:
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    modules: []
+    operating_system: centos7
+    paths:
+      cc: /usr/bin/gcc
+      cxx: /usr/bin/g++
+      f77: /usr/bin/gfortran
+      fc: /usr/bin/gfortran
+    spec: gcc@4.8.5
+    target: x86_64
+- compiler:
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    modules: []
+    operating_system: centos7
+    paths:
+      cc: /p/software/jusuf/stages/2019a/software/icc/2019.5.281-GCC-8.3.0/compilers_and_libraries_2019.5.281/linux/bin/intel64/icc
+      cxx: /p/software/jusuf/stages/2019a/software/icc/2019.5.281-GCC-8.3.0/compilers_and_libraries_2019.5.281/linux/bin/intel64/icpc
+      f77: /p/software/jusuf/stages/2019a/software/ifort/2019.5.281-GCC-8.3.0/compilers_and_libraries_2019.5.281/linux/bin/intel64/ifort
+      fc: /p/software/jusuf/stages/2019a/software/ifort/2019.5.281-GCC-8.3.0/compilers_and_libraries_2019.5.281/linux/bin/intel64/ifort
+    spec: intel@19.0.3
+    target: x86_64
