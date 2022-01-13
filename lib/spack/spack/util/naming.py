@@ -32,7 +32,7 @@ _valid_module_re = r'^\w[\w-]*$'
 _valid_fully_qualified_module_re = r'^(\w[\w-]*)(\.\w[\w-]*)*$'
 
 # Avoid excessive string operations
-_mod_to_class_cache = {}  # noqa
+_mod_to_class_cache = {}  # type: Dict[str, str]
 
 
 def mod_to_class(mod_name):
