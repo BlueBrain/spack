@@ -9,7 +9,6 @@ from __future__ import absolute_import
 import itertools
 import re
 import string
-from typing import Dict  # novm
 
 from six import StringIO
 
@@ -33,7 +32,7 @@ _valid_module_re = r'^\w[\w-]*$'
 _valid_fully_qualified_module_re = r'^(\w[\w-]*)(\.\w[\w-]*)*$'
 
 # Avoid excessive string operations
-_mod_to_class_cache: Dict[str, str] = {}  # novm
+_mod_to_class_cache = {}  # noqa
 
 
 def mod_to_class(mod_name):
