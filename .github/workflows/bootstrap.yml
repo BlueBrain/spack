@@ -121,9 +121,11 @@ jobs:
 
   macos-clingo-binaries:
     runs-on: macos-latest
+    if: false
     strategy:
       matrix:
-        python-version: ['3.5', '3.6', '3.7', '3.8', '3.9']
+        # python-version: ['3.5', '3.6', '3.7', '3.8', '3.9']
+        python-version: ['3.6', '3.9']
     steps:
       - name: Install dependencies
         run: |
@@ -143,7 +145,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['2.7', '3.5', '3.6', '3.7', '3.8', '3.9']
+        # python-version: ['2.7', '3.5', '3.6', '3.7', '3.8', '3.9']
+        python-version: ['3.6', '3.9']
     steps:
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # @v2
       - uses: actions/setup-python@dc73133d4da04e56a135ae2246682783cc7c7cb6 # @v2
