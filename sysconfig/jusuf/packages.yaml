@@ -1,0 +1,149 @@
+packages:
+  autoconf:
+    version: [2.69]
+    buildable: false
+    externals:
+    - spec: autoconf@2.69
+      prefix: /usr
+  automake:
+    version: [1.13.4]
+    buildable: false
+    externals:
+    - spec: automake@1.13.4
+      prefix: /usr
+  bison:
+    version: [3.7.6]
+    buildable: false
+    externals:
+    - spec: bison@3.7.6
+      prefix: /p/software/jusuf/stages/2022/software/Bison/3.7.6
+  boost:
+    variants: +python
+    version: [1.73.0]
+    buildable: true
+  cmake:
+    version: [3.21.1]
+    buildable: false
+    externals:
+    - spec: cmake@3.21.1
+      prefix: /p/software/jusuf/stages/2022/software/CMake/3.21.1-GCCcore-11.2.0/
+  flex:
+    version: [2.6.4]
+    buildable: false
+    externals:
+    - spec: flex@2.6.4
+      prefix: /p/software/jusuf/stages/2022/software/flex/2.6.4
+  gettext:
+    version: [0.20]
+    buildable: false
+    externals:
+    - spec: gettext@0.20
+      prefix: /usr
+  hdf5:
+    variants: ~fortran ~cxx +hl
+    version: [1.12.1]
+    buildable: false
+    externals:
+    - spec: hdf5@1.12.1%intel+mpi
+      prefix: /p/software/jusuf/stages/2022/software/HDF5/1.12.1-ipsmpi-2021b/
+    #- spec: hdf5@1.10.5%intel~mpi+hl
+    #  prefix: /p/software/jusuf/stages/2019a/software/HDF5/1.10.5-iccifort-2019.5.281-GCC-8.3.0-serial
+    - spec: hdf5@1.12.1%gcc+mpi
+      prefix: /p/software/jusuf/stages/2022/software/HDF5/1.12.1-gpsmpi-2021b/
+    #- spec: hdf5@1.10.6%gcc~mpi+hl
+    #  prefix: /p/software/jusuf/stages/2020/software/HDF5/1.10.6-GCCcore-9.3.0-serial
+  mpich:
+    version: [3.1]
+    buildable: false
+    externals:
+    - spec: mpich@3.10
+      prefix: /p/software/jusuf/stages/2022/software/psmpi/5.5.0-1-intel-compilers-2021.4.0
+  intel-mpi-external:
+    version: [2019.8.254]
+    buildable: false
+    externals:
+    - spec: intel-mpi-external@2019.8.254
+      prefix: /p/software/jusuf/stages/2020/software/impi/2019.8.254-iccifort-2020.2.254-GCC-9.3.0
+  intel-mkl:
+    version: [2021.4.0]
+    buildable: false
+    externals:
+    - spec: intel-mkl@2021.4.0
+      prefix: /p/software/jusuf/stages/2022/software/imkl/2021.4.0-ipsmpi-2021b/
+  libtool:
+    version: [2.4.6]
+    buildable: false
+    externals:
+    - spec: libtool@2.4.6
+      prefix: /p/software/jusuf/stages/2022/software/libtool/2.4.6-GCCcore-11.2.0/
+  libxml2:
+    version: [2.9.10]
+    buildable: false
+    externals:
+    - spec: libxml2@2.9.10
+      prefix: /p/software/jusuf/stages/2022/software/libxml2/2.9.10-GCCcore-11.2.0/
+  libxslt:
+    version: [1.1.34]
+    buildable: false
+    externals:
+    - spec: libxslt@1.1.34
+      prefix: /p/software/jusuf/stages/2022/software/libxslt/1.1.34-GCCcore-11.2.0/
+  m4:
+    version: [1.4.16]
+    buildable: false
+    externals:
+    - spec: m4@1.4.16
+      prefix: /usr
+  ncurses:
+    version: [6.2]
+    buildable: false
+    externals:
+    - spec: ncurses@6.2
+      prefix: /p/software/jusuf/stages/2022/software/ncurses/6.2-GCCcore-11.2.0/
+  neuron:
+    variants: ~binary
+  openssl:
+    externals:
+    - spec: openssl@system
+      prefix: /usr
+  pkg-config:
+    version: [0.29.1]
+    externals:
+    - spec: pkg-config@0.29.1
+      prefix: /usr
+  python:
+    version: [3.9.6]
+    buildable: false
+    externals:
+    - spec: python@3.9.6
+      prefix: /p/software/jusuf/stages/2022/software/Python/3.9.6-GCCcore-11.2.0/
+  py-matplotlib:
+    version: [3.4.3]
+    buildable: false
+    externals:
+    - spec: py-matplotlib@3.4.3
+      prefix: /p/software/jusuf/stages/2022/software/SciPy-Stack/2021b-gcccoremkl-11.2.0-2021.4.0/
+  py-scipy:
+    version: [1.5.2]
+    buildable: false
+    externals:
+    - spec: py-scipy@1.7.1
+      prefix: /p/software/jusuf/stages/2022/software/SciPy-Stack/2021b-gcccoremkl-11.2.0-2021.4.0/
+  py-numpy:
+    version: [1.21.3]
+    buildable: false
+    externals:
+    - spec: py-numpy@1.21.3
+      prefix: /p/software/jusuf/stages/2022/software/SciPy-Stack/2021b-gcccoremkl-11.2.0-2021.4.0/
+  py-pandas:
+    version: [1.3.4]
+    buildable: false
+    externals:
+    - spec: py-pandas@1.3.4
+      prefix: /p/software/jusuf/stages/2022/software/SciPy-Stack/2021b-gcccoremkl-11.2.0-2021.4.0/
+  zlib:
+    version: [1.2.8]
+  all:
+    compiler: [intel]
+    providers:
+      mpi: [mpich]
