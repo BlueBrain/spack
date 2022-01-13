@@ -5,11 +5,11 @@
 
 # Need this because of spack.util.string
 from __future__ import absolute_import
-from typing import Dict
 
 import itertools
 import re
 import string
+from typing import Dict
 
 from six import StringIO
 
