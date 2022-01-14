@@ -45,8 +45,8 @@ spack:
     - neurodamus-neocortex+coreneuron+plasticity%intel^coreneuron%intel+caliper ^neuron%intel
     - neurodamus-thalamus+coreneuron%intel^coreneuron%intel+caliper ^neuron%intel
     - neurodamus-thalamus+coreneuron%intel^coreneuron%intel+caliper+knl ^neuron%intel
-    - neuron%intel+coreneuron+tests ^coreneuron%intel
-    - neuron%nvhpc+coreneuron+tests ^coreneuron+gpu%nvhpc
+    - neuron%intel+coreneuron+tests ^coreneuron%intel ^py-cython%gcc ^py-numpy%gcc
+    - neuron%nvhpc+coreneuron+tests ^coreneuron+gpu%nvhpc ^py-cython%gcc ^py-numpy%gcc
     - nmodl
     - parquet-converters
     - py-basalt@0.2.9
