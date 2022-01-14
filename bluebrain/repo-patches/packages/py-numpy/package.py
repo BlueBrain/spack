@@ -3,6 +3,8 @@ from spack.pkg.builtin.py_numpy import PyNumpy as BuiltinPyNumpy
 
 
 class PyNumpy(BuiltinPyNumpy):
+    __doc__ = BuiltinPyNumpy.__doc__
+
     def setup_build_environment(self, env):
         # Otherwise we get errors related to python being %gcc:
         # nvc-Error-Unknown switch: -Wno-unused-result
