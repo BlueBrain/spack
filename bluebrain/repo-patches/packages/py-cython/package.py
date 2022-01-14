@@ -1,4 +1,3 @@
-from spack import *
 from spack.pkg.builtin.py_cython import PyCython as BuiltinPyCython
 
 

@@ -15,7 +15,7 @@ class Nmodl(CMakePackage):
 
     # 0.3.1 > 0.3.0.20220110 > 0.3.0 > 0.3b > 0.3 to Spack
     version('develop', branch='master', submodules=True)
-    # For deployment; nmodl@0.3.0%nvhpc@21.11 does not build with eigen/intrinsics errors
+    # For deployment; nmodl@0.3.0%nvhpc@21.11 doesn't build with eigen/intrinsics errors
     version('0.3.0.20220110', commit='9e0a6f260ac2e6fad068a39ea3bdf7aa7a6f4ee0')
     version('0.3.0', tag='0.3')
     version('0.3b', commit="c30ea06", submodules=True)

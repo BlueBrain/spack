@@ -1,4 +1,3 @@
-from spack import *
 from spack.pkg.builtin.py_numpy import PyNumpy as BuiltinPyNumpy
 
 
