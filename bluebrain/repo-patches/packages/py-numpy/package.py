@@ -1,3 +1,4 @@
+from spack.directives import conflicts
 from spack.pkg.builtin.py_numpy import PyNumpy as BuiltinPyNumpy
 
 
