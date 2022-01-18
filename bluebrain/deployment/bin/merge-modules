@@ -41,7 +41,7 @@ def run():
                     copied.add(target)
         print("  Writing new module index")
         with (outdir / 'module-index.yaml').open('w') as fd:
-            syaml.dump(index, fd)
+            syaml.dump(index, stream=fd)
         print("  Cleaning up obsolete modules")
         for path in outdir.glob('**/*'):
             if path.is_file() and path.suffix != '.yaml' and path not in copied:
