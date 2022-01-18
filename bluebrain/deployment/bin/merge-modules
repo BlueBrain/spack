@@ -31,7 +31,6 @@ def run():
             with (moduledir / 'module-index.yaml').open() as fd:
                 data = syaml.load(fd)['module_index']
                 index['module_index'].update(data)
-                print(index)
             for path in moduledir.glob('**/*'):
                 if path.is_file() and path.suffix != '.yaml':
                     fragment = path.relative_to(moduledir)
@@ -42,8 +41,6 @@ def run():
         print("  Writing new module index")
         with (outdir / 'module-index.yaml').open('w') as fd:
             syaml.dump(index, stream=fd)
-        with (outdir / 'module-index.yaml').open() as fd:
-            print(fd.read())
         print("  Cleaning up obsolete modules")
         for path in outdir.glob('**/*'):
             if path.is_file() and path.suffix != '.yaml' and path not in copied:
