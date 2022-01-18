@@ -1,4 +1,3 @@
-from spack import *
 from spack.pkg.builtin.py_rtree import PyRtree as BuiltinPyRtree
 
 
