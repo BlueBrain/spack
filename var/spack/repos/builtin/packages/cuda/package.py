@@ -25,6 +25,10 @@ from spack import *
 #    format returned by platform.system() and 'arch' by platform.machine()
 
 _versions = {
+    '11.5.1': {
+        'Linux-aarch64': ('73e1d0e97c7fa686efe7e00fb1e5f179372c4eec8e14d4f44ab58d5f6cf57f63', 'https://developer.download.nvidia.com/compute/cuda/11.5.1/local_installers/cuda_11.5.1_495.29.05_linux_sbsa.run'),
+        'Linux-x86_64': ('60bea2fc0fac95574015f865355afbf599422ec2c85554f5f052b292711a4bca', 'https://developer.download.nvidia.com/compute/cuda/11.5.1/local_installers/cuda_11.5.1_495.29.05_linux.run'),
+        'Linux-ppc64le': ('9e0e494d945634fe8ad3e12d7b91806aa4220ed27487bb211030d651b27c67a9', 'https://developer.download.nvidia.com/compute/cuda/11.5.1/local_installers/cuda_11.5.1_495.29.05_linux_ppc64le.run')},
     '11.5.0': {
         'Linux-aarch64': ('6ea9d520cc956cc751a5ac54f4acc39109627f4e614dd0b1a82cc86f2aa7d8c4', 'https://developer.download.nvidia.com/compute/cuda/11.5.0/local_installers/cuda_11.5.0_495.29.05_linux_sbsa.run'),
         'Linux-x86_64': ('ae0a1693d9497cf3d81e6948943e3794636900db71c98d58eefdacaf7f1a1e4c', 'https://developer.download.nvidia.com/compute/cuda/11.5.0/local_installers/cuda_11.5.0_495.29.05_linux.run'),
@@ -133,7 +137,13 @@ class Cuda(Package):
     # Mojave support -- only macOS High Sierra 10.13 is supported.
     conflicts('arch=darwin-mojave-x86_64')
 
+    variant('dev', default=False, description='Enable development dependencies, i.e to use cuda-gdb')
+
     depends_on('libxml2', when='@10.1.243:')
+    # cuda-gdb needed libncurses.so.5 before 11.4.0
+    # see https://docs.nvidia.com/cuda/archive/11.3.1/cuda-gdb/index.html#common-issues-oss
+    # see https://docs.nvidia.com/cuda/archive/11.4.0/cuda-gdb/index.html#release-notes
+    depends_on('ncurses abi=5', type='run', when='@:11.3.99+dev')
 
     provides('opencl@:1.2', when='@7:')
     provides('opencl@:1.1', when='@:6')
@@ -161,7 +171,6 @@ class Cuda(Package):
 
     def setup_run_environment(self, env):
         env.set('CUDA_HOME', self.prefix)
-        env.append_path('LD_LIBRARY_PATH', self.prefix.extras.CUPTI.lib64)
 
     def install(self, spec, prefix):
         if os.path.exists('/tmp/cuda-installer.log'):
@@ -181,8 +190,7 @@ class Cuda(Package):
         # https://gist.github.com/ax3l/9489132
         # for details.
 
-        # CUDA 10.1 on ppc64le fails to copy some files, the workaround is
-        # adapted from
+        # CUDA 10.1 on ppc64le fails to copy some files, the workaround is adapted from
         # https://forums.developer.nvidia.com/t/cuda-10-1-243-10-1-update-2-ppc64le-run-file-installation-issue/82433
         # See also #21170
         if spec.satisfies('@10.1.243') and platform.machine() == 'ppc64le':
@@ -195,11 +203,10 @@ class Cuda(Package):
 
         if self.spec.satisfies('@:8.0.61'):
             # Perl 5.26 removed current directory from module search path.
-            # We are addressing this by exporting `PERL5LIB` earlier, but for
-            # some reason, it is not enough. One more file needs to be
-            # extracted before running the actual installer. This solution is
-            # one of the commonly found on the Internet, when people try to
-            # install CUDA <= 8 manually.
+            # We are addressing this by exporting `PERL5LIB` earlier, but for some
+            # reason, it is not enough. One more file needs to be extracted before
+            # running the actual installer. This solution is one of the commonly
+            # found on the Internet, when people try to install CUDA <= 8 manually.
             # For example: https://askubuntu.com/a/1087842
             arguments = [runfile, '--tar', 'mxvf', './InstallUtils.pm']
             install_shell(*arguments)

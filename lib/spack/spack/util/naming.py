@@ -1,13 +1,15 @@
-# Copyright 2013-2020 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 # Need this because of spack.util.string
 from __future__ import absolute_import
-import string
+
 import itertools
 import re
+import string
+
 from six import StringIO
 
 import spack.error
@@ -30,7 +32,7 @@ _valid_module_re = r'^\w[\w-]*$'
 _valid_fully_qualified_module_re = r'^(\w[\w-]*)(\.\w[\w-]*)*$'
 
 # Avoid excessive string operations
-_mod_to_class_cache = {}
+_mod_to_class_cache = {}  # type: ignore
 
 
 def mod_to_class(mod_name):

@@ -1,13 +1,13 @@
-# Copyright 2013-2020 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-import pytest
-
 import contextlib
 import os
 import sys
+
+import pytest
 
 import spack.cmd
 import spack.config
@@ -249,7 +249,8 @@ def test_get_command_paths(config):
     for ext in extensions:
         ext_path = os.path.join('my', 'path', 'to', 'spack-' + ext)
         ext_paths.append(ext_path)
-        expected_cmd_paths.append(os.path.join(ext_path,
+        expected_cmd_paths.append(os.path.join(os.getcwd(),
+                                               ext_path,
                                                spack.cmd.python_name(ext),
                                                'cmd'))
 

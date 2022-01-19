@@ -1,0 +1,69 @@
+spack:
+  view: false
+  concretization: separately
+  modules:
+    tcl:
+      whitelist:
+        - asciitoh5
+        - model-neocortex
+        - nest
+        - neurodamus-core
+        - neurodamus-hippocampus
+        - neurodamus-neocortex
+        - neurodamus-thalamus
+        - neurodamus-mousify
+        - parquet-converters
+        - py-basalt
+        - py-libsonata
+        - 'py-mvdtool%gcc'
+        - py-neurodamus
+        - py-pytouchreader
+        - reportinglib
+        - spatial-index
+        - spykfunc
+        - steps
+        - 'synapsetool%gcc'
+        - touchdetector
+        - unit-test-translator
+      projections:
+        all: '{name}/{version}'
+        ^coreneuron+knl: '{name}-knl/{version}'
+        +common: '{name}/{version}-commonmods'
+        +plasticity: '{name}-plasticity/{version}'
+  packages:
+    py-neurodamus:
+      variants: +all_deps
+  specs:
+    - asciitoh5@1.0
+    - coreneuron%intel+tests
+    - coreneuron%intel+tests+nmodl+sympy
+    - coreneuron%nvhpc+tests+gpu+openmp
+    - coreneuron%nvhpc+tests+gpu+openmp+nmodl+sympy
+    - model-neocortex%intel
+    - nest@2.20.1
+    - neurodamus-core~common%intel
+    - neurodamus-core+common
+    - neurodamus-hippocampus+coreneuron%intel^coreneuron+caliper
+    - neurodamus-hippocampus+coreneuron%intel^coreneuron+caliper+knl
+    - neurodamus-mousify+coreneuron%intel^coreneuron+caliper
+    - neurodamus-neocortex+coreneuron%intel^coreneuron+caliper
+    - neurodamus-neocortex+coreneuron%intel^coreneuron+caliper+knl
+    - neurodamus-neocortex+coreneuron+plasticity%intel^coreneuron+caliper
+    - neurodamus-thalamus+coreneuron%intel^coreneuron+caliper
+    - neurodamus-thalamus+coreneuron%intel^coreneuron+caliper+knl
+    - neuron%intel+coreneuron+tests
+    - neuron%nvhpc+coreneuron+tests ^coreneuron+gpu
+    - neuron%intel+debug  # CI
+    - nmodl
+    - parquet-converters
+    - py-basalt@0.2.9
+    - py-libsonata
+    - py-neurodamus+all_deps
+    - py-pytouchreader
+    - reportinglib%intel
+    - spatial-index
+    - spykfunc
+    - steps+petsc
+    - synapsetool
+    - touchdetector
+    - unit-test-translator
