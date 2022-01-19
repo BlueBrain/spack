@@ -33,6 +33,8 @@ spack:
   packages:
     py-neurodamus:
       variants: +all_deps
+    py-scipy:
+      version: [1.6.3]  # for compat w intel
   specs:
     - asciitoh5@1.0
     - coreneuron%intel+tests
