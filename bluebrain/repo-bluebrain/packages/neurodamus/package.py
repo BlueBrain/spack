@@ -2,13 +2,14 @@
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
 import os
+
 from spack import *
-from spack.pkg.builtin.neurodamus_model import NeurodamusModel
+
+from .neurodamus_model import NeurodamusModel
 
 
-class Neurodamus3(NeurodamusModel):
+class Neurodamus(NeurodamusModel):
     """The Blue Brain Project simulation suite with BBP models"""
 
     # FIXME: Add a proper url for your package's homepage here.
