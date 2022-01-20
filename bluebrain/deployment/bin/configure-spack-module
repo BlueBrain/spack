@@ -27,6 +27,9 @@ fi
 cat <<EOF
 #%Module1.0
 
+# FIXME environment-modules 4 has getenv, which is preferred
+set home \$env(HOME)
+
 if [ module-info mode load ] {
     puts stderr "=========================================="
     puts stderr "Welcome to the central Spack installation!"
@@ -52,9 +55,6 @@ ${pr_warning}
 }
 
 module-whatis   Spack is our software building and deployment toolkit
-
-# FIXME environment-modules 4 has getenv, which is preferred
-set home \$env(HOME)
 
 prepend-path    PATH ${SPACK_ROOT}/bin
 setenv          SPACK_ROOT ${SPACK_ROOT}
