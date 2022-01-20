@@ -28,7 +28,9 @@ cat <<EOF
 #%Module1.0
 
 if [ module-info mode load ] {
-    puts stderr "Welcome to the central Spack installation!\n"
+    puts stderr "=========================================="
+    puts stderr "Welcome to the central Spack installation!"
+    puts stderr "==========================================\n"
     puts stderr "Software will be installed into ~/spack_install${suffix} by default."
     puts stderr "Modules for installed software are disabled, to enable a specific one, use:\n"
     puts stderr "\tspack config add modules:tcl:whitelist:package_to_install\n"
@@ -41,6 +43,11 @@ if [ module-info mode load ] {
     puts stderr "\tspack clone \$\{NEW_SPACK_DIR\}"
     puts stderr "\tcp \$\{NEW_SPACK_DIR\}/{bluebrain/sysconfig/bluebrain5/*.yaml,etc/spack}"
     puts stderr "\t. \$\{NEW_SPACK_DIR\}/share/spack/setup-env.sh\n"
+    puts stderr "To use the configuration of this module please either use the following"
+    puts stderr "commands or keep loading this module before sourcing the cloned Spack:\n"
+    puts stderr "\texport SPACK_SYSTEM_CONFIG_PATH=${DEPLOYMENT_ROOT}/config"
+    puts stderr "\texport SPACK_USER_CACHE_PATH=\$home/spack_install${suffix}\n"
+    puts stderr "Without this configuration, Spack will not be fully usable."
 ${pr_warning}
 }
 
