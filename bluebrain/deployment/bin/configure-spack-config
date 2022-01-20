@@ -37,7 +37,7 @@ cat <<EOF > "$config_dir/modules.sh"
 export MODULEPATH="\${MODULEPATH:-}\${MODULEPATH:+:}${MODULE_ROOT}/_meta"
 EOF
 
-cp "$input_dir/"{compilers,mirrors,packages}.yaml "$config_dir"
+cp "$input_dir/"{compilers,mirrors,modules,packages}.yaml "$config_dir"
 
 cat <<EOF > "$config_dir/upstreams.yaml"
 upstreams:
