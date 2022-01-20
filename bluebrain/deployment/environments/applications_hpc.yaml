@@ -14,7 +14,7 @@ spack:
         - neurodamus-mousify
         - parquet-converters
         - py-basalt
-        - py-libsonata
+        - 'py-libsonata%gcc'
         - 'py-mvdtool%gcc'
         - py-neurodamus
         - py-pytouchreader
@@ -58,7 +58,7 @@ spack:
     - parquet-converters
     - py-basalt@0.2.9
     - py-libsonata
-    - py-neurodamus+all_deps
+    - py-neurodamus+all_deps%intel
     - py-pytouchreader
     - reportinglib%intel
     - spatial-index

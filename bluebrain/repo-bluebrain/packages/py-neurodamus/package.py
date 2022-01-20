@@ -30,7 +30,8 @@ class PyNeurodamus(PythonPackage):
             description="Add more dependencies to support advanced use cases")
 
     # Note: we depend on Neurodamus but let the user decide which one.
-    # Note: avoid Neuron dependency due to issues with Intel and GCC conflicts.
+    #       So in practice neurodamus depend on us.
+    depends_on('neuron+mpi',       type=('build', 'run'))
     depends_on('python@3.4:',      type=('build', 'run'))
     depends_on('py-setuptools',    type=('build', 'run'))
     depends_on('py-h5py',          type='run')
@@ -38,6 +39,7 @@ class PyNeurodamus(PythonPackage):
     depends_on('py-docopt',        type='run')
     depends_on('py-libsonata',     type='run', when='@2.5.3:')
     depends_on('py-morphio',       type='run', when='@2.6.0:')
+    depends_on('py-mvdtool',       type='run', when='@2.5.3:')
     depends_on('py-scipy@1.5.4',   type='run', when='+all_deps@2.5.3:')
 
     @run_after('install')
