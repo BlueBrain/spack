@@ -38,7 +38,7 @@ class PyNeurodamus(PythonPackage):
     depends_on('py-docopt',        type='run')
     depends_on('py-libsonata',     type='run', when='@2.5.3:')
     depends_on('py-morphio',       type='run', when='@2.6.0:')
-    depends_on('py-scipy',         type='run', when='+all_deps@2.5.3:')
+    depends_on('py-scipy@1.5.4',   type='run', when='+all_deps@2.5.3:')
 
     @run_after('install')
     def install_files(self):

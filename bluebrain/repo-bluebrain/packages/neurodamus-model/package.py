@@ -36,7 +36,7 @@ def version_from_model_ndpy_dep(model_v, ndamus_v=PYNEURODAMUS_DEFAULT_V):
     """
     this_version = model_v + "-" + ndamus_v  # e.g. 1.1-3.0.2
     version(this_version, tag=model_v, submodules=True, get_full_repo=True)
-    depends_on('py-neurodamus@' + ndamus_v + "%gcc", type=('build', 'run'),
+    depends_on('py-neurodamus@' + ndamus_v, type=('build', 'run'),
                when='@' + this_version)
 
 
@@ -62,7 +62,7 @@ class NeurodamusModel(SimModel):
     )
 
     # Now we depend on neurodamus-py
-    depends_on('py-neurodamus@develop%gcc', type=('build', 'run'), when='@develop')
+    depends_on('py-neurodamus@develop', type=('build', 'run'), when='@develop')
 
     # Note: We dont request link to MPI so that mpicc can do what is best
     # and dont rpath it so we stay dynamic.
