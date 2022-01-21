@@ -22,7 +22,7 @@ class IntelOneapiCompilers(IntelOneApiPackage):
 
     maintainers = ['rscohn2']
 
-    homepage = 'https://software.intel.com/content/www/us/en/develop/tools/oneapi/components/dpc-compiler.html'
+    homepage = 'https://software.intel.com/content/www/us/en/develop/tools/oneapi.html'
 
     version('2021.1', sha256='666b1002de3eab4b6f3770c42bcf708743ac74efeba4c05b0834095ef27a11b9', expand=False)
 

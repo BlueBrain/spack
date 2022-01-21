@@ -586,7 +586,7 @@ class IntelPackage(PackageBase):
             # NB: Works fine even with relative=True, e.g.:
             #   composer_xe/compiler -> composer_xe/bin/intel64
         elif component == 'mpi':
-            d = os.path.join(d, _expand_fields('{libarch}'), 'bin')
+            d = component #os.path.join(d, _expand_fields('{libarch}'), 'bin')
         else:
             d = os.path.join(d, 'bin')
         debug_print(d)
@@ -599,7 +599,7 @@ class IntelPackage(PackageBase):
         d = self.normalize_path(component, **kwargs)
 
         if component == 'mpi':
-            d = os.path.join(d, _expand_fields('{libarch}'), 'lib')
+            d = component #os.path.join(d, _expand_fields('{libarch}'), 'lib')
         else:
             d = os.path.join(d, 'lib', _expand_fields('{libarch}'))
             d = d.rstrip(os.sep)        # cosmetics, when {libarch} is empty
@@ -614,7 +614,7 @@ class IntelPackage(PackageBase):
         d = self.normalize_path(component, **kwargs)
 
         if component == 'mpi':
-            d = os.path.join(d, _expand_fields('{libarch}'), 'include')
+            d = component #os.path.join(d, _expand_fields('{libarch}'), 'include')
         else:
             d = os.path.join(d, 'include')
 

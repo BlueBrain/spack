@@ -38,6 +38,7 @@ class IntelMpiExternal(Package):
         env.set('I_MPI_F77', spack_fc)
         env.set('I_MPI_F90', spack_f77)
         env.set('I_MPI_FC', spack_fc)
+        env.set('I_MPI_ROOT', self.prefix)
 
     def setup_dependent_package(self, module, dep_spec):
         # Intel comes with 2 different flavors of MPI wrappers:

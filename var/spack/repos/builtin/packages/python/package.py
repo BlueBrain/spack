@@ -899,7 +899,7 @@ class Python(AutotoolsPackage):
 
     @property
     def python_lib_dir(self):
-        return join_path('lib', 'python{0}'.format(self.version.up_to(2)))
+        return join_path('lib', 'python{0}'.format(self.version.up_to(1)))
 
     @property
     def python_include_dir(self):
@@ -907,7 +907,7 @@ class Python(AutotoolsPackage):
 
     @property
     def site_packages_dir(self):
-        return join_path(self.python_lib_dir, 'site-packages')
+        return join_path(self.python_lib_dir, 'dist-packages')
 
     @property
     def easy_install_file(self):
@@ -921,8 +921,8 @@ class Python(AutotoolsPackage):
         """Get the existing site-packages directories for `spec`."""
         for lib in ['lib', 'lib64']:
             pth = join_path(
-                spec.prefix, lib, 'python' + str(self.version.up_to(2)),
-                'site-packages')
+                spec.prefix, lib, 'python' + str(self.version.up_to(1)),
+                'dist-packages')
             if os.path.exists(pth):
                 yield pth
 
