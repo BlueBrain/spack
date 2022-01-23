@@ -53,12 +53,10 @@ spack:
     - neurodamus-thalamus+coreneuron%intel^coreneuron+caliper+knl
     - neuron%intel+coreneuron+tests
     - neuron%nvhpc+coreneuron+tests ^coreneuron+gpu
-    - neuron%intel+debug  # CI
     - nmodl
     - parquet-converters
     - py-basalt@0.2.9
-    - py-libsonata
-    - py-neurodamus+all_deps%intel
+    - py-neurodamus+all_deps
     - py-pytouchreader
     - reportinglib%intel
     - spatial-index
