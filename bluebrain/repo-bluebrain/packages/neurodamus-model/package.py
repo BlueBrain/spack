@@ -11,12 +11,12 @@ import llnl.util.tty as tty
 from spack import *
 
 from .sim_model import SimModel
+from .py_neurodamus import PyNeurodamus
 
 # Definitions
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
-
-PYNEURODAMUS_DEFAULT_V = '2.9.0'
+PYNEURODAMUS_DEFAULT_V = PyNeurodamus.LATEST_STABLE
 
 
 def version_from_model_core_dep(model_v, core_v):
