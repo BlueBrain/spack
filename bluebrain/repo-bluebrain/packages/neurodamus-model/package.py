@@ -91,7 +91,7 @@ class NeurodamusModel(SimModel):
     def build_model(self, spec, prefix):
         """Build and install the bare model."""
         self._build_mods("mod", dependencies=[])  # No dependencies
-        self._install_binaries()
+        self._install_binaries(prefix)
 
     def merge_hoc_mod(self, spec, prefix, copyfunc=make_link, merge_hoc=True):
         """Add hocs, mods and python scripts from neurodamus-core which comes
@@ -175,7 +175,6 @@ class NeurodamusModel(SimModel):
         python/ If neurodamus-core comes with python, create links
         """
         self._install_binaries(prefix)
-
         self._install_src(prefix)
 
         # Create neurodamus links in share

@@ -148,14 +148,12 @@ class SimModel(Package):
         lib/ <- hoc, mod and lib*mech*.so
         share/ <- neuron & coreneuron mod.c's (modc and modc_core)
         """
-        self._install_binaries()
+        self._install_binaries(prefix)
 
         if install_src:
             self._install_src(prefix)
 
-    def _install_binaries(self, prefix=None):
-        # Install special
-        prefix = prefix or self.prefix
+    def _install_binaries(self, prefix):
         mkdirp(prefix.bin)
         mkdirp(prefix.lib)
         mkdirp(prefix.share.modc)

@@ -65,10 +65,10 @@ class Neurodamus(NeurodamusModel):
             with working_dir(model_name):
                 self._install_src(prefix, model_name)
                 self._install_binaries(model_install_prefix)
-                if model_name == "common":
-                    self._install_neurodamus_builder_script()
             force_symlink(model_install_prefix.bin.special,
                           prefix.bin.join("special-" + model_name))
+        with working_dir('common'):
+            self._install_neurodamus_builder_script()
 
     def setup_run_environment(self, env):
         self._setup_run_environment_common(env)
