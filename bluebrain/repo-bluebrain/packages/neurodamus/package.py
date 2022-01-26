@@ -10,13 +10,21 @@ from .neurodamus_model import NeurodamusModel
 
 
 class Neurodamus(NeurodamusModel):
-    """The Blue Brain Project simulation suite with BBP models"""
+    """ The next-generation AllInOne Neurodamus deployment.
+
+    Neurodamus includes BBP's simulation suite with all internal sim models.
+    """
 
     # FIXME: Add a proper url for your package's homepage here.
     homepage = "https://bbpgitlab.epfl.ch/hpc/sim/neurodamus-models"
     git      = "git@bbpgitlab.epfl.ch:hpc/sim/neurodamus-models.git"
 
     version('develop', submodules=True)
+    # For now let the version give a good hint about what we are, to avoid
+    # users loading it by mistake and getting puzzled
+    version('0.0.1_allInOne', tag='0.0.1', submodules=True)
+
+    depends_on('py-neurodamus', type=('build', 'run'))
 
     models = ("common", "neocortex", "hippocampus", "thalamus", "mousify")
     phases = ["build_" + model for model in models] + ["install"]
