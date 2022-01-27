@@ -8,7 +8,7 @@ from spack import *
 
 class Poco(CMakePackage):
     """
-    A collection of C++ class libraries, conceptually similar to 
+    A collection of C++ class libraries, conceptually similar to
     the Java Class Library or the .NET Framework.
     """
 
