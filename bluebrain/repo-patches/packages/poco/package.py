@@ -7,14 +7,17 @@ from spack import *
 
 
 class Poco(CMakePackage):
-    """A collection of C++ class libraries, conceptually similar to the Java Class Library or the .NET Framework."""
+    """
+    A collection of C++ class libraries, conceptually similar to 
+    the Java Class Library or the .NET Framework.
+    """
 
     homepage = "https://pocoproject.org/"
     git = "https://github.com/pocoproject/poco.git"
     generator = "Ninja"
 
     version("1.11.1", tag="poco-1.11.1-release")
-    
+
     depends_on("cmake@3.5:", type="build")
     depends_on("ninja", type="build")
 
