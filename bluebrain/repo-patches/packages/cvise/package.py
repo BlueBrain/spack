@@ -26,15 +26,16 @@ class Cvise(CMakePackage):
     version('2.3.0', tag='v2.3.0')
 
     depends_on('cmake', type='build')
+    depends_on('colordiff', type=('build', 'run'))
     depends_on('flex')
     depends_on('libxml2')
     depends_on('llvm@9.0.0:')
-    depends_on('python@3.6:')
-    depends_on('py-chardet')
-    depends_on('py-pebble')
-    depends_on('py-psutil')
+    depends_on('python@3.6:', type=('build', 'run'))
+    depends_on('py-chardet', type=('build', 'run'))
+    depends_on('py-pebble', type=('build', 'run'))
+    depends_on('py-psutil', type=('build', 'run'))
     depends_on('py-pytest')
-    depends_on('unifdef')
+    depends_on('unifdef', type=('build', 'run'))
     depends_on('zlib')
 
     def cmake_args(self):
