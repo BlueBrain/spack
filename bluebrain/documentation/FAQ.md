@@ -81,7 +81,7 @@
   To produce an up-to-date module for `my_package` (adjust as needed).
 </details>
 
-## Concretization (determining dependencies)
+## Concretization Issues
 
 #### Q: Why does Spack fail with cryptic error messages
 
