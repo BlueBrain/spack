@@ -30,6 +30,7 @@ class Cvise(CMakePackage):
     depends_on('flex')
     depends_on('libxml2')
     depends_on('llvm@9.0.0:')
+    depends_on('ncurses') # this is an llvm dependency really
     depends_on('python@3.6:', type=('build', 'run'))
     depends_on('py-chardet', type=('build', 'run'))
     depends_on('py-pebble', type=('build', 'run'))
