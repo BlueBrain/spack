@@ -1,4 +1,5 @@
 test:
+  tags: [bb5_map]
   script:
     - >
       mail -s "test from gitlab" bbp-deployment@groupes.epfl.ch <<EOF
