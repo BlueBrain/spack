@@ -2,6 +2,6 @@ test:
   tags: [bb5_map]
   script:
     - >
-      mail -s "test from gitlab" bbp-deployment@groupes.epfl.ch <<EOF
+      mail -s "test from gitlab" bbp-deployment@groupes.epfl.ch matthias.wolf@epfl.ch <<EOF
       Zis is a short test to see if we can notify you from a pipeline with the standard unix mail client.
       EOF
