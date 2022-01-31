@@ -175,7 +175,7 @@ class Neuron(CMakePackage):
         # NVHPC 21.11 and newer detect ABM support and define __ABM__, which
         # breaks Random123 compilation. NEURON inserts a workaround for this in
         # https://github.com/neuronsimulator/nrn/pull/1587.
-        if self.spec.satisfies('@:8.0.1%nvhpc@21.11:'):
+        if self.spec.satisfies('@:8.0.999%nvhpc@21.11:'):
             compilation_flags.append('-DR123_USE_INTRIN_H=0')
         # Added in https://github.com/neuronsimulator/nrn/pull/1574, this
         # improves ccache performance in CI builds.
