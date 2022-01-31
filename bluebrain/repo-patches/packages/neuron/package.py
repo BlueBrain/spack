@@ -37,8 +37,6 @@ class Neuron(CMakePackage):
     version("develop", branch="master")
     version("8.0.1", tag="8.0.1")
     version("8.0.0", tag="8.0.0")
-    version("8.0b",  commit="eb8d038")
-    version("8.0a",  tag="8.0a")
     version("7.9.0b",  commit="94147e5")
     version("7.9.0a",  commit="fc74b85")
     version("7.8.1",   tag="7.8.1")
@@ -124,7 +122,7 @@ class Neuron(CMakePackage):
     depends_on("tau",         when="+profile")
     depends_on("coreneuron+legacy-unit", when="+coreneuron+legacy-unit")
     depends_on("coreneuron~legacy-unit", when="+coreneuron~legacy-unit")
-    depends_on("py-pytest-cov", when="+tests@8.0b:")
+    depends_on("py-pytest-cov", when="+tests@8:")
 
     conflicts("+cmake",   when="@0:7.8.0b,2018-10")
     conflicts("~shared",  when="+python")
