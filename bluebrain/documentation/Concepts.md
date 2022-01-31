@@ -132,3 +132,4 @@ The pipeline in
 [`bluebrain/deployment/gitlab-ci.yml`](../deployment/gitlab-ci.yml)
 will augment the system configuration, partially using scripts defined in
 [`bluebrain/deployment/bin`](../deployment/bin).
+Please refer to the pipeline definition and the scripts for details.
