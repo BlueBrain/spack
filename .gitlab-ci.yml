@@ -153,5 +153,11 @@ sync_to_tds:
   needs: [atomic_build]
   variables:
     DEPLOYMENT_BASE: $DEPLOYMENT_BASE
+  # Really only want to run this when builds are active: exclude running
+  # on PRs, just merges and schedules.
+  rules:
+    - if: $CI_EXTERNAL_PULL_REQUEST_IID
+      when: never
+    - when: always
   trigger:
     project: hpc/spack-sync
