@@ -20,8 +20,8 @@ class CircuitBuild(PythonPackage):
     depends_on('py-click@7.0:7.99', type=('build', 'run'))
     depends_on('py-pyyaml@5.0:', type=('build', 'run'))
     depends_on('snakemake@5.10:6.99', type=('build', 'run'))
-    depends_on('jsonschema@3.2.0:3.99', type=('build', 'run'))
-    depends_on('jinja2@2.10.0:3.99', type=('build', 'run'))
+    depends_on('py-jsonschema@3.2.0:3.99', type=('build', 'run'))
+    depends_on('py-jinja2@2.10.0:3.99', type=('build', 'run'))
 
     def setup_run_environment(self, env):
         env.prepend_path('PATH', self.spec['snakemake'].prefix.bin)
