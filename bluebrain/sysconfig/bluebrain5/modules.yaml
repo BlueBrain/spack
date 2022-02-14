@@ -47,7 +47,7 @@ modules:
           MPICC_CC: 'nvc'
           MPICXX_CXX: 'nvc++'
           MPIF90_F90: 'nvfortran'
-    hpe-mpi:
+    brion:
       environment:
         unset:
           - PATH
