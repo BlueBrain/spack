@@ -10,7 +10,7 @@ MY_VENV=$(mktemp -d)/venv
 trap "rm -rf '${MY_VENV}'" EXIT
 python3 -mvenv "${MY_VENV}"
 . "${MY_VENV}/bin/activate"
-pip install requests pyyaml jinja2
+pip install requests pyyaml jinja2 lxml
 exec python3 $0
 # Error out if the above fails
 exit 1
