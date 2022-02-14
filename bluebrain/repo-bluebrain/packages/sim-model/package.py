@@ -3,11 +3,11 @@
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-from spack import *
-
-from contextlib import contextmanager
 import os
 import shutil
+from contextlib import contextmanager
+
+from spack import *
 
 
 class SimModel(Package):
