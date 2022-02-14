@@ -372,15 +372,6 @@ link_configuration:
     # Link configuration into global deployment directory
     - ln -sf "$DEPLOYMENT_ROOT/config" "$DEPLOYMENT_BASE"
 
-github_feedback:
-  stage: .post
-  rules:
-    - if: $GITHUB_PULL_REQUEST_ID
-      when: always
-  script:
-    - export PATH="${DEPLOYMENT_ROOT}/spack/bluebrain/deployment/bin:${PATH}"
-    - give-github-feedback
-
 check_modules:
   needs: [update_config]
   variables:
@@ -394,3 +385,19 @@ check_python_modules:
   needs: [update_config]
   script:
     - spack-check "$DEPLOYMENT_ROOT/config/modules.sh"
+
+github_feedback:
+  stage: .post
+  rules:
+    - if: $GITHUB_PULL_REQUEST_ID
+      when: always
+  variables:
+    bb5_constraint: cpu
+    bb5_cpus_per_task: 1
+    bb5_ntasks: 1
+    bb5_exclusive: user
+    # Rely on the already checked out Spack
+    GIT_STRATEGY: none
+  script:
+    - export PATH="${DEPLOYMENT_ROOT}/spack/bluebrain/deployment/bin:${PATH}"
+    - give-github-feedback
