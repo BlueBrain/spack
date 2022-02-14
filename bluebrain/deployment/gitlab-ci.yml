@@ -240,6 +240,8 @@ setup_spack:
     -     spack export --scope=user --module tcl --explicit --unbuildable intel-mkl llvm openscenegraph optix --exclude 'neuron|hdf5|nvhpc' ${shas} > "spack_config/packages.yaml.tmp"
     -     sed -e "/:':/{s/'//g}" "spack_config/packages.yaml.tmp" > "spack_config/packages.yaml"
     - fi
+    # Fail if software fails to build!
+    - if grep -q -m1 -l -R '<failure' "spack_tests"; then exit 1; fi
   artifacts:
     when: always
     paths:
@@ -256,17 +258,11 @@ setup_spack:
 compilers:
   extends: .spack_stage
   stage: compilers
-  script:
-    - !reference [.spack_stage, script]
-    - if grep -q -m1 -l -R '<failure' "spack_tests"; then exit 1; fi
 
 externals:
   extends: .spack_stage
   needs: [compilers]
   stage: externals
-  script:
-    - !reference [.spack_stage, script]
-    - if grep -q -m1 -l -R '<failure' "spack_tests"; then exit 1; fi
 
 .spack_stage_applications:
   extends: .spack_stage
@@ -377,9 +373,10 @@ link_configuration:
     - ln -sf "$DEPLOYMENT_ROOT/config" "$DEPLOYMENT_BASE"
 
 github_feedback:
-  needs: [update_config]
+  stage: .post
   rules:
     - if: $GITHUB_PULL_REQUEST_ID
+      when: always
   script:
     - export PATH="${DEPLOYMENT_ROOT}/spack/bluebrain/deployment/bin:${PATH}"
     - give-github-feedback
