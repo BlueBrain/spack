@@ -12,5 +12,6 @@ class PyPrettytable(BuiltinPyPrettytable):
 
     depends_on('python@3.6:', when='@2.0.0:', type=('build', 'run'))
     depends_on("py-setuptools", type='build')
+    depends_on('py-setuptools-scm', type='build')
     depends_on('py-importlib-metadata', when='@2.2.1:^python@:3.8', type=('build', 'run'))
     depends_on('py-wcwidth', when='@1.0.0:', type=('build', 'run'))
