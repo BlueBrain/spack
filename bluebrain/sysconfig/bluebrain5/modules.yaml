@@ -17,6 +17,9 @@ modules:
     all:
       autoload: 'all'
       load_only_generated: true
+      environment:
+        unset:
+          - PATH
     gcc:
       environment:
         set:
