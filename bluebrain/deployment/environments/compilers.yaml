@@ -27,4 +27,3 @@ spack:
     - gcc@11.2.0
     - intel@20.0.4
     - intel-oneapi-compilers@2021.4.0
-    - le_greatest_compiler_zere_iz
