@@ -17,9 +17,6 @@ modules:
     all:
       autoload: 'all'
       load_only_generated: true
-      environment:
-        unset:
-          - PATH
     gcc:
       environment:
         set:
@@ -50,3 +47,7 @@ modules:
           MPICC_CC: 'nvc'
           MPICXX_CXX: 'nvc++'
           MPIF90_F90: 'nvfortran'
+    hpe-mpi:
+      environment:
+        unset:
+          - PATH
