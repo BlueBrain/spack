@@ -33,7 +33,7 @@ from pprint import pprint
 COMMENT_TEMPLATE = """
 {%- if failed_stages -%}
 The following build stages of the deployment for this PR failed:
-{%- for name, link in failed_stages %}
+{% for name, link in failed_stages -%}
 * [{{name}}]({{link}})
 {% endfor -%}
 {%- else -%}
@@ -43,24 +43,24 @@ unset MODULEPATH
 . {{deployment_root}}/config/modules.sh
 module load unstable
 ```
-{%- if updated_modules %}
+{% if updated_modules -%}
 Please test the following updated modules:
-{%- for module in updated_modules %}
+{% for module in updated_modules -%}
 * `{{module}}`
-{%- endfor -%}
+{% endfor -%}
 {%- endif -%}
-{%- if failed_builds %}
+{%- if failed_builds -%}
 Please fix the following packages that failed to build:
-{%- for name, sha, link in failed_builds %}
+{% for name, sha, link in failed_builds -%}
 * [`{{name}}` ({{sha}})]({{link}})
-{%- endfor -%}
+{% endfor -%}
 {%- endif -%}
 {%- endif -%}
-{%- if failed_tests %}
+{%- if failed_tests -%}
 The following module tests failed:
-{%- for name, link in failed_tests %}
+{% for name, link in failed_tests -%}
 * [{{name}}]({{link}})
-{%- endfor -%}
+{% endfor -%}
 {%- endif -%}
 """
 
