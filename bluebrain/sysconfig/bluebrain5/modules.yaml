@@ -47,7 +47,3 @@ modules:
           MPICC_CC: 'nvc'
           MPICXX_CXX: 'nvc++'
           MPIF90_F90: 'nvfortran'
-    brion:
-      environment:
-        unset:
-          - PATH
