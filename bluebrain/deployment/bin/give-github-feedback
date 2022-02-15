@@ -49,12 +49,12 @@ Please test the following updated modules:
 * `{{module}}`
 {% endfor %}
 {% endif -%}
+{% endif -%}
 {% if failed_builds -%}
 Please fix the following packages that failed to build:
 {% for name, sha, link in failed_builds -%}
 * [`{{name}}` ({{sha}})]({{link}})
 {% endfor %}
-{% endif -%}
 {% endif -%}
 {% if failed_tests -%}
 The following module tests failed:
@@ -213,7 +213,6 @@ def post_pipeline_info():
     failed_stages, raw_failed_builds = get_build_failures(pipe)
     failed_module_tests = sorted(get_module_test_failures(pipe))
 
-    pprint(raw_failed_builds)
     failed_builds = []
     for name, sha, log in raw_failed_builds:
         failed_builds.append((name, sha, "NOPE"))
