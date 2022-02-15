@@ -35,8 +35,8 @@ COMMENT_TEMPLATE = """
 The following build stages of the deployment for this PR failed:
 {% for name, link in failed_stages -%}
 * [{{name}}]({{link}})
-{% endfor -%}
-{%- else -%}
+{% endfor %}
+{% else -%}
 To test your PR, use the following on BlueBrain5:
 ```shell
 unset MODULEPATH
@@ -47,15 +47,15 @@ module load unstable
 Please test the following updated modules:
 {% for module in updated_modules -%}
 * `{{module}}`
-{% endfor -%}
-{%- endif -%}
+{% endfor %}
+{% endif -%}
 {% if failed_builds -%}
 Please fix the following packages that failed to build:
 {% for name, sha, link in failed_builds -%}
 * [`{{name}}` ({{sha}})]({{link}})
-{% endfor -%}
-{%- endif -%}
-{%- endif -%}
+{% endfor %}
+{% endif -%}
+{% endif -%}
 {% if failed_tests -%}
 The following module tests failed:
 {% for name, link in failed_tests -%}
