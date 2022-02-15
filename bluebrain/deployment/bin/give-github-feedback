@@ -94,21 +94,39 @@ def github_api_post(url, payload):
     )
 
 
-def gitlab_api_post(url, json=True):
+def gitlab_api_do(url, payload=None, to_json=True, method="get"):
     auth_token = os.environ["GITLAB_API_KEY"]
-    response = requests.get(url, headers={"PRIVATE-TOKEN": auth_token})
+    data = None
+    headers = {"PRIVATE-TOKEN": auth_token}
+    if payload:
+        data = json.dumps(payload)
+        headers["Content-Type"] = "application/json"
+    response = getattr(requests, method)(url, data=data, headers=headers)
     response.raise_for_status()
-    if json:
+    if to_json:
         return response.json()
     else:
         return response.content
 
 
-def query(what, project=None, json=True):
+def query(what, payload=None, to_json=True, method="get", project=None):
     project = project or os.environ["CI_PROJECT_ID"]
     api_url = os.environ["CI_API_V4_URL"]
     url = "{0}/projects/{1}/{2}".format(api_url, project, what)
-    return gitlab_api_post(url, json=json)
+    return gitlab_api_do(url, payload=payload, to_json=to_json, method=method)
+
+
+def upload_failure_snippet(name, sha, build_logs):
+    data = {
+        "title": "{0} ({1})".format(name, sha),
+        "description": "Built output from Spack",
+        "visibility": "internal",
+        "files": [
+            {"file_path": "{0}.txt".format(name), "content": content}
+            for name, content in build_logs.items()
+        ],
+    }
+    return query("snippets", payload=data, method="post")["web_url"]
 
 
 def get_bridges(pipeline):
@@ -149,7 +167,7 @@ def get_real_pipeline():
 
 def get_junit(job, stage):
     what = "jobs/{0}/artifacts".format(job)
-    data = query(what, json=False)
+    data = query(what, to_json=False)
     q = "spack_tests/{0}/*.xml".format(stage)
     with zipfile.ZipFile(io.BytesIO(data)) as zf:
         for fn in zf.namelist():
@@ -176,14 +194,19 @@ def get_build_failures(pipeline):
             for data in get_junit(job_id, job_stage):
                 tree = etree.fromstring(data)
                 for failed in tree.xpath("//failure/ancestor::testcase"):
-                    output = next(failed.iterchildren("failure"))
+                    data = dict()
+                    for kind in ("error", "system-out", "system-err"):
+                        try:
+                            data[kind] = next(failed.iterchildren(kind)).text
+                        except StopIteration:
+                            pass
                     print("Found build failure for", failed.get("classname"))
                     failed_builds[
                         (failed.get("classname"), failed.get("name"))
-                    ] = output.text
+                    ] = data
     return (
         sorted(failed_jobs),
-        sorted((n, i, v) for (n, i), v in failed_builds.items())
+        sorted((n, i, v) for (n, i), v in failed_builds.items()),
     )
 
 
@@ -214,8 +237,9 @@ def post_pipeline_info():
     failed_module_tests = sorted(get_module_test_failures(pipe))
 
     failed_builds = []
-    for name, sha, log in raw_failed_builds:
-        failed_builds.append((name, sha, "NOPE"))
+    for name, sha, logs in raw_failed_builds:
+        url = upload_failure_snippet(name, sha, logs)
+        failed_builds.append((name, sha, url))
     print("Failed builds to pass on to GitHub:")
     pprint(failed_builds)
 
@@ -232,7 +256,9 @@ def post_pipeline_info():
     )
     print("Posting a comment to the GitHub PR...")
     comment_request = github_api_post(
-        "https://api.github.com/repos/{repo}/issues/{pr}/comments".format(repo=repo, pr=pr),
+        "https://api.github.com/repos/{repo}/issues/{pr}/comments".format(
+            repo=repo, pr=pr
+        ),
         {"body": data},
     )
     pprint(comment_request.json())
