@@ -125,9 +125,7 @@ def get_jobs_with_tests(pipeline):
     """Returns the deployment jobs that build stuff."""
     for job in get_jobs(pipeline):
         stage = job["stage"]
-        if stage not in ("compilers", "externals", "applications"):
-            continue
-        id = job["id"]
+        jid = job["id"]
         if stage == job["name"]:
             name = job["name"]
         else:
@@ -138,7 +136,7 @@ def get_jobs_with_tests(pipeline):
         for fragment in job["artifacts"]:
             if fragment["file_type"] == "junit":
                 junit = True
-        yield (id, name, stage, status, url, junit)
+        yield (jid, name, stage, status, url, junit)
 
 
 def get_real_pipeline():
