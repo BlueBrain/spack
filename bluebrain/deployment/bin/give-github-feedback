@@ -32,7 +32,7 @@ from pprint import pprint
 
 COMMENT_TEMPLATE = """
 {%- if failed_stages -%}
-The following build stages of the deployment for this PR failed:
+The following build jobs of the deployment for this PR failed:
 {% for name, link in failed_stages -%}
 * [{{name}}]({{link}})
 {% endfor %}
@@ -172,10 +172,12 @@ def get_build_failures(pipeline):
         if job_status == "failed":
             failed_jobs.add((job_name, job_url))
         if job_junit:
+            print("Processing JUnit of", job_name)
             for data in get_junit(job_id, job_stage):
                 tree = etree.fromstring(data)
                 for failed in tree.xpath("//failure/ancestor::testcase"):
                     output = next(failed.iterchildren("failure"))
+                    print("Found build failure for", failed.get("classname"))
                     failed_builds[
                         (failed.get("classname"), failed.get("name"))
                     ] = output.text
