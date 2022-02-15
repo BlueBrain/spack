@@ -182,8 +182,8 @@ def get_build_failures(pipeline):
                         (failed.get("classname"), failed.get("name"))
                     ] = output.text
     return (
-        failed_jobs,
-        [(n, i, v) for (n, i), v in failed_builds.items()]
+        sorted(failed_jobs),
+        sorted((n, i, v) for (n, i), v in failed_builds.items())
     )
 
 
@@ -211,11 +211,13 @@ def post_pipeline_info():
     # pipe = get_real_pipeline()
     pipe = os.environ["CI_PIPELINE_ID"]
     failed_stages, raw_failed_builds = get_build_failures(pipe)
-    failed_module_tests = list(get_module_test_failures(pipe))
+    failed_module_tests = sorted(get_module_test_failures(pipe))
 
     failed_builds = []
     for name, sha, log in raw_failed_builds:
         failed_builds.append((name, sha, "NOPE"))
+    print("Failed builds to pass on to GitHub:")
+    pprint(failed_builds)
 
     data = (
         Environment(loader=BaseLoader)
