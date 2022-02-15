@@ -12,10 +12,10 @@ class PyNeurodamus(PythonPackage):
     homepage = "https://bbpteam.epfl.ch/project/spaces/display/BGLIB/Neurodamus"
     git      = "git@bbpgitlab.epfl.ch:hpc/sim/neurodamus-py.git"
 
-    LATEST_STABLE = '2.10.3_dev'  # Use for neurodamus-models
+    LATEST_STABLE = '2.10.3.20220406'  # Use for neurodamus-models
 
     version('develop', branch='main', submodules=True)
-    version('2.10.3_dev',  branch='lfp_file', submodules=True)
+    version('2.10.3.20220406',  branch='lfp_file', submodules=True)
     version('2.10.3',  tag='2.10.3', submodules=True)
     version('2.10.2',  tag='2.10.2', submodules=True)
     version('2.10.1',  tag='2.10.1', submodules=True)
