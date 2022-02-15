@@ -213,6 +213,7 @@ def post_pipeline_info():
     failed_stages, raw_failed_builds = get_build_failures(pipe)
     failed_module_tests = sorted(get_module_test_failures(pipe))
 
+    pprint(raw_failed_builds)
     failed_builds = []
     for name, sha, log in raw_failed_builds:
         failed_builds.append((name, sha, "NOPE"))
