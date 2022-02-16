@@ -33,7 +33,7 @@ from pprint import pprint
 COMMENT_TEMPLATE = """
 {%- if failed_stages -%}
 The following build jobs of the deployment for this PR failed:
-{% for name, link in failed_stages -%}
+{% for name, link in failed_stages|sort -%}
 * [{{name}}]({{link}})
 {% endfor %}
 {% else -%}
@@ -45,14 +45,14 @@ module load unstable
 ```
 {% if updated_modules -%}
 Please test the following updated modules:
-{% for module in updated_modules -%}
+{% for module in updated_modules|sort -%}
 * `{{module}}`
 {% endfor %}
 {% endif -%}
 {% endif -%}
 {% if failed_builds -%}
 Please fix the following packages that failed to build:
-{% for name, sha, link in failed_builds -%}
+{% for name, sha, link in failed_builds|sort -%}
 * [`{{name}}` ({{sha}})]({{link}})
 {% endfor %}
 {% endif -%}
@@ -205,8 +205,8 @@ def get_build_failures(pipeline):
                         (failed.get("classname"), failed.get("name"))
                     ] = data
     return (
-        sorted(failed_jobs),
-        sorted((n, i, v) for (n, i), v in failed_builds.items()),
+        list(failed_jobs),
+        [(n, i, v) for (n, i), v in failed_builds.items()],
     )
 
 
@@ -234,7 +234,7 @@ def post_pipeline_info():
     # pipe = get_real_pipeline()
     pipe = os.environ["CI_PIPELINE_ID"]
     failed_stages, raw_failed_builds = get_build_failures(pipe)
-    failed_module_tests = sorted(get_module_test_failures(pipe))
+    failed_module_tests = list(get_module_test_failures(pipe))
 
     failed_builds = []
     for name, sha, logs in raw_failed_builds:
