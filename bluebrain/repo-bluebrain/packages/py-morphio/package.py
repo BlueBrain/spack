@@ -20,8 +20,8 @@ class PyMorphio(PythonPackage):
     version('3.1.1', sha256="ad9f0e363f09f03c6eda54f5f3b006d204236677d2f2c9675421e0441033a503")
     version('2.7.1', sha256="3f3e2229da85e874527775fce080f712b6dc287edc44b90b6de35d17b34badff")
 
-    # depends_on('py-setuptools', type='build')
-    # depends_on('py-setuptools-scm', type='build')
+    depends_on('py-setuptools', type='build')
+    depends_on('py-setuptools-scm', type='build')
 
     depends_on('ninja', type='build')
     depends_on('cmake@3.2:', type='build')
