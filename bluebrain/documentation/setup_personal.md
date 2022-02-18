@@ -2,22 +2,34 @@
 
 ## Building software on OS X
 
-Install software on OS X, using Homebrew for binary packages.
+To install end-user software on OS X, please defer to `brew`.
 
-On OS X the build process is very similar to Ubuntu. To avoid building
-the whole stack from source we can likewise use another package manager to provide precompiled binaries.
-To that end we have successfully used Homebrew. We also provide a skeleton 
-`packages.yaml` that you should review and adapt to your needs.
+Before starting, please install `brew` and make sure that there is a
+working Python on your machine, preferably from XCode or another *stable*
+source.
+Then install a Fortran compiler, which Spack will pick up and use in
+conjunction with Apple's CLang:
 
-Before starting, please install brew and the required packages.
-If you require Python please install a version dowloaded from
-Python.org, as several issues have been found with Homebrew's Python
+    $ brew install gcc
+
+Now clone our version of Spack and find compilers and external packages:
 
     $ git clone -c feature.manyFiles=true https://github.com/BlueBrain/spack.git
-    $ mkdir ~/.spack
-    $ cp spack/bluebrain/sysconfig/mac_osx/*.yaml ~/.spack
     $ . spack/share/spack/setup-env.sh
     $ spack compiler find
+    $ spack external find
+
+Edit the resulting externals, removing any references to `brew` and
+`sqlite` from the system, the latter as it is not feature-complete:
+
+    $ spack config edit packages
+
+Also consider removing the Python installations and installing a
+Spack-provided one as needed.
+With this minimal setup, Spack should operate independent of the system and
+the `brew` installation.
+Software installed via Spack should be accessed either with `spack load` or
+by using Spack's environment feature.
 
 ## Building software on Ubuntu
 
