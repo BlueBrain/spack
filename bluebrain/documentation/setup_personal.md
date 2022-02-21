@@ -12,7 +12,7 @@ command in the startup scripts if using a POSIX shell:
 
     $ export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
 
-or globally set it in `fish`:
+or set it globally in `fish`:
 
     $ set -Ux SDKROOT (xcrun --sdk macosx --show-sdk-path)
 
