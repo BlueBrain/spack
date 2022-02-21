@@ -7,6 +7,18 @@ To install end-user software on OS X, please defer to `brew`.
 Before starting, please install `brew` and make sure that there is a
 working Python on your machine, preferably from XCode or another *stable*
 source.
+Also make sure that a recent XCode is present, and set the following
+command in the startup scripts if using a POSIX shell:
+
+    $ export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+
+or globally set it in `fish`:
+
+    $ set -Ux SDKROOT (xcrun --sdk macosx --show-sdk-path)
+
+This command will ensure that some programs find `stdio.h` correctly during
+their build, e.g., `neuron`.
+
 Then install a Fortran compiler, which Spack will pick up and use in
 conjunction with Apple's CLang:
 
