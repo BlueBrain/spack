@@ -52,7 +52,7 @@ packages:
     buildable: true
     version: [3.15.3]
     externals:
-    - spec: cmake@3.14.5
+    - spec: cmake@3.15.5
       prefix: /apps/dom/UES/jenkins/7.0.UP01/mc/easybuild/software/CMake/3.14.5
   boost:
     variants: +python
