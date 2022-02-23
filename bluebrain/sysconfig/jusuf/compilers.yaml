@@ -4,7 +4,7 @@ compilers:
     extra_rpaths: []
     flags: {}
     modules: []
-    operating_system: centos7
+    operating_system: rocky8
     paths:
       cc: /p/software/jusuf/stages/2022/software/GCCcore/11.2.0/bin/gcc
       cxx: /p/software/jusuf/stages/2022/software/GCCcore/11.2.0/bin/g++
@@ -17,7 +17,7 @@ compilers:
     extra_rpaths: []
     flags: {}
     modules: []
-    operating_system: centos7
+    operating_system: rocky8
     paths:
       cc: /usr/bin/gcc
       cxx: /usr/bin/g++
@@ -30,7 +30,7 @@ compilers:
     extra_rpaths: []
     flags: {}
     modules: []
-    operating_system: centos7
+    operating_system: rocky8
     paths:
       cc: /p/software/jusuf/stages/2022/software/intel-compilers/2021.4.0/compiler/2021.4.0/linux/bin/intel64/icc
       cxx: /p/software/jusuf/stages/2022/software/intel-compilers/2021.4.0/compiler/2021.4.0/linux/bin/intel64/icpc
