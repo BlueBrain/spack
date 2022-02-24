@@ -32,13 +32,12 @@ Now clone our version of Spack and find compilers and external packages:
     $ spack compiler find
     $ spack external find
 
-Edit the resulting externals, removing any references to `brew` and
-`sqlite` from the system, the latter as it is not feature-complete:
+Edit the resulting externals, removing any references to `brew`, `python`,
+and `sqlite` from the system, the latter two as they are unfit to be used
+as full dependencies with Spack:
 
     $ spack config edit packages
 
-Also consider removing the Python installations and installing a
-Spack-provided one as needed.
 With this minimal setup, Spack should operate independent of the system and
 the `brew` installation.
 Software installed via Spack should be accessed either with `spack load` or
