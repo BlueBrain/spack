@@ -25,12 +25,15 @@ class Morphio(CMakePackage):
     depends_on('cmake@3.2:', type='build')
     depends_on('mpi', when='+mpi')
 
+    depends_on('catch2')
+
     depends_on('highfive~mpi', when='~mpi')
     depends_on('highfive+mpi', when='+mpi')
 
     def cmake_args(self):
         args = [
             '-DBUILD_BINDINGS:BOOL=OFF',
+            '-DEXTERNAL_CATCH2:BOOL=ON',
             '-DEXTERNAL_HIGHFIVE:BOOL=ON',
         ]
         if self.spec.satisfies("+mpi"):
