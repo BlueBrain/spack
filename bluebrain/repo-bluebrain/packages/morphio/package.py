@@ -25,20 +25,20 @@ class Morphio(CMakePackage):
     depends_on('cmake@3.2:', type='build')
     depends_on('mpi', when='+mpi')
 
-    depends_on('catch2')
-
     depends_on('highfive~mpi', when='~mpi')
     depends_on('highfive+mpi', when='+mpi')
 
     def cmake_args(self):
         args = [
             '-DBUILD_BINDINGS:BOOL=OFF',
-            '-DEXTERNAL_CATCH2:BOOL=ON',
             '-DEXTERNAL_HIGHFIVE:BOOL=ON',
         ]
-        if self.spec.satisfies("+mpi"):
+        if self.spec.satisfies('+mpi'):
             args += [
                 '-DCMAKE_C_COMPILER={0}'.format(self.spec['mpi'].mpicc),
                 '-DCMAKE_CXX_COMPILER={0}'.format(self.spec['mpi'].mpicxx)
             ]
+        # PyPI tarballs don't include the unit tests
+        if self.spec.satisfies('@3.3.3'):
+            args.append('-DMORPHIO_TESTS:BOOL=OFF')
         return args
