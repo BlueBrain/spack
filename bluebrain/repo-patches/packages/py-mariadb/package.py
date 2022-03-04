@@ -13,5 +13,5 @@ class PyMariadb(PythonPackage):
 
     version('1.0.10', sha256='79028ba6051173dad1ad0be7518389cab70239f92b4ff8b8813dae55c3f2c53d')
 
-    depends_on('setuptools', type='build')
+    depends_on('py-setuptools', type='build')
     depends_on('mariadb-c-client', type=('build', 'run'))
