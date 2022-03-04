@@ -2,8 +2,6 @@
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-import os
-
 from spack import *
 
 
@@ -15,4 +13,4 @@ class PyMariadb(PythonPackage):
 
     version('1.0.10', sha256='79028ba6051173dad1ad0be7518389cab70239f92b4ff8b8813dae55c3f2c53d')
 
-    depends_on('mariadb-c-client', type=['build','run'])
+    depends_on('mariadb-c-client', type=['build', 'run'])
