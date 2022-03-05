@@ -3,28 +3,12 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
-#
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
-#
-#     spack install py-vascpy
-#
-# You can edit this file again by typing:
-#
-#     spack edit py-vascpy
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
-
 from spack import *
 
 
 class PyVascpy(PythonPackage):
-    """Python library for reading, writing, and manipulating large-scale vasculature datasets"""
+    """Python library for reading, writing, and manipulating large-scale vasculature
+    datasets """
 
     homepage = "https://github.com/BlueBrain/vascpy"
     url      = "https://pypi.io/packages/source/v/vascpy/vascpy-0.0.1.tar.gz"
@@ -41,4 +25,4 @@ class PyVascpy(PythonPackage):
     depends_on("py-pandas@1.0.0:", type="run")
     depends_on("py-morphio@3.0.0:", type="run")
     depends_on("py-libsonata@0.1.8:", type="run")
-    depends_on("py-click@8.0.0:", type='run')
+    depends_on("py-click@8.0.0:", type="run")
