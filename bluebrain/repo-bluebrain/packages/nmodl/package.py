@@ -52,8 +52,6 @@ class Nmodl(CMakePackage):
         # installation with pgi fails when debug symbols are added
         if '%pgi' in spec:
             options.append('-DCMAKE_BUILD_TYPE=Release')
-        else:
-            options.append('-DCMAKE_BUILD_TYPE=RelWithDebInfo')
 
         if "+legacy-unit" in spec:
             options.append('-DNMODL_ENABLE_LEGACY_UNITS=ON')
