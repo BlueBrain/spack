@@ -150,6 +150,21 @@ compilers:
     environment: {}
     extra_rpaths: []
 - compiler:
+    spec: gcc@11.2.0
+    paths:
+      cc: cc
+      cxx: CC
+      f77: ftn
+      fc: ftn
+    flags: {}
+    operating_system: cnl7
+    target: any
+    modules:
+    - PrgEnv-gnu
+    - gcc/11.2.0
+    environment: {}
+    extra_rpaths: []
+- compiler:
     spec: intel@17.0.4.196
     paths:
       cc: cc

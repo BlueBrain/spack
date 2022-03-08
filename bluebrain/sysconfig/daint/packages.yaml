@@ -1,11 +1,11 @@
 packages:
   mpich:
-    version: [7.7.16]
+    version: [7.7.18]
     buildable: false
     externals:
-    - spec: mpich@7.7.16 arch=cray-cnl6-haswell
+    - spec: mpich@7.7.18 arch=cray-cnl7-haswell
       modules:
-      - cray-mpich/7.7.16
+      - cray-mpich/7.7.18
   autoconf:
     buildable: false
     version: [2.69]
@@ -49,11 +49,7 @@ packages:
     - spec: openssl@system
       prefix: /usr
   cmake:
-    buildable: true
-    version: [3.15.3]
-    externals:
-    - spec: cmake@3.15.5
-      prefix: /apps/dom/UES/jenkins/7.0.UP01/mc/easybuild/software/CMake/3.14.5
+     buildable: true
   boost:
     variants: +python
     version: [1.70.0]
@@ -65,25 +61,29 @@ packages:
       prefix: /apps/dom/UES/jenkins/7.0.UP01/mc/easybuild/software/ncurses/6.1
   hdf5:
     buildable: false
-    version: [1.12.0.0]
+    version: [1.12.0.4]
     externals:
-    - spec: hdf5@1.12.0.0~mpi+hl arch=cray-cnl6-haswell
-      prefix: /opt/cray/pe/hdf5/1.12.0.0/gnu/8.2
-    - spec: hdf5@1.12.0.0+mpi+hl arch=cray-cnl6-haswell
-      prefix: /opt/cray/pe/hdf5-parallel/1.12.0.0/gnu/8.2
+    - spec: hdf5@1.12.0.4~mpi+hl%intel
+      prefix: /opt/cray/pe/hdf5/1.12.0.4/intel/19.1
+    - spec: hdf5@1.12.0.4+mpi+hl%intel
+      prefix: /opt/cray/pe/hdf5-parallel/1.12.0.4/intel/19.1
+    - spec: hdf5@1.12.0.4~mpi+hl%gcc
+      prefix: /opt/cray/pe/hdf5/1.12.0.4/gnu/8.2
+    - spec: hdf5@1.12.0.4+mpi+hl%gcc
+      prefix: /opt/cray/pe/hdf5-parallel/1.12.0.4/gnu/8.2
   zeromq:
     variants: ~libsodium
   zlib:
     buildable: false
     version: [1.2.11]
     externals:
-    - spec: zlib@1.2.11 arch=cray-cnl6-haswell
+    - spec: zlib@1.2.11
       prefix: /apps/dom/UES/jenkins/7.0.UP01/mc/easybuild/software/zlib/1.2.11-CrayGNU-19.10
   python:
-    version: [3.8.5.0]
+    version: [3.9.4.1]
     externals:
-    - spec: python@3.8.5.0
-      prefix: /opt/python/3.8.5.0
+    - spec: python@3.9.4.1
+      prefix: /opt/python/3.9.4.1
   py-h5py:
     version: [2.8.0]
     buildable: true
@@ -91,20 +91,26 @@ packages:
     - spec: py-h5py~mpi@2.8.0
       prefix: /apps/dom/UES/jenkins/7.0.UP01/mc/easybuild/software/h5py/2.8.0-CrayGNU-19.10-python3-serial
   py-numpy:
-    version: [1.15.1]
+    version: [1.20.1]
     buildable: false
     externals:
-    - spec: py-numpy@1.18.2
-      prefix: /opt/python/3.8.5.0
+    - spec: py-numpy@1.20.1
+      prefix: /opt/python/3.9.4.1
   py-scipy:
     version: [1.4.1]
     buildable: false
     externals:
     - spec: py-scipy@1.4.1
-      prefix: /opt/python/3.8.5.0
+      prefix: /opt/python/3.9.4.1
+  py-pybind11:
+    version: [2.6.2]
+    buildable: false
+    externals:
+    - spec: py-pybind11@2.6.2
+      prefix: /opt/python/3.9.4.1
   neuron:
     variants: +mpi +cross-compile
   all:
     compiler: [intel@19.0.1.144]
     providers:
-      mpi: [mpich@7.7.16]
+      mpi: [mpich@7.7.18]
