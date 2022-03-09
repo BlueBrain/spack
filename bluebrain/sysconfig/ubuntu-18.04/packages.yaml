@@ -59,13 +59,8 @@ packages:
     externals:
     - spec: git@2.17.1
       prefix: /usr
-  hdf5:
-    version: [1.1]
-    externals:
-    - spec: hdf5@1.10~mpi+hl
-      prefix: /usr/lib/x86_64-linux-gnu/hdf5/serial
-    - spec: hdf5@1.10+mpi+hl
-      prefix: /usr/lib/x86_64-linux-gnu/hdf5/openmpi
+  gmsh:
+    variants: ~mmg~fltk
   libpciaccess:
     externals:
     - spec: libpciaccess@0.14
