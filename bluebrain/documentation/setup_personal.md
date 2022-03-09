@@ -52,21 +52,23 @@ Use Spack on the workstations provided by the project.
 We build Docker images based on Ubuntu 18.04, and the same settings can be
 used to set Spack up on the desktops:
 
-    $ git clone -c feature.manyFiles=true https://github.com/BlueBrain/spack.git
+    $ git clone -c feature.manyFiles=true git@github.com:BlueBrain/spack.git
     $ mkdir ~/.spack
     $ cp spack/bluebrain/sysconfig/ubuntu-18.04/*.yaml ~/.spack
     $ sed -e 's/#.*//g' spack/bluebrain/sysconfig/ubuntu-18.04/packages|xargs -r sudo apt-get install --assume-yes
     $ . spack/share/spack/setup-env.sh
     $ spack compiler find
+    $ spack external find
 
 ### Ubuntu 20.04
 
-    $ git clone -c feature.manyFiles=true https://github.com/BlueBrain/spack.git
+    $ git clone -c feature.manyFiles=true git@github.com:BlueBrain/spack.git
     $ mkdir ~/.spack
     $ cp spack/bluebrain/sysconfig/ubuntu-20.04/*.yaml ~/.spack
     $ sed -e 's/#.*//g' spack/bluebrain/sysconfig/ubuntu-20.04/packages|xargs -r sudo apt-get install --assume-yes
     $ . spack/share/spack/setup-env.sh
     $ spack compiler find
+    $ spack external find
 
 Since Ubuntu 20.04 dropped Python 2 support, we need to set Python 3 as the
 default `python`:
