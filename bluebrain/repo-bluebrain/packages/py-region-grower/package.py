@@ -20,7 +20,7 @@ class PyRegionGrower(PythonPackage):
     depends_on('py-attrs@19.3.0:', type=('build', 'run'))
     depends_on('py-click@7.0:', type=('build', 'run'))
     depends_on('py-dask+dataframe+distributed@2.15.0:2021.8.0,2021.9.0:', type=('build', 'run'))
-    depends_on('py-diameter-synthesis@0.2.5:0.999', type=('build', 'run'))
+    depends_on('py-diameter-synthesis@0.4.1:0.999', type=('build', 'run'))
     depends_on('py-morphio@3.0:3.999', type=('build', 'run'))
     depends_on('py-morph-tool@2.9.0:2.999', type=('build', 'run'))
     depends_on('py-neuroc@0.2.8:0.999', type=('build', 'run'))

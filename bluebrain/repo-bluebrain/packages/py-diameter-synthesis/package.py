@@ -12,7 +12,9 @@ class PyDiameterSynthesis(PythonPackage):
     homepage = "https://github.com/BlueBrain/diameter-synthesis"
     git = "https://github.com/BlueBrain/diameter-synthesis.git"
 
-    version("0.2.5", tag="0.2.5")
+    version('0.4.1', tag='0.4.1')  # Compatible with NeuroTS >= 3.1
+    version('0.3.3', tag='0.3.3')
+    version('0.2.5', tag='0.2.5')
 
     depends_on("py-setuptools", type="build")
 
