@@ -10,7 +10,7 @@ class PyVoxcell(PythonPackage):
     """Python library for handling volumetric data"""
 
     homepage = "https://bbpgitlab.epfl.ch/nse/voxcell"
-    git      = "git@bbpgitlab.epfl.ch:nse/voxcell.git"
+    git      = "https://github.com/BlueBrain/voxcell.git"
 
     version('develop', branch='main')
     version('3.1.0', tag='voxcell-v3.1.0')
