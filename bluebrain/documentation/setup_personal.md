@@ -7,9 +7,11 @@ the following:
 2. Spack is not sourced **anywhere** in the shell start-up scripts
 3. Use a new clone to avoid configuration changes in the old checkout
 
-## Building software on OS X
+## Prerequisites
 
-To install end-user software on OS X, please defer to `brew`.
+### Building software on MacOS
+
+To install end-user software on MacOS, please defer to `brew`.
 
 Before starting, please install XCode and `brew` and make sure that there
 is a working Python on your machine, preferably from XCode or another
@@ -32,25 +34,7 @@ conjunction with Apple's CLang:
 
     $ brew install gcc
 
-Now clone our version of Spack and find compilers and external packages:
-
-    $ git clone -c feature.manyFiles=true https://github.com/BlueBrain/spack.git
-    $ . spack/share/spack/setup-env.sh
-    $ spack compiler find
-    $ spack external find
-
-Edit the resulting externals, removing any references to `brew`, `python`,
-and `sqlite` from the system, the latter two as they are unfit to be used
-as full dependencies with Spack:
-
-    $ spack config edit packages
-
-With this minimal setup, Spack should operate independent of the system and
-the `brew` installation.
-Software installed via Spack should be accessed either with `spack load` or
-by using Spack's environment feature.
-
-## Building software on Ubuntu
+### Building software on Ubuntu
 
 Ubuntu / Debian have a habit of being somewhat _special_, patching upstream
 projects in unexpected ways.
@@ -63,16 +47,6 @@ First, ensure that the essential packages to building stuff are installed:
     $ sudo apt update
     $ sudo apt install build-essential gcc-11 g++-11 gfortran-11
 
-Then clone and configure Spack:
-
-    $ git clone -c feature.manyFiles=true https://github.com/BlueBrain/spack.git
-    $ . spack/share/spack/setup-env.sh
-    $ spack compiler find
-    $ spack external find
-
-You may want to purge older GCCs from `~/.spack/linux/compilers.yaml` if
-Spack implies older GCC by default.
-
 If Python 3 is not your default, tell Ubuntu to use a newer one, e.g.,
 Python 3.8 by setting the default `python`:
 
@@ -83,3 +57,44 @@ To check that we are using Python 3 as `python`:
     $ sudo update-alternatives --config python
     There is only one alternative in link group python
     (providing /usr/bin/python): /usr/bin/python3.8. Nothing to configure.
+
+## Spack Setup
+
+Now clone our version of Spack and find compilers and external packages:
+
+    $ git clone -c feature.manyFiles=true https://github.com/BlueBrain/spack.git
+    $ . spack/share/spack/setup-env.sh
+    $ spack compiler find
+    $ spack external find
+
+### Additional Configuration
+
+#### When Building Steps
+
+Use the following commands to skip building the FLTK GUI interface for
+GMSH, as it pulls in too many dependencies:
+
+    $ spack config add packages:gmsh:variants:"~mmg~fltk"
+
+### Tuning on MacOS
+
+Edit the resulting externals, removing any references to `brew`, `python`,
+and `sqlite` from the system, the latter two as they are unfit to be used
+as full dependencies with Spack:
+
+    $ spack config edit packages
+
+With this minimal setup, Spack should operate independent of the system and
+the `brew` installation.
+
+### Tuning on Ubuntu
+
+You may want to purge older GCCs from `~/.spack/linux/compilers.yaml` if
+Spack implies older GCC by default.
+
+Use
+
+    $ spack config edit packages
+
+to remove mentions to MPI and HDF5.  Both of these are flawed in their
+Ubuntu installations.
