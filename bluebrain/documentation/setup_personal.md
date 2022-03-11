@@ -69,6 +69,16 @@ Now clone our version of Spack and find compilers and external packages:
 
 ### Additional Configuration
 
+#### Remove Flawed External Packages
+
+Use the following commands to remove software that may be too customized to
+use reliably:
+
+    $ spack config rm packages:hdf5
+    $ spack config rm packages:openmpi
+    $ spack config rm packages:python
+    $ spack config rm packages:sqlite
+
 #### When Building Steps
 
 Use the following commands to skip building the FLTK GUI interface for
@@ -78,9 +88,9 @@ GMSH, as it pulls in too many dependencies:
 
 ### Tuning on MacOS
 
-Edit the resulting externals, removing any references to `brew`, `python`,
-and `sqlite` from the system, the latter two as they are unfit to be used
-as full dependencies with Spack:
+Edit the resulting externals, removing any references to `brew` from the
+system, the latter two as they are unfit to be used as full dependencies
+with Spack:
 
     $ spack config edit packages
 
@@ -91,10 +101,3 @@ the `brew` installation.
 
 You may want to purge older GCCs from `~/.spack/linux/compilers.yaml` if
 Spack implies older GCC by default.
-
-Use
-
-    $ spack config edit packages
-
-to remove mentions to MPI and HDF5.  Both of these are flawed in their
-Ubuntu installations.
