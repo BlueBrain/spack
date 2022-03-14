@@ -79,13 +79,6 @@ use reliably:
     $ spack config rm packages:python
     $ spack config rm packages:sqlite
 
-#### When Building Steps
-
-Use the following commands to skip building the FLTK GUI interface for
-GMSH, as it pulls in too many dependencies:
-
-    $ spack config add packages:gmsh:variants:"~mmg~fltk"
-
 ### Tuning on MacOS
 
 Edit the resulting externals, removing any references to `brew` from the
