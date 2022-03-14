@@ -6,7 +6,7 @@ from spack import *
 class PyAtlasDirectionVectors(PythonPackage):
     """Commands to compute direction vectors in volumetric brain regions."""
     homepage = "https://github.com/BlueBrain/atlas-direction-vectors"
-    git      = "https://github.com/BlueBrain/atlas-direction-vectors"
+    git      = "git@github.com/BlueBrain/atlas-direction-vectors.git"
 
     version('0.1.1', tag='v0.1.1')
 

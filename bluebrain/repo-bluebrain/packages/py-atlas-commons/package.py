@@ -6,7 +6,7 @@ from spack import *
 class PyAtlasCommons(PythonPackage):
     """Library containing common functions to build atlases"""
     homepage = "https://github.com/BlueBrain/atlas-commons"
-    git      = "https://github.com/BlueBrain/atlas-commons.git"
+    git      = "git@github.com/BlueBrain/atlas-commons.git"
 
     version('0.1.4', tag='v0.1.4')
 

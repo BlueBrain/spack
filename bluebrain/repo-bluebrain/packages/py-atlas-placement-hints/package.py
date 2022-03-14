@@ -6,7 +6,7 @@ from spack import *
 class PyAtlasPlacementHints(PythonPackage):
     """Library containing command lines and tools to compute placement hints"""
     homepage = "https://github.com/BlueBrain/atlas-placement-hints"
-    git      = "https://github.com/BlueBrain/atlas-placement-hints.git"
+    git      = "git@github.com/BlueBrain/atlas-placement-hints.git"
 
     version('0.1.1', tag='v0.1.1')
 
