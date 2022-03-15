@@ -59,6 +59,8 @@ class Steps(CMakePackage):
     depends_on("easyloggingpp", when="~bundle")
     depends_on("random123", when="~bundle")
     depends_on("sundials@:2.99.99+int64", when="~bundle")
+    depends_on("caliper", when="+caliper")
+    depends_on("likwid", when="+likwid")
     conflicts("+distmesh~mpi",
               msg="steps+distmesh requires +mpi")
 
@@ -87,7 +89,7 @@ class Steps(CMakePackage):
         ]
         args.extend("-DUSE_BUNDLE_{0}:BOOL={1}".format(bundle, use_bundle)
                     for bundle in bundles)
-
+        
         if "+native" in spec:
             args.append("-DTARGET_NATIVE_ARCH:BOOL=True")
         else:
@@ -125,6 +127,12 @@ class Steps(CMakePackage):
             args.append("-DSTEPS_FORMATTING:BOOL=ON")
         else:
             args.append("-DSTEPS_FORMATTING:BOOL=OFF")
+        
+        if "+caliper" in spec:
+            args.append("-DSTEPS_USE_CALIPER_PROFILING=ON")
+
+        if "+likwid" in spec:
+            args.append("-DSTEPS_USE_LIKWID_PROFILING=ON")
 
         args.append('-DBLAS_LIBRARIES=' + spec['blas'].libs.joined(";"))
         args.append('-DPYTHON_EXECUTABLE='
