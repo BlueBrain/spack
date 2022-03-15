@@ -127,7 +127,7 @@ class Steps(CMakePackage):
             args.append("-DSTEPS_FORMATTING:BOOL=ON")
         else:
             args.append("-DSTEPS_FORMATTING:BOOL=OFF")
-        
+
         if "+caliper" in spec:
             args.append("-DSTEPS_USE_CALIPER_PROFILING=ON")
 
