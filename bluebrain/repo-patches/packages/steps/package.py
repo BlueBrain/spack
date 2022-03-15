@@ -30,6 +30,8 @@ class Steps(CMakePackage):
     variant("build_type", default="RelWithDebInfo", description="CMake build type",
             values=("Debug", "Release", "RelWithDebInfo", "MinSizeRel",
                     "RelWithDebInfoAndAssert"))
+    variant("caliper", default=False, description="Build in caliper support (Instrumentor Interface)")
+    variant("likwid", default=False, description="Build in likwid support (Instrumentor Interface)")
 
     depends_on("boost")
     depends_on("blas")
