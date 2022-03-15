@@ -89,7 +89,7 @@ class Steps(CMakePackage):
         ]
         args.extend("-DUSE_BUNDLE_{0}:BOOL={1}".format(bundle, use_bundle)
                     for bundle in bundles)
-        
+
         if "+native" in spec:
             args.append("-DTARGET_NATIVE_ARCH:BOOL=True")
         else:
