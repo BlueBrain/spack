@@ -17,6 +17,7 @@ To be fully independent of the module, export the system configuration
 path:
 
     $ export SPACK_SYSTEM_CONFIG_PATH=/gpfs/bbp.cscs.ch/ssd/apps/bsd/config
+    $ export SPACK_USER_CACHE_PATH=$HOME/spack_install
 
 Note that the `git clone` should be executed in a subdirectory of the home
 directory on GPFS.
