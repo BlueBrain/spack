@@ -680,7 +680,7 @@ def get_rpaths(pkg):
     """Get a list of all the rpaths for a package."""
     def _rpaths(p):
         if hasattr(p, 'libs'):
-            for pth in set(os.path.dirname(lib) for lib  in p.libs):
+            for pth in set(os.path.dirname(lib) for lib in p.libs):
                 yield pth
         else:
             if os.path.isdir(p.prefix.lib):
@@ -688,9 +688,8 @@ def get_rpaths(pkg):
             if os.path.isdir(p.prefix.lib64):
                 yield p.prefix.lib64
 
-    deps = get_rpath_deps(pkg)
-    rpaths = list(_rpaths(pkg))
-    for dep in deps:
+    rpaths = [pkg.prefix.lib, pkg.prefix.lib64]
+    for dep in get_rpath_deps(pkg):
         rpaths.extend(_rpaths(dep.package))
     # Second module is our compiler mod name. We use that to get rpaths from
     # module show output.
