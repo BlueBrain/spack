@@ -9,7 +9,7 @@ from spack import *
 class Rkcommon(CMakePackage):
     """
     This project represents a common set of C++ infrastructure and
-    CMake utilities used by various components of Intel oneAPI 
+    CMake utilities used by various components of Intel oneAPI
     Rendering Toolkit.
     """
 
