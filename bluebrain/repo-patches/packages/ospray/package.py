@@ -50,5 +50,5 @@ class Ospray(CMakePackage):
             args.append("-DOSPRAY_ENABLE_APPS_TUTORIALS={0}".format(
                         "ON" if "+apps" in self.spec else "OFF"))
             args.append("-DOSPRAY_APPS_ENABLE_GLM=OFF")
-        
+
         return args
