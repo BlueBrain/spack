@@ -70,6 +70,9 @@ class Totalview(Package):
                          join_path(self.prefix, 'toolworks',
                                    'totalview.{0}'.format(self.version)))
         env.prepend_path('TVDSVRLAUNCHCMD', 'ssh')
+        env.prepend_path('LM_LICENSE_FILE',
+                         join_path(self.prefix.licenses, 'license.dat')
+                         )
 
     def install(self, spec, prefix):
         # Assemble install line
