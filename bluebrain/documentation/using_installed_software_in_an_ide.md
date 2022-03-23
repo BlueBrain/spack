@@ -51,7 +51,7 @@ by colons and in the CLI argument paths must be separated by semi-colons.
 
 There's a script for this:
 
-    spack2cmake.sh SOURCE_DIR
+    bluebrain/bin/spack2cmake.sh SOURCE_DIR
 
 which outputs the required CMake command. Here `SOURCE_DIR` is the directory
 containing the `spack-build-env.txt`.
