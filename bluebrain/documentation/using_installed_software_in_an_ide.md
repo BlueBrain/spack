@@ -79,26 +79,21 @@ Now point your IDE/editor to the generated file, e.g.
 `build/compile_commands.json`.
 
 # Concrete examples
-Let's take `touchdetector` as an example. The steps are to source `spack`
-and then create a new environment
+Let's take `touchdetector` as an example and assume you've set up an
+environment for it:
 ```
-spack env create TouchDetector
-spack compiler find && spack external find
 spacktivate -p TouchDetector
 ```
-Next, remove certain packages from the list of detected packages, e.g.
-`python` and maybe `sqlite`.
-```
-vim SPACK_DIR/var/spack/environments/TouchDetector/spack.yaml
-```
-Then, clone the repository
+Now, clone the repository
 ```
 git clone --recursive git@bbpgitlab.epfl.ch:hpc/circuit-building/touchdetector.git
 cd touchdetector
 ```
 Now try building the project with `spack` as follows
 ```
-spack dev-build --jobs $(nproc) --overwrite touchdetector@develop
+spack add touchdetector@develop
+spack develop --no-clone -p $PWD touchdetector@develop
+spack install
 ```
 Maybe you need to specify the compiler, etc. Repeat variants of this step
 until it works.
