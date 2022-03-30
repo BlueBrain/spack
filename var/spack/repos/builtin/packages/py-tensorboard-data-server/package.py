@@ -19,6 +19,8 @@ class PyTensorboardDataServer(Package):
     extends('python')
     depends_on('python@3.6:', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
+    depends_on('py-pip', type='build')
+    depends_on('py-wheel', type='build')
     depends_on('rust', type='build')
 
     def setup_build_environment(self, env):
@@ -42,5 +44,5 @@ class PyTensorboardDataServer(Package):
                                                           'rustboard')))
 
         wheel = glob.glob('*.whl')[0]
-        args = std_pip_args + ['--prefix=' + prefix, wheel]
-        pip(*args)
+        pip = which('pip')
+        pip('install', wheel, '--prefix={0}'.format(prefix))

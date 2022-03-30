@@ -710,3 +710,7 @@ class Llvm(CMakePackage, CudaPackage):
 
         with working_dir(self.build_directory):
             install_tree("bin", join_path(self.prefix, "libexec", "llvm"))
+
+    @property
+    def libs(self):
+        return find_libraries('libomp', root=self.prefix, recursive=True)
