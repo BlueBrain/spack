@@ -452,6 +452,11 @@ class Llvm(CMakePackage, CudaPackage):
             result = os.path.join(self.spec.prefix.bin, 'flang')
         return result
 
+    @property
+    def libs(self):
+        return LibraryList(self.llvm_config("--libfiles", "all",
+                                            result="list"))
+
     @run_before('cmake')
     def codesign_check(self):
         if self.spec.satisfies("+code_signing"):
@@ -711,6 +716,12 @@ class Llvm(CMakePackage, CudaPackage):
         with working_dir(self.build_directory):
             install_tree("bin", join_path(self.prefix, "libexec", "llvm"))
 
-    @property
-    def libs(self):
-        return find_libraries('libomp', root=self.prefix, recursive=True)
+    def llvm_config(self, *args, **kwargs):
+        lc = Executable(self.prefix.bin.join('llvm-config'))
+        if not kwargs.get('output'):
+            kwargs['output'] = str
+        ret = lc(*args, **kwargs)
+        if kwargs.get('result') == "list":
+            return ret.split()
+        else:
+            return ret
