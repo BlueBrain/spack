@@ -37,6 +37,8 @@ class PyLibclang(PythonPackage):
 
     depends_on("python@2.7:2.8,3.3:", type=("build", "run"))
     depends_on("py-setuptools", type="build")
+    depends_on('py-pip', type='build')
+    depends_on('py-wheel', type='build')
 
     for ver in ["9", "10", "11"]:
         depends_on("llvm+clang@" + ver, when="@" + ver, type="build")
