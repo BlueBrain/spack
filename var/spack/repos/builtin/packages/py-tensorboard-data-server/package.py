@@ -8,7 +8,7 @@ import glob
 from spack import *
 
 
-class PyTensorboardDataServer(PythonPackage):
+class PyTensorboardDataServer(Package):
     """Fast data loading for TensorBoard"""
 
     homepage = "https://github.com/tensorflow/tensorboard/tree/master/tensorboard/data/server"
@@ -16,6 +16,7 @@ class PyTensorboardDataServer(PythonPackage):
 
     version('0.6.1', commit='6acf0be88b5727e546dd64a8b9b12d790601d561')
 
+    extends('python')
     depends_on('python@3.6:', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
     depends_on('rust', type='build')
