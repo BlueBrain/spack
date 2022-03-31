@@ -9,11 +9,20 @@ from spack import *
 class PyAntspyx(PythonPackage):
     """Advanced Normalization Tools in Python."""
 
-    homepage = "https://pypi.org/project/antspyx/"
-    url = "https://github.com/ANTsX/ANTsPy/archive/refs/tags/v0.2.7.tar.gz"
+    homepage = "https://github.com/ANTsX/ANTsPy"
+    pypi = "antspyx/antspyx-0.3.1.tar.gz"
 
-    version('0.2.7', sha256='495868dcb975486203cd1ce901c803e4b5d71fad5ad5c2525612de8e030f6a34')
-    version('0.2.4', sha256='357d9f93fdac8ca76f660d23f97239a5949284664866f8ba254b912afa953e55')
+    version('0.3.1', sha256='07826ed583724580163ff6060ffa84a36f46b3ab4bf4e2dd544682c7a033c88f')
+    version(
+        '0.2.7',
+        sha256='495868dcb975486203cd1ce901c803e4b5d71fad5ad5c2525612de8e030f6a34',
+        url='https://github.com/ANTsX/ANTsPy/archive/refs/tags/v0.2.7.tar.gz',
+    )
+    version(
+        '0.2.4',
+        sha256='357d9f93fdac8ca76f660d23f97239a5949284664866f8ba254b912afa953e55',
+        url='https://github.com/ANTsX/ANTsPy/archive/refs/tags/v0.2.4.tar.gz',
+    )
 
     depends_on('python@3.6:', type=('build', 'run'))
 
@@ -21,20 +30,20 @@ class PyAntspyx(PythonPackage):
     depends_on('itk+review+antspy')
     depends_on('googletest')  # from ITK, somehow does not get passed through
 
-    depends_on('py-pandas', type=('run'))
-    depends_on('py-numpy', type=('run'))
-    depends_on('py-scipy', type=('run'))
-    depends_on('py-scikit-image', type=('run'))
-    depends_on('py-scikit-learn', type=('run'))
-    depends_on('py-statsmodels', type=('run'))
-    depends_on('py-webcolors', type=('run'))
-    depends_on('py-matplotlib', type=('run'))
-    depends_on('py-pyyaml', type=('run'))
-    depends_on('py-chart-studio', type=('run'))
-    depends_on('py-pillow', type=('run'))
-    depends_on('py-nibabel', type=('run'))
+    depends_on('py-pandas', type=('build', 'run'))
+    depends_on('py-numpy', type=('build', 'run'))
+    depends_on('py-scipy', type=('build', 'run'))
+    depends_on('py-scikit-image', type=('build', 'run'))
+    depends_on('py-scikit-learn', type=('build', 'run'))
+    depends_on('py-statsmodels', type=('build', 'run'))
+    depends_on('py-webcolors', type=('build', 'run'))
+    depends_on('py-matplotlib', type=('build', 'run'))
+    depends_on('py-pyyaml', type=('build', 'run'))
+    depends_on('py-chart-studio', type=('build', 'run'))
+    depends_on('py-pillow', type=('build', 'run'))
+    depends_on('py-nibabel', type=('build', 'run'))
 
-    patch('setup-purge-sklearn.diff')
+    patch('setup-purge-sklearn.diff', when='@:0.2.7')
     patch('fix-itk-gtest.diff')
     patch('submodule-imposter.diff', when='@0.2.4')
 

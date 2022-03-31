@@ -17,7 +17,7 @@ class PyAtlalign(PythonPackage):
     depends_on('python@3.6:', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
 
-    depends_on('py-antspyx@0.2.7', type=('build', 'run'))
+    depends_on('py-antspyx@0.3.1', type=('build', 'run'))
     depends_on('py-imgaug@:0.2.999', type=('build', 'run'))
     depends_on('py-matplotlib@3.0.3:', type=('build', 'run'))
     depends_on('py-mlflow', type=('build', 'run'))
@@ -30,6 +30,3 @@ class PyAtlalign(PythonPackage):
     # Addons need to be in lockstep with TF
     depends_on('py-tensorflow@2.6.0:', type=('build', 'run'))
     depends_on('py-tensorflow-addons', type=('build', 'run'))
-
-#    def patch(self):
-#        filter_file('"tensorflow>=[0-9.]+",', '', 'setup.py')
