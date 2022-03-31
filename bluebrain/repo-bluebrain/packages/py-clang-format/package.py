@@ -29,4 +29,4 @@ class PyClangFormat(Package):
 
     def install(self, spec, prefix):
         pip = which("pip")
-        pip("install", self.stage.archive_file, "--prefix={0}".format(prefix))
+        pip("install", "--ignore-installed", "--no-deps", self.stage.archive_file, "--prefix={0}".format(prefix))
