@@ -14,7 +14,7 @@ class Nmodl(CMakePackage):
     git      = "https://github.com/BlueBrain/nmodl.git"
 
     # 0.3.1 > 0.3.0.20220110 > 0.3.0 > 0.3b > 0.3 to Spack
-    version('develop', branch='master', submodules=True)
+    version('develop', branch='master' submodules=True)
     version('llvm', branch='llvm', submodules=True)
     # For deployment; nmodl@0.3.0%nvhpc@21.11 doesn't build with eigen/intrinsics errors
     version('0.3.0.20220110', commit='9e0a6f260ac2e6fad068a39ea3bdf7aa7a6f4ee0')
@@ -32,12 +32,10 @@ class Nmodl(CMakePackage):
     # Build with `ninja` instead of `make`
     generator = 'Ninja'
     depends_on('ninja', type='build')
-    depends_on('llvm', when='@llvm')
-    depends_on('cuda', when='+llvm_cuda@llvm')
+    depends_on('llvm', when='+llvm')
+    depends_on('cuda', when='+llvm_cuda')
 
-    conflicts('+llvm', when='@develop:', msg='cannot enable LLVM backend outside of llvm version')
     conflicts('+llvm', when='@0.2:0.3.0.20220110', msg='cannot enable LLVM backend outside of llvm version')
-    conflicts('+llvm_cuda', when='@develop:', msg='cannot enable CUDA LLVM backend outside of llvm version')
     conflicts('+llvm_cuda', when='@0.2:0.3.0.20220110', msg='cannot enable CUDA LLVM backend outside of llvm version')
 
 
@@ -75,7 +73,7 @@ class Nmodl(CMakePackage):
         if "+llvm@llvm" in spec:
             options.append('-DNMODL_ENABLE_LLVM=ON')
 
-        if "+llvm_cuda@llvm" in spec:
+        if "+llvm_cuda" in spec:
             options.append('-DNMODL_ENABLE_LLVM_CUDA=ON')
 
         return options
