@@ -28,7 +28,6 @@ class Nmodl(CMakePackage):
     variant("llvm", default=False, description="Enable llvm codegen")
     variant("llvm_cuda", default=False, description="Enable llvm codegen with CUDA backend")
 
-
     # Build with `ninja` instead of `make`
     generator = 'Ninja'
     depends_on('ninja', type='build')
@@ -37,7 +36,6 @@ class Nmodl(CMakePackage):
 
     conflicts('+llvm', when='@0.2:0.3.0.20220110', msg='cannot enable LLVM backend outside of llvm version')
     conflicts('+llvm_cuda', when='@0.2:0.3.0.20220110', msg='cannot enable CUDA LLVM backend outside of llvm version')
-
 
     # 0.3b includes #270 and #318 so should work with bison 3.6+
     depends_on('bison@3.0:3.4.99', when='@:0.3a', type='build')
