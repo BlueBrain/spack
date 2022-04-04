@@ -70,8 +70,10 @@ class Nmodl(CMakePackage):
         if "+legacy-unit" in spec:
             options.append('-DNMODL_ENABLE_LEGACY_UNITS=ON')
 
-        if "+llvm@llvm" in spec:
+        if "+llvm" in spec:
             options.append('-DNMODL_ENABLE_LLVM=ON')
+        else:
+            options.append('-DNMODL_ENABLE_LLVM=OFF')
 
         if "+llvm_cuda" in spec:
             options.append('-DNMODL_ENABLE_LLVM_CUDA=ON')
