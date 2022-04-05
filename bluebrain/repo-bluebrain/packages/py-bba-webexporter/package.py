@@ -6,23 +6,19 @@
 from spack import *
 
 
-class PyBbaWebexporter(PythonPackage):
-    """The web exporter is a suite of tools to facilitate the conversion
-    and export of the Blue Brain Atlas pipeline to web-friendly datasets
-    to be consumed by the Atlas web app.
+class PyBbaDatafetch(PythonPackage):
+    """This module is a (Python) CLI in charge of fetching datasets from 
+    Nexus, one file (or payload) at the time. It can fetch payloads and 
+    save them as JSON files or it can fetch binaries (distributions) 
+    linked to resources.
     """
-    homepage = "https://bbpgitlab.epfl.ch/dke/apps/blue_brain_atlas_web_exporter"
-    git      = "git@bbpgitlab.epfl.ch:dke/apps/blue_brain_atlas_web_exporter.git"
+    homepage = "https://bbpgitlab.epfl.ch/dke/apps/blue_brain_atlas_data_fetch"
+    git      = "git@bbpgitlab.epfl.ch:dke/apps/blue_brain_atlas_data_fetch.git"
 
-    version('0.1.4', tag='v0.1.4')
-    version('0.1.3', tag='v0.1.3')
+    version('0.1.0', tag='v0.1.0')
 
     depends_on('py-setuptools', type=('build', 'run'))
-    depends_on('py-numpy', type=('build', 'run'))
-    depends_on('py-scipy', type=('build', 'run'))
-    depends_on('py-scikit-image', type=('build', 'run'))
-    depends_on('py-pynrrd', type=('build', 'run'))
-    depends_on('py-randomaccessbuffer', type=('build', 'run'))
+    depends_on('py-nexus-sdk', type=('build', 'run'))
     depends_on('py-pytest', type='test')
     depends_on('py-pytest-cov', type='test')
 
