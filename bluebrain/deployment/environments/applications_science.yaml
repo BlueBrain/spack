@@ -38,8 +38,6 @@ spack:
       variants: ~mpi
     vtk:
       variants: ~mpi~ffmpeg~opengl2
-    all:
-      compiler:: [gcc@11.2.0, intel@2021.4.0]
   specs:
     - py-atlalign
     - py-atlannot

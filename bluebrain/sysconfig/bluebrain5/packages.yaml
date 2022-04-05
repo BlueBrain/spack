@@ -90,6 +90,8 @@ packages:
     version: [1.19.5]  # thanks, tensorflow!
   py-setuptools:
     version: [57.4.0]  # last one to provide use_2to3, required by some software
+  py-tensorflow:
+    compiler:: [gcc@11.2.0]  # tends to pick other ones, force
   py-tables:
     variants: +lzo     # leads to compile errors otherwise
   qt:
