@@ -15,6 +15,8 @@ class PyArchngv(Package):
     version("develop", branch="main")
     version("2.0.0", tag="ArchNGV-v2.0.0")
 
+    variant("all", default=True, description="Circuit building support.")
+
     depends_on("py-setuptools@42:", type="build")
 
     depends_on("py-numpy@1.19.5:", type="run")
