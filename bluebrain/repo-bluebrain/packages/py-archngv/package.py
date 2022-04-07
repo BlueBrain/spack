@@ -7,7 +7,7 @@ from spack import *
 
 
 class PyArchngv(Package):
-    """FIXME: Put a proper description of your package here."""
+    """Building workflow and circuit API for Neuro-Glia-Vascular circuit."""
 
     homepage = "https://bbpgitlab.epfl.ch/nse/ArchNGV"
     url      = "git@bbpgitlab.epfl.ch:nse/ArchNGV.git"
