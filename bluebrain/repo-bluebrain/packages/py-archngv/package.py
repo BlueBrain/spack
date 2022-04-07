@@ -36,6 +36,7 @@ class PyArchngv(PythonPackage):
     depends_on("py-pandas@1.1.0:", type=("build", "run"))
     depends_on("py-tess@0.3.2", type=("build", "run"))
     depends_on("py-morphio@3.3.1:", type=("build", "run"))
+    depends_on("py-pytouchreader@1.4.7:", type=("build", "run"))
     depends_on("py-morph-tool@2.4.0:", type=("build", "run"))
     depends_on("snakemake@5.0:", type=("build", "run"))
     depends_on("py-tmd@2.0.11:", type=("build", "run"))
