@@ -6,7 +6,7 @@
 from spack import *
 
 
-class PyArchngv(Package):
+class PyArchngv(PythonPackage):
     """Building workflow and circuit API for Neuro-Glia-Vascular circuits."""
 
     homepage = "https://bbpgitlab.epfl.ch/nse/ArchNGV"
