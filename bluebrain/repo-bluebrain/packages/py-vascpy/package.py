@@ -21,7 +21,7 @@ class PyVascpy(PythonPackage):
 
     depends_on("py-numpy@1.17.0:", type=("build", "run"))
     depends_on("py-scipy@1.0.0:", type=("build", "run"))
-    depends_on("py-h5py@3.5.0:", type=("build", "run"))
+    depends_on("py-h5py@3.4.0:", type=("build", "run"))
     depends_on("py-pandas@1.0.0:", type=("build", "run"))
     depends_on("py-morphio@3.0.0:", type=("build", "run"))
     depends_on("py-libsonata@0.1.8:", type=("build", "run"))
