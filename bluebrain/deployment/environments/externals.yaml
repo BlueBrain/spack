@@ -5,6 +5,7 @@ spack:
     tcl:
       whitelist:
         - arm-forge
+        - bazel
         - bison
         - blender
         - ccache
