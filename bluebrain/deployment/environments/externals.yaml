@@ -72,6 +72,7 @@ spack:
     - nvhpc@22.2
     - nvhpc@22.3
     - arm-forge
+    - bazel%gcc@9.4.0 ^python%gcc@11.2.0 ^openjdk%gcc@11.2.0  # For TensorFlow; unpatchable
     - bison
     - blender
     - boost~mpi
@@ -115,6 +116,7 @@ spack:
     - libxslt
     - libzmq+libsodium%intel
     - mvapich2@2.3.6
+    - nccl@2.9.9-1  # For TensorFlow
     - ncurses
     - ninja
     - openscenegraph  # doesn't like to be built in a spec with LLVM
@@ -126,6 +128,7 @@ spack:
     - qhull
     - "qt@5:"  # Forcefully avoid qt@4
     - readline
+    - rust  # For TensorFlow
     - snakemake
     - sqlite
     - stat
