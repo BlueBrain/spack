@@ -63,10 +63,10 @@ spack:
     - llvm@13.0.0
     - llvm@12.0.1
     - llvm@11.1.0
-    - nvhpc@21.2 install_type=network
     - nvhpc@21.11
     - nvhpc@22.1
     - nvhpc@22.2
+    - nvhpc@22.3
     - arm-forge
     - bison
     - blender
