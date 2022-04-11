@@ -57,7 +57,7 @@ class NeurodamusModel(SimModel):
     resource(
         name='common_mods',
         git='git@bbpgitlab.epfl.ch:hpc/sim/models/common.git',
-        tag='2.4',
+        branch='magkanar/gmax_fix', # TODO: Update with tag when MR is merged
         destination='common_latest'
     )
 
