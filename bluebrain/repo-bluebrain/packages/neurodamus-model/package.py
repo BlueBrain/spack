@@ -39,6 +39,14 @@ def version_from_model_ndpy_dep(model_v, ndamus_v=PYNEURODAMUS_DEFAULT_V):
     depends_on('py-neurodamus@' + ndamus_v, type='build',
                when='@' + this_version)
 
+# TODO: Delete this
+def debug_version(model_v, ndamus_v=PYNEURODAMUS_DEFAULT_V):
+    """Debug version for generating new module
+    """
+    this_version = model_v + "-" + ndamus_v  # e.g. 1.1-3.0.2
+    version(this_version, branch='main', submodules=True, get_full_repo=True)
+    depends_on('py-neurodamus@' + ndamus_v, type='build',
+               when='@' + this_version)
 
 class NeurodamusModel(SimModel):
     """An 'abstract' base package for Simulation Models. Therefore no version.
