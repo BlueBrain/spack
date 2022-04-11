@@ -47,3 +47,6 @@ class PyArchngv(PythonPackage):
     depends_on("py-dask+distributed+bag@2.0:", type=("build", "run"))
     depends_on("py-distributed@2.0:", type=("build", "run"))
     depends_on("py-dask-mpi@2.0:", type=("build", "run"))
+    
+    def setup_dependent_run_environment(self, env, dependent_spec):
+        env.prepend_path('PATH', self.prefix.bin)
