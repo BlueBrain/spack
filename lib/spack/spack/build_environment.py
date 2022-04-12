@@ -849,12 +849,7 @@ def _make_runnable(pkg, env):
             env.prepend_path('PATH', bin_dir)
 
 
-def modifications_from_dependencies(
-    spec,
-    context,
-    custom_mods_only=True,
-    exclude_default_mods_for=None
-):
+def modifications_from_dependencies(spec, context, custom_mods_only=True):
     """Returns the environment modifications that are required by
     the dependencies of a spec and also applies modifications
     to this spec's package at module scope, if need be.
@@ -894,9 +889,6 @@ def modifications_from_dependencies(
             "got: {0}".format(context))
 
     env = EnvironmentModifications()
-
-    if not exclude_default_mods_for:
-        exclude_default_mods_for = []
 
     # Note: see computation of 'custom_mod_deps' and 'exe_deps' later in this
     # function; these sets form the building blocks of those collections.
@@ -954,7 +946,7 @@ def modifications_from_dependencies(
         # For callers that want both custom and default modifications, we want
         # to perform the default modifications here (this groups custom
         # and default modifications together on a per-package basis).
-        if not custom_mods_only and dep not in exclude_default_mods_for:
+        if not custom_mods_only:
             default_modifications_for_dep(dep)
 
         # Perform custom modifications here (PrependPath actions performed in

@@ -736,12 +736,18 @@ class BaseContext(tengine.Context):
         # before asking for package-specific modifications
         env.extend(
             spack.build_environment.modifications_from_dependencies(
-                spec,
-                context='run',
-                custom_mods_only=False,
-                exclude_default_mods_for=self.conf.specs_to_load
+                spec, context='run'
             )
         )
+
+        # BlueBrain: we do not generate modules for dependencies, include
+        # their modifications and bin/ directories here
+        for dep in spec.traverse(root=False, deptype='run'):
+            if not (dep.external and dep.external_modules):
+                dep.package.setup_run_environment(env)
+                if os.path.isdir(dep.prefix.bin):
+                    env.prepend_path('PATH', dep.prefix.bin)
+
         # Package specific modifications
         spack.build_environment.set_module_variables_for_package(spec.package)
         spec.package.setup_run_environment(env)
