@@ -47,3 +47,11 @@ class PyArchngv(PythonPackage):
     depends_on("py-dask+distributed+bag@2.0:", type=("build", "run"))
     depends_on("py-distributed@2.0:", type=("build", "run"))
     depends_on("py-dask-mpi@2.0:", type=("build", "run"))
+
+    depends_on("py-mock", type="test")
+    depends_on("py-pytest", type="test")
+
+    @run_after('install')
+    @on_package_attributes(run_tests=True)
+    def test_install(self):
+        python("-m", "pytest", "tests/unit")
