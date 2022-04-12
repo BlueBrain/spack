@@ -517,9 +517,6 @@ class Neuron(CMakePackage):
             env.set("MPICXX_CXX", self.compiler.cxx)
         if self.spec.satisfies("+python"):
             env.prepend_path("PYTHONPATH", self.spec.prefix.lib.python)
-
-    def setup_dependent_run_environment(self, env, dependent_spec):
-        if self.spec.satisfies("+python"):
             env.prepend_path("PYTHONPATH", self.spec.prefix.lib.python)
 
     def setup_dependent_package(self, module, dependent_spec):
