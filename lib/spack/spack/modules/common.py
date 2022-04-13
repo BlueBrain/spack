@@ -540,7 +540,7 @@ class BaseConfiguration(object):
     @property
     def specs_to_load(self):
         """List of specs that should be loaded in the module file."""
-        return self._create_list_for('autoload', external=True)
+        return self._create_list_for('autoload', external_only=True)
 
     @property
     def literals_to_load(self):
@@ -557,14 +557,17 @@ class BaseConfiguration(object):
         """List of variables that should be left unmodified."""
         return self.conf.get('filter', {}).get('environment_blacklist', {})
 
-    def _create_list_for(self, what, external=False):
+    def _create_list_for(self, what, external_only=False):
         whitelist = []
         for item in self.conf[what]:
             conf = type(self)(item, self.name)
-            if not conf.blacklisted:
-                whitelist.append(item)
-            # Attempt to allow auto-loading for external modules
-            elif external and item.external and item.external_modules:
+            # BlueBrain: regular environment modifications are in the
+            # module themselves, thus one needs to only load external
+            # dependencies
+            if external_only:
+                if item.external and item.external_modules:
+                    whitelist.append(item)
+            elif not conf.blacklisted:
                 whitelist.append(item)
         return whitelist
 
