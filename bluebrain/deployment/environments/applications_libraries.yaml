@@ -8,7 +8,7 @@ spack:
         - caliper
         - gmsh
         - hdf5+mpi%gcc@11.2.0
-        - highfive+mpi
+        - highfive+mpi%gcc@11.2.0
         - neuron+mpi~debug%intel
         - omega-h
         - petsc+int64+mpi
