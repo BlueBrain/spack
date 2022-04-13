@@ -32,7 +32,7 @@ spack:
         'omega-h+gmsh': '{name}/{version}-gmsh'
 
   definitions:
-    - compilers: ['%gcc@11.2.0', '%gcc@9.4.0', 'clang']
+    - compilers: ['%gcc@11.2.0', '%gcc@9.4.0', '%clang']
   specs:
     - boost+python
     - caliper+cuda cuda_arch=70
