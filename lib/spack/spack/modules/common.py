@@ -732,6 +732,24 @@ class BaseContext(tengine.Context):
             exclude=spack.util.environment.is_system_path
         )
 
+        # BlueBrain: we do not generate modules for dependencies, include
+        # their modifications and bin/ directories here
+        #
+        # This should be done here to let the current package prepend paths
+        # properly.
+        #
+        # First do some setup for all dependencies, then execute
+        # modifications
+        for dep in set(spec.traverse(root=False, deptype='run')):
+            dpkg = dep.package
+            dpkg.setup_dependent_package(spec.package.module, spec)
+        for dep in set(spec.traverse(root=False, deptype='run')):
+            if not (dep.external and dep.external_modules):
+                dpkg = dep.package
+                dpkg.setup_run_environment(env)
+                if os.path.isdir(dep.prefix.bin):
+                    env.prepend_path('PATH', dep.prefix.bin)
+
         # Let the extendee/dependency modify their extensions/dependencies
         # before asking for package-specific modifications
         env.extend(
@@ -739,14 +757,6 @@ class BaseContext(tengine.Context):
                 spec, context='run'
             )
         )
-
-        # BlueBrain: we do not generate modules for dependencies, include
-        # their modifications and bin/ directories here
-        for dep in spec.traverse(root=False, deptype='run'):
-            if not (dep.external and dep.external_modules):
-                dep.package.setup_run_environment(env)
-                if os.path.isdir(dep.prefix.bin):
-                    env.prepend_path('PATH', dep.prefix.bin)
 
         # Package specific modifications
         spack.build_environment.set_module_variables_for_package(spec.package)
