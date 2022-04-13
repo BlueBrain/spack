@@ -7,7 +7,7 @@ spack:
         - boost
         - caliper
         - gmsh
-        - hdf5+mpi
+        - hdf5+mpi%gcc@11.2.0
         - highfive+mpi
         - neuron+mpi~debug%intel
         - omega-h
@@ -30,14 +30,25 @@ spack:
       projections:
         all: '{name}/{version}'
         'omega-h+gmsh': '{name}/{version}-gmsh'
+
+  definitions:
+    - compilers: ['%gcc@11.2.0', '%gcc@9.4.0', 'clang']
   specs:
     - boost+python
     - caliper+cuda cuda_arch=70
     - gmsh+metis+mpi+oce+openmp+shared
     - hdf5+mpi
-    - highfive+mpi
+    - matrix:
+      - [highfive+mpi]
+      - [$compilers]
     - hypre+int64+mpi
+    - matrix:
+      - [libsonata+mpi]
+      - [$compilers]
     - metis+int64
+    - matrix:
+      - [morphio+mpi]
+      - [$compilers]
     - neuron+mpi~debug%intel
     - omega-h+trilinos
     - omega-h+gmsh+trilinos
