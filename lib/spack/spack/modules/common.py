@@ -133,9 +133,9 @@ def dependencies(spec, request='all'):
         the direct dependencies if request is 'direct', or the entire DAG
         if request is 'all'.
     """
-    if request not in ('none', 'direct', 'all'):
+    if request not in ('none', 'direct', 'external', 'all'):
         message = "Wrong value for argument 'request' : "
-        message += "should be one of ('none', 'direct', 'all')"
+        message += "should be one of ('none', 'direct', 'extenral', 'all')"
         raise tty.error(message + " [current value is '%s']" % request)
 
     if request == 'none':
@@ -156,7 +156,12 @@ def dependencies(spec, request='all'):
                       deptype=('link', 'run'),
                       root=False),
         reverse=True)
-    return [d for d in deps if not (d in seen or seen_add(d))]
+    deps = [d for d in deps if not (d in seen or seen_add(d))]
+
+    if request == 'external':
+        return [d for d in deps if d.external]
+
+    return deps
 
 
 def merge_config_rules(configuration, spec):
@@ -540,7 +545,7 @@ class BaseConfiguration(object):
     @property
     def specs_to_load(self):
         """List of specs that should be loaded in the module file."""
-        return self._create_list_for('autoload', external_only=True)
+        return self._create_list_for('autoload')
 
     @property
     def literals_to_load(self):
@@ -557,16 +562,13 @@ class BaseConfiguration(object):
         """List of variables that should be left unmodified."""
         return self.conf.get('filter', {}).get('environment_blacklist', {})
 
-    def _create_list_for(self, what, external_only=False):
+    def _create_list_for(self, what):
         whitelist = []
         for item in self.conf[what]:
             conf = type(self)(item, self.name)
-            # BlueBrain: regular environment modifications are in the
-            # module themselves, thus one needs to only load external
-            # dependencies
-            if external_only:
-                if item.external and item.external_modules:
-                    whitelist.append(item)
+            # BlueBrain: external dependencies should always be loaded
+            if item.external and item.external_modules:
+                whitelist.append(item)
             elif not conf.blacklisted:
                 whitelist.append(item)
         return whitelist
@@ -760,7 +762,6 @@ class BaseContext(tengine.Context):
                 spec, context='run'
             )
         )
-
         # Package specific modifications
         spack.build_environment.set_module_variables_for_package(spec.package)
         spec.package.setup_run_environment(env)
