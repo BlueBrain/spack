@@ -36,7 +36,7 @@ class Ospray(CMakePackage):
             "-DOSPRAY_ENABLE_TUTORIALS=OFF",
             "-DOSPRAY_MODULE_MPI=ON"
         ]
-        if self.spec.satisifes('@:1.8.5'):
+        if self.spec.satisfies('@:1.8.5'):
             args.append("-DOSPRAY_ENABLE_APPS:BOOL={0}".format(
                         "ON" if "+apps" in self.spec else "OFF"))
         elif self.spec.satisfies('@:2.9.0'):
