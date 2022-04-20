@@ -28,6 +28,7 @@ class Ospray(CMakePackage):
     depends_on("tbb")
     depends_on("rkcommon", when="@2.9.0:")
     depends_on("openvkl", when="@2.9.0:")
+    depends_on("snappy", when="@2.9.0:")
 
     conflicts("^gcc")
 
