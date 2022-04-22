@@ -39,7 +39,7 @@ class Steps(CMakePackage):
     depends_on("boost", when="@:3")
     depends_on("boost", when="@4:", type="build")
     depends_on("blas")
-    depends_on("gsl", when="+vesicle", type="build")
+    depends_on("gsl", when="+vesicle")
     depends_on("lapack", when="+lapack")
     depends_on("lcov", when="+coverage", type="build")
     depends_on("metis+int64", when="@3.6.1:")
