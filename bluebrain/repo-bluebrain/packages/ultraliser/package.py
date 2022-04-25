@@ -18,3 +18,4 @@ class Ultraliser(CMakePackage):
     depends_on('ilmbase')
     depends_on('hdf5+hl+cxx')
     depends_on('eigen')
+    depends_on('openexr')
