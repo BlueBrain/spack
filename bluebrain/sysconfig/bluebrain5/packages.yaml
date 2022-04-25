@@ -122,7 +122,7 @@ packages:
   trilinos:
     variants: +kokkos+teuchos+openmp~amesos~hypre~superlu-dist~mumps~metis~suite-sparse
   all:
-    compiler: [gcc@11.2.0]
+    compiler: [gcc@11.3.0]
     target: [skylake]
     providers:
       mpi: [hpe-mpi, intel-mpi, mvapich2]
