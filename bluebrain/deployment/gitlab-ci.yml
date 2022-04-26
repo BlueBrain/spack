@@ -100,6 +100,7 @@ setup_spack:
 
 github_information:
   needs: [setup_spack]
+  stage: .post
   rules:
     - if: $GITHUB_PULL_REQUEST_ID
       when: always
