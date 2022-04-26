@@ -30,6 +30,14 @@ from lxml import etree
 from pprint import pprint
 
 
+INTRO_TEMPLATE = """
+Thank you for your pull request!
+
+Should you want to clear the PR build directory after failures,
+[please use this pipeline]({{base}}/hpc/spack-pr-cleaner/-/pipelines/new?var[GITHUB_PULL_REQUEST_ID]={{pr}}).
+"""
+
+
 COMMENT_TEMPLATE = """
 {%- if failed_stages -%}
 The following build jobs of the deployment for this PR failed:
@@ -224,6 +232,27 @@ def get_module_test_failures(pipeline):
                 yield (j["name"], j["web_url"])
 
 
+def post_generic_info():
+    repo = os.environ["GITHUB_REPOSITORY"]
+    pr = os.environ["GITHUB_PULL_REQUEST_ID"]
+    base = os.environ["CI_SERVER_URL"]
+
+    data = (
+        Environment(loader=BaseLoader)
+        .from_string(INTRO_TEMPLATE)
+        .render(base=base, pr=pr)
+    )
+    print("Posting a comment to the GitHub PR...")
+    comment_request = github_api_post(
+        "https://api.github.com/repos/{repo}/issues/{pr}/comments".format(
+            repo=repo, pr=pr
+        ),
+        {"body": data},
+    )
+    pprint(comment_request.json())
+    print(":wave:")
+
+
 def post_pipeline_info():
     repo = os.environ["GITHUB_REPOSITORY"]
     pr = os.environ["GITHUB_PULL_REQUEST_ID"]
@@ -267,4 +296,12 @@ def post_pipeline_info():
 
 
 if __name__ == "__main__":
-    post_pipeline_info()
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument('--info', action='store_true', help='Comment on a PR with generic info')
+    parser.add_argument('--post', action='store_true', help='Comment on a PR with a pipeline summary')
+    args = parser.parse_args()
+    if args.info:
+        post_generic_info()
+    if args.post:
+        post_pipeline_info()
