@@ -34,7 +34,9 @@ INTRO_TEMPLATE = """\
 Thank you for your pull request!
 
 Should you want to clear the PR build directory after failures, \
-[please use this pipeline]({{base}}/hpc/spack-pr-cleaner/-/pipelines/new?var[GITHUB_PULL_REQUEST_ID]={{pr}}).
+[please use this pipeline]({{base}}/hpc/spack-pr-cleaner/-/pipelines/new?var[GITHUB_PULL_REQUEST_ID]={{pr}}). \
+Before running the cleanup pipeline, \
+please ensure that any PR building pipelines have been cancelled or finished running.
 """
 
 
