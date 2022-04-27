@@ -30,7 +30,7 @@ from lxml import etree
 from pprint import pprint
 
 
-INTRO_TEMPLATE = """
+INTRO_TEMPLATE = """\
 Thank you for your pull request!
 
 Should you want to clear the PR build directory after failures, \
@@ -87,19 +87,24 @@ def gather_updated_modules(basedir):
                 yield data[sha]["use_name"]
 
 
-def github_api_post(url, payload):
+def github_api_do(url, payload=None, to_json=True, method="get"):
     auth_user = os.environ.get("GITHUB_API_USER_OVERRIDE", "")
     if not len(auth_user):
         auth_user = "bbpbuildbot"
     auth_token = os.environ.get("GITHUB_API_KEY_OVERRIDE", "")
     if not len(auth_token):
         auth_token = os.environ["GITHUB_API_KEY"]
-    return requests.post(
+    response = getattr(requests, method)(
         url,
         data=json.dumps(payload),
         auth=(auth_user, auth_token),
         headers={"Accept": "application/vnd.github.v3+json"},
     )
+    response.raise_for_status()
+    if to_json:
+        return response.json()
+    else:
+        return response.content
 
 
 def gitlab_api_do(url, payload=None, to_json=True, method="get"):
@@ -210,9 +215,7 @@ def get_build_failures(pipeline):
                         except StopIteration:
                             pass
                     print("Found build failure for", failed.get("classname"))
-                    failed_builds[
-                        (failed.get("classname"), failed.get("name"))
-                    ] = data
+                    failed_builds[(failed.get("classname"), failed.get("name"))] = data
     return (
         list(failed_jobs),
         [(n, i, v) for (n, i), v in failed_builds.items()],
@@ -237,17 +240,30 @@ def post_generic_info():
     pr = os.environ["GITHUB_PULL_REQUEST_ID"]
     base = os.environ["CI_SERVER_URL"]
 
+    first_line = INTRO_TEMPLATE.splitlines()[0]
+    previous_comments = github_api_do(
+        "https://api.github.com/repos/{repo}/issues/{pr}/comments".format(
+            repo=repo, pr=pr
+        )
+    )
+    for comment in previous_comments:
+        if comment["user"]["login"] == "bbpbuildbot" and first_line in comment["body"]:
+            print("Found the introduction comment, not posting!")
+            print(":beers:")
+            return
+
     data = (
         Environment(loader=BaseLoader)
         .from_string(INTRO_TEMPLATE)
         .render(base=base, pr=pr)
     )
     print("Posting a comment to the GitHub PR...")
-    comment_request = github_api_post(
+    comment_request = github_api_do(
         "https://api.github.com/repos/{repo}/issues/{pr}/comments".format(
             repo=repo, pr=pr
         ),
-        {"body": data},
+        payload={"body": data},
+        method="post",
     )
     pprint(comment_request.json())
     print(":wave:")
@@ -297,9 +313,14 @@ def post_pipeline_info():
 
 if __name__ == "__main__":
     from argparse import ArgumentParser
+
     parser = ArgumentParser()
-    parser.add_argument('--info', action='store_true', help='Comment on a PR with generic info')
-    parser.add_argument('--post', action='store_true', help='Comment on a PR with a pipeline summary')
+    parser.add_argument(
+        "--info", action="store_true", help="Comment on a PR with generic info"
+    )
+    parser.add_argument(
+        "--post", action="store_true", help="Comment on a PR with a pipeline summary"
+    )
     args = parser.parse_args()
     if args.info:
         post_generic_info()
