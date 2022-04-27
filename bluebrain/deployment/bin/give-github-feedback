@@ -249,7 +249,7 @@ def post_generic_info():
     for comment in previous_comments:
         if comment["user"]["login"] == "bbpbuildbot" and first_line in comment["body"]:
             print("Found the introduction comment, not posting!")
-            print(":beer:")
+            print(":beers:")
             return
 
     data = (
