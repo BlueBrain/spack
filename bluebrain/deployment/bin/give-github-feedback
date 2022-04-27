@@ -258,14 +258,14 @@ def post_generic_info():
         .render(base=base, pr=pr)
     )
     print("Posting a comment to the GitHub PR...")
-    comment_request = github_api_do(
+    response = github_api_do(
         "https://api.github.com/repos/{repo}/issues/{pr}/comments".format(
             repo=repo, pr=pr
         ),
         payload={"body": data},
         method="post",
     )
-    pprint(comment_request.json())
+    pprint(response)
     print(":wave:")
 
 
@@ -301,13 +301,14 @@ def post_pipeline_info():
         )
     )
     print("Posting a comment to the GitHub PR...")
-    comment_request = github_api_post(
+    response = github_api_do(
         "https://api.github.com/repos/{repo}/issues/{pr}/comments".format(
             repo=repo, pr=pr
         ),
-        {"body": data},
+        payload={"body": data},
+        method="post"
     )
-    pprint(comment_request.json())
+    pprint(response)
     print(":wave:")
 
 
