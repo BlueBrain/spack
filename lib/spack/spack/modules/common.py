@@ -135,7 +135,7 @@ def dependencies(spec, request='all'):
     """
     if request not in ('none', 'direct', 'external', 'all'):
         message = "Wrong value for argument 'request' : "
-        message += "should be one of ('none', 'direct', 'extenral', 'all')"
+        message += "should be one of ('none', 'direct', 'external', 'all')"
         raise tty.error(message + " [current value is '%s']" % request)
 
     if request == 'none':
