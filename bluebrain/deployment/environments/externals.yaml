@@ -74,7 +74,7 @@ spack:
     - nvhpc@22.2
     - nvhpc@22.3
     - arm-forge
-    - bazel%gcc@9.4.0 ^python%gcc@11.2.0 ^openjdk%gcc@11.2.0  # For TensorFlow; unpatchable
+    - bazel@4.2.2%gcc@9.4.0 ^python%gcc@11.2.0 ^openjdk%gcc@11.2.0  # For TensorFlow; unpatchable
     - bison
     - blender
     - boost~mpi
