@@ -746,12 +746,10 @@ class BaseContext(tengine.Context):
         # First do some setup for all dependencies, then execute
         # modifications
         for dep in set(spec.traverse(root=False, deptype='run')):
-            dpkg = dep.package
-            dpkg.setup_dependent_package(spec.package.module, spec)
+            dep.package.setup_dependent_package(spec.package.module, spec)
         for dep in set(spec.traverse(root=False, deptype='run')):
             if not (dep.external and dep.external_modules):
-                dpkg = dep.package
-                dpkg.setup_run_environment(env)
+                dep.package.setup_run_environment(env)
                 if os.path.isdir(dep.prefix.bin):
                     env.prepend_path('PATH', dep.prefix.bin)
 
