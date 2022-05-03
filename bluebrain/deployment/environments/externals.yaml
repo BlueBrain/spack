@@ -34,7 +34,6 @@ spack:
         - mvapich2
         - ninja
         - nvhpc
-        - openjdk
         - pgi
         - python
         - snakemake
@@ -74,7 +73,7 @@ spack:
     - nvhpc@22.2
     - nvhpc@22.3
     - arm-forge
-    - bazel@4.2.2%gcc@9.4.0 ^python%gcc@11.2.0 ^openjdk%gcc@11.2.0  # For TensorFlow; unpatchable
+    - bazel
     - bison
     - blender
     - boost~mpi
@@ -122,7 +121,6 @@ spack:
     - ncurses
     - ninja
     - openscenegraph  # doesn't like to be built in a spec with LLVM
-    - openjdk  # for Bazel
     # Leads to issues down the line, where it is preferred over intel-mkl
     # #providers
     # - openblas
