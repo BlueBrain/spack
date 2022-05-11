@@ -48,7 +48,7 @@ spack:
     - circuit-build
     - connectome-tools
     - emsim
-    - gene-expression-volume%gcc@11.2.0
+    - gene-expression-volume
     - placement-algorithm
     - psp-validation%gcc ^neuron%intel
     - py-archngv

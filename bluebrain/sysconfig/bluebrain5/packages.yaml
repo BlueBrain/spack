@@ -92,6 +92,8 @@ packages:
     version: [57.4.0]  # last one to provide use_2to3, required by some software
   py-tables:
     variants: +lzo     # leads to compile errors otherwise
+  py-tensorflow:
+    variants: ~cuda
   qt:
     version: [5.14.2]
     variants: ~ssl~sql~tools
