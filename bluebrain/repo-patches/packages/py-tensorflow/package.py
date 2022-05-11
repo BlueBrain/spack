@@ -1,6 +1,5 @@
 from spack import *
 from spack.pkg.builtin.py_tensorflow import PyTensorflow as BuiltinPyTensorflow
-from spack.directives import DirectiveMeta
 
 
 del BuiltinPyTensorflow.dependencies['bazel']
@@ -12,8 +11,8 @@ class PyTensorflow(BuiltinPyTensorflow):
 
     version(
         '2.7.1',
-        sha256='0ed3ac84cda24bed5d24af5e6aeeb595b472fdc530efb9871bc79f830a0cb5f5',
-        url='https://files.pythonhosted.org/packages/6c/4e/803c3bfe41270585a95f69023f53f165f8ae4682b648abbdb87595222103/tensorflow-2.7.1-cp39-cp39-manylinux2010_x86_64.whl',
+        sha256='a6df5a8d90f27468d97d0ee0d41c53950a4d6002fdf6d427c0fb0749ab855f60',
+        url='https://files.pythonhosted.org/packages/85/0c/0dda0156a38ee79f68c6cced1875d52cedd241e2de09649382778e36850d/tensorflow_gpu-2.7.1-cp39-cp39-manylinux2010_x86_64.whl',
         expand=False,
     )
 
