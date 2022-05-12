@@ -39,7 +39,7 @@ spack:
     vtk:
       variants: ~mpi~ffmpeg~opengl2
   specs:
-    - py-atlalign
+    - py-atlalign%gcc@11.2.0
     - py-atlannot
     - py-atldld
     - py-atlinter

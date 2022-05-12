@@ -64,7 +64,7 @@ spack:
     - py-rtree
     - py-scikit-learn
     - py-scipy
-    - py-tensorflow
+    - py-tensorflow%gcc@11.2.0
     - py-virtualenv
     - python-dev
     - sundials+int64
