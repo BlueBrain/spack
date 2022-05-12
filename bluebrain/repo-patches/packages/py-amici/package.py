@@ -21,8 +21,14 @@ class PyAmici(PythonPackage):
     depends_on('hdf5')
     depends_on('swig')
 
-    depends_on('sbml+python', type='run')
-    depends_on('py-toposort', type='run')
+    depends_on('sbml+python', type=('build', 'run'))
+    depends_on('py-sympy', type=('build', 'run'))
+    depends_on('py-numpy', type=('build', 'run'))
+    depends_on('py-h5py', type=('build', 'run'))
+    depends_on('py-pandas', type=('build', 'run'))
+    depends_on('py-pkgconfig', type=('build', 'run'))
+    depends_on('py-toposort', type=('build', 'run'))
+    depends_on('py-wurlitzer', type=('build', 'run'))
 
     def setup_build_environment(self, env):
         env.set("BLAS_LIBS", " ".join(self.spec['blas'].libs))
