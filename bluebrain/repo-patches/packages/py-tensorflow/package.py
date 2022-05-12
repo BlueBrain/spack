@@ -2,10 +2,6 @@ from spack import *
 from spack.pkg.builtin.py_tensorflow import PyTensorflow as BuiltinPyTensorflow
 
 
-del BuiltinPyTensorflow.dependencies['bazel']
-BuiltinPyTensorflow.versions.clear()
-
-
 class PyTensorflow(BuiltinPyTensorflow):
     __doc__ = BuiltinPyTensorflow.__doc__
 
