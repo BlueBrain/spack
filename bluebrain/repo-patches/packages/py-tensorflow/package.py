@@ -18,7 +18,6 @@ class PyTensorflow(BuiltinPyTensorflow):
 
     depends_on('python@3.9.0:3.9', type=('build', 'run'), when='@2.7.1')
     depends_on('flatbuffers+python@1.12:2', type=('build', 'run'), when='@2.7.1')
-    depends_on('py-tensorflow-estimator', type=('build', 'run'), when='@2.7.1')
 
     phases = ['install']
 
