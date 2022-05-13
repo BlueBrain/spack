@@ -90,10 +90,10 @@ class Touchdetector(CMakePackage):
         ]
 
         if self.spec.satisfies('@:5.6.1'):
-             args += [
-                 '-DCMAKE_C_COMPILER={0}'.format(self.spec['mpi'].mpicc),
-                 '-DCMAKE_CXX_COMPILER={0}'.format(self.spec['mpi'].mpicxx),
-             ]
+            args += [
+                '-DCMAKE_C_COMPILER={0}'.format(self.spec['mpi'].mpicc),
+                '-DCMAKE_CXX_COMPILER={0}'.format(self.spec['mpi'].mpicxx),
+            ]
 
         if self.spec.satisfies('@develop'):
             use_tests = self.spec.satisfies('@develop') or '+tests' in self.spec
