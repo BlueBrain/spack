@@ -9,6 +9,10 @@ default:
   tags: [bb5_map]  # Will use a special deployment user with write permissions to `bsd`
   timeout: 3 day   # Building takes a while
 
+variables:
+  # Regular prod fills up quite a bit
+  bb5_partition: prod_small
+
 # This is a blatant copy of the documentation deployment setup from `nse/ci`
 # IMPORTANT the last line setting the git ssh command, otherwise it will not
 # see the "redirected" HOME
