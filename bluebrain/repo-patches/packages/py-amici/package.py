@@ -18,7 +18,7 @@ class PyAmici(PythonPackage):
 
     depends_on('blas')
     depends_on('boost')
-    depends_on('hdf5')
+    depends_on('hdf5+hl')
     depends_on('swig')
 
     depends_on('sbml+python', type=('build', 'run'))
@@ -32,3 +32,4 @@ class PyAmici(PythonPackage):
 
     def setup_build_environment(self, env):
         env.set("BLAS_LIBS", " ".join(self.spec['blas'].libs))
+        env.set("HDF5_BASE", " ".join(self.spec['hdf5'].prefix))
