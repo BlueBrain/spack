@@ -32,4 +32,4 @@ class PyAmici(PythonPackage):
 
     def setup_build_environment(self, env):
         env.set("BLAS_LIBS", " ".join(self.spec['blas'].libs))
-        env.set("HDF5_BASE", " ".join(self.spec['hdf5'].prefix))
+        env.set("HDF5_BASE", self.spec['hdf5'].prefix)
