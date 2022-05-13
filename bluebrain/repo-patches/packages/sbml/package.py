@@ -13,6 +13,5 @@ class Sbml(BuiltinSbml):
         ppath = self.spec['python'].package.site_packages_dir
         if os.path.isdir(self.prefix.lib64):
             ppath = ppath.replace('lib', 'lib64')
-        # This package nests one level deeper than expected via a .pth file
-        ppath = os.path.join(self.prefix, ppath, 'libsbml')
+        ppath = os.path.join(self.prefix, ppath)
         env.prepend_path('PYTHONPATH', ppath)

@@ -22,7 +22,7 @@ class PyAmici(PythonPackage):
     depends_on('swig')
 
     depends_on('sbml+python', type=('build', 'run'))
-    depends_on('py-sympy', type=('build', 'run'))
+    depends_on('py-sympy@1.9:', type=('build', 'run'))
     depends_on('py-numpy', type=('build', 'run'))
     depends_on('py-h5py', type=('build', 'run'))
     depends_on('py-pandas', type=('build', 'run'))
