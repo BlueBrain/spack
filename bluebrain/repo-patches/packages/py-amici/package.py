@@ -18,7 +18,7 @@ class PyAmici(PythonPackage):
 
     depends_on('blas')
     depends_on('boost')
-    depends_on('hdf5+hl')
+    depends_on('hdf5+cxx+hl')
     depends_on('swig')
 
     depends_on('sbml+python', type=('build', 'run'))
