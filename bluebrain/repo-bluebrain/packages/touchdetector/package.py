@@ -39,7 +39,7 @@ class Touchdetector(CMakePackage):
     variant('asan', default=False, description='Enables AdressSanitizer')
     variant('ubsan', default=False, description='Enables UndefinedBehaviourSanitizer')
     variant('clang-tidy', default=False, description='Enables static analysis with clang-tidy')
-    variant('tests', default=True, description='Enables building and running tests')
+    variant('tests', default=False, description='Enables building and running tests')
     variant('benchmarks', default=False, description='Enables benchmarks')
 
     depends_on('cmake', type='build')
@@ -96,12 +96,13 @@ class Touchdetector(CMakePackage):
              ]
 
         if self.spec.satisfies('@develop'):
+            use_tests = self.spec.satisfies('@develop') or '+tests' in self.spec
             args += [
                 '-DENABLE_CALIPER:BOOL={0}'.format('+caliper' in self.spec),
                 '-DENABLE_ASAN:BOOL={0}'.format('+asan' in self.spec),
                 '-DENABLE_UBSAN:BOOL={0}'.format('+ubsan' in self.spec),
                 '-DENABLE_BENCHMARKS:BOOL={0}'.format('+benchmarks' in self.spec),
-                '-DENABLE_TESTS:BOOL={0}'.format('+tests' in self.spec),
+                '-DENABLE_TESTS:BOOL={0}'.format(use_tests),
             ]
 
             if '+clang-tidy' in self.spec:
