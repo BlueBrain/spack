@@ -39,7 +39,7 @@ class Touchdetector(CMakePackage):
     variant('asan', default=False, description='Enables AdressSanitizer')
     variant('ubsan', default=False, description='Enables UndefinedBehaviourSanitizer')
     variant('clang-tidy', default=False, description='Enables static analysis with clang-tidy')
-    variant('tests', default=False, description='Enables building and running tests')
+    variant('tests', default=False, description='Enables building tests')
     variant('benchmarks', default=False, description='Enables benchmarks')
 
     depends_on('cmake', type='build')
