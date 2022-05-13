@@ -36,6 +36,11 @@ class Touchdetector(CMakePackage):
 
     variant('openmp', default=False, description='Enables OpenMP support')
     variant('caliper', default=False, description='Enables profiling with Caliper')
+    variant('asan', default=False, description='Enables AdressSanitizer')
+    variant('ubsan', default=False, description='Enables UndefinedBehaviourSanitizer')
+    variant('clang-tidy', default=False, description='Enables static analysis with clang-tidy')
+    variant('tests', default=True, description='Enables building and running tests')
+    variant('benchmarks', default=False, description='Enables benchmarks')
 
     depends_on('cmake', type='build')
     depends_on('ninja', type='build')
@@ -52,6 +57,10 @@ class Touchdetector(CMakePackage):
     depends_on('nlohmann-json', when='@5.3.3:')
     depends_on('intel-oneapi-tbb', when='@develop')
     depends_on('caliper@master+mpi', when='+caliper@develop')
+    depends_on('benchmark', when='+benchmarks@develop')
+
+    depends_on('mvapich2', when='+asan@develop')
+    depends_on('mvapich2', when='+ubsan@develop')
 
     # Old dependencies
     depends_on('hpctools~openmp', when='~openmp@:4.4')
@@ -74,18 +83,28 @@ class Touchdetector(CMakePackage):
             filter_file(r'(int messageLength) = -1;$',
                         r'\1 = 0;',
                         'touchdetector/DistributedTouchDetector.cxx')
-        elif self.spec.satisfies('@develop'):
-            filter_file(
-                r'-Werror',
-                '-Werror -Wno-error=stringop-overflow',
-                'touchdetector/CMakeLists.txt'
-            )
 
     def cmake_args(self):
         args = [
             '-DUSE_OPENMP:BOOL={0}'.format('+openmp' in self.spec),
-            '-DENABLE_CALIPER:BOOL={0}'.format('+caliper' in self.spec),
-            '-DCMAKE_C_COMPILER={0}'.format(self.spec['mpi'].mpicc),
-            '-DCMAKE_CXX_COMPILER={0}'.format(self.spec['mpi'].mpicxx),
         ]
+
+        if self.spec.satisfies('@:5.6.1'):
+             args += [
+                 '-DCMAKE_C_COMPILER={0}'.format(self.spec['mpi'].mpicc),
+                 '-DCMAKE_CXX_COMPILER={0}'.format(self.spec['mpi'].mpicxx),
+             ]
+
+        if self.spec.satisfies('@develop'):
+            args += [
+                '-DENABLE_CALIPER:BOOL={0}'.format('+caliper' in self.spec),
+                '-DENABLE_ASAN:BOOL={0}'.format('+asan' in self.spec),
+                '-DENABLE_UBSAN:BOOL={0}'.format('+ubsan' in self.spec),
+                '-DENABLE_BENCHMARKS:BOOL={0}'.format('+benchmarks' in self.spec),
+                '-DENABLE_TESTS:BOOL={0}'.format('+tests' in self.spec),
+            ]
+
+            if '+clang-tidy' in self.spec:
+                args += ['-DCMAKE_CXX_CLANG_TIDY=clang-tidy']
+
         return args
