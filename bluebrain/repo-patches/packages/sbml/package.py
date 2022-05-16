@@ -1,5 +1,3 @@
-import shlex
-
 from spack import *
 from spack.pkg.builtin.sbml import Sbml as BuiltinSbml
 
