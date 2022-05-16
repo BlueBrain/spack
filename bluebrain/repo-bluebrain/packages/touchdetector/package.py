@@ -39,8 +39,8 @@ class Touchdetector(CMakePackage):
     variant('asan', default=False, description='Enables AdressSanitizer')
     variant('ubsan', default=False, description='Enables UndefinedBehaviourSanitizer')
     variant('clang-tidy', default=False, description='Enables static analysis with clang-tidy')
-    variant('tests', default=False, description='Enables building tests')
-    variant('benchmarks', default=False, description='Enables benchmarks')
+    variant('test', default=False, description='Enables building tests')
+    variant('benchmark', default=False, description='Enables benchmarks')
 
     depends_on('cmake', type='build')
     depends_on('ninja', type='build')
@@ -57,7 +57,7 @@ class Touchdetector(CMakePackage):
     depends_on('nlohmann-json', when='@5.3.3:')
     depends_on('intel-oneapi-tbb', when='@develop')
     depends_on('caliper@master+mpi', when='+caliper@develop')
-    depends_on('benchmark', when='+benchmarks@develop')
+    depends_on('benchmark', when='+benchmark@develop')
 
     depends_on('mvapich2', when='+asan@develop')
     depends_on('mvapich2', when='+ubsan@develop')
@@ -96,12 +96,12 @@ class Touchdetector(CMakePackage):
             ]
 
         if self.spec.satisfies('@develop'):
-            use_tests = self.spec.satisfies('@develop') or '+tests' in self.spec
+            use_tests = self.spec.satisfies('@develop') or '+test' in self.spec
             args += [
                 self.define_from_variant('ENABLE_CALIPER', 'caliper'),
                 self.define_from_variant('ENABLE_ASAN', 'asan'),
                 self.define_from_variant('ENABLE_UBSAN', 'ubsan'),
-                self.define_from_variant('ENABLE_BENCHMARKS', 'benchmarks'),
+                self.define_from_variant('ENABLE_BENCHMARKS', 'benchmark'),
                 self.define('ENABLE_TESTS', use_tests),
             ]
 
