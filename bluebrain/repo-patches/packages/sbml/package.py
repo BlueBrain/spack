@@ -38,5 +38,5 @@ class Sbml(BuiltinSbml):
             filter_file(
                 r'(name\s*= ")(libsbml)',
                 r'\1python-\2',
-                'src/bindings/python/setup.py.in'
+                'src/bindings/python/setup.py.cmake'
             )
