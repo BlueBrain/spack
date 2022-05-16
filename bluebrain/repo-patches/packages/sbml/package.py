@@ -35,3 +35,9 @@ class Sbml(BuiltinSbml):
                 'setup.py install {0}'.format(args),
                 'src/bindings/python/CMakeLists.txt'
             )
+            # PyPI sbml identifies as python-libsbml
+            filter_file(
+                r'(name\s*= ")(libsbml)',
+                '\1python-\2',
+                'src/bindings/python/setup.py.in'
+            )
