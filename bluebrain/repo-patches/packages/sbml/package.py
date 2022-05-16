@@ -1,4 +1,3 @@
-import os
 import shlex
 
 from spack import *
