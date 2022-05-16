@@ -37,6 +37,6 @@ class Sbml(BuiltinSbml):
             # PyPI sbml identifies as python-libsbml
             filter_file(
                 r'(name\s*= ")(libsbml)',
-                '\1python-\2',
+                r'\1python-\2',
                 'src/bindings/python/setup.py.in'
             )
