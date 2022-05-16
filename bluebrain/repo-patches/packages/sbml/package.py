@@ -22,12 +22,15 @@ class Sbml(BuiltinSbml):
 
     def patch(self):
         if self.spec.satisfies('+python'):
+            # Piggy-back on an actual Python package to get the
+            # proper installation prefixes
             args = shlex.join(
                 self.spec['py-setuptools'].package.install_args(
                     self.spec,
                     self.prefix
                 )
             )
+            # --no-user-cfg is not recognized by setup.py, drop it
             filter_file(
                 'setup.py install',
                 'setup.py install {0}'.format(args),
