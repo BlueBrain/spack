@@ -23,7 +23,8 @@ class Sbml(BuiltinSbml):
         if self.spec.satisfies('+python'):
             # Piggy-back on an actual Python package to get the
             # proper installation prefixes
-            args = shlex.join(
+            # Brittle join, `shlex.join` is better but Python 3.8+
+            args = ' '.join(
                 self.spec['py-setuptools'].package.install_args(
                     self.spec,
                     self.prefix
