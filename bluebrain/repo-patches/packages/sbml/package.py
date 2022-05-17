@@ -5,6 +5,8 @@ from spack.pkg.builtin.sbml import Sbml as BuiltinSbml
 class Sbml(BuiltinSbml):
     __doc__ = BuiltinSbml.__doc__
 
+    version('5.19.0', sha256='a7f0e18be78ff0e064e4cdb1cd86634d08bc33be5250db4a1878bd81eeb8b547')
+
     depends_on('py-setuptools', type='build', when='+python')
     extends('python', when='+python')
 

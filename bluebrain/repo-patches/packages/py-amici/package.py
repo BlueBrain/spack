@@ -21,12 +21,12 @@ class PyAmici(PythonPackage):
     depends_on('hdf5+cxx+hl')
     depends_on('swig')
 
-    depends_on('sbml+python', type=('build', 'run'))
-    depends_on('py-sympy@1.9:', type=('build', 'run'))
-    depends_on('py-numpy', type=('build', 'run'))
     depends_on('py-h5py', type=('build', 'run'))
+    depends_on('py-numpy', type=('build', 'run'))
     depends_on('py-pandas', type=('build', 'run'))
     depends_on('py-pkgconfig', type=('build', 'run'))
+    depends_on('py-python-libsbml', type=('build', 'run'))
+    depends_on('py-sympy@1.9:', type=('build', 'run'))
     depends_on('py-toposort', type=('build', 'run'))
     depends_on('py-wurlitzer', type=('build', 'run'))
 
