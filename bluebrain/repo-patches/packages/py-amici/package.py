@@ -18,8 +18,8 @@ class PyAmici(PythonPackage):
 
     depends_on('blas')
     depends_on('boost')
-    depends_on('hdf5+cxx+hl')
-    depends_on('swig')
+    depends_on('hdf5+cxx+hl', type=('build', 'run'))
+    depends_on('swig', type=('build', 'run'))
 
     depends_on('py-h5py', type=('build', 'run'))
     depends_on('py-numpy', type=('build', 'run'))
