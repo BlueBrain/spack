@@ -195,3 +195,4 @@ class DarshanRuntime(AutotoolsPackage):
 
     def test(self):
         self._test_intercept()
+        
