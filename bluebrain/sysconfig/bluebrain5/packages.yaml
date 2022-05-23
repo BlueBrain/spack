@@ -31,7 +31,8 @@ packages:
     variants: ~fftw~gmp~metis~mpfr~scotch
   gcc:
     # +strip added to force rebuild of GCC with -fno-canonical-system-headers
-    variants: +binutils+strip
+    # +profile added to force rebuild of GCC with Profile-guided Optimization
+    variants: +binutils+strip+profiled
   gmsh:
     variants: ~mmg~fltk
   hadoop:
