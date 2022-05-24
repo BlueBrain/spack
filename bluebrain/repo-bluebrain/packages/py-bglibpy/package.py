@@ -23,7 +23,7 @@ class PyBglibpy(PythonPackage):
     depends_on('py-matplotlib@3.0.3:', type='run')
     depends_on('py-cachetools', type='run')
     depends_on('py-bluepy@2.4.2:2.999', type='run')
-    depends_on('py-bluepy-configfile@0.1.18:0.999', type='run')
+    depends_on('py-bluepy-configfile@0.1.18:', type='run')
 
     # skip import test, because bglibpy needs HOC_LIBRARY_PATH
     # that could be provided by neurodamus-core
