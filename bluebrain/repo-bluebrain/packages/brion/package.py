@@ -16,7 +16,6 @@ class Brion(CMakePackage):
     generator = 'Ninja'
 
     version('develop', submodules=True)
-    version('3.2.0', tag='3.2.0', submodules=True)
     version('3.3.0', tag='3.3.0', submodules=True)
     version('3.3.1', tag='3.3.1', submodules=True)
     version('3.3.2', tag='3.3.2', submodules=True)
@@ -48,7 +47,7 @@ class Brion(CMakePackage):
     depends_on('bzip2')
     depends_on('highfive@2.3.1 +boost', when='@3.3.8:')
     depends_on('highfive@2.2.2 +boost', when='@3.3.2:3.3.7')
-    depends_on('highfive@2.2.1 +boost', when='@3.2.0:3.3.1')
+    depends_on('highfive@2.2.1 +boost', when='@:3.3.1')
     depends_on('mvdtool')
     depends_on('glm@:0.9.9.5')
 
@@ -57,16 +56,12 @@ class Brion(CMakePackage):
           when='@3.3.4 ^python@3.9:')
 
     def patch(self):
-        if self.spec.satisfies('@3.2.0'):
-            filter_file(r'-Werror', r'# -Werror',
-                        'CMake/CompileOptions.cmake')
-        elif self.spec.satisfies('@3.3.0:'):
-            filter_file(
-                r'-Werror',
-                '-Werror -Wno-error=deprecated-copy -Wno-error=range-loop-construct '
-                '-Wno-error=unused-function',
-                'CMake/CompileOptions.cmake'
-            )
+        filter_file(
+            r'-Werror',
+            '-Werror -Wno-error=deprecated-copy -Wno-error=range-loop-construct '
+            '-Wno-error=unused-function',
+            'CMake/CompileOptions.cmake'
+        )
 
     def cmake_args(self):
         args = ['-DBRION_SKIP_LIBSONATA_SUBMODULE=ON',
