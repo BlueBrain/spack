@@ -75,8 +75,8 @@ spack:
     - clang-tools@12.0.1p2
     - clang-tools@11.1.0p2
     - nvhpc@21.11
-    - nvhpc@22.2
     - nvhpc@22.3
+    - nvhpc@22.5
     - arm-forge
     - apptainer
     - bison
