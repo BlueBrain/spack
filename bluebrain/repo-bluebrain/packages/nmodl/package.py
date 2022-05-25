@@ -56,7 +56,8 @@ class Nmodl(CMakePackage):
     depends_on("cmake@3.15.0:", when="@0.3.0.20220110:", type="build")
     depends_on("cmake@3.3.0:", when="@:0.3", type="build")
     depends_on("flex@2.6:", type="build")
-    # Need +pic when building Python bindings as in that case we link fmt into a shared library
+    # Need +pic when building Python bindings as in that case we link fmt into a shared
+    # library
     depends_on("fmt", when="~python")
     depends_on("fmt+pic", when="+python")
     depends_on("nlohmann-json")
@@ -70,7 +71,8 @@ class Nmodl(CMakePackage):
 
     def cmake_args(self):
         spec = self.spec
-        # Do not use the cli11, fmt, pybind11 and spdlog submodule, use the one from the Spack dependency graph.
+        # Do not use the cli11, fmt, pybind11 and spdlog submodule, use the one from the
+        # Spack dependency graph.
         options = [
             "-DNMODL_3RDPARTY_USE_CATCH2=OFF",
             "-DNMODL_3RDPARTY_USE_CLI11=OFF",
