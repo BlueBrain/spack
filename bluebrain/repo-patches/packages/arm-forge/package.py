@@ -11,8 +11,10 @@ class ArmForge(BuiltinArmForge):
         url="https://content.allinea.com/downloads/arm-forge-22.0.1-linux-x86_64.tar",
     )
 
-    version(
-        "20.2.0-Redhat-7.0-x86_64",
-        sha256="26592a77c42f970f724f15b70cc5ce6af1078fd0ef9243a37c3215916cfa7cf4",
-        url="https://content.allinea.com/downloads/arm-forge-20.2-Redhat-7.0-x86_64.tar",
-    )
+    def setup_run_environment(self, env):
+        # ENV variables required to avoid licensing and SLURM issues on BB5
+        env.unset('HTTP_PROXY')
+        env.unset('HTTPS_PROXY')
+        env.unset('http_proxy')
+        env.unset('https_proxy')
+        env.set('ALLINEA_USE_SSH_STARTUP', "1")
