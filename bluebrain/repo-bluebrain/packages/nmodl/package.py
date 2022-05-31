@@ -19,11 +19,7 @@ class Nmodl(CMakePackage):
     # This is the merge commit of #875, which allows catch2 etc. to be dependencies
     version("0.3.0.20220531", commit="d63a061ee01b1fd6b14971644bb7fa3efeee20b0")
     # For deployment; nmodl@0.3.0%nvhpc@21.11 doesn't build with eigen/intrinsics errors
-    version(
-        "0.3.0.20220110",
-        commit="9e0a6f260ac2e6fad068a39ea3bdf7aa7a6f4ee0",
-        preferred=True,
-    )
+    version("0.3.0.20220110", commit="9e0a6f260ac2e6fad068a39ea3bdf7aa7a6f4ee0")
     version("0.3.0", tag="0.3")
     version("0.3b", commit="c30ea06", submodules=True)
     version("0.3a", commit="86fc52d", submodules=True)
