@@ -8,7 +8,7 @@ from spack import *
 
 class Openvkl(CMakePackage):
     """
-    Intel® Open Volume Kernel Library (Intel Open VKL) is a
+    Intel Open Volume Kernel Library (Intel Open VKL) is a
     collection of high-performance volume computation kernels,
     developed at Intel.
     """
