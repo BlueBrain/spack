@@ -80,8 +80,8 @@ class Nmodl(CMakePackage):
         options = []
 
         if spec.satisfies("@0.3.0.20220531:"):
-            # Do not use the cli11, fmt, pybind11 and spdlog submodule, use the one from the
-            # Spack dependency graph.
+            # Do not use the cli11, fmt, pybind11 and spdlog submodule, use the one from
+            # the Spack dependency graph.
             options += [
                 "-DNMODL_3RDPARTY_USE_CATCH2=OFF",
                 "-DNMODL_3RDPARTY_USE_CLI11=OFF",
