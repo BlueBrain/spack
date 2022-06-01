@@ -20,12 +20,6 @@ import spack.util.path
 _extension_regexp = re.compile(r'spack-(\w[-\w]*)$')
 
 
-def _get_extension_dirs():
-    extension_dirs = spack.config.get('config:extensions') or []
-    return [spack.util.path.canonicalize_path(pth)
-            for pth in extension_dirs]
-
-
 # TODO: For consistency we should use spack.cmd.python_name(), but
 #       currently this would create a circular relationship between
 #       spack.cmd and spack.extensions.
@@ -161,11 +155,7 @@ def get_module(cmd_name):
     """
     # If built-in failed the import search the extension
     # directories in order
-<<<<<<< HEAD
-    extensions = _get_extension_dirs()
-=======
     extensions = get_extension_paths()
->>>>>>> offical/releases/v0.18
     for folder in extensions:
         module = load_command_extension(cmd_name, folder)
         if module:
@@ -178,11 +168,7 @@ def get_template_dirs():
     """Returns the list of directories where to search for templates
     in extensions.
     """
-<<<<<<< HEAD
-    extension_dirs = _get_extension_dirs()
-=======
     extension_dirs = get_extension_paths()
->>>>>>> offical/releases/v0.18
     extensions = [os.path.join(x, 'templates') for x in extension_dirs]
     return extensions
 

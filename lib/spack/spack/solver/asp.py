@@ -950,9 +950,6 @@ class SpackSolverSetup(object):
             if variant.sticky:
                 self.gen.fact(fn.variant_sticky(pkg.name, name))
 
-            if variant.sticky:
-                self.gen.fact(fn.variant_sticky(pkg.name, name))
-
             self.gen.newline()
 
         # conflicts

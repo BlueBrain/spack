@@ -63,16 +63,8 @@ spack_env_var = 'SPACK_ENV'
 _active_environment = None
 
 
-def _get_env_path():
-    path = spack.config.get('config:environments:root')
-    if not path:
-        path = spack.paths.default_environments_path
-    path = spack.util.path.canonicalize_path(path)
-    return path
-
-
-#: path where environments are stored
-env_path = _get_env_path()
+#: path where environments are stored in the spack tree
+env_path = os.path.join(spack.paths.var_path, 'environments')
 
 
 #: Name of the input yaml file for an environment
