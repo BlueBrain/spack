@@ -6,7 +6,7 @@ class Bzip2(BuiltinBzip2):
     __doc__ = BuiltinBzip2.__doc__
 
     def patch(self):
-        super().patch()
+        super(BuiltinBzip2, self).patch()
         filter_file(r'(-o bzip2 bzip2.o) -L. -lbz2', r'\1 libbz2.a', 'Makefile')
 
     def install(self, spec, prefix):
