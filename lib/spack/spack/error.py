@@ -1,4 +1,4 @@
-# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2022 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -10,9 +10,9 @@ import sys
 
 import llnl.util.tty as tty
 
-#: whether we should write stack traces or short error messages
+#: at what level we should write stack traces or short error messages
 #: this is module-scoped because it needs to be set very early
-debug = False
+debug = 0
 
 
 class SpackError(Exception):

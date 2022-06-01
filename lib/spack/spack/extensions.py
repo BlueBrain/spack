@@ -1,10 +1,11 @@
-# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2022 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 """Service functions and classes to implement the hooks
 for Spack's command extensions.
 """
+import importlib
 import os
 import re
 import sys
@@ -105,18 +106,25 @@ def load_command_extension(command, path):
     ensure_package_creation(extension)
     ensure_package_creation(extension + '.cmd')
 
-    # TODO: Upon removal of support for Python 2.6 substitute the call
-    # TODO: below with importlib.import_module(module_name)
-    module = llnl.util.lang.load_module_from_file(module_name, cmd_path)
+    module = importlib.import_module(module_name)
     sys.modules[module_name] = module
 
     return module
 
 
+def get_extension_paths():
+    """Return the list of canonicalized extension paths from config:extensions.
+
+    """
+    extension_paths = spack.config.get('config:extensions') or []
+    paths = [spack.util.path.canonicalize_path(p) for p in extension_paths]
+    return paths
+
+
 def get_command_paths():
     """Return the list of paths where to search for command files."""
     command_paths = []
-    extension_paths = _get_extension_dirs()
+    extension_paths = get_extension_paths()
 
     for path in extension_paths:
         extension = _python_name(extension_name(path))
@@ -153,7 +161,11 @@ def get_module(cmd_name):
     """
     # If built-in failed the import search the extension
     # directories in order
+<<<<<<< HEAD
     extensions = _get_extension_dirs()
+=======
+    extensions = get_extension_paths()
+>>>>>>> offical/releases/v0.18
     for folder in extensions:
         module = load_command_extension(cmd_name, folder)
         if module:
@@ -166,7 +178,11 @@ def get_template_dirs():
     """Returns the list of directories where to search for templates
     in extensions.
     """
+<<<<<<< HEAD
     extension_dirs = _get_extension_dirs()
+=======
+    extension_dirs = get_extension_paths()
+>>>>>>> offical/releases/v0.18
     extensions = [os.path.join(x, 'templates') for x in extension_dirs]
     return extensions
 

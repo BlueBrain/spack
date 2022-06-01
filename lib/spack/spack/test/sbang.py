@@ -1,4 +1,4 @@
-# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2022 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -7,10 +7,10 @@
 Test that Spack's shebang filtering works correctly.
 """
 import filecmp
-import grp
 import os
 import shutil
 import stat
+import sys
 import tempfile
 
 import pytest
@@ -22,6 +22,14 @@ import spack.paths
 import spack.store
 import spack.util.spack_yaml as syaml
 from spack.util.executable import which
+
+if sys.platform != 'win32':
+    import grp
+
+
+pytestmark = pytest.mark.skipif(sys.platform == "win32",
+                                reason="does not run on windows")
+
 
 too_long = sbang.system_shebang_limit + 1
 
