@@ -5,7 +5,7 @@ class Fmt(BuiltinFmt):
     __doc__ = BuiltinFmt.__doc__
 
     def cmake_args(self):
-        args = super().cmake_args()
+        args = super(BuiltinFmt, self).cmake_args()
         args.extend([
             '-DFMT_DOC=OFF',
             '-DFMT_TEST=OFF'
