@@ -11,7 +11,7 @@ class Touchdetector(CMakePackage):
     """
     homepage = "https://bbpgitlab.epfl.ch/hpc/touchdetector"
     url      = "git@bbpgitlab.epfl.ch:hpc/touchdetector.git"
-    git      = "git@bbpgitlab.epfl.ch:hpc/touchdetector.git"
+    git      = "ssh://git@bbpgitlab.epfl.ch/hpc/touchdetector.git"
 
     generator = "Ninja"
 

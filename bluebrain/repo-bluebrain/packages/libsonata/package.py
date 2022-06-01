@@ -49,6 +49,7 @@ class Libsonata(CMakePackage):
     def cmake_args(self):
         result = [
             '-DEXTLIB_FROM_SUBMODULES=OFF',
+	    '-DSONATA_CXX_WARNINGS=OFF',
             '-DSONATA_TESTS=OFF',
         ]
         if self.spec.satisfies('+mpi'):
