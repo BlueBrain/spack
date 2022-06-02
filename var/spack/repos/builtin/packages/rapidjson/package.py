@@ -53,6 +53,9 @@ class Rapidjson(CMakePackage):
 
     depends_on('doxygen+graphviz', when='+doc')
 
+    def patch(self):
+        filter_file('-Werror', '', 'CMakeLists.txt')
+
     def cmake_args(self):
         args = []
         args.append(self.define_from_variant('RAPIDJSON_BUILD_DOC', 'doc'))
