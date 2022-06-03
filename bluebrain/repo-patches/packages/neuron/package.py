@@ -237,10 +237,3 @@ class Neuron(CMakePackage):
     def setup_dependent_package(self, module, dependent_spec):
         dependent_spec.package.neuron_basedir = self.prefix
         dependent_spec.package.nrnivmodl_outdir = self.archdir
-
-
-@contextmanager
-def profiling_wrapper_on():
-    os.environ["USE_PROFILER_WRAPPER"] = "1"
-    yield
-    del os.environ["USE_PROFILER_WRAPPER"]
