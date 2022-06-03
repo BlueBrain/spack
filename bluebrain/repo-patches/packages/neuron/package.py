@@ -225,25 +225,6 @@ class Neuron(CMakePackage):
 
         kwargs = {"backup": False, "string": True}
 
-        # hpe-mpi requires linking to libmpi++
-        # and hence needs to use cxx wrapper
-        if self.spec.satisfies("+mpi"):
-            filter_file(env["CC"],
-                        cxx_compiler,
-                        libtool_makefile,
-                        **kwargs)
-        else:
-            filter_file(env["CC"],
-                        cc_compiler,
-                        libtool_makefile,
-                        **kwargs)
-        filter_file(env["CXX"], cxx_compiler, libtool_makefile, **kwargs)
-        # In Cray systems we overwrite the spack compiler with CC or CXX
-        # accordingly
-        if "cray" in self.spec.architecture:
-            filter_file(env["CC"], "cc", libtool_makefile, **kwargs)
-            filter_file(env["CXX"], "CC", libtool_makefile, **kwargs)
-
         # The assign_operator should follow any changes done in
         # "bin/nrnivmodl_makefile_cmake.in" and "bin/nrnmech_makefile.in"
         # when assigning CC and CXX variables
