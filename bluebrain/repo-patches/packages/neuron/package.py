@@ -6,7 +6,6 @@
 import os
 import subprocess
 import sys
-from contextlib import contextmanager
 
 from spack import *
 
