@@ -192,17 +192,6 @@ class Neuron(CMakePackage):
             stdout=subprocess.PIPE
         ).communicate()[0].decode().strip()
 
-    @property
-    def basedir(self):
-        """Determine the neuron base directory.
-
-        NEURON base directory is based on the build system. For
-        cmake the bin and lib folders are in self.prefix and for
-        autotools it is in self.prefix/neuron_arch.
-        """
-        neuron_basedir = self.prefix
-        return neuron_basedir
-
     @run_after("install")
     def filter_compilers(self):
         """run after install to avoid spack compiler wrappers
@@ -217,11 +206,9 @@ class Neuron(CMakePackage):
         libtool_makefile = join_path(self.prefix,
                                      "share/nrn/libtool")
         nrniv_makefile = join_path(self.prefix,
-                                   self.basedir,
-                                   "./bin/nrniv_makefile")
+                                   "bin/nrniv_makefile")
         nrnmech_makefile = join_path(self.prefix,
-                                     self.basedir,
-                                     "./bin/nrnmech_makefile")
+                                     "bin/nrnmech_makefile")
 
         kwargs = {"backup": False, "string": True}
 
@@ -243,8 +230,8 @@ class Neuron(CMakePackage):
                     **kwargs)
 
     def setup_run_environment(self, env):
-        env.prepend_path("PATH", join_path(self.basedir, "bin"))
-        env.prepend_path("LD_LIBRARY_PATH", join_path(self.basedir, "lib"))
+        env.prepend_path("PATH", join_path(self.prefix, "bin"))
+        env.prepend_path("LD_LIBRARY_PATH", join_path(self.prefix, "lib"))
         if self.spec.satisfies("+mpi"):
             env.set("MPICC_CC", self.compiler.cc)
             env.set("MPICXX_CXX", self.compiler.cxx)
@@ -252,7 +239,7 @@ class Neuron(CMakePackage):
             env.prepend_path("PYTHONPATH", self.spec.prefix.lib.python)
 
     def setup_dependent_package(self, module, dependent_spec):
-        dependent_spec.package.neuron_basedir = self.basedir
+        dependent_spec.package.neuron_basedir = self.prefix
         dependent_spec.package.nrnivmodl_outdir = self.archdir
 
 
