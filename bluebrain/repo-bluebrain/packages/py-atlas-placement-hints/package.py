@@ -6,9 +6,10 @@ from spack import *
 class PyAtlasPlacementHints(PythonPackage):
     """Library containing command lines and tools to compute placement hints"""
     homepage = "https://github.com/BlueBrain/atlas-placement-hints"
-    git      = "git@github.com/BlueBrain/atlas-placement-hints.git"
+    git      = "https://github.com/BlueBrain/atlas-placement-hints.git"
     pypi     = "atlas-placement-hints/atlas-placement-hints-0.1.1.tar.gz"
 
+    version('develop', branch='main')
     version('0.1.1', sha256='81d5dcaf5dec607f7a81f730f9e6b9b9567e1e23dabe78d5b397e46564676fb1')
 
     depends_on('py-atlas-commons@0.1.4:', type=('build', 'run'))

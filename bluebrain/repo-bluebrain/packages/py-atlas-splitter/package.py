@@ -9,9 +9,10 @@ from spack import *
 class PyAtlasSplitter(PythonPackage):
     """CLI to split atlas regions and modify annotations accordingly"""
     homepage = "https://github.com/BlueBrain/atlas-splitter"
-    git      = "git@github.com/BlueBrain/atlas-splitter.git"
+    git      = "https://github.com/BlueBrain/atlas-splitter.git"
     pypi     = "atlas-splitter/atlas-splitter-0.1.1.tar.gz"
 
+    version('develop', branch='main')
     version('0.1.1', sha256='e042146bf09d4f355f40c3d01508782dbd38e6d41080fb7063d312084d6fed31')
 
     depends_on('py-atlas-commons@0.1.4:', type=('build', 'run'))

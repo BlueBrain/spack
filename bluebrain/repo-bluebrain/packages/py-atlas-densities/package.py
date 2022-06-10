@@ -6,9 +6,10 @@ from spack import *
 class PyAtlasDensities(PythonPackage):
     """Tools to compute volumetric cell densities in the rodent brain"""
     homepage = "https://github.com/BlueBrain/atlas-densities"
-    git      = "git@github.com/BlueBrain/atlas-densities.git"
+    git      = "https://github.com/BlueBrain/atlas-densities.git"
     pypi     = "atlas-densities/atlas-densities-0.1.1.tar.gz"
 
+    version('develop', branch='main')
     version('0.1.1', sha256='1709c487026f32eade8d28610e5cf111293a69894934156fb5b52108076f7bcf')
 
     depends_on('py-cgal-pybind@0.1.4:', type=('build', 'run'))

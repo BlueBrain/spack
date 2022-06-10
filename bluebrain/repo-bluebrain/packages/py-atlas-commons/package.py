@@ -6,9 +6,10 @@ from spack import *
 class PyAtlasCommons(PythonPackage):
     """Library containing common functions to build atlases"""
     homepage = "https://github.com/BlueBrain/atlas-commons"
-    git      = "git@github.com/BlueBrain/atlas-commons.git"
+    git      = "https://github.com/BlueBrain/atlas-commons.git"
     pypi     = "atlas-commons/atlas-commons-0.1.4.tar.gz"
 
+    version('develop', branch='main')
     version('0.1.4', sha256='ceff16f6dbad374dfde40b11f3ce59200e484710aa0e17d05d1f45c2167cf2cb')
 
     depends_on('py-setuptools', type=('build', 'run'))
