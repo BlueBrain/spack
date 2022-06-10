@@ -10,13 +10,11 @@ class PyCgalPybind(PythonPackage):
     """Python bindings for CGAL"""
 
     homepage = "https://github.com/BlueBrain/cgal-pybind"
-    git = "https://github.com/BlueBrain/cgal-pybind.git"
+    git      = "https://github.com/BlueBrain/cgal-pybind.git"
+    pypi     = "cgal-pybind/cgal-pybind-0.1.4.tar.gz"
 
     version("develop", submodules=True)
-    version("0.1.3", tag="cgal-pybind-v0.1.3", submodules=True)
-    version("0.1.2", tag="cgal-pybind-v0.1.2", submodules=True)
-    version("0.1.1", tag="cgal-pybind-v0.1.1", submodules=True)
-    version("0.1.0", tag="cgal_pybind-v0.1.0", submodules=True)
+    version("0.1.4", sha256="ddb125f98ab96d621a4240bef0be58f8b7317656c5b3fa6a40b24bf5c2c5b1c1")
 
     depends_on("py-setuptools", type="build")
     depends_on('py-setuptools-scm', type='build')

@@ -11,7 +11,7 @@ class PyAtlasDensities(PythonPackage):
 
     version('0.1.1', sha256='1709c487026f32eade8d28610e5cf111293a69894934156fb5b52108076f7bcf')
 
-    depends_on('py-cgal-pybind@0.1.1:', type=('build', 'run'))
+    depends_on('py-cgal-pybind@0.1.4:', type=('build', 'run'))
     depends_on('py-atlas-commons@0.1.4:', type=('build', 'run'))
     depends_on('py-click@7.0:', type=('build', 'run'))
     depends_on('py-numpy@1.15.0:', type=('build', 'run'))

@@ -12,8 +12,8 @@ class PyAtlasPlacementHints(PythonPackage):
     version('0.1.1', sha256='81d5dcaf5dec607f7a81f730f9e6b9b9567e1e23dabe78d5b397e46564676fb1')
 
     depends_on('py-atlas-commons@0.1.4:', type=('build', 'run'))
-    depends_on('py-cached-property', type=('build', 'run'))
-    depends_on('py-cgal-pybind@0.1.1:', type=('build', 'run'))
+    depends_on('py-cached-property>=1.5.2', type=('build', 'run'))
+    depends_on('py-cgal-pybind@0.1.4:', type=('build', 'run'))
     depends_on('py-click@7.0:', type=('build', 'run'))
     depends_on('py-networkx@2.4:', type=('build', 'run'))
     depends_on('py-numpy@1.15.0:', type=('build', 'run'))

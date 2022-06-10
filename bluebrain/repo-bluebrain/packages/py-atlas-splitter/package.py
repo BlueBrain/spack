@@ -15,7 +15,7 @@ class PyAtlasSplitter(PythonPackage):
     version('0.1.1', sha256='e042146bf09d4f355f40c3d01508782dbd38e6d41080fb7063d312084d6fed31')
 
     depends_on('py-atlas-commons@0.1.4:', type=('build', 'run'))
-    depends_on('py-cgal-pybind@0.1.1:', type=('build', 'run'))
+    depends_on('py-cgal-pybind@0.1.4:', type=('build', 'run'))
     depends_on('py-click@7.0:', type=('build', 'run'))
     depends_on('py-numpy@1.15.0:', type=('build', 'run'))
     depends_on('py-pytest', type='test')
