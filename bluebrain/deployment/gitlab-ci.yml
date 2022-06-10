@@ -98,6 +98,23 @@ setup_spack:
     reports:
       dotenv: deployment.env
 
+github_information:
+  needs: [setup_spack]
+  stage: .post
+  rules:
+    - if: $GITHUB_PULL_REQUEST_ID
+      when: always
+  variables:
+    bb5_constraint: cpu
+    bb5_cpus_per_task: 1
+    bb5_ntasks: 1
+    bb5_exclusive: user
+    # Rely on the already checked out Spack
+    GIT_STRATEGY: none
+  script:
+    - export PATH="${DEPLOYMENT_ROOT}/spack/bluebrain/deployment/bin:${PATH}"
+    - give-github-feedback --info
+
 # This is the basic setup for one of our deployment stages. Things to
 # consider:
 # * The GitLab CI stage will set the installation directory for all
@@ -208,7 +225,7 @@ setup_spack:
     # Activate if checksums fail
     # - spack clean -a
     # Concretize and pre-fetch, afterwards build the environment
-    - spack concretize -f|tee "concretization_${DEPLOY_ENV}.txt"
+    - spack --show-cores=full concretize -f|tee "concretization_${DEPLOY_ENV}.txt"
     - installed-hashes -m|tee missing.txt
     - if [[ -n "$(<missing.txt)" ]]; then
     -     spack fetch -m
@@ -238,7 +255,7 @@ setup_spack:
     #
     # As we're using the underlying config, create a temporary file and
     # move afterwards
-    -     spack export --scope=user --module tcl --explicit --unbuildable intel-mkl llvm openscenegraph optix --exclude 'neuron|hdf5|nvhpc' ${shas} > "spack_config/packages.yaml.tmp"
+    -     spack export --scope=user --module tcl --explicit --unbuildable intel-mkl likwid llvm openscenegraph optix --exclude 'neuron|hdf5|nvhpc' ${shas} > "spack_config/packages.yaml.tmp"
     -     sed -e "/:':/{s/'//g}" "spack_config/packages.yaml.tmp" > "spack_config/packages.yaml"
     - fi
     # Fail if software fails to build!
@@ -401,4 +418,4 @@ github_feedback:
     GIT_STRATEGY: none
   script:
     - export PATH="${DEPLOYMENT_ROOT}/spack/bluebrain/deployment/bin:${PATH}"
-    - give-github-feedback
+    - give-github-feedback --post
