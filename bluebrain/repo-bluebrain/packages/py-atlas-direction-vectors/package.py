@@ -7,8 +7,9 @@ class PyAtlasDirectionVectors(PythonPackage):
     """Commands to compute direction vectors in volumetric brain regions."""
     homepage = "https://github.com/BlueBrain/atlas-direction-vectors"
     git      = "git@github.com/BlueBrain/atlas-direction-vectors.git"
+    pypi     = "atlas-direction-vectors/atlas-direction-vectors-0.1.2.tar.gz"
 
-    version('0.1.1', tag='v0.1.1')
+    version('0.1.2', tag='d87ff0caa7e03f62fa03fcd3230c398c3f74f5b7f550ac204098befbba6b8f45')
 
     depends_on('py-setuptools', type=('build', 'run'))
     depends_on('py-atlas-commons@0.1.4:', type=('build', 'run'))
