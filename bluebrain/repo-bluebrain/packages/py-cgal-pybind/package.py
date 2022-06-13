@@ -28,7 +28,7 @@ class PyCgalPybind(PythonPackage):
     depends_on("py-pybind11")
     depends_on('py-pytest', type='test')
 
-    depends_on("py-numpy@1.12:", type=("build", "run"))
+    depends_on("py-numpy@1.14.5:", type=("build", "run"))
 
     @run_after('install')
     @on_package_attributes(run_tests=True)

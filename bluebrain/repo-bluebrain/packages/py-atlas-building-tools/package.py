@@ -26,7 +26,7 @@ class PyAtlasBuildingTools(PythonPackage):
     depends_on('py-pytest', type='test')
     depends_on('py-rtree@0.8.3:', type=('build', 'run'))
     depends_on('py-scikit-image@0.17.2:', type=('build', 'run'))
-    depends_on('py-scipy@1.4.1:', type=('build', 'run'))
+    depends_on('py-scipy@1.6.0:', type=('build', 'run'))
     depends_on('py-setuptools', type=('build', 'run'))
     depends_on('py-setuptools-scm', type='build')
     depends_on('py-trimesh@2.38.10:', type=('build', 'run'))
