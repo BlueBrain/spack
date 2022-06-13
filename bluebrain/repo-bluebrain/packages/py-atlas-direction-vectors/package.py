@@ -21,7 +21,8 @@ class PyAtlasDirectionVectors(PythonPackage):
     depends_on('py-numpy-quaternion', type=('build', 'run'))
     depends_on('py-scipy@1.4.1:', type=('build', 'run'))
     depends_on('py-voxcell@3.0.0:', type=('build', 'run'))
-    #note: this is an extra not declared in setup.py since we're not opensourcing regiodesics
+    # note: this is an extra not declared in setup.py
+    # since we're not opensourcing regiodesics
     depends_on('regiodesics@0.1.0:', type='run')
     depends_on('py-pytest', type='test')
 
