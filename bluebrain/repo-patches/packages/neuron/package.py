@@ -48,6 +48,7 @@ class Neuron(CMakePackage):
     variant("profile",    default=False, description="Enable Tau profiling")
     variant("python",     default=True,  description="Enable python")
     variant("rx3d",       default=True,  description="Enable cython translated 3-d rxd.")
+    variant("sanitizers", default="None",description="Enable runtime sanitizers", multi=True, values=("None", "address", "leak", "undefined"))
     variant("tests",      default=False, description="Enable unit tests")
     variant("model_tests", default="None", description="Enable detailed model tests included in neuron", multi=True, values=("None", "olfactory", "channel-benchmark", "tqperf-heavy"))
     variant("legacy-unit", default=True,   description="Enable legacy units")
@@ -105,6 +106,10 @@ class Neuron(CMakePackage):
         if self.spec.variants['model_tests'].value != ("None",):
             args.append('-DNRN_ENABLE_MODEL_TESTS=' + ",".join(
                 model for model in self.spec.variants["model_tests"].value))
+        if self.spec.variants["sanitizers"].value != ("None",):
+            if self.compiler.name == 'clang':
+                args.append("-DLLVM_SYMBOLIZER_PATH=" + os.path.join(os.path.dirname(self.compiler.cxx), 'llvm-symbolizer'))
+            args.append("-DNRN_SANITIZERS=" + ",".join(self.spec.variants["sanitizers"].value))
         if "+mpi" in self.spec:
             args.append("-DNRN_ENABLE_MPI=ON")
             if "~coreneuron" in self.spec:
