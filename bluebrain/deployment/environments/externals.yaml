@@ -111,7 +111,7 @@ spack:
     - help2man
     - hpctoolkit
     - hpcviewer
-    - hpe-mpi@2.25.hmpt
+    - hpe-mpi@2.26.hmpt
     - intel-mkl
     # Leads to issues down the line, where it is preferred over hpe-mpi
     # #providers
