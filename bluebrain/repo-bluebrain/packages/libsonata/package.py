@@ -17,6 +17,7 @@ class Libsonata(CMakePackage):
     git = "https://github.com/BlueBrain/libsonata.git"
 
     version('develop', branch='master', submodules=False, get_full_repo=True)
+    version('0.1.14', branch='jblanco/simconfig_run_parsing', submodules=False, get_full_repo=True)
     version('0.1.13', branch='master', submodules=False, get_full_repo=True)
     version('0.1.12', tag='v0.1.12', submodules=False, get_full_repo=True)
     version('0.1.11', tag='v0.1.11', submodules=False, get_full_repo=True)
