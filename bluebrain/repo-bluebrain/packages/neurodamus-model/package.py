@@ -57,7 +57,7 @@ class NeurodamusModel(SimModel):
     resource(
         name='common_mods',
         git='git@bbpgitlab.epfl.ch:hpc/sim/models/common.git',
-        tag='2.5',
+        commit='face73b63cb2490bd92bb491d4e25d308dea0dde',
         destination='common_latest'
     )
 
