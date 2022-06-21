@@ -183,5 +183,8 @@ class Singularityce(SingularityBase):
     maintainers = ['alalazo']
     version('master', branch='master')
 
+    version('3.10.0', sha256='5e22e6cdad66c331668f6cff4544c83917bb3db90da3cf92403a394c5bf8cc8f')
     version('3.9.1', sha256='1ba3bb1719a420f48e9b0a6afdb5011f6c786d0f107ef272528c632fff9fd153')
     version('3.8.0', sha256='5fa2c0e7ef2b814d8aa170826b833f91e5031a85d85cd1292a234e6c55da1be1')
+
+    depends_on('glib', when='@3.10.0:')
