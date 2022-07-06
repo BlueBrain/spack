@@ -10,9 +10,9 @@ class PyLuigiTools(PythonPackage):
     '''Tools to work with luigi.'''
 
     homepage = 'https://github.com/BlueBrain/luigi-tools'
-    pypi     = 'luigi-tools/luigi-tools-0.0.17.tar.gz'
+    pypi     = 'luigi-tools/luigi-tools-0.0.19.tar.gz'
 
-    version('0.0.17', sha256='f234b2fd493a966ab5ae8441ce26c910a35339badd2b4493f4b1fa54abc1bef0')
+    version('0.0.19', sha256='322b02909229798aa900170127df44cd689601c594c790e417b054babd9d2bfb')
 
     depends_on('py-setuptools', type=('build'))
 
