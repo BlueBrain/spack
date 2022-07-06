@@ -10,8 +10,6 @@ class Totalview(BuiltinTotalview):
     # new totalview docs suggest this license path
     license_files = ['toolworks/FNP_license/license.dat']
 
-    manual_download = False
-
     version('2022.1.11',
             sha256='0042afdbb024b99350c395decf2606b6913479ab0117bfd7bd4252d91843ef69')
 
