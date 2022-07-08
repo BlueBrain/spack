@@ -36,7 +36,7 @@ class Touchdetector(CMakePackage):
     version('4.3.3', tag='4.3.3', submodules=True)
 
     variant('openmp', default=False, description='Enables OpenMP support')
-    variant('caliper', default=False, description='Enables profiling with Caliper')
+    variant('caliper', default=True, description='Enables profiling with Caliper')
     variant('asan', default=False, description='Enables AdressSanitizer')
     variant('ubsan', default=False, description='Enables UndefinedBehaviourSanitizer')
     variant('clang-tidy', default=False, description='Enables static analysis with clang-tidy')
