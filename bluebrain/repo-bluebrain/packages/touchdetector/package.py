@@ -58,10 +58,10 @@ class Touchdetector(CMakePackage):
     depends_on('nlohmann-json', when='@5.3.3:')
     depends_on('intel-oneapi-tbb', when='@5.7.0:')
     depends_on('caliper@master+mpi', when='+caliper@5.7.0:')
-    depends_on('benchmark', when='+benchmark@develop')
+    depends_on('benchmark', when='+benchmark@5.7.0:')
 
-    depends_on('mvapich2', when='+asan@develop')
-    depends_on('mvapich2', when='+ubsan@develop')
+    depends_on('mvapich2', when='+asan@5.7.0:')
+    depends_on('mvapich2', when='+ubsan@5.7.0:')
 
     # Boost 1.79.0 deprecated and broke the includes related to `fs::ofstream`
     # which is used by TD. See,
