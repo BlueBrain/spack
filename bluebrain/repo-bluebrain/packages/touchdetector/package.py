@@ -16,6 +16,7 @@ class Touchdetector(CMakePackage):
     generator = "Ninja"
 
     version('develop', submodules=True)
+    version('5.7.0', tag='5.7.0', submodules=True)
     version('5.6.1', tag='5.6.1', submodules=True)
     version('5.6.0', tag='5.6.0', submodules=True)
     version('5.5.1', tag='5.5.1', submodules=True)
