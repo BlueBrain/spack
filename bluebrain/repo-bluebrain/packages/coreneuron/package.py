@@ -103,6 +103,9 @@ class Coreneuron(CMakePackage):
     # Cannot enabled Unified Memory without GPU build
     conflicts('+unified', when='~gpu')
 
+    # Older versions do not support GPU execution in shared builds
+    conflicts('+shared', when='@:8.2.0 +gpu')
+
     # Caliper instrumentation is only supported after 1.0.0.20210519
     # Note: The 20210518 date is needed to specify a version before 20210519!
     conflicts('+caliper', when='@:1.0.0.20210518')
@@ -174,6 +177,8 @@ class Coreneuron(CMakePackage):
              '-DCORENRN_ENABLE_UNIT_TESTS=%s'
              % ('ON' if '+tests' in spec else 'OFF'),
              '-DCORENRN_ENABLE_TIMEOUT=OFF',
+             '-DCORENRN_ENABLE_SHARED=%s'
+             % ('ON' if '+shared' in spec else 'OFF'),
              '-DPYTHON_EXECUTABLE=%s' % spec["python"].command.path
              ]
 
@@ -213,9 +218,6 @@ class Coreneuron(CMakePackage):
             nmodl_options += ' --conductance --pade --cse'
 
         options.append('-DCORENRN_NMODL_FLAGS=%s' % nmodl_options)
-
-        if spec.satisfies('~shared') or spec.satisfies('+gpu'):
-            options.append('-DCOMPILE_LIBRARY_TYPE=STATIC')
 
         if spec.satisfies('+gpu'):
             gcc = which("gcc")
@@ -260,8 +262,7 @@ class Coreneuron(CMakePackage):
         search_paths = [[self.prefix.lib, False], [self.prefix.lib64, False]]
         spec = self.spec
         # opposite of how static linkage is used
-        is_shared = not (spec.satisfies('~shared') or spec.satisfies('+gpu')
-                         or 'cray' in spec.architecture)
+        is_shared = spec.satisfies('+shared') or 'cray' in spec.architecture
         for path, recursive in search_paths:
             libs = find_libraries(['libcoreneuron', 'libcorenrnmech'],
                                   root=path, shared=is_shared, recursive=False)
