@@ -10,8 +10,8 @@ class Totalview(BuiltinTotalview):
     # new totalview docs suggest this license path
     license_files = ['toolworks/FNP_license/license.dat']
 
-    version('2022.1.11',
-            sha256='0042afdbb024b99350c395decf2606b6913479ab0117bfd7bd4252d91843ef69')
+    version('2022.2.13',
+            sha256='4bf625c760454e532fe66666f2f5479d38f36f569f104bbe3341c0f48cbc8766')
 
     version('2021.1.16',
             sha256='4c51c7b6ab6b6afa7635ba2e9fc3b0ef833806f775a0ad0da26b13d6320625dd')
@@ -21,10 +21,10 @@ class Totalview(BuiltinTotalview):
 
     resource(
         name='x86_64',
-        url='file://{0}/totalview_2022.1.11_linux_x86-64.tar'.format(os.getcwd()),
+        url='file://{0}/totalview_2022.2.13_linux_x86-64.tar'.format(os.getcwd()),
         destination='.',
-        sha256='3ec9a7d702572dbbafa41726a036c94b549f9a5911ed6fd6aa55f7b377554bac',
-        when='@2022.1.11 target=x86_64:')
+        sha256='aebd11b837ce18b8200859ea762caa56e2cea346daa114f2841aa0f05a422309',
+        when='@2022.2.13 target=x86_64:')
 
     resource(
         name='x86_64',
