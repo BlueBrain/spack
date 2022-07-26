@@ -119,7 +119,7 @@ spack:
     - libxslt
     - libzmq+libsodium%intel
     - likwid
-    - mvapich2@2.3.6
+    - mvapich2@2.3.7
     - ncurses
     - ninja
     - openscenegraph  # doesn't like to be built in a spec with LLVM
