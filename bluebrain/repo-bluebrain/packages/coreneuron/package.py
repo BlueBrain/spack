@@ -262,10 +262,32 @@ class Coreneuron(CMakePackage):
         search_paths = [[self.prefix.lib, False], [self.prefix.lib64, False]]
         spec = self.spec
         # opposite of how static linkage is used
-        is_shared = spec.satisfies('+shared') or 'cray' in spec.architecture
-        for path, recursive in search_paths:
-            libs = find_libraries(['libcoreneuron', 'libcorenrnmech'],
-                                  root=path, shared=is_shared, recursive=False)
-            if libs:
-                return libs
+        is_shared = spec.satisfies("+shared") or "cray" in spec.architecture
+        if spec.satisfies("@develop"):
+            # after https://github.com/BlueBrain/CoreNeuron/pull/795 then
+            # CoreNEURON produces
+            # - libcoreneuron-core.a: archive of all non-CUDA non-mechanism .o
+            # - libcoreneuron-cuda.{a,so}: explicit CUDA solver implementation
+            # - libcorenrnmech.so: (+shared only) non-CUDA code for nrniv-core
+            # when nrnivmodl-core is run later, its inputs are the .mod files
+            # and libcoreneuron-core.a, the installed libcorenrnmech.so is only
+            # used by the installed nrniv-core. It's not immediately clear
+            # which of these we should tell Spack about.
+            def find_lib(name, shared):
+                return find_libraries(
+                    [name], recursive=False, root=self.prefix.lib, shared=shared
+                )
+
+            libs = find_lib("libcoreneuron-core", False)
+            if spec.satisfies("+gpu"):
+                libs += find_lib("libcoreneuron-cuda", is_shared)
+            if is_shared:
+                libs += find_lib("libcorenrnmech", True)
+            return libs
+        else:
+            for path, recursive in search_paths:
+                libs = find_libraries(['libcoreneuron', 'libcorenrnmech'],
+                                      root=path, shared=is_shared, recursive=False)
+                if libs:
+                    return libs
         return None
