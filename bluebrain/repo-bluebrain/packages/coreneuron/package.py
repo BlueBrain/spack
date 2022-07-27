@@ -44,6 +44,11 @@ class Coreneuron(CMakePackage):
     variant('report', default=True, description="Enable SONATA and binary reports")
     variant('shared', default=True, description="Build shared library")
     variant('tests', default=False, description="Enable building tests")
+    variant('fpmodelprecise', default=False, description="Enable with fp-model=precise")
+    variant('fpmodelconsistent', default=False, description="Enable with fp-model=consistent")
+    variant('fpmodelsource', default=False, description="Enable with fp-model=source")
+    variant('nooptdynamicalign', default=False, description="Disanble dynamic opt alignment")
+    variant('nofasttranscedentals', default=False, description="Disnble fast transcendental functions")
 
     # nmodl specific options
     variant('nmodl', default=False, description="Use NMODL instead of MOD2C")
@@ -223,6 +228,21 @@ class Coreneuron(CMakePackage):
             if spec.satisfies('+unified'):
                 options.append('-DCORENRN_ENABLE_CUDA_UNIFIED_MEMORY=ON')
             options.append('-DCORENRN_ENABLE_GPU=ON')
+
+        if spec.satisfies('+fpmodelprecise'):
+            options.append('-DCMAKE_CXX_FLAGS=-fp-model=precise')
+
+        if spec.satisfies('+fpmodelconsistent'):
+            options.append('-DCMAKE_CXX_FLAGS=-fp-model=consistent')
+
+        if spec.satisfies('+fpmodelsource'):
+            options.append('-DCMAKE_CXX_FLAGS=-fp-model=source')
+
+        if spec.satisfies('+nooptdynamicalign'):
+            options.append('-DCMAKE_CXX_FLAGS=-qno-opt-dynamic-align')
+
+        if spec.satisfies('+nofasttranscedentals'):
+            options.append('-DCMAKE_CXX_FLAGS=-no-fast-transcendentals')
 
         return options
 
