@@ -15,7 +15,9 @@ class Ultraliser(CMakePackage):
     version('0.3.0', tag='v0.3.0')
 
     depends_on('libtiff')
-    depends_on('ilmbase')
     depends_on('hdf5+hl+cxx')
     depends_on('eigen')
-    depends_on('openexr')
+    depends_on('glm')
+    depends_on('zlib')
+    depends_on('bzip2')
+    depends_on('fmt')
