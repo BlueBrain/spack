@@ -22,7 +22,7 @@ class Parpe(CMakePackage):
     depends_on('boost')
     depends_on('ceres-solver')
     depends_on('hdf5')
-    depends_on('ipopt')
+    depends_on('ipopt+coinhsl')
     depends_on('mpi')
 
     depends_on('python')
