@@ -4,6 +4,7 @@ spack:
   modules:
     tcl:
       whitelist:
+        - parpe  # BSD-294
         - py-amici  # BSD-276
         - py-atlalign
         - py-atlannot

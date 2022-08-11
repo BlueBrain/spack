@@ -11,7 +11,7 @@ class Ipopt(AutotoolsPackage):
        software package for large-scale nonlinear optimization."""
 
     homepage = "https://github.com/coin-or/Ipopt"
-    url      = "https://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.2.tgz"
+    url      = "https://github.com/coin-or/Ipopt/archive/refs/tags/releases/3.14.9.tar.gz"
     # Alternative: url      = "https://github.com/coin-or/Ipopt/archive/releases/3.13.2.tar.gz"
 
     version('3.14.0',  sha256='9bed72a5456ef37f1b95746c932986e6664eb70b983d4fab61cf8aa811facdf1')

@@ -30,6 +30,8 @@ class Coinhsl(AutotoolsPackage):
     # CoinHSL has a few versions that vary with respect to stability/features
     # and licensing terms.
 
+    version('2021.05.05', sha256='5dca8552c4bd8b549cb24359d20c0ec6863542922587a9ab8265c5f0a0ebd424')
+
     # Version 2019.05.21 is a full-featured "release candidate"
     # version available via an "academic license" that can be used for
     # personal teaching and research purposes only. For a full list of
@@ -40,8 +42,7 @@ class Coinhsl(AutotoolsPackage):
     # version available via an "academic license" that can be used for
     # personal teaching and research purposes only. For a full list of
     # conditions, see https://www.hsl.rl.ac.uk/academic.html.
-    version('2015.06.23', sha256='3e955a2072f669b8f357ae746531b37aea921552e415dc219a5dd13577575fb3',
-            preferred=True)
+    version('2015.06.23', sha256='3e955a2072f669b8f357ae746531b37aea921552e415dc219a5dd13577575fb3')
 
     # Version 2014.01.17 is a full-featured "stable" version available
     # via an "academic license" that can be used for personal teaching
@@ -56,6 +57,12 @@ class Coinhsl(AutotoolsPackage):
 
     # CoinHSL fails to build in parallel
     parallel = False
+
+    force_autoreconf = True
+
+    depends_on('autoconf', type='build')
+    depends_on('automake', type='build')
+    depends_on('libtool', type='build')
 
     variant('blas', default=False, description='Link to external BLAS library')
 
