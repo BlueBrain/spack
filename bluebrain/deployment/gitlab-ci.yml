@@ -228,7 +228,7 @@ github_information:
     - spack --show-cores=full concretize -f|tee "concretization_${DEPLOY_ENV}.txt"
     - installed-hashes -m|tee missing.txt
     - if [[ -n "$(<missing.txt)" ]]; then
-    -     spack fetch -m
+    -     spack -d fetch -m
     -     srun -J"spack!${CI_EXTERNAL_PULL_REQUEST_IID:+ №}${CI_EXTERNAL_PULL_REQUEST_IID:-}" slurmspack
     - fi
     # We always want to regenerate the modules and compiler configurations,
