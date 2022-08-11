@@ -7,8 +7,8 @@ from spack import *
 
 class Parpe(CMakePackage):
     """The parPE library provides functionality for solving large-scale parameter
-    optimization problems requiring up to thousands of simulations per objective function
-    evaluation on high performance computing (HPC) systems.
+    optimization problems requiring up to thousands of simulations per objective
+    function evaluation on high performance computing (HPC) systems.
     """
 
     homepage = "https://github.com/ICB-DCM/parPE"
