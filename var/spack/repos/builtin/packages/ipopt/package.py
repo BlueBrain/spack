@@ -37,6 +37,8 @@ class Ipopt(AutotoolsPackage):
 
     variant('coinhsl', default=False,
             description="Build with Coin Harwell Subroutine Libraries")
+    variant('thirdparty-hsl', default=False,
+            description="Build with Thirdparty Coin Harwell Subroutine Libraries shim")
     variant('metis', default=False,
             description="Build with METIS partitioning support")
     variant('debug', default=False,
@@ -49,10 +51,14 @@ class Ipopt(AutotoolsPackage):
     depends_on("pkgconfig", type='build')
     depends_on("mumps+double~mpi", when='+mumps')
     depends_on('coinhsl', when='+coinhsl')
+    depends_on('thirdparty-hsl', when='+thirdparty-hsl')
     depends_on('metis@4.0:', when='+metis')
 
     # Must have at least one linear solver available!
     conflicts('~mumps', when='~coinhsl')
+
+    # Can't depend on both HSL ways at once
+    conflicts('+coinhsl', when='+thirdparty-hsl')
 
     patch('ipopt_ppc_build.patch', when='arch=ppc64le')
 
@@ -103,6 +109,11 @@ class Ipopt(AutotoolsPackage):
             args.extend([
                 '--with-hsl-lib=%s' % spec['coinhsl'].libs.ld_flags,
                 '--with-hsl-incdir=%s' % spec['coinhsl'].prefix.include])
+
+        if 'thirdparty-hsl' in spec:
+            args.extend([
+                '--with-hsl-lib=%s' % spec['thirdparty-hsl'].libs.ld_flags,
+                '--with-hsl-incdir=%s' % spec['thirdparty-hsl'].prefix.include])
 
         if 'metis' in spec:
             args.extend([
