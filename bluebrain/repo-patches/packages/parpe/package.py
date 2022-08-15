@@ -52,6 +52,6 @@ class Parpe(CMakePackage):
     def install(self, spec, prefix):
         super().install(spec, prefix)
 
-        with working_dir(join_path(self.stage.path, 'python')):
+        with working_dir(join_path(self.stage.source_path, 'python')):
             args = PythonPackage.install_args(self, spec, prefix)
             setup_py("install", *args)
