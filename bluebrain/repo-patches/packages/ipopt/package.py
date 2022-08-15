@@ -16,9 +16,6 @@ class Ipopt(BuiltinIpopt):
     def configure_args(self):
         spec = self.spec
 
-        blas_lib = spec['blas'].libs.ld_flags
-        lapack_lib = spec['lapack'].libs.ld_flags
-
         args = super().configure_args()
 
         if 'thirdparty-hsl' in spec:
