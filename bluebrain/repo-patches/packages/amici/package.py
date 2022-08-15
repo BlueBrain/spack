@@ -25,9 +25,10 @@ class Amici(CMakePackage):
     depends_on('swig', type=('build', 'run'))
     depends_on('mpi')
 
-    depends_on('sundials+klu@5.7.0')
+    depends_on('sundials+klu+static@5.7.0')
 
-    patch('external-sundials.patch')
+    patch('external-sundials.patch', when='@0.11.32')
+    patch('fixes-0.11.23.patch', when='@0.11.23')
 
     def cmake_args(self):
         args = [
@@ -38,4 +39,6 @@ class Amici(CMakePackage):
     def setup_build_environment(self, env):
         headers = set(os.path.dirname(h) for h in self.spec['blas'].headers)
         assert len(headers) == 1
+        libs = self.spec['blas'].libs
         env.set("MKL_INCDIR", next(iter(headers)))
+        env.set("MKL_LIB", ";".join(libs))

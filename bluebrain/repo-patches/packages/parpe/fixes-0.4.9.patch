@@ -1,0 +1,84 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5211a689..75a8b5f1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -68,6 +68,8 @@ endif(${PARPE_BUILD_OPTIMIZED})
+ # OpenMP?
+ find_package(OpenMP)
+ 
++find_package(Amici)
++
+ # Enable MPI?
+ if(${PARPE_ENABLE_MPI})
+     find_package(MPI REQUIRED)
+diff --git a/examples/parpeamici/CMakeLists.txt b/examples/parpeamici/CMakeLists.txt
+index 7cab47e9..5feec211 100644
+--- a/examples/parpeamici/CMakeLists.txt
++++ b/examples/parpeamici/CMakeLists.txt
+@@ -1,5 +1,3 @@
+-find_package(Amici HINTS ${CMAKE_SOURCE_DIR}/deps/AMICI/build)
+-
+ # rebuild amici
+ add_custom_target(rebuild_amici)
+ add_custom_command(
+diff --git a/misc/venv.sh b/misc/venv.sh
+index 81177c23..ff04cfb7 100755
+--- a/misc/venv.sh
++++ b/misc/venv.sh
+@@ -32,10 +32,6 @@ if [[ ! -d "${venv_dir}" ]]; then
+ 
+     pip3 install wheel pytest
+ 
+-    # install AMICI
+-    cd "${parpe_root}/deps/AMICI/python/sdist"
+-    pip3 install -e .
+-
+     # install parPE
+     cd "${parpe_root}/python"
+     pip3 install -e .
+diff --git a/python/swig/CMakeLists.txt b/python/swig/CMakeLists.txt
+index f4d436cd..7eaa4d21 100644
+--- a/python/swig/CMakeLists.txt
++++ b/python/swig/CMakeLists.txt
+@@ -1,11 +1,14 @@
+-find_package(SWIG REQUIRED 3)
++find_package(SWIG 3 REQUIRED)
+ find_package(PythonLibs 3.6 REQUIRED)
+-find_package(Amici HINTS ${CMAKE_SOURCE_DIR}/deps/AMICI/build)
+ 
+ include(${SWIG_USE_FILE})
+ 
+ include_directories(${PYTHON_INCLUDE_PATH})
+ include_directories(${CMAKE_SOURCE_DIR}/include)
++include_directories(${CMAKE_SOURCE_DIR}/include/parpeamici)
++include_directories(${CMAKE_SOURCE_DIR}/include/parpecommon)
++include_directories(${CMAKE_SOURCE_DIR}/include/parpeloadbalancer)
++include_directories(${CMAKE_SOURCE_DIR}/include/parpeoptimization)
+ 
+ get_target_property(AMICI_INCLUDE_DIRS Upstream::amici INTERFACE_INCLUDE_DIRECTORIES)
+ include_directories(${AMICI_INCLUDE_DIRS})
+@@ -15,10 +18,10 @@ set_property(SOURCE parpe.i PROPERTY CPLUSPLUS ON)
+ 
+ 
+ set(CMAKE_DEBUG_POSTFIX "")
+-swig_add_library(parpe
++swig_add_library(_parpe
+     TYPE MODULE
+     LANGUAGE Python
+     SOURCES ${SOURCES}
+     )
+ 
+-target_link_libraries(_parpe Upstream::amici parpeamici parpeoptimization parpeloadbalancer parpecommon)
++target_link_libraries(parpe Upstream::amici parpeamici parpeoptimization parpeloadbalancer parpecommon)
+diff --git a/src/parpeamici/CMakeLists.txt b/src/parpeamici/CMakeLists.txt
+index e85c2566..313cf8fd 100644
+--- a/src/parpeamici/CMakeLists.txt
++++ b/src/parpeamici/CMakeLists.txt
+@@ -1,7 +1,3 @@
+-# dependency: AMICI
+-find_package(Amici
+-    HINTS ${CMAKE_SOURCE_DIR}/deps/AMICI/build)
+-
+ # dependecy: BOOST
+ if(CMAKE_BUILD_TYPE MATCHES Release)
+     set(Boost_USE_STATIC_LIBS TRUE)
