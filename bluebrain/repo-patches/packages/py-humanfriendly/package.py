@@ -1,5 +1,6 @@
 from spack import *
-from spack.pkg.builtin.py_humanfriendly import PyHumanfriendly as BuiltinPyHumanfriendly
+from spack.pkg.builtin.py_humanfriendly import \
+    PyHumanfriendly as BuiltinPyHumanfriendly
 
 
 class PyHumanfriendly(BuiltinPyHumanfriendly):

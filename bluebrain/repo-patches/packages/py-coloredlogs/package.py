@@ -1,5 +1,6 @@
 from spack import *
-from spack.pkg.builtin.py_coloredlogs import PyColoredlogs as BuiltinPyColoredlogs
+from spack.pkg.builtin.py_coloredlogs import \
+    PyColoredlogs as BuiltinPyColoredlogs
 
 
 class PyColoredlogs(BuiltinPyColoredlogs):
