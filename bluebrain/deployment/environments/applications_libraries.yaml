@@ -25,6 +25,7 @@ spack:
         - py-scikit-learn
         - py-scipy
         - py-tensorflow
+        - py-tqdm
         - python-dev
         - py-virtualenv
       projections:
@@ -65,6 +66,7 @@ spack:
     - py-scikit-learn
     - py-scipy
     - py-tensorflow
+    - py-tqdm
     - py-virtualenv
     - python-dev
     - sundials+int64
