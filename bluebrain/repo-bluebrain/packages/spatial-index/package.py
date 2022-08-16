@@ -40,11 +40,11 @@ class SpatialIndex(PythonPackage):
     depends_on("py-mvdtool~mpi", type=("build", "run"))
     depends_on("py-numpy-quaternion", type=("build", "run"), when="@0.2.1:")
     depends_on("py-numpy", type=("build", "run"))
-    depends_on("py-tqdm", when="@0.5.3:")
+    depends_on("py-tqdm", type=("build", "run"), when="@0.5.3:")
 
     depends_on("boost@1.79.0:", when="@0.5.2:")
     depends_on("mpi", when="@0.5.2:")
-    depends_on("py-mpi4py", when="@0.5.2:")
+    depends_on("py-mpi4py", type=("build", "run"), when="@0.5.2:")
 
     @run_after('install')
     def install_headers(self):
