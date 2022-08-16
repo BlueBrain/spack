@@ -44,8 +44,8 @@ class Parpe(CMakePackage):
 
     def cmake_args(self):
         args = [
-            '-DBUILD_EXAMPLES=OFF',
-            '-DBUILD_TESTING=OFF',
+            '-DBUILD_EXAMPLES=ON',
+            '-DBUILD_TESTING=ON',
         ]
         return args
 

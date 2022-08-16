@@ -5,6 +5,8 @@ from spack.pkg.builtin.ipopt import Ipopt as BuiltinIpopt
 class Ipopt(BuiltinIpopt):
     __doc__ = BuiltinIpopt.__doc__
 
+    url = "https://github.com/coin-or/Ipopt/archive/releases/3.13.2.tar.gz"
+
     variant('thirdparty-hsl', default=False,
             description="Build with Thirdparty Coin Harwell Subroutine Libraries shim")
 
