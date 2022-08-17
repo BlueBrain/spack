@@ -5,7 +5,7 @@ from spack.pkg.builtin.darshan_runtime import DarshanRuntime as BuiltinDarshanRu
 class DarshanRuntime(BuiltinDarshanRuntime):
     __doc__ = BuiltinDarshanRuntime.__doc__
 
-    version("3.4.0", sha256="7cc88b7c130ec3b574f6b73c63c3c05deec67b1350245de6d39ca91d4cff0842")
+    version("3.4.0", sha256="7cc88b7c130ec3b574f6b73c63c3c05deec67b1350245de6d39ca91d4cff0842", preferred=True)
 
     depends_on('autoconf', type='build', when='@3.4.0:')
     depends_on('automake', type='build', when='@3.4.0:')
