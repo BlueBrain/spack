@@ -7,7 +7,8 @@ from spack import *
 
 
 class PyFzTdRecipe(PythonPackage):
-    """Python package to read and modify the definitions and parameters used in circuit building."""
+    """Python package to read and modify the definitions and parameters used in circuit
+    building."""
 
     homepage = "https://bbpteam.epfl.ch/documentation/projects/fz-td-recipe"
     git      = "git@bbpgitlab.epfl.ch:hpc/circuit-building/fz-td-recipe.git"
