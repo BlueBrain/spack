@@ -21,6 +21,7 @@ class Coreneuron(CMakePackage):
     git      = "git@bbpgitlab.epfl.ch:hpc/coreneuron.git"
 
     version('develop', branch='master')
+    version('8.2.1', tag='8.2.1')
     version('8.2.0', tag='8.2.0')
     # 1.0.1 > 1.0.0.20210519 > 1.0 as far as Spack is concerned
     version('1.0.0.20220304', commit='2d08705')
