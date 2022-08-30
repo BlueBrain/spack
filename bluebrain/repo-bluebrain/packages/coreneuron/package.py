@@ -21,6 +21,7 @@ class Coreneuron(CMakePackage):
     git      = "git@bbpgitlab.epfl.ch:hpc/coreneuron.git"
 
     version('develop', branch='master')
+    version('8.2.1_lfp', branch='sandbox/jblanco/lfp')
     version('8.2.1', tag='8.2.1')
     version('8.2.0', tag='8.2.0')
     # 1.0.1 > 1.0.0.20220304 > 1.0 as far as Spack is concerned
@@ -28,7 +29,7 @@ class Coreneuron(CMakePackage):
     version('1.0', tag='1.0')
     version('0.22', tag='0.22', submodules=True)
 
-    variant('gpu', default=False, description="Enable GPU build") 
+    variant('gpu', default=False, description="Enable GPU build")
     variant('unified', default=False, description="Enable Unified Memory with GPU build")
     variant('knl', default=False, description="Enable KNL specific flags")
     variant('mpi', default=True, description="Enable MPI support")
