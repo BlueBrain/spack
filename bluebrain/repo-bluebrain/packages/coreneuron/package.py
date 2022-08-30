@@ -105,7 +105,7 @@ class Coreneuron(CMakePackage):
     conflicts('+unified', when='~gpu')
 
     # Older versions do not support GPU execution in shared builds
-    conflicts('+shared', when='@:8.2.0 +gpu')
+    conflicts('+shared', when='@:8.9.9 +gpu')
 
     # Caliper instrumentation is only supported after 1.0.0.20210519
     # Note: The 20210518 date is needed to specify a version before 20210519!
