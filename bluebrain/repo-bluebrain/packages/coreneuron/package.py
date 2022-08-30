@@ -28,7 +28,7 @@ class Coreneuron(CMakePackage):
     version('1.0', tag='1.0')
     version('0.22', tag='0.22', submodules=True)
 
-    variant('gpu', default=False, description="Enable GPU build")
+    variant('gpu', default=False, description="Enable GPU build") 
     variant('unified', default=False, description="Enable Unified Memory with GPU build")
     variant('knl', default=False, description="Enable KNL specific flags")
     variant('mpi', default=True, description="Enable MPI support")
