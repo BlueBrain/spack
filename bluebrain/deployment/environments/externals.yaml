@@ -27,7 +27,6 @@ spack:
         - hpctoolkit
         - hpcviewer
         - hpe-mpi
-        - intel-mkl
         - intel-mpi
         - intel-oneapi-mkl
         - ispc
