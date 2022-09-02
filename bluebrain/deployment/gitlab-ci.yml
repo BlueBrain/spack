@@ -87,7 +87,7 @@ setup_spack:
           git reset --hard FETCH_HEAD
           git status
       else
-      git clone --single-branch git@bbpgitlab.epfl.ch:hpc/spack-licenses.git "$LICENSE_ROOT"
+      git clone --single-branch ssh://git@bbpgitlab.epfl.ch/hpc/spack-licenses.git "$LICENSE_ROOT"
           cd "$LICENSE_ROOT"
       fi
       git log --oneline -n5
