@@ -60,6 +60,5 @@ spack:
     - spykfunc
     - steps+petsc
     - synapsetool
-    - touchdetector@develop
     - touchdetector
     - unit-test-translator
