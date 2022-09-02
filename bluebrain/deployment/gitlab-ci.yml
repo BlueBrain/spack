@@ -48,7 +48,7 @@ default:
     - |
       cat <<EOF > "${XDG_CONFIG_HOME}/git/config"
       [url "https://gitlab-ci-token:${CI_JOB_TOKEN}@bbpgitlab.epfl.ch/"]
-        insteadOf = git@bbpgitlab.epfl.ch:
+        insteadOf = ssh://git@bbpgitlab.epfl.ch/
       [url "https://gitlab-ci-token:${CI_JOB_TOKEN}@bbpgitlab.epfl.ch/hpc/sim/"]
         insteadOf = ssh://bbpcode.epfl.ch/sim/
       EOF
