@@ -126,6 +126,9 @@ class Julia(Package):
             gcc_base = os.path.split(os.path.split(self.compiler.cc)[0])[0]
             env.prepend_path('LD_LIBRARY_PATH', join_path(gcc_base, 'lib64'))
 
+    def set_run_environment(self, env):
+        env.prepend_path("LD_LIBRARY_PATH", self.prefix.lib.julia)
+
     def install(self, spec, prefix):
         # Julia needs git tags
         if os.path.isfile('.git/shallow'):
