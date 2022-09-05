@@ -86,7 +86,7 @@ spacktivate -p TouchDetector
 ```
 Now, clone the repository
 ```
-git clone --recursive ssh://git@bbpgitlab.epfl.ch/hpc/circuit-building/touchdetector.git
+git clone --recursive git@bbpgitlab.epfl.ch:hpc/circuit-building/touchdetector.git
 cd touchdetector
 ```
 Now try building the project with `spack` as follows
