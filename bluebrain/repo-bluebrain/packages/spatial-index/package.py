@@ -2,8 +2,7 @@
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-from spack.package import PythonPackage, run_after
-from spack.package import version, depends_on, install_tree
+from spack.package import PythonPackage, depends_on, install_tree, run_after, version
 
 
 class SpatialIndex(PythonPackage):
