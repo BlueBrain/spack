@@ -6,8 +6,8 @@ from spack.package import *
 class PyAtlasDensities(PythonPackage):
     """Tools to compute volumetric cell densities in the rodent brain"""
     homepage = "https://github.com/BlueBrain/atlas-densities"
-    git      = "https://github.com/BlueBrain/atlas-densities.git"
-    pypi     = "atlas-densities/atlas-densities-0.1.2.tar.gz"
+    git = "https://github.com/BlueBrain/atlas-densities.git"
+    pypi = "atlas-densities/atlas-densities-0.1.2.tar.gz"
 
     version('develop', branch='main')
     version('0.1.2', sha256='0199629b42ea217e939f82f6d8a20690e69735b89969c1aab184a8228218ed61')
