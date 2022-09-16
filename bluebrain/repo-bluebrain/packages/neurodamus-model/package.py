@@ -238,7 +238,6 @@ class NeurodamusModel(SimModel):
         if '+caliper' in self.spec:
             env.set('CORENEURON_CALI_ENABLED', "true")  # Needed for slurm.taskprolog
             env.set('CALI_CHANNEL_FLUSH_ON_EXIT', "false")
-            env.set('CALI_MPIREPORT_FILENAME', "caliper.json")
             env.set('CALI_MPIREPORT_LOCAL_CONFIG', "SELECT sum(sum#time.duration), \
                                                         inclusive_sum(sum#time.duration) \
                                                     GROUP BY prop:nested")
