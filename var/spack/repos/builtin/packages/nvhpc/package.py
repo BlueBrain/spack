@@ -184,10 +184,10 @@ class Nvhpc(Package):
                                           'Linux_%s' % self.spec.target.family,
                                           self.version, 'comm_libs', 'mpi'))
 
-            self.spec.mpicc  = join_path(mpi_prefix.bin, 'mpicc')
+            self.spec.mpicc = join_path(mpi_prefix.bin, 'mpicc')
             self.spec.mpicxx = join_path(mpi_prefix.bin, 'mpicxx')
             self.spec.mpif77 = join_path(mpi_prefix.bin, 'mpif77')
-            self.spec.mpifc  = join_path(mpi_prefix.bin, 'mpif90')
+            self.spec.mpifc = join_path(mpi_prefix.bin, 'mpif90')
 
     @property
     def libs(self):
