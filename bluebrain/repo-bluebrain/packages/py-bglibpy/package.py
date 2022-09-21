@@ -13,7 +13,7 @@ class PyBglibpy(PythonPackage):
 
     version('develop', branch='main')
 
-    version('4.7.5', commit='0123b49aa98f7287f5076ee53367f846b7ce06d1')
+    version('4.8.1', commit='6168faaa631fa38af448a1d76908a1d73bf22924')
 
     depends_on('py-setuptools', type=('build', 'run'))
     depends_on('neuron+python', type='run')
@@ -24,6 +24,7 @@ class PyBglibpy(PythonPackage):
     depends_on('py-cachetools', type='run')
     depends_on('py-bluepy@2.4.2:2.999', type='run')
     depends_on('py-bluepy-configfile@0.1.18:', type='run')
+    depends_on('py-pandas@1.0.0:', type='run')
 
     # skip import test, because bglibpy needs HOC_LIBRARY_PATH
     # that could be provided by neurodamus-core
