@@ -13,7 +13,7 @@ jobs:
   # Validate that the code can be run on all the Python versions
   # supported by Spack
   validate:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # @v2
     - uses: actions/setup-python@d09bd5e6005b175076f227b13d9730d56e9dcfcb # @v2
@@ -29,7 +29,7 @@ jobs:
       run: vermin --backport argparse --violations --backport typing -t=2.6- -t=3.5- -vvv var/spack/repos
   # Run style checks on the files that have been changed
   style:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # @v2
       with:
@@ -50,7 +50,7 @@ jobs:
           share/spack/qa/run-style-tests
   # Check which files have been updated by the PR
   changes:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     # Set job outputs to values from filter step
     outputs:
       core: ${{ steps.filter.outputs.core }}
@@ -93,10 +93,11 @@ jobs:
   # Run unit tests with different configurations on linux
   unittests:
     needs: [ validate, style, changes ]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        python-version: [3.9, 3.10]
+        # python-version: [2.7, 3.5, 3.6, 3.7, 3.8, 3.9]
+        python-version: [3.6, 3.9]
         concretizer: ['original', 'clingo']
     steps:
     - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # @v2
@@ -158,7 +159,7 @@ jobs:
   # Test shell integration
   shell:
     needs: [ validate, style, changes ]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # @v2
       with:
@@ -197,7 +198,7 @@ jobs:
   centos6:
     if: false
     needs: [ validate, style, changes ]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     container: spack/github-actions:centos6
     steps:
     - name: Run unit tests (full test-suite)
@@ -232,7 +233,7 @@ jobs:
   # only on PRs modifying core Spack
   rhel8-platform-python:
     needs: [ validate, style, changes ]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     if: ${{ needs.changes.outputs.with_coverage == 'true' }}
     container: registry.access.redhat.com/ubi8/ubi
     steps:
@@ -258,7 +259,7 @@ jobs:
   # Test for the clingo based solver (using clingo-cffi)
   clingo-cffi:
     needs: [ validate, style, changes ]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # @v2
       with:
