@@ -39,7 +39,7 @@ spack:
     - nest@2.20.1
     - neurodamus-core~common%intel
     - neurodamus-core+common
-    - neurodamus-hippocampus+coreneuron%intel^coreneuron
+    - neurodamus-hippocampus+coreneuron%intel^coreneuron+caliper
     - neurodamus-hippocampus+coreneuron%intel^coreneuron+caliper+knl
     - neurodamus-mousify+coreneuron%intel^coreneuron+caliper
     - neurodamus-neocortex+coreneuron%intel^coreneuron+caliper
