@@ -217,38 +217,6 @@ def test_external_root(external_style_root):
 
 @skip_old_python
 @pytest.mark.skipif(not which("flake8"), reason="flake8 is not installed.")
-def test_style(flake8_package, tmpdir):
-    root_relative = os.path.relpath(flake8_package, spack.paths.prefix)
-
-    # use a working directory to test cwd-relative paths, as tests run in
-    # the spack prefix by default
-    with tmpdir.as_cwd():
-        relative = os.path.relpath(flake8_package)
-
-        # no args
-        output = style()
-        assert relative in output
-        assert "spack style checks were clean" in output
-
-        # one specific arg
-        output = style(flake8_package)
-        assert relative in output
-        assert "spack style checks were clean" in output
-
-        # specific file that isn't changed
-        output = style(__file__)
-        assert relative not in output
-        assert __file__ in output
-        assert "spack style checks were clean" in output
-
-    # root-relative paths
-    output = style("--root-relative", flake8_package)
-    assert root_relative in output
-    assert "spack style checks were clean" in output
-
-
-@skip_old_python
-@pytest.mark.skipif(not which("flake8"), reason="flake8 is not installed.")
 def test_style_with_errors(flake8_package_with_errors):
     root_relative = os.path.relpath(flake8_package_with_errors, spack.paths.prefix)
     output = style("--root-relative", flake8_package_with_errors, fail_on_error=False)
