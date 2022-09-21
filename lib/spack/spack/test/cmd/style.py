@@ -70,26 +70,37 @@ def flake8_package_with_errors(scope="function"):
     filename = repo.filename_for_package_name("flake8")
     tmp = filename + ".tmp"
 
-    try:
-        shutil.copy(filename, tmp)
-        package = FileFilter(filename)
-        package.filter("state = 'unmodified'", "state    =    'modified'", string=True)
-        package.filter(
-            "from spack import *", "from spack import *\nimport os", string=True
-        )
-        yield filename
-    finally:
-        shutil.move(tmp, filename)
+    shutil.copy(filename, tmp)
+    package = FileFilter(tmp)
+
+    # this is a black error (quote style and spacing before/after operator)
+    package.filter('state = "unmodified"', "state    =    'modified'", string=True)
+
+    # this is an isort error (orderign) and a flake8 error (unused import)
+    package.filter(
+        "from spack.package import *", "from spack.package import *\nimport os", string=True
+    )
+    yield tmp
 
 
-def test_changed_files(flake8_package):
-    # changed_files returns file paths relative to the root
-    # directory of Spack. Convert to absolute file paths.
-    files = [os.path.join(spack.paths.prefix, path) for path in changed_files()]
+def test_changed_files_from_git_rev_base(tmpdir, capfd):
+    """Test arbitrary git ref as base."""
+    git = which("git", required=True)
+    with tmpdir.as_cwd():
+        git("init")
+        git("checkout", "-b", "main")
+        git("config", "user.name", "test user")
+        git("config", "user.email", "test@user.com")
+        git("commit", "--allow-empty", "-m", "initial commit")
 
-    # There will likely be other files that have changed
-    # when these tests are run
-    assert flake8_package in files
+        tmpdir.ensure("bin/spack")
+        assert changed_files(base="HEAD") == ["bin/spack"]
+        assert changed_files(base="main") == ["bin/spack"]
+
+        git("add", "bin/spack")
+        git("commit", "-m", "v1")
+        assert changed_files(base="HEAD") == []
+        assert changed_files(base="HEAD~") == ["bin/spack"]
 
 
 def test_changed_no_base(tmpdir, capfd):
