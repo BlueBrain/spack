@@ -15,7 +15,6 @@ from llnl.util.filesystem import FileFilter
 import spack.main
 import spack.paths
 import spack.repo
-from spack.cmd.style import changed_files
 from spack.util.executable import which
 
 #: directory with sample style files
