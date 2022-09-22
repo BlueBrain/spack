@@ -113,7 +113,7 @@ class NeurodamusModel(SimModel):
         if spec.satisfies("+ngv"):
             if spec.satisfies("+metabolism"):
                 copy_all_except_for("common_latest/common/mod/ngv", "mod",
-                    ["ProbAMPANMDA_EMS.mod"])
+                                    ["ProbAMPANMDA_EMS.mod"])
             else:
                 copy_all("common_latest/common/mod/ngv", "mod")
 
