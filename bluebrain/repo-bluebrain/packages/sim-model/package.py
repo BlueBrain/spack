@@ -266,7 +266,8 @@ def copy_all_except_for(src, dst, except_for, copyfunc=shutil.copy):
     """
     isdir = os.path.isdir
     for name in os.listdir(src):
-        if name in except_for: continue
+        if name in except_for:
+            continue
         pth = join_path(src, name)
         isdir(pth) or copyfunc(pth, dst)
 
