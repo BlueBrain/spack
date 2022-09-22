@@ -22,6 +22,7 @@ class NeurodamusNeocortex(NeurodamusModel):
 
     variant('v5', default=True, description='Enable support for previous v5 circuits')
     variant('plasticity', default=False, description="Use optimized ProbAMPANMDA_EMS and ProbGABAAB_EMS")
+    variant('metabolism', default=False, description="Use metabolism related mod files")
 
     mech_name = "neocortex"
 
@@ -40,3 +41,6 @@ class NeurodamusNeocortex(NeurodamusModel):
         # Plasticity
         if self.spec.satisfies('+plasticity'):
             copy_all('mod/v6/optimized', 'mod', make_link)
+        # Metabolism
+        if self.spec.satisfies('+metabolism'):
+            copy_all('mod/metabolism', 'mod', make_link)

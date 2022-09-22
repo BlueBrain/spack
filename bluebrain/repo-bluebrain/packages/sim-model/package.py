@@ -260,6 +260,17 @@ def copy_all(src, dst, copyfunc=shutil.copy):
         isdir(pth) or copyfunc(pth, dst)
 
 
+def copy_all_except_for(src, dst, except_for, copyfunc=shutil.copy):
+    """Copy/process all files except for the ones in the except_for list
+    from a src dir into a destination dir.
+    """
+    isdir = os.path.isdir
+    for name in os.listdir(src):
+        if name in except_for: continue
+        pth = join_path(src, name)
+        isdir(pth) or copyfunc(pth, dst)
+
+
 def make_link(src, dst):
     """Create a symlink in a given destination.
     make_link is copy compatible i.e. will take the same args and behave

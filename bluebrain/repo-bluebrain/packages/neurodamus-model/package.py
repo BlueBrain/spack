@@ -11,7 +11,7 @@ import llnl.util.tty as tty
 from spack.package import *
 
 from .py_neurodamus import PyNeurodamus
-from .sim_model import SimModel, copy_all, make_link
+from .sim_model import SimModel, copy_all, copy_all_except_for, make_link
 
 # Definitions
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
@@ -111,7 +111,10 @@ class NeurodamusModel(SimModel):
         # NGV must overwrite other mods, even from the specific
         # models, e.g. ProbAMPANMDA
         if spec.satisfies("+ngv"):
-            copy_all("common_latest/common/mod/ngv", "mod")
+            if spec.satisfies("+metabolism"):
+                copy_all_except_for("common_latest/common/mod/ngv", "mod", ["ProbAMPANMDA_EMS.mod"])
+            else:
+                copy_all("common_latest/common/mod/ngv", "mod")
 
         SimModel._build_mods(self, 'mod', dependencies=[])  # No dependencies
         # Dont install intermediate src.
