@@ -21,6 +21,7 @@ class Coreneuron(CMakePackage):
     git      = "git@bbpgitlab.epfl.ch:hpc/coreneuron.git"
 
     version('develop', branch='master')
+    version('8.2.1.2022.03.10_lfp', branch='sandbox/jblanco/lfp')
     version('8.2.1_lfp', branch='sandbox/jblanco/lfp')
     version('8.2.1', tag='8.2.1')
     version('8.2.0', tag='8.2.0')
