@@ -47,7 +47,7 @@ class NeurodamusNeocortex(NeurodamusModel):
         # NGV must overwrite other mods, even from the specific
         # models, e.g. ProbAMPANMDA
         if self.spec.satisfies("+ngv"):
-            copy_all("common_latest/common/mod/ngv", "mod")
+            copy_all('common_latest/common/mod/ngv', 'mod', make_link)
         # Metabolism
         if self.spec.satisfies('+metabolism'):
             copy_all('mod/metabolism', 'mod', make_link)
