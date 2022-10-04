@@ -20,9 +20,12 @@ class NeurodamusNeocortex(NeurodamusModel):
     homepage = "https://bbpgitlab.epfl.ch/hpc/sim/models/neocortex"
     git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/models/neocortex.git"
 
-    variant('v5', default=True, description='Enable support for previous v5 circuits')
+    variant('v5',         default=True, description='Enable support for previous v5 circuits')
     variant('plasticity', default=False, description="Use optimized ProbAMPANMDA_EMS and ProbGABAAB_EMS")
+    variant('ngv',        default=False, description="Include NGV mod files")
     variant('metabolism', default=False, description="Use metabolism related mod files")
+
+    conflicts("+coreneuron", when="+ngv")
 
     mech_name = "neocortex"
 
@@ -41,6 +44,10 @@ class NeurodamusNeocortex(NeurodamusModel):
         # Plasticity
         if self.spec.satisfies('+plasticity'):
             copy_all('mod/v6/optimized', 'mod', make_link)
+        # NGV must overwrite other mods, even from the specific
+        # models, e.g. ProbAMPANMDA
+        if self.spec.satisfies("+ngv"):
+            copy_all("common_latest/common/mod/ngv", "mod")
         # Metabolism
         if self.spec.satisfies('+metabolism'):
             copy_all('mod/metabolism', 'mod', make_link)
