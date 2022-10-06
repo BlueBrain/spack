@@ -26,6 +26,7 @@ class NeurodamusNeocortex(NeurodamusModel):
     variant('metabolism', default=False, description="Use metabolism related mod files")
 
     conflicts("+coreneuron", when="+ngv")
+    conflicts("+coreneuron", when="+metabolism")
 
     mech_name = "neocortex"
 
