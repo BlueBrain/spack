@@ -30,10 +30,10 @@ class NeurodamusNeocortex(NeurodamusModel):
     mech_name = "neocortex"
 
     version('develop', branch='main', submodules=True, get_full_repo=True)
-    
+
     version('1.7.1', branch='main', submodules=True, get_full_repo=True)
     depends_on('neurodamus-core', type='build', when='@1.7.1')
-    
+
     # IMPORTANT: Register new versions only using version_from_model_*
     # Final version name is combined e.g. "1.0-3.0.1"
     version_from_model_ndpy_dep('1.7')
