@@ -24,7 +24,7 @@ spack:
         - git
         - git-lfs
         - graphviz
-        - hpctoolkit
+        - hpctoolkit+mpi
         - hpcviewer
         - hpe-mpi
         - intel-mpi
