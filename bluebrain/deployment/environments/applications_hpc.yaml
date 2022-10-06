@@ -46,7 +46,7 @@ spack:
     - neurodamus-neocortex+coreneuron%intel^coreneuron+caliper
     - neurodamus-neocortex+coreneuron%intel^coreneuron+caliper+knl
     - neurodamus-neocortex+coreneuron+plasticity%intel^coreneuron+caliper
-    - neurodamus-neocortex+ngv+metabolism@1.7.1%intel
+    - neurodamus-neocortex+ngv+metabolism%intel
     - neurodamus-thalamus+coreneuron%intel^coreneuron+caliper
     - neurodamus-thalamus+coreneuron%intel^coreneuron+caliper+knl
     - neuron%intel+coreneuron+tests
