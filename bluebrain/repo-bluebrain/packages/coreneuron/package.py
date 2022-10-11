@@ -16,9 +16,9 @@ class Coreneuron(CMakePackage):
     and optimal performance."""
 
     homepage = "https://github.com/BlueBrain/CoreNeuron"
-    url      = "https://github.com/BlueBrain/CoreNeuron"
+    url = "https://github.com/BlueBrain/CoreNeuron"
     # This simplifies testing the gitlab-pipelines repository:
-    git      = "ssh://git@bbpgitlab.epfl.ch/hpc/coreneuron.git"
+    git = "ssh://git@bbpgitlab.epfl.ch/hpc/coreneuron.git"
 
     version('develop', branch='master')
     version('8.2.1', tag='8.2.1')
@@ -147,11 +147,11 @@ class Coreneuron(CMakePackage):
         return ' '.join(flags)
 
     def get_cmake_args(self):
-        spec   = self.spec
+        spec = self.spec
         flags = self.get_flags()
 
         if spec.satisfies('+profile'):
-            env['CC']  = 'tau_cc'
+            env['CC'] = 'tau_cc'
             env['CXX'] = 'tau_cxx'
 
         options =\
