@@ -237,23 +237,23 @@ class NeurodamusModel(SimModel):
         # ENV variables to enable Caliper with certain settings
         if '+caliper' in self.spec:
             env.set('CORENEURON_CALI_ENABLED', "true")  # Needed for slurm.taskprolog
-            env.set('CALI_CHANNEL_FLUSH_ON_EXIT', "false")
+            env.set('CALI_CHANNEL_FLUSH_ON_EXIT', "true")
             env.set('CALI_MPIREPORT_LOCAL_CONFIG', "SELECT sum(sum#time.duration), \
                                                         inclusive_sum(sum#time.duration) \
                                                     GROUP BY prop:nested")
             env.set('CALI_MPIREPORT_CONFIG',
                     "SELECT annotation, \
                         mpi.function, \
-                        min(sum#sum#time.duration) as 'exclusive_time_rank_min', \
-                        max(sum#sum#time.duration) as 'exclusive_time_rank_max', \
-                        avg(sum#sum#time.duration) as 'exclusive_time_rank_avg', \
-                        min(inclusive#sum#time.duration) AS 'inclusive_time_rank_min', \
-                        max(inclusive#sum#time.duration) AS 'inclusive_time_rank_max', \
-                        avg(inclusive#sum#time.duration) AS 'inclusive_time_rank_avg', \
-                        percent_total(sum#sum#time.duration) AS 'Exclusive time %', \
-                        inclusive_percent_total(sum#sum#time.duration) AS 'Inclusive time %' \
+                        min(sum#sum#time.duration) as \\\"exclusive_time_rank_min\\\", \
+                        max(sum#sum#time.duration) as \\\"exclusive_time_rank_max\\\", \
+                        avg(sum#sum#time.duration) as \\\"exclusive_time_rank_avg\\\", \
+                        min(inclusive#sum#time.duration) AS \\\"inclusive_time_rank_min\\\", \
+                        max(inclusive#sum#time.duration) AS \\\"inclusive_time_rank_max\\\", \
+                        avg(inclusive#sum#time.duration) AS \\\"inclusive_time_rank_avg\\\", \
+                        percent_total(sum#sum#time.duration) AS \\\"Exclusive time %\\\", \
+                        inclusive_percent_total(sum#sum#time.duration) AS \\\"Inclusive time %\\\" \
                     GROUP BY prop:nested FORMAT json")
-            env.set('CALI_SERVICES_ENABLE', "aggregate,event,mpi,mpireport,nvtx,timestamp")
+            env.set('CALI_SERVICES_ENABLE', "aggregate,event,mpi,mpireport,timestamp")
             env.set('CALI_MPI_BLACKLIST',
                     "MPI_Comm_rank,MPI_Comm_size,MPI_Wtick,MPI_Wtime")  # Ignore
 
