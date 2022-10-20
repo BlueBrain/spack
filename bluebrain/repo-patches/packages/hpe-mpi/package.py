@@ -17,7 +17,7 @@ class HpeMpi(Package):
     """HPE-SGI MPI package"""
 
     homepage = "http://www.no-name.com"
-    url      = "http://www.no-name.com/hpempi-1.0.tar.gz"
+    url = "http://www.no-name.com/hpempi-1.0.tar.gz"
 
     version('2.21',
             sha256='2f27ad2e92ef0004b9a4dfb3b76837d1b657c43ff89f4deef99be58a322a80b7',
