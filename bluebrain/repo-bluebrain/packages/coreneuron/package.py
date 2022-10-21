@@ -16,12 +16,12 @@ class Coreneuron(CMakePackage):
     and optimal performance."""
 
     homepage = "https://github.com/BlueBrain/CoreNeuron"
-    url      = "https://github.com/BlueBrain/CoreNeuron"
+    url = "https://github.com/BlueBrain/CoreNeuron"
     # This simplifies testing the gitlab-pipelines repository:
-    git      = "git@bbpgitlab.epfl.ch:hpc/coreneuron.git"
+    git = "git@bbpgitlab.epfl.ch:hpc/coreneuron.git"
 
     version('develop', branch='master')
-    version('8.2.1.2022.03.10_lfp', branch='sandbox/jblanco/lfp')
+    version('8.2.1.2022.03.10_lfp', commit='e5b42505e38fac181676904a4899753ce9d85893')
     version('8.2.1_lfp', branch='sandbox/jblanco/lfp')
     version('8.2.1', tag='8.2.1')
     version('8.2.0', tag='8.2.0')
