@@ -118,3 +118,6 @@ class Touchdetector(CMakePackage):
                 )
 
         return args
+
+    def setup_build_environment(self, env):
+        env.prepend_path("CMAKE_PREFIX_PATH", self.spec["tbb"].package.component_prefix)
