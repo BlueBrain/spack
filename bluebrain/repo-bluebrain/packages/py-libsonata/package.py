@@ -31,3 +31,5 @@ class PyLibsonata(PythonPackage):
     depends_on('py-numpy@1.17:', type=('build', 'run'))
     depends_on('py-setuptools', type='build', when='@0.1:')
     depends_on('py-setuptools-scm', type='build', when='@0.1:')
+    # Needed on Mac/clang
+    depends_on('mpi', when='^hdf5+mpi platform=darwin')
