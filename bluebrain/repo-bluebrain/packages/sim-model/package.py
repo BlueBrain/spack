@@ -33,15 +33,11 @@ class SimModel(Package):
     homepage = ""
 
     variant('coreneuron',  default=False, description="Enable CoreNEURON Support")
-    variant('profile',     default=False, description="Enable profiling using Tau")
 
     # neuron/corenrn get linked automatically when using nrnivmodl[-core]
     # Dont duplicate the link dependency (only 'build' and 'run')
     depends_on('neuron+mpi', type=('build', 'run'))
     depends_on('coreneuron', when='+coreneuron', type=('build', 'run'))
-    depends_on('neuron+profile', when='+profile', type=('build', 'run'))
-    depends_on('coreneuron+profile', when='+coreneuron+profile', type=('build', 'run'))
-    depends_on('tau', when='+profile')
     depends_on('gettext', when='^neuron+binary')
 
     conflicts('^neuron~python', when='+coreneuron')
@@ -75,8 +71,6 @@ class SimModel(Package):
             )
             include_flag += " -I " + str(self.spec[dep].prefix.include)
 
-        if '+profile' in self.spec:
-            include_flag += ' -DENABLE_TAU_PROFILER'
         output_dir = os.path.basename(self.nrnivmodl_outdir)
         include_flag_raw = include_flag
         link_flag_raw = link_flag
