@@ -226,6 +226,7 @@ class SimModel(Package):
         # ENV variables to enable Caliper with certain settings
         if '+caliper' in self.spec:
             env.set('NEURODAMUS_CALI_ENABLED', "true")  # Needed for slurm.taskprolog
+            env.set('CALI_MPIREPORT_FILENAME', "/dev/null")  # Prevents 'stdout' output
             env.set('CALI_CHANNEL_FLUSH_ON_EXIT', "true")
             env.set('CALI_MPIREPORT_LOCAL_CONFIG', "SELECT sum(sum#time.duration), \
                                                         inclusive_sum(sum#time.duration) \
