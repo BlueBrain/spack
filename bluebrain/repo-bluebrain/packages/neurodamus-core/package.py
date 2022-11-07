@@ -20,7 +20,7 @@ class NeurodamusCore(SimModel):
     """Library of channels developed by Blue Brain Project, EPFL"""
 
     homepage = "https://bbpgitlab.epfl.ch/hpc/sim/neurodamus-core"
-    git      = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-core.git"
+    git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-core.git"
 
     version('develop', branch='main', get_full_repo=False)
     version('3.4.1',  tag='3.4.1', get_full_repo=False)
