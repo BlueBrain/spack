@@ -64,6 +64,8 @@ setup_spack:
       artifacts: true
   stage: setup
   script:
+    - touch /gpfs/bbp.epfl.ch/ssd/apps/bsd/i_was_here
+    - touch /gpfs/i_was_here
     - printenv
     - pwd
     - set -x
