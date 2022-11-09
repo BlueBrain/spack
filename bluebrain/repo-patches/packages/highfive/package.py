@@ -15,6 +15,7 @@ class Highfive(CMakePackage):
     git = "https://github.com/BlueBrain/HighFive.git"
 
     version('master', branch='master')
+    version('2.5.1', sha256='1ba05aa31cdeda03d013094eebc10f932783e4e071e253e9eaa8889120f241c7')
     version('2.5.0', sha256='27f55596570df3cc8b878a1681a0d4ba0fe2e3da4a0ef8d436722990d77dc93a')
     version('2.4.1', sha256='6826471ef5c645ebf947d29574b302991525a8a8ff1ef687aba7311d9a0ea36f')
     version('2.4.0', sha256='ba0ed6d8e2e09e80849926f38c15a26cf4b80772084cea0555269a25fec02149')
