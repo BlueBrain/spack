@@ -54,7 +54,7 @@ class NeurodamusModel(SimModel):
     resource(
         name='common_mods',
         git='ssh://git@bbpgitlab.epfl.ch/hpc/sim/models/common.git',
-        branch='magkanar/clear_rngs',
+        tag='2.6.2',
         destination='common_latest'
     )
 
