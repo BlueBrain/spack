@@ -35,6 +35,7 @@ default:
         insteadOf = ssh://bbpcode.epfl.ch/sim/
       EOF
     - cat "${XDG_CONFIG_HOME}/git/config"
+    - source /etc/profile.d/modules.sh
 
 setup_spack:
   extends: .spack_basic_job
