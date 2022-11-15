@@ -206,6 +206,7 @@ github_information:
     # Allow to cross-check what the CI sees
     - spack config blame compilers
     - spack config blame config
+    - spack config blame modules
     - spack config blame packages
     - spack config blame upstreams
     # Activate if checksums fail
