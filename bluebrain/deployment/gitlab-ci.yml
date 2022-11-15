@@ -140,12 +140,7 @@ github_information:
             all: install_{compiler.name}-{compiler.version}-{target}/{name}-{version}-{hash:6}
         source_cache: $DEPLOYMENT_ROOT/cache
       EOF
-      cat <<EOF > "spack_config/modules.yaml"
-      modules:
-        default:
-          roots:
-            tcl: $DEPLOYMENT_ROOT/stage_${CI_JOB_STAGE}/modules_tcl$DEPLOYMENT_SUFFIX
-      EOF
+    - spack config add "modules:default:roots:tcl:$DEPLOYMENT_ROOT/stage_${CI_JOB_STAGE}/modules_tcl$DEPLOYMENT_SUFFIX"
     # Create an empty database if not present yet (ensures this can be used
     # as an "upstream" later)
     - |
