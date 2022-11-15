@@ -7,7 +7,7 @@ variables:
 workflow:
   rules:
     - if: '$CI_EXTERNAL_PULL_REQUEST_IID'
-    - if: '$CI_COMMIT_BRANCH == $DEPLOYMENT_DEFAULT_BRANCH'
+   #- if: '$CI_COMMIT_BRANCH == $DEPLOYMENT_DEFAULT_BRANCH'
 
 # This prepares the environment for the rest of the pipeline.  Could have
 # been a simple function in a CI environment with a proper DSL ¯\_(ツ)_/¯
