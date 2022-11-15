@@ -1,6 +1,6 @@
 variables:
   # Used in GitLab rules
-  DEPLOYMENT_DEFAULT_BRANCH: "develop"
+  DEPLOYMENT_DEFAULT_BRANCH: "up-the-stream"
 
 # FIXME revisit whenever GitLab gets their act together and makes it easier
 # to avoid doubled pipelines…
@@ -32,9 +32,10 @@ setup_environment:
     # Proprietary sources
     DEPLOYMENT_DATA: "/gpfs/bbp.cscs.ch/ssd/apps/hpc/download"
     # This date should increment for new deployments — about once a year
-    DEPLOYMENT_DATE: "2022-01-10"
+    DEPLOYMENT_DATE: "2022-11-15"
     # Global base directory
-    DEPLOYMENT_BASE: "/gpfs/bbp.cscs.ch/ssd/apps/bsd"
+    # TODO: remove pulls/${CI_EXTERNAL_PULL_REQUEST_IID}
+    DEPLOYMENT_BASE: "/gpfs/bbp.cscs.ch/ssd/apps/bsd/pulls/${CI_EXTERNAL_PULL_REQUEST_IID}"
     # Global module archive
     MODULE_ROOT: "$DEPLOYMENT_BASE/modules"
     # Previous deployment modules
@@ -55,8 +56,9 @@ setup_environment:
       variables:
         DEPLOYMENT_ARTIFACTS: "$DEPLOYMENT_ROOT/artifacts/$CI_PIPELINE_IID"
         DEPLOYMENT_BRANCH: "$CI_EXTERNAL_PULL_REQUEST_SOURCE_BRANCH_NAME"
-        DEPLOYMENT_ROOT: "$DEPLOYMENT_BASE/pulls/$CI_EXTERNAL_PULL_REQUEST_IID"
-        DEPLOYMENT_PROPRIETARY_MIRROR: "$DEPLOYMENT_BASE/pulls/$CI_EXTERNAL_PULL_REQUEST_IID/mirror/proprietary"
+        # TODO: reactivate
+        # DEPLOYMENT_ROOT: "$DEPLOYMENT_BASE/pulls/$CI_EXTERNAL_PULL_REQUEST_IID"
+        # DEPLOYMENT_PROPRIETARY_MIRROR: "$DEPLOYMENT_BASE/pulls/$CI_EXTERNAL_PULL_REQUEST_IID/mirror/proprietary"
         # Somewhat awkward, but "$DEPLOYMENT_ROOT/modules" is already used.
         MODULE_ROOT: "$DEPLOYMENT_ROOT/config/modules"
       when: always
