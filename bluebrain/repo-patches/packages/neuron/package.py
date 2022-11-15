@@ -95,6 +95,7 @@ class Neuron(CMakePackage):
     depends_on("coreneuron+legacy-unit+caliper", when="+coreneuron+legacy-unit+caliper")
     depends_on("coreneuron~legacy-unit+caliper", when="+coreneuron~legacy-unit+caliper")
     depends_on("py-pytest-cov", when="+tests@8:")
+    depends_on('gmake', type=("build", "run"))
 
     conflicts("+rx3d",    when="~python")
 
