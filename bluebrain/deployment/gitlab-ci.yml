@@ -171,7 +171,7 @@ github_information:
     # A more modern git is required for some Spack checkouts… this may fail
     # for the compilers stage, but the module command always exits with
     # status 0…
-    - module load git
+   #- module load git
     - module list
     - echo $GIT_SSH_COMMAND
     - export GIT_SSH_COMMAND="ssh -i $BBPCIHPCDEPLOY_GERRIT_PRIVATE_KEY -o ProxyCommand='/usr/bin/socat - PROXY:bbpproxy.epfl.ch:%h:%p'"
