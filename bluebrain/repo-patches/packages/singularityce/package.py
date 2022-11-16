@@ -1,5 +1,5 @@
 from spack.package import *
-from spack.pkg.builtin.singularity import Singularityce as BuiltinSingularityce
+from spack.pkg.builtin.singularityce import Singularityce as BuiltinSingularityce
 
 
 class Singularityce(BuiltinSingularityce):
