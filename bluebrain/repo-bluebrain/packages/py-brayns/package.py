@@ -18,6 +18,6 @@ class PyBrayns(PythonPackage):
 
     version('develop', branch='develop')
     version('3.0.0', tag='3.0.0')
-    
+
     depends_on('py-websockets@10.3')
     depends_on('python@3.9:')
