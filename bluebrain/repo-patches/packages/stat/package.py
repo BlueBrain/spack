@@ -18,7 +18,6 @@ class Stat(BuiltinStat):
     conflicts('boost@1.79')
 
     depends_on('py-xdot@1.0', type=('build', 'run'), when='@4.0.1: +gui')
-    depends_on('libiberty', type=('build', 'run'))
 
     patch('fix-pango.patch', when='@4.1.0:')
 
