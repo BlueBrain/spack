@@ -10,6 +10,5 @@ spack:
         - ultraliser
   specs:
     - brayns%gcc ^ospray%intel ^intel-tbb%intel
-    - brayns@3.0.0%gcc ^ospray%intel ^intel-tbb%intel
     - brion +python
     - ultraliser ^hdf5~mpi

@@ -11,6 +11,7 @@ class PyBrayns(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/Brayns"
     git = "https://github.com/BlueBrain/Brayns.git"
+    pypi = "brayns/brayns-3.0.0.tar.gz"
 
     submodules = False
 
