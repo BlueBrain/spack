@@ -23,6 +23,7 @@ spack:
           - gdb
           - git
           - git-lfs
+          - glib  # might get singularityce to work
           - graphviz
           - hpctoolkit
           - hpcviewer
@@ -107,6 +108,7 @@ spack:
     - git
     - git-lfs
     - glew
+    - glib  # might get singularityce to work
    # TODO: why do we try to build 4.7.1?
    #- gmsh+metis~mpi+oce+openmp+shared
     - graphviz
