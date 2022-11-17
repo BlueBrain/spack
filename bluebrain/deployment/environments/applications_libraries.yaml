@@ -25,7 +25,6 @@ spack:
         - py-scikit-learn
         - py-scipy
         - py-tensorflow
-        - py-websockets
         - python-dev
         - py-virtualenv
       projections:
@@ -67,7 +66,6 @@ spack:
     - py-scipy
     - py-tensorflow
     - py-virtualenv
-    - py-websockets
     - python-dev
     - sundials+int64
     - superlu-dist@5.4.0
