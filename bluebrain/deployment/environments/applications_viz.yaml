@@ -12,4 +12,4 @@ spack:
    #- brayns +brion
    #- brayns@1.1.0 +brion+net ^brion@3.3.1
     - brion +python
-    - ultraliser ^hdf5~mpi
+   #- ultraliser ^hdf5~mpi
