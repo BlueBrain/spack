@@ -5,6 +5,7 @@ spack:
     tcl:
       whitelist:
         - brayns
+        - py-brayns
         - brion+python
         - meshball
         - ultraliser
