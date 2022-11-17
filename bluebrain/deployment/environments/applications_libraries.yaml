@@ -40,7 +40,7 @@ spack:
     - metis+int64
    #- neuron+mpi~debug
     - omega-h+trilinos
-    - omega-h+gmsh+trilinos
+   #- omega-h+gmsh+trilinos
    #- petsc~int64+mpi
    #- petsc+int64+mpi
     - py-breathe
