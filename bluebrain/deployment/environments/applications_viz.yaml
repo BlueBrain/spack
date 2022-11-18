@@ -10,7 +10,7 @@ spack:
           - meshball
           - ultraliser
   specs:
-    - brayns%gcc ^ospray%intel ^intel-tbb%intel
+    - brayns
     - py-brayns
     - brion +python
    #- ultraliser ^hdf5~mpi
