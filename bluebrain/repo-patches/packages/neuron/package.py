@@ -42,7 +42,7 @@ class Neuron(CMakePackage):
 
     variant("binary",     default=True, description="Create special as a binary instead of shell script (8.0.x and earlier)")
     conflicts("~binary", when='@8.0.999:')
-    variant("coreneuron", default=False, description="Enable CoreNEURON support")
+    variant("coreneuron", default=True, description="Enable CoreNEURON support")
     variant("mod-compatibility",  default=True, description="Enable CoreNEURON compatibility for MOD files")
     variant("debug",          default=False, description="Build with flags -g -O0")
     variant("interviews", default=False, description="Enable GUI with INTERVIEWS")
