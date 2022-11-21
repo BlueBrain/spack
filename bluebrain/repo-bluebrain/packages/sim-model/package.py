@@ -38,9 +38,9 @@ class SimModel(Package):
     # neuron/corenrn get linked automatically when using nrnivmodl[-core]
     # Dont duplicate the link dependency (only 'build' and 'run')
     depends_on('neuron+mpi', type=('build', 'run'))
-    depends_on('coreneuron', when='+coreneuron', type=('build', 'run'))
+    depends_on('coreneuron', when='+coreneuron ^neuron@:8.99', type=('build', 'run'))
+    depends_on('coreneuron+caliper', when='+coreneuron+caliper ^neuron@:8.99', type=('build', 'run'))
     depends_on('neuron+caliper', when='+caliper', type=('build', 'run'))
-    depends_on('coreneuron+caliper', when='+coreneuron+caliper', type=('build', 'run'))
     depends_on('gettext', when='^neuron+binary')
 
     conflicts('^neuron~python', when='+coreneuron')
@@ -103,8 +103,13 @@ class SimModel(Package):
         return ['-n', self.mech_name, '-i', inc_flags, '-l', link_flags]
 
     def _coreneuron_include_flag(self):
-        return ' -DENABLE_CORENEURON' \
-            + ' -I%s' % self.spec['coreneuron'].prefix.include
+        if self.spec.satisfies('^coreneuron'):
+            return ' -DENABLE_CORENEURON' \
+                + ' -I%s' % self.spec['coreneuron'].prefix.include
+        else:
+            return ' -DENABLE_CORENEURON' \
+                + ' -I%s' % self.spec['neuron'].prefix.include
+
 
     def __build_mods_coreneuron(self, mods_location, link_flag, include_flag):
         mods_location = os.path.abspath(mods_location)
