@@ -54,7 +54,8 @@ class NeurodamusModel(SimModel):
     resource(
         name='common_mods',
         git='ssh://git@bbpgitlab.epfl.ch/hpc/sim/models/common.git',
-        tag='2.6.3',
+        branch='katta/tweak_vasccouplingB'
+    #    tag='2.6.3',
         destination='common_latest'
     )
 
