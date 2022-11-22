@@ -195,9 +195,10 @@ class Neuron(CMakePackage):
             args.append("-DNRN_AVOID_ABSOLUTE_PATHS=ON")
         # Pass Spack's target architecture flags in explicitly so that they're
         # saved to the nrnivmodl Makefile.
-        compilation_flags.append(
-            self.spec.architecture.target.optimization_flags(self.spec.compiler)
-        )
+        if "~debug" in self.spec:
+            compilation_flags.append(
+                self.spec.architecture.target.optimization_flags(self.spec.compiler)
+            )
         compilation_flags = ' '.join(compilation_flags)
         args.append("-DCMAKE_C_FLAGS=" + compilation_flags)
         args.append("-DCMAKE_CXX_FLAGS=" + compilation_flags)
