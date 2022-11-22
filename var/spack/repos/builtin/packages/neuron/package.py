@@ -20,7 +20,7 @@ class Neuron(CMakePackage):
     git      = "https://github.com/neuronsimulator/nrn"
     maintainers = ['pramodk', 'nrnhines', 'iomaganaris', 'alexsavulescu']
 
-    version('develop', branch='master', submodules='True')
+    version('develop', branch='pramodk/coreneuron_merge', submodules='True')
     version("8.0.0", tag="8.0.0", submodules='True')
     version("7.8.2", tag="7.8.2", submodules='True')
     version("7.8.1", tag="7.8.1", submodules='True')
