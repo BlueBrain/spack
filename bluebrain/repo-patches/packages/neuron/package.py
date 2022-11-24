@@ -175,7 +175,7 @@ class Neuron(CMakePackage):
             args.append("-DPYTHON_EXECUTABLE:FILEPATH="
                         + self.spec["python"].command.path)
         if "+debug" in self.spec:
-            compilation_flags += ['-xHost', '-g', '-O0']
+            compilation_flags += ['-g', '-O0']
             # Remove default flags (RelWithDebInfo etc.)
             args.append("-DCMAKE_BUILD_TYPE=Custom")
         if "+mod-compatibility" in self.spec:
