@@ -44,6 +44,7 @@ class SimModel(Package):
     depends_on('gettext', when='^neuron+binary')
 
     conflicts('^neuron~python', when='+coreneuron')
+    conflicts('^neuron~coreneuron', when='+coreneuron')
 
     phases = ('build', 'install')
 
