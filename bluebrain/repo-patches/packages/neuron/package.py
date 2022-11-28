@@ -63,7 +63,7 @@ class Neuron(CMakePackage):
     variant("legacy-unit", default=True,   description="Enable legacy units")
     variant("caliper", default=False, description="Add LLNL/Caliper support")
 
-    # from coreneuron
+    # extra variants from coreneuron recipe
     variant('gpu', default=False, description="Enable GPU build")
     variant('unified', default=False, description="Enable Unified Memory with GPU build")
     variant('openmp', default=False, description="Enable OpenMP support")
@@ -101,37 +101,31 @@ class Neuron(CMakePackage):
     depends_on("py-cython",   when="+rx3d", type="build")
     depends_on("py-pytest-cov", when="+tests@8:")
 
-    # old coreneuron via submodule
+    # dependency on coreneuron via submodule
     depends_on("coreneuron+legacy-unit~caliper", when="@:8.99+coreneuron+legacy-unit~caliper")
     depends_on("coreneuron~legacy-unit~caliper", when="@:8.99+coreneuron~legacy-unit~caliper")
     depends_on("coreneuron+legacy-unit+caliper", when="@:8.99+coreneuron+legacy-unit+caliper")
     depends_on("coreneuron~legacy-unit+caliper", when="@:8.99+coreneuron~legacy-unit+caliper")
 
-    # from coreneuron
+    # dependencies from coreneuron package
     depends_on('python', type=('build', 'run'))
     depends_on('boost', when='@8.99:+tests+coreneuron')
-    depends_on('cuda', when='@8.99:+gpu+coreneuron')
-    depends_on('flex', type='build', when='@8.99:~nmodl+coreneuron')
-    depends_on('flex@2.6:', type='build', when='@8.99:+nmodl+coreneuron')
+    depends_on('cuda', when='@8.99:+gpu')
+    depends_on('flex@2.6:', type='build', when='+nmodl')
+    depends_on('nmodl@0.4.0:', when='@8.99:+nmodl')
     depends_on('reportinglib', when='@8.99:+report+coreneuron')
     depends_on('libsonata-report', when='@8.99:+report+coreneuron')
-    depends_on('nmodl@0.4.0:', when='@8.99:+nmodl+coreneuron')
 
     conflicts("+rx3d",    when="~python")
 
-    # from coreneuron
-    # sympy and codegen options are only usable with nmodl
+    # for coreneuron: some basic conflicts
     conflicts('+sympyopt', when='~sympy')
     conflicts('+sympy', when='~nmodl')
     conflicts('+codegenopt', when='~nmodl')
-    # Cannot enabled Unified Memory without GPU build
     conflicts('+unified', when='~gpu')
-    # raise conflict when trying to install '+gpu' without PGI compiler
     gpu_compiler_message = "For gpu build use %pgi or %nvhpc"
     conflicts('%gcc', when='+gpu', msg=gpu_compiler_message)
     conflicts('%intel', when='+gpu', msg=gpu_compiler_message)
-
-    # from coreneuron: some basic conflicts
     incompatible_version = "Variant available only with version >= 9.0"
     conflicts('+gpu', when='@:8.99', msg=incompatible_version)
     conflicts('+sympy', when='@:8.99', msg=incompatible_version)
@@ -212,7 +206,7 @@ class Neuron(CMakePackage):
             args.append('-DNRN_ENABLE_PROFILING=ON')
             args.append('-DNRN_PROFILER=caliper')
 
-        # from coreneuron
+        # cmake options for embedded coreneuron
         if self.spec.satisfies("@8.99:+coreneuron"):
             spec = self.spec
             options =\
