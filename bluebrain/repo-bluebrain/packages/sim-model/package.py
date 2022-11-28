@@ -110,7 +110,6 @@ class SimModel(Package):
             return ' -DENABLE_CORENEURON' \
                 + ' -I%s' % self.spec['neuron'].prefix.include
 
-
     def __build_mods_coreneuron(self, mods_location, link_flag, include_flag):
         mods_location = os.path.abspath(mods_location)
         assert os.path.isdir(mods_location) and find(mods_location, '*.mod',
