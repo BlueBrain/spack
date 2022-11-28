@@ -101,6 +101,12 @@ class Neuron(CMakePackage):
     depends_on("py-cython",   when="+rx3d", type="build")
     depends_on("py-pytest-cov", when="+tests@8:")
 
+    # old coreneuron via submodule
+    depends_on("coreneuron+legacy-unit~caliper", when="@:8.99+coreneuron+legacy-unit~caliper")
+    depends_on("coreneuron~legacy-unit~caliper", when="@:8.99+coreneuron~legacy-unit~caliper")
+    depends_on("coreneuron+legacy-unit+caliper", when="@:8.99+coreneuron+legacy-unit+caliper")
+    depends_on("coreneuron~legacy-unit+caliper", when="@:8.99+coreneuron~legacy-unit+caliper")
+
     # from coreneuron
     depends_on('python', type=('build', 'run'))
     depends_on('boost', when='@8.99:+tests+coreneuron')
