@@ -107,6 +107,11 @@ class Neuron(CMakePackage):
     depends_on("coreneuron+legacy-unit+caliper", when="@:8.99+coreneuron+legacy-unit+caliper")
     depends_on("coreneuron~legacy-unit+caliper", when="@:8.99+coreneuron~legacy-unit+caliper")
 
+    # TODO: if +debug variant is used (e.g. in CIs), we have to make sure
+    # coreneuron with Debug build is used. This can be removed when we
+    # remove +debug variant from this recipe.
+    depends_on("coreneuron build_type=Debug", when="@:8.99+coreneuron+debug")
+
     # dependencies from coreneuron package
     depends_on('python', type=('build', 'run'))
     depends_on('boost', when='@8.99:+tests+coreneuron')
