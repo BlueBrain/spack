@@ -52,7 +52,7 @@ packages:
   julia:
     variants: +external_llvm
   libtool:
-    buildable: false  # different versions interact badly with autohell
+    buildable: false  # Different versions interact badly with autohell
     version: [2.4.2]
     externals:
     - spec: libtool@2.4.2
@@ -62,6 +62,8 @@ packages:
     externals:
     - spec: m4@1.4.16
       prefix: /usr
+  mxnet:
+    version: [1.8.0]  # Don't build @1.master because nobody likes moving targets
   neuron:
     require:
       - one_of: ["%intel", "%nvhpc"]
