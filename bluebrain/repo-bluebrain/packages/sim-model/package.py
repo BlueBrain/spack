@@ -9,6 +9,7 @@ from contextlib import contextmanager
 
 from spack.package import *
 
+
 class SimModel(Package):
     """The abstract base package for simulation models.
 
