@@ -9,7 +9,6 @@ from contextlib import contextmanager
 
 from spack.package import *
 
-
 class SimModel(Package):
     """The abstract base package for simulation models.
 
@@ -58,6 +57,21 @@ class SimModel(Package):
     @property
     def lib_suffix(self):
         return ('_' + self.mech_name) if self.mech_name else ''
+
+    @property
+    def nrnivmodl_core_exe(self):
+        """with +coreneuron variant enabled in neuron, nrnivmodl-core
+           binary can come from two places: coreneuron or neuron. Depending
+           upon the spec that user has used, grab appropriate nrnivmodl-core
+           binary. Note that `which` uses $PATH to find out binary and it could
+           be "wrong" one i.e. coreneuron built under neuron may not have linked
+           with sonatareport and reportinglib.
+           TODO: this is temporary change until we move to 9.0a soon.
+        """
+        if self.spec.satisfies('^coreneuron'):
+            return which("nrnivmodl-core", path=self.spec['coreneuron'].prefix.bin, required=True)
+        else:
+            return which("nrnivmodl-core", path=self.spec['neuron'].prefix.bin, required=True)
 
     def _build_mods(self, mods_location, link_flag='', include_flag='',
                     corenrn_mods=None, dependencies=None):
@@ -119,7 +133,7 @@ class SimModel(Package):
         nrnivmodl_params = self._nrnivmodlcore_params(include_flag, link_flag)
         with working_dir('build_' + self.mech_name, create=True):
             force_symlink(mods_location, 'mod')
-            which('nrnivmodl-core')(*(nrnivmodl_params + ['mod']))
+            self.nrnivmodl_core_exe(*(nrnivmodl_params + ['mod']))
             output_dir = os.path.basename(self.nrnivmodl_outdir)
             mechlib = find_libraries('libcorenrnmech_ext*',
                                      output_dir)
@@ -158,7 +172,7 @@ class SimModel(Package):
                     which('nrnivmech_install.sh', path=".")(prefix)
                 else:
                     # Set dest to install
-                    which('nrnivmodl-core')("-d", prefix, '-n', 'ext', 'mod')
+                    self.nrnivmodl_core_exe("-d", prefix, '-n', 'ext', 'mod')
 
         # Install special
         shutil.copy(join_path(arch, 'special'), prefix.bin)

@@ -166,7 +166,7 @@ class NeurodamusModel(SimModel):
 
         # Create rebuild script
         if spec.satisfies('+coreneuron'):
-            nrnivmodlcore_call = str(which("nrnivmodl-core"))
+            nrnivmodlcore_call = str(self.nrnivmodl_core_exe)
             for param in self._nrnivmodlcore_params(include_flag, link_flag):
                 nrnivmodlcore_call += " '%s'" % param
             include_flag += " " + self._coreneuron_include_flag()
