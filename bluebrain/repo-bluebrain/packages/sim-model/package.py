@@ -101,7 +101,7 @@ class SimModel(Package):
         return include_flag_raw, link_flag_raw
 
     def _nrnivmodlcore_params(self, inc_flags, link_flags):
-        return ['-n', self.mech_name, '-i', inc_flags, '-l', link_flags]
+        return ['-n', 'ext', '-i', inc_flags, '-l', link_flags]
 
     def _coreneuron_include_flag(self):
         if self.spec.satisfies('^coreneuron'):
@@ -121,7 +121,7 @@ class SimModel(Package):
             force_symlink(mods_location, 'mod')
             which('nrnivmodl-core')(*(nrnivmodl_params + ['mod']))
             output_dir = os.path.basename(self.nrnivmodl_outdir)
-            mechlib = find_libraries('libcorenrnmech' + self.lib_suffix + '*',
+            mechlib = find_libraries('libcorenrnmech_ext*',
                                      output_dir)
             assert len(mechlib.names) == 1,\
                 'Error creating corenrnmech. Found: ' + str(mechlib.names)
@@ -158,7 +158,7 @@ class SimModel(Package):
                     which('nrnivmech_install.sh', path=".")(prefix)
                 else:
                     # Set dest to install
-                    which('nrnivmodl-core')("-d", prefix, 'mod')
+                    which('nrnivmodl-core')("-d", prefix, '-n', 'ext', 'mod')
 
         # Install special
         shutil.copy(join_path(arch, 'special'), prefix.bin)
