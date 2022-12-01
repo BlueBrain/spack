@@ -37,7 +37,6 @@ spack:
     - neuron%nvhpc+coreneuron+tests+gpu
     - neuron%nvhpc+tests+gpu+openmp+coreneuron
     - neuron%nvhpc+tests+gpu+openmp+nmodl+sympy+coreneuron
-    - model-neocortex%intel
     - nest@2.20.1
     - neurodamus-core~common%intel
     - neurodamus-core+common
