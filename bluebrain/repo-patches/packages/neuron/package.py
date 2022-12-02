@@ -267,6 +267,9 @@ class Neuron(CMakePackage):
                 options.append('-DCORENRN_ENABLE_GPU=ON')
 
             args.extend(options)
+        
+        if self.spec.satisfies("@:8.99+coreneuron"):
+            args.extend(["-DCORENEURON_DIR={}".format(self.spec["coreneuron"].prefix)])
 
         return args
 
