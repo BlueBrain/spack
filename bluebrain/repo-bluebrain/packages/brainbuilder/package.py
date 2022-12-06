@@ -10,7 +10,7 @@ class Brainbuilder(PythonPackage):
     """Miscellaneous circuit building utilities"""
 
     homepage = "https://bbpgitlab.epfl.ch/nse/brainbuilder/"
-    git      = "ssh://git@bbpgitlab.epfl.ch/nse/brainbuilder.git"
+    git = "ssh://git@bbpgitlab.epfl.ch/nse/brainbuilder.git"
 
     version('develop', branch='main')
     version('0.18.1', tag='brainbuilder-v0.18.1')
