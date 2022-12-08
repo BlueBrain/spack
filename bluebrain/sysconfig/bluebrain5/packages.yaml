@@ -16,8 +16,8 @@ packages:
   boost:
     variants: +filesystem+pic+test
   coreneuron:
-    require:
-      - one_of: ["%intel", "%nvhpc"]
+    require: "%intel"
+      # - one_of: ["%intel", "%nvhpc"]
   cuda:
     # Should match what is provided by NVHPC, too
     version: [11.6.1]
@@ -83,8 +83,8 @@ packages:
     require: "%intel"
       # - one_of: ["%intel", "%nvhpc"]
   neuron:
-    require:
-      - one_of: ["%intel", "%nvhpc"]
+    require: "%intel"
+      # - one_of: ["%intel", "%nvhpc"]
   omega-h:
     variants: +trilinos
   opencv:
