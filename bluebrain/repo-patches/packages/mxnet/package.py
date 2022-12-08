@@ -28,6 +28,6 @@ class Mxnet(BuiltinMxnet):
             # If we don't set it explicitly, it is blank for some reason,
             # resulting in a failed attempt to install mkldnn to /mkldnn
             # It is possible that this may be necessary even without intel-oneapi-mkl,
-            # but we'll solve that if we see it failing.
+            # but we'll solve that if we see it failing
             args.append(self.define('CMAKE_INSTALL_INCLUDEDIR', 'include'))
         return args
