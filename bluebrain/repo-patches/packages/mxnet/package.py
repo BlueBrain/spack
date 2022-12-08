@@ -14,6 +14,7 @@ class Mxnet(BuiltinMxnet):
     )
 
     def setup_build_environment(self, env):
+        super().setup_build_environment(env)
         if "intel-onapi-mkl" in self.spec:
             # Without this, the build can't find MKL
             # Without MKL, it tries to use OpenBLAS
