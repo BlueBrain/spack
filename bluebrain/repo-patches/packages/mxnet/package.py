@@ -14,4 +14,5 @@ class Mxnet(BuiltinMxnet):
     )
 
     def setup_build_environment(self, env):
-        env.set("MKL_ROOT", os.path.dirname(self.spec["intel-oneapi-mkl"].headers[0]))
+        if "intel-onapi-mkl" in self.spec:
+            env.set("MKL_ROOT", os.path.dirname(self.spec["intel-oneapi-mkl"].headers[0]))
