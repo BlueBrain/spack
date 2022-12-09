@@ -85,8 +85,6 @@ packages:
   neuron:
     require: "%intel"
       # - one_of: ["%intel", "%nvhpc"]
-  node-js:
-    version: [18.12.1]  # Stop trying to build 15.3.0
   omega-h:
     variants: +trilinos
   opencv:
