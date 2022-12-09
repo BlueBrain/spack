@@ -379,7 +379,7 @@ class Llvm(CMakePackage, CudaPackage):
     patch(
         "https://github.com/llvm/llvm-project/commit/b498303066a63a203d24f739b2d2e0e56dca70d1.patch?full_index=1",
         sha256="514926d661635de47972c7d403c9c4669235aa51e22e56d44676d2a2709179b6",
-        when="@8:11%clang",
+        when="@8:11",
     )
 
     # fix detection of LLDB_PYTHON_EXE_RELATIVE_PATH
