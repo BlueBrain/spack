@@ -151,8 +151,7 @@ packages:
   trilinos:
     variants: +kokkos+teuchos+openmp~amesos~hypre~superlu-dist~mumps~metis~suite-sparse
   all:
-    require: "%gcc"
-    compiler: [gcc@12.2.0]
+    require: "%gcc@12.2.0"
     target: [skylake]
     providers:
       mpi: [hpe-mpi, intel-oneapi-mpi, mvapich2]

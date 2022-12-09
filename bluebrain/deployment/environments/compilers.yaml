@@ -14,7 +14,7 @@ spack:
           - intel-oneapi-compilers
   packages:
     all:
-      compiler: [gcc@4.8.5]
+      require: "%gcc@4.8.5"
     intel-parallel-studio:
       variants: +advisor+daal+gdb+inspector+ipp~mkl~mpi+rpath+shared~tbb+vtune
   specs:
