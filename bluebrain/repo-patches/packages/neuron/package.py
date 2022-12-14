@@ -269,7 +269,7 @@ class Neuron(CMakePackage):
             args.extend(options)
 
         if self.spec.satisfies("@:8.99+coreneuron"):
-            args.extend(["-DCORENEURON_DIR={}".format(self.spec["coreneuron"].prefix)])
+            args.append(self.define("CORENEURON_DIR", self.spec["coreneuron"].prefix))
 
         return args
 
