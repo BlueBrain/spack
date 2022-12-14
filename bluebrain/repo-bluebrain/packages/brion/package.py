@@ -87,4 +87,4 @@ class Brion(CMakePackage):
                     python('-c', 'import brion; print(brion)')
 
     def _get_site_dir(self):
-        return self.spec['python'].platlib
+        return self.spec['python'].package.platlib
