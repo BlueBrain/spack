@@ -67,6 +67,7 @@ spack:
     pgi:
       variants: +network+nvidia+mpi
   specs:
+    - llvm@14.0.6  # thanks, py-libclang
     - llvm@15.0.4
     # keep the x.y.z versions in sync with the llvm versions that we install
     # and the pN version in sync with the clang-tools recipe
