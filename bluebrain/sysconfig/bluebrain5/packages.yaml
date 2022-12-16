@@ -43,7 +43,6 @@ packages:
       prefix: /usr
   julia:
     variants: +external_llvm
-    version: [1.8.2]  # We don't want master, do we?
   libtool:
     buildable: false  # Different versions interact badly with autohell
     version: [2.4.2]

@@ -66,6 +66,8 @@ spack:
       variants: fabrics=mrail process_managers=slurm file_systems=gpfs
     pgi:
       variants: +network+nvidia+mpi
+    julia:
+      version: [1.8.2]
   specs:
     - llvm@14.0.6 ~lldb  # thanks, py-libclang (+lldb fails to link ncurses)
     - llvm@15.0.4
