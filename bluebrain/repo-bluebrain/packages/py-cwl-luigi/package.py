@@ -3,7 +3,7 @@
 from spack.package import *
 
 
-class PyCWLLuigi(PythonPackage):
+class PyCwlLuigi(PythonPackage):
     """Luigi wrapper for CWL workflows
     """
     homepage = "https://bbpgitlab.epfl.ch/nse/cwl-luigi"

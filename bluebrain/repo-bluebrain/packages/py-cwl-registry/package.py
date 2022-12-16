@@ -3,7 +3,7 @@
 from spack.package import *
 
 
-class PyCWLRegistry(PythonPackage):
+class PyCwlRegistry(PythonPackage):
     """Workflows registered in CWL format
     """
     homepage = "https://bbpgitlab.epfl.ch/nse/cwl-registry"
