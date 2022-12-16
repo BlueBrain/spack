@@ -66,8 +66,6 @@ spack:
       variants: fabrics=mrail process_managers=slurm file_systems=gpfs
     pgi:
       variants: +network+nvidia+mpi
-    julia:
-      version: [1.8.2]
   specs:
     - llvm@14.0.6 ~lldb  # thanks, py-libclang (+lldb fails to link ncurses)
     - llvm@15.0.4
@@ -119,7 +117,7 @@ spack:
     # - intel-mpi
     - intel-oneapi-mkl@2021.4.0
     - ispc
-    - julia
+    - julia@1.6
     - libxslt
     - libzmq+libsodium
     - likwid
