@@ -25,6 +25,7 @@ class PyNexusforge(PythonPackage):
     homepage = "https://github.com/BlueBrain/nexus-forge"
     pypi = "nexusforge/nexusforge-0.6.3.tar.gz"
 
+    version('0.8.0', sha256='4358505ead26e41c2a0c4e6113cf3a486c9661e2a3899394497a2b5a94b70424')
     version('0.7.0', sha256='a8d2951d9ad18df9f2f4db31a4c18fcdd27bfcec929b03a3c91f133ea439413c')
     version('0.6.3', sha256='ac97247509cf0e12ad4200511e0bd16d4789c0fa39450951ab54dea8c1aa9aa7')
 
