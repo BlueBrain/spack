@@ -11,7 +11,6 @@ from .neurodamus_model import (
     make_link,
     version_from_model_core_dep,
     version_from_model_ndpy_dep,
-    custom_version_from_model_ndpy_dep,
 )
 
 
