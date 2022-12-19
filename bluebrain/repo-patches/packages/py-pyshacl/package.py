@@ -23,4 +23,4 @@ class PyPyshacl(PythonPackage):
     depends_on('py-rdflib-jsonld', when='@0.11.6.post1', type=('build', 'run'))
     depends_on('py-owlrl@5.2.1:', when='@0.11.6.post1', type=('build', 'run'))
     depends_on('py-owlrl@5.2.3:6.999', when='@0.17.2', type=('build', 'run'))
-    depends_on('py-prettytable@2.2.1', when='@0.17.2', type=('build', 'run'))
+    depends_on('py-prettytable@2.2.1:2', when='@0.17.2', type=('build', 'run'))
