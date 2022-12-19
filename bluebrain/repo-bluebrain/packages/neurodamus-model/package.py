@@ -40,6 +40,13 @@ def version_from_model_ndpy_dep(model_v, ndamus_v=PYNEURODAMUS_DEFAULT_V):
                when='@' + this_version)
 
 
+def custom_version_from_model_ndpy_dep(spack_model_version_name, model_v, ndamus_v=PYNEURODAMUS_DEFAULT_V):
+    this_version = spack_model_version_name + "-" + ndamus_v  # e.g. 1.1-3.0.2
+    version(this_version, tag=model_v, submodules=True, get_full_repo=True)
+    depends_on('py-neurodamus@' + ndamus_v, type=('build', 'run'),
+               when='@' + this_version)
+
+
 class NeurodamusModel(SimModel):
     """An 'abstract' base package for Simulation Models. Therefore no version.
        Eventually in the future Models are independent entities,
