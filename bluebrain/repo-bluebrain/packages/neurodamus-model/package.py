@@ -32,7 +32,11 @@ def version_from_model_core_dep(model_v, core_v):
                when='@' + this_version)
 
 
-def version_from_model_ndpy_dep(model_v, ndamus_v=PYNEURODAMUS_DEFAULT_V, common_v=COMMON_DEFAULT_V):
+def version_from_model_ndpy_dep(
+    model_v,
+    ndamus_v=PYNEURODAMUS_DEFAULT_V,
+    common_v=COMMON_DEFAULT_V
+):
     """New version scheme following dependency on neurodamus-py and common
     """
     this_version = model_v + "-" + ndamus_v + "-" + common_v  # e.g. 1.1-3.0.2-2.6.4
