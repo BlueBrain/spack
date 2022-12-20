@@ -28,7 +28,6 @@ class PyBluepyemodel(PythonPackage):
     depends_on('py-bluepyefe', type=('build', 'run'))
     depends_on('py-neurom@3.0:3.999', type=('build', 'run'))
     depends_on('py-efel@3.1:', type=('build', 'run'))
-    depends_on('py-psycopg2@2.8:', type=('build', 'run'))
     depends_on('py-configparser', type=('build', 'run'))
     depends_on('py-bluepy@2.4:', type=('build', 'run'))
     depends_on('py-morph-tool@2.8:', type=('build', 'run'))
@@ -43,4 +42,6 @@ class PyBluepyemodel(PythonPackage):
     depends_on('py-seaborn@0.11:', type=('build', 'run'))
 
     def patch(self):
-        filter_file(r'psycopg2-binary', 'psycopg2', 'setup.py')
+        # This dependency has survived, even though the modules needing it were axed mid
+        # 2021
+        filter_file(r'.*psycopg2-binary.*', '', 'setup.py')
