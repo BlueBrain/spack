@@ -10,8 +10,8 @@ class Morphio(CMakePackage):
     """Library for reading / writing morphology files"""
 
     homepage = "https://github.com/BlueBrain/MorphIO"
-    git      = "https://github.com/BlueBrain/MorphIO.git"
-    url      = "https://pypi.io/packages/source/m/morphio/MorphIO-3.3.2.tar.gz"
+    git = "https://github.com/BlueBrain/MorphIO.git"
+    url = "https://pypi.io/packages/source/m/morphio/MorphIO-3.3.2.tar.gz"
 
     version('develop', submodules=True)
 
