@@ -20,9 +20,10 @@ class NeurodamusCore(SimModel):
     """Library of channels developed by Blue Brain Project, EPFL"""
 
     homepage = "https://bbpgitlab.epfl.ch/hpc/sim/neurodamus-core"
-    git      = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-core.git"
+    git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-core.git"
 
     version('develop', branch='main', get_full_repo=False)
+    version('3.4.1',  tag='3.4.1', get_full_repo=False)
     version('3.4.0',  tag='3.4.0', get_full_repo=False)
     version('3.3.4',  tag='3.3.4', get_full_repo=False)
     version('3.3.3',  tag='3.3.3', get_full_repo=False)
@@ -71,7 +72,6 @@ class NeurodamusCore(SimModel):
     depends_on("hdf5~mpi", when='+hdf5~mpi')
     depends_on('reportinglib',         when='+report')
     depends_on('libsonata-report',     when='+report')
-    depends_on('reportinglib+profile', when='+report+profile')
     depends_on('synapsetool',          when='+synapsetool')
     depends_on('py-mvdtool',           when='+mvdtool', type='run')
     # If external & static, we must bring their dependencies.
