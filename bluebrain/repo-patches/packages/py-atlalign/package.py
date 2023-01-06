@@ -29,7 +29,7 @@ class PyAtlalign(PythonPackage):
     depends_on('py-scikit-image@0.16.0:', type=('run'))
     depends_on('py-scikit-learn@0.20.2:', type=('run'))
     depends_on('py-scipy', type=('run'))
-    # Addons need to be in lockstep with TF
+    # Addons need to be in lockstep with TensorFlow
     depends_on('py-tensorflow', type=('run'))
     depends_on('py-tensorflow-addons', type=('run'))
 
