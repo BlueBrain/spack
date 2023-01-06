@@ -22,7 +22,7 @@ class NeurodamusCore(SimModel):
     homepage = "https://bbpgitlab.epfl.ch/hpc/sim/neurodamus-core"
     git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-core.git"
 
-    version('develop', branch='main', get_full_repo=False)
+    version('develop', branch='olupton/neuron-9-minimal', get_full_repo=False)
     version('3.4.1',  tag='3.4.1', get_full_repo=False)
     version('3.4.0',  tag='3.4.0', get_full_repo=False)
     version('3.3.4',  tag='3.3.4', get_full_repo=False)
