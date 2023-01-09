@@ -34,8 +34,9 @@ class PyAtlinter(PythonPackage):
 
     # opencv leads to problems:
     # fatal error: opencv2/opencv.hpp: No such file or directory
-    depends_on("mxnet+cuda~opencv", when="@0.1.1:+cuda", type=("build", "run"))
-    depends_on("mxnet~cuda~opencv", when="@0.1.1:~cuda", type=("build", "run"))
+    # mxnet is pinned because otherwise it tries to build @1.master.
+    depends_on("mxnet@1.8+cuda~opencv", when="@0.1.1:+cuda", type=("build", "run"))
+    depends_on("mxnet@1.8~cuda~opencv", when="@0.1.1:~cuda", type=("build", "run"))
     depends_on("py-atlannot", when="@0.2.2:", type=("build", "run"))
     depends_on("py-atldld@0.2.2", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
