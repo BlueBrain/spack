@@ -10,7 +10,7 @@ class PyAtlasDirectionVectors(PythonPackage):
     pypi = "atlas-direction-vectors/atlas-direction-vectors-0.1.2.tar.gz"
 
     version('develop', branch='main')
-    version('0.1.4', tag='5c856319e6b24a31f796e94ff62433c7c605d3af2d20de3361ecb8ae12f4033f')
+    version('0.1.4', sha256='5c856319e6b24a31f796e94ff62433c7c605d3af2d20de3361ecb8ae12f4033f')
 
     depends_on('py-setuptools', type=('build', 'run'))
     depends_on('py-atlas-commons@0.1.4:', type=('build', 'run'))
