@@ -14,14 +14,14 @@ spack:
           - neurodamus-mousify
           - parquet-converters
           - py-basalt
-          - 'py-mvdtool%gcc'
-          - 'py-neurodamus+all_deps'
+          - py-mvdtool
+          - py-neurodamus+all_deps
           - py-pytouchreader
           - reportinglib
           - spatial-index
           - spykfunc
           - steps
-          - 'synapsetool%gcc'
+          - synapsetool
           - touchdetector
           - unit-test-translator
         projections:
@@ -31,21 +31,12 @@ spack:
           +plasticity: '{name}-plasticity/{version}'
           +ngv+metabolism: '{name}-multiscale/{version}'
   specs:
-   #- coreneuron+tests
-   #- coreneuron+tests+nmodl+sympy
-   #- coreneuron%nvhpc+tests+gpu+openmp
-   #- coreneuron%nvhpc+tests+gpu+openmp+nmodl+sympy
-    - model-neocortex
-    - nest@2.20.1
-    - neuron%intel+tests+coreneuron
-    - neuron%intel+tests+nmodl+sympy+coreneuron
+    - neuron+tests+coreneuron
+    - neuron+tests+nmodl+sympy+coreneuron
    #- neuron%nvhpc+coreneuron+tests+gpu
    #- neuron%nvhpc+tests+gpu+openmp+coreneuron
    #- neuron%nvhpc+tests+gpu+openmp+nmodl+sympy+coreneuron
-    - neuron+coreneuron+tests
-    - neuron+coreneuron+tests ^coreneuron+gpu~shared
-    - neuron%intel+coreneuron+debug build_type=Debug
-    - neuron+debug
+    - nest@2.20.1
     - neurodamus-core~common
     - neurodamus-core+common
     - neurodamus-hippocampus+coreneuron+caliper
@@ -57,15 +48,7 @@ spack:
     - neurodamus-neocortex+ngv+metabolism+caliper
     - neurodamus-thalamus+coreneuron+caliper
     - neurodamus-thalamus+coreneuron+caliper^coreneuron+knl
-    - neurodamus-hippocampus+coreneuron+caliper%intel
-    - neurodamus-hippocampus+coreneuron+caliper%intel^neuron+knl
-    - neurodamus-mousify+coreneuron+caliper%intel
-    - neurodamus-neocortex+coreneuron+caliper%intel
-    - neurodamus-neocortex+coreneuron+caliper%intel^neuron+knl
-    - neurodamus-neocortex+plasticity+coreneuron+caliper%intel
-    - neurodamus-neocortex+ngv+metabolism+caliper%intel
-    - neurodamus-thalamus+coreneuron+caliper%intel
-    - neurodamus-thalamus+coreneuron+caliper%intel^neuron+knl
+    - neuron+coreneuron+debug build_type=Debug
     - nmodl
     - parquet-converters
     - py-neurodamus+all_deps
