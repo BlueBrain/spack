@@ -138,7 +138,7 @@ class SimModel(Package):
             force_symlink(mods_location, 'mod')
             which('nrnivmodl-core')(*(nrnivmodl_params + ['mod']))
             output_dir = os.path.basename(self.spec["neuron"].package.archdir)
-            mechlib = find_libraries('libcorenrnmech' + self.lib_suffix + '*',
+            mechlib = find_libraries('libcorenrnmech_ext*',
                                      output_dir)
             assert len(mechlib.names) == 1,\
                 'Error creating corenrnmech. Found: ' + str(mechlib.names)
