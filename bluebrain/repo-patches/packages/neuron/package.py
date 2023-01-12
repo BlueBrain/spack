@@ -103,6 +103,9 @@ class Neuron(CMakePackage):
     depends_on("py-numpy",    when="+python", type=("build", "run"))
     depends_on("py-cython",   when="+rx3d", type="build")
     depends_on("py-pytest-cov", when="+tests@8:")
+    # TODO: newer spack doesn't propogate python package as dependency
+    # (as PYTHONPATH) during build time
+    depends_on("py-sympy@1.3:", type=("build", "run"))
 
     # dependency on coreneuron via submodule
     depends_on("coreneuron+legacy-unit~caliper", when="@:8.99+coreneuron+legacy-unit~caliper")
