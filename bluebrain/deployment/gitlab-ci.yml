@@ -211,6 +211,7 @@ github_information:
     - if [[ -n "$(<missing.txt)" ]]; then
     -     spack fetch -m
     -     spack env depfile > Makefile
+    -     spack config add "config:build_stage::[/gpfs/bbp.cscs.ch/project/proj16/scratch/spack]"
           # This should store all test results in unique XML files.
           #
           # If SPACK_INSTALL_FLAGS is passed directly to `make`, other `make` processes
