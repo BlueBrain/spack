@@ -1,6 +1,3 @@
-# Copyright 2013-2020 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
-#
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack.package import *
@@ -10,7 +7,7 @@ class PyBbaDataPush(PythonPackage):
     """CLIs that take in input atlas pipeline datasets and push them into Nexus
     """
     homepage = "https://bbpgitlab.epfl.ch/dke/apps/blue_brain_atlas_nexus_push"
-    git      = "ssh://git@bbpgitlab.epfl.ch/dke/apps/blue_brain_atlas_nexus_push.git"
+    git = "ssh://git@bbpgitlab.epfl.ch/dke/apps/blue_brain_atlas_nexus_push.git"
 
     version('1.0.3', tag='v1.0.3')
 
