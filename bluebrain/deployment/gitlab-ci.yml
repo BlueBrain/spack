@@ -184,6 +184,8 @@ github_information:
     # Remove any old Spack environment and recreate it, using the version
     # controlled template
     - export DEPLOY_ENV="${CI_JOB_STAGE}${DEPLOYMENT_SUFFIX}-$(date +%Y-%m)"
+    - export TMP=/gpfs/bbp.cscs.ch/project/proj16/scratch/spack
+    - export TMPDIR=/gpfs/bbp.cscs.ch/project/proj16/scratch/spack
     - echo "Processing environment ${DEPLOY_ENV}"
     - if [[ -n "$(spack env list|grep "${DEPLOY_ENV}")" ]]; then
     -     spack env remove -y "${DEPLOY_ENV}"
@@ -212,6 +214,7 @@ github_information:
     -     spack fetch -m
     -     spack env depfile > Makefile
     -     spack config add "config:build_stage::[/gpfs/bbp.cscs.ch/project/proj16/scratch/spack]"
+    -     spack config blame config
           # This should store all test results in unique XML files.
           #
           # If SPACK_INSTALL_FLAGS is passed directly to `make`, other `make` processes
