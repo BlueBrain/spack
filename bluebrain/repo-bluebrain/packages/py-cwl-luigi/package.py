@@ -12,7 +12,7 @@ class PyCwlLuigi(PythonPackage):
     version('develop', branch='main')
     version('0.3.0', tag='cwl-luigi-v0.3.0')
 
-    depends_on('python@3.7:', type=('build', 'run'))
+    depends_on('python@3.9:', type=('build', 'run'))
 
     depends_on('py-setuptools', type=('build', 'run'))
     depends_on('py-setuptools-scm', type=('build', 'run'))
