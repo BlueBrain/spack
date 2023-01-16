@@ -15,7 +15,6 @@ class PyCwlRegistry(PythonPackage):
     depends_on('python@3.9:', type=('build', 'run'))
 
     depends_on('py-setuptools', type=('build', 'run'))
-    depends_on('py-setuptools-scm', type=('build', 'run'))
 
     depends_on("py-click@8.0.0:", type=('build', 'run'))
     depends_on('py-voxcell', type=('build', 'run'))
