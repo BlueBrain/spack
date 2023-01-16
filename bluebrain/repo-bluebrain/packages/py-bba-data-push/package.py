@@ -13,16 +13,16 @@ class PyBbaDataPush(PythonPackage):
 
     depends_on('py-setuptools', type=('build', 'run'))
 
-    depends_on('py-nexusforge', type='run')
-    depends_on('py-click', type='run')
-    depends_on('py-numpy', type='run')
-    depends_on('py-h5py', type='run')
-    depends_on('py-pynrrd', type='run')
-    depends_on('py-pyyaml', type='run')
-    depends_on('py-pyjwt', type='run')
+    depends_on('py-nexusforge', type=('build', 'run'))
+    depends_on('py-click', type=('build', 'run'))
+    depends_on('py-numpy', type=('build', 'run'))
+    depends_on('py-h5py', type=('build', 'run'))
+    depends_on('py-pynrrd', type=('build', 'run'))
+    depends_on('py-pyyaml', type=('build', 'run'))
+    depends_on('py-pyjwt', type=('build', 'run'))
 
-    depends_on('py-pytest', type='test')
-    depends_on('py-pytest-cov', type='test')
+    depends_on('py-pytest', type=('test', 'build', 'run'))
+    depends_on('py-pytest-cov', type=('test', 'build', 'run'))
 
     @run_after('install')
     @on_package_attributes(run_tests=True)

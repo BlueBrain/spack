@@ -14,16 +14,16 @@ class PyCwlRegistry(PythonPackage):
 
     depends_on('python@3.7:', type=('build', 'run'))
 
-    depends_on('py-setuptools', type='build')
-    depends_on('py-setuptools-scm', type='build')
+    depends_on('py-setuptools', type=('build', 'run'))
+    depends_on('py-setuptools-scm', type=('build', 'run'))
 
-    depends_on("py-click@8.0.0:", type='run')
-    depends_on('py-voxcell', type='run')
-    depends_on('py-numpy', type='run')
-    depends_on('py-pandas', type='run')
-    depends_on('py-libsonata', type='run')
-    depends_on('py-nexusforge', type='run')
-    depends_on('py-bba-data-push', type='run')
+    depends_on("py-click@8.0.0:", type=('build', 'run'))
+    depends_on('py-voxcell', type=('build', 'run'))
+    depends_on('py-numpy', type=('build', 'run'))
+    depends_on('py-pandas', type=('build', 'run'))
+    depends_on('py-libsonata', type=('build', 'run'))
+    depends_on('py-nexusforge', type=('build', 'run'))
+    depends_on('py-bba-data-push', type=('build', 'run'))
 
     @run_after('install')
     @on_package_attributes(run_tests=True)
