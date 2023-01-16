@@ -15,7 +15,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # @v2
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # @v2
     - uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # @v2
       with:
         python-version: 3.9
@@ -31,7 +31,7 @@ jobs:
   style:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # @v2
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # @v2
       with:
         fetch-depth: 0
     - uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # @v2
@@ -57,7 +57,7 @@ jobs:
       packages: ${{ steps.filter.outputs.packages }}
       with_coverage: ${{ steps.coverage.outputs.with_coverage }}
     steps:
-    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # @v2
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # @v2
       if: ${{ github.event_name == 'push' }}
       with:
         fetch-depth: 0
@@ -94,7 +94,7 @@ jobs:
     needs: [ validate, style, changes ]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # @v2
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # @v2
       with:
         fetch-depth: 0
     - uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # @v2
