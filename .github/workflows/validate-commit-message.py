@@ -8,28 +8,24 @@ from argparse import ArgumentParser
 from git import Repo
 
 
+KEYWORDS = ['nopackage', 'deploy', 'docs']
+EXISTING_PACKAGES = []
+
+
+def prefix_invalid(prefix):
+    if prefix.strip() not in EXISTING_PACKAGES and prefix not in KEYWORDS:
+        return True
+
+    return False
+
+
 def main(title):
-    keywords = ['nopackage', 'deploy']
-
     repo = Repo('.')
-
-    existing_packages = []
-    for spack_repo in ['./var/spack/repos/builder.test',
-                       './var/spack/repos/builtin',
-                       './var/spack/repos/builtin.mock',
-                       './var/spack/repos/tutorial',
-                       './bluebrain/repo-bluebrain',
-                       './bluebrain/repo-patches']:
-        try:
-            existing_packages.extend(next(os.walk(f'{spack_repo}/packages'))[1])
-        except StopIteration:
-            print(f'No packages under {spack_repo}')
-            pass
 
     faulty_commits = []
 
-    package = title.split(':')[0]
-    if package.strip() not in existing_packages and package not in keywords:
+    prefix = title.split(':')[0]
+    if prefix_invalid(prefix):
         msg = '* Merge Request Title\n'
         msg += f'> {title}\n\n'
         msg += 'Merge request title needs to be compliant as well, '
@@ -42,8 +38,8 @@ def main(title):
             print('Not going beyond a merge commit')
             break
 
-        package = commit.message.splitlines()[0].split(':')[0]
-        if package.strip() not in existing_packages and package not in keywords:
+        prefix = commit.message.splitlines()[0].split(':')[0]
+        if prefix_invalid(prefix):
             quoted_commit_message = '\n'.join([f'> {line}' for
                                                line in commit.message.splitlines()])
             msg = f'* {commit.hexsha}\n'
@@ -54,7 +50,7 @@ def main(title):
         warning = 'These commits are not formatted correctly. '
         warning += 'Please amend them to start with one of:\n'
         warning += '* \\<package>: \n'
-        warning += f'* {", ".join(keyword + ":" for keyword in keywords)}\n\n'
+        warning += f'* {", ".join(keyword + ":" for keyword in KEYWORDS)}\n\n'
         warning += "### Faulty commits:\n"
         faulty_commits.insert(0, warning)
         with open('faulty_commits.txt', 'w') as fp:
@@ -68,4 +64,17 @@ if __name__ == '__main__':
     parser.add_argument("--title", required=True, help="PR title")
 
     args = parser.parse_args()
+
+    for spack_repo in ['./var/spack/repos/builder.test',
+                       './var/spack/repos/builtin',
+                       './var/spack/repos/builtin.mock',
+                       './var/spack/repos/tutorial',
+                       './bluebrain/repo-bluebrain',
+                       './bluebrain/repo-patches']:
+        try:
+            EXISTING_PACKAGES.extend(next(os.walk(f'{spack_repo}/packages'))[1])
+        except StopIteration:
+            print(f'No packages under {spack_repo}')
+            pass
+
     main(args.title)
