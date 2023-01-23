@@ -30,7 +30,7 @@ def main(title):
 
     package = title.split(':')[0]
     if package.strip() not in existing_packages and package not in keywords:
-        msg = f'* Merge Request Title\n'
+        msg = '* Merge Request Title\n'
         msg += f'> {title}\n\n'
         msg += 'Merge request title needs to be compliant as well, '
         msg += 'as it will be used for the merge/squash commit'
@@ -44,13 +44,15 @@ def main(title):
 
         package = commit.message.splitlines()[0].split(':')[0]
         if package.strip() not in existing_packages and package not in keywords:
-            quoted_commit_message = '\n'.join([f'> {line}' for line in commit.message.splitlines()])
+            quoted_commit_message = '\n'.join([f'> {line}' for
+                                               line in commit.message.splitlines()])
             msg = f'* {commit.hexsha}\n'
             msg += f'{quoted_commit_message}'
             faulty_commits.append(msg)
 
     if faulty_commits:
-        warning = 'These commits are not formatted correctly. Please amend them to start with one of:\n'
+        warning = 'These commits are not formatted correctly. '
+        warning += 'Please amend them to start with one of:\n'
         warning += '* \\<package>: \n'
         warning += f'* {", ".join(keyword + ":" for keyword in keywords)}\n\n'
         warning += "### Faulty commits:\n"
@@ -59,11 +61,6 @@ def main(title):
             fp.write('\n'.join(faulty_commits))
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fp:
             fp.write("faulty-commits=true")
-    #else:
-    #    with open('faulty_commits.txt', 'w') as fp:
-    #        fp.write("All commit messages are good")
-    #    with open(os.environ['GITHUB_OUTPUT'], 'a') as fp:
-    #        fp.write("faulty-commits=false")
 
 
 if __name__ == '__main__':
