@@ -7,7 +7,6 @@ from argparse import ArgumentParser
 
 from git import Repo
 
-
 KEYWORDS = ['nopackage', 'deploy', 'docs']
 EXISTING_PACKAGES = []
 
