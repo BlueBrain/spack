@@ -12,7 +12,8 @@ EXISTING_PACKAGES = []
 
 
 def prefix_invalid(prefix):
-    if prefix.strip() not in EXISTING_PACKAGES and prefix not in KEYWORDS:
+    package = prefix.split(':')[0]
+    if package.strip() not in EXISTING_PACKAGES and package not in KEYWORDS:
         return True
 
     return False
@@ -23,8 +24,7 @@ def main(title):
 
     faulty_commits = []
 
-    prefix = title.split(':')[0]
-    if prefix_invalid(prefix):
+    if prefix_invalid(title):
         msg = '* Merge Request Title\n'
         msg += f'> {title}\n\n'
         msg += 'Merge request title needs to be compliant as well, '
@@ -37,7 +37,7 @@ def main(title):
             print('Not going beyond a merge commit')
             break
 
-        prefix = commit.message.splitlines()[0].split(':')[0]
+        prefix = commit.message.splitlines()[0]
         if prefix_invalid(prefix):
             quoted_commit_message = '\n'.join([f'> {line}' for
                                                line in commit.message.splitlines()])
