@@ -44,6 +44,12 @@ class Neuron(CMakePackage):
 
     variant("binary",     default=True, description="Create special as a binary instead of shell script (8.0.x and earlier)")
     conflicts("~binary", when='@8.0.999:')
+    variant(
+        "build_type",
+        default="RelWithDebInfo",
+        description="CMake build type",
+        values=("Debug", "FastDebug", "RelWithDebInfo", "Release"),
+    )
     variant("coreneuron", default=True, description="Enable CoreNEURON support")
     variant("mod-compatibility",  default=True, description="Enable CoreNEURON compatibility for MOD files")
     variant("debug",          default=False, description="Build with flags -g -O0")
@@ -186,6 +192,19 @@ class Neuron(CMakePackage):
             compilation_flags += ['-g', '-O0']
             # Remove default flags (RelWithDebInfo etc.)
             args.append("-DCMAKE_BUILD_TYPE=Custom")
+        elif self.spec.variants["build_type"].value == "FastDebug":
+            # Do *not* add -DNDEBUG, so assertions are enabled
+            # Good debug information and stack traces
+            compilation_flags.append("-g")
+            if '%nvhpc' not in self.spec:
+                compilation_flags.append("-fno-omit-frame-pointer")
+            # Moderate optimisation by default
+            compilation_flags.append("-O1")
+            if "%intel" in self.spec:
+                # This one definitely seems wise
+                compilation_flags += ["-fp-model", "consistent"]
+            # Remove default flags (RelWithDebInfo etc.)
+            args.append("-DCMAKE_BUILD_TYPE=Custom")
 
         if "%intel" in self.spec and "+knl" in self.spec:
             compilation_flags.append('-xMIC-AVX512')
@@ -211,7 +230,10 @@ class Neuron(CMakePackage):
             compilation_flags.append(
                 self.spec.architecture.target.optimization_flags(self.spec.compiler)
             )
-        compilation_flags = ' '.join(compilation_flags)
+            if "%intel" in self.spec:
+                # icpc: command line warning #10121: overriding '-march=skylake' with '-march=skylake'
+                compilation_flags.append("-diag-disable=10121")
+        compilation_flags = " ".join(compilation_flags)
         args.append("-DCMAKE_C_FLAGS=" + compilation_flags)
         args.append("-DCMAKE_CXX_FLAGS=" + compilation_flags)
         if "+caliper" in self.spec:
