@@ -13,8 +13,8 @@ EXISTING_PACKAGES = []
 
 def prefix_invalid(prefix):
     packages = prefix.split(':')[0].split(',')
-    for package in packages:
-        if package.strip() not in EXISTING_PACKAGES and package not in KEYWORDS:
+    for package in map(str.strip, packages):
+        if package not in EXISTING_PACKAGES and package not in KEYWORDS:
             return True
 
     return False
