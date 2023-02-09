@@ -17,6 +17,7 @@ class Brayns(CMakePackage):
 
     version('develop', branch='develop')
     version('3.0.0', tag='3.0.0')
+    version('3.1.0', tag='3.1.0')
 
     variant('blueconfig', default=True, description='BlueConfig support')
 
