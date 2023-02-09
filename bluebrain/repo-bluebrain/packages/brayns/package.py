@@ -7,8 +7,7 @@ from spack.package import *
 
 
 class Brayns(CMakePackage):
-    """Interactive visualizer for large-scale scientific data
-    """
+    """Interactive visualizer for large-scale scientific data"""
 
     homepage = "https://github.com/BlueBrain/Brayns"
     git = "https://github.com/BlueBrain/Brayns.git"
