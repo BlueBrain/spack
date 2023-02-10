@@ -79,7 +79,7 @@ def main(title: str, changed_files: list[str]) -> None:
             * The following packages were changed but not mentioned:
               {", ".join(unmentioned_packages)}
               You can simply use the above list followed by a colon, then explain what you changed.
-              Alternatively, you can use a line per package to describe the change per package.
+              Alternatively, you can use one line per package to describe the changes per package.
             """
         )
         commit_message_issues.append(msg)
@@ -91,7 +91,7 @@ def main(title: str, changed_files: list[str]) -> None:
         msg = textwrap.dedent(
             """\
             * Docs were changed but not mentioned in the commit message.
-              Please use the docs: prefix to explain this change.
+              Please use the `docs:` prefix to explain this change.
             """
         )
         commit_message_issues.append(msg)
@@ -101,8 +101,8 @@ def main(title: str, changed_files: list[str]) -> None:
     if deploy_changed and "deploy" not in prefixes:
         msg = textwrap.dedent(
             """\
-            * Deploy files were changed but not mentioned in the commit message.
-              Please use the deploy: prefix to explain this change.
+            * Deployment files were changed but not mentioned in the commit message.
+              Please use the `deploy:` prefix to explain this change.
             """
         )
         commit_message_issues.append(msg)
