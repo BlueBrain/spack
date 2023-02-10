@@ -76,8 +76,7 @@ def main(title: str, changed_files: list[str]) -> None:
     if unmentioned_packages:
         msg = textwrap.dedent(
             f"""\
-            * {commit.hexsha}\n{quoted_commit_message}
-              The following packages were changed but not mentioned:
+            * The following packages were changed but not mentioned:
               {", ".join(unmentioned_packages)}
               You can simply use the above list followed by a colon, then explain what you changed.
               Alternatively, you can use a line per package to describe the change per package.
@@ -90,9 +89,8 @@ def main(title: str, changed_files: list[str]) -> None:
         and "docs" not in prefixes
     ):
         msg = textwrap.dedent(
-            f"""\
-            * {commit.hexsha}\n{quoted_commit_message}
-              Docs were changed but not mentioned in the commit message.
+            """\
+            * Docs were changed but not mentioned in the commit message.
               Please use the docs: prefix to explain this change.
             """
         )
@@ -102,9 +100,8 @@ def main(title: str, changed_files: list[str]) -> None:
                       any("yaml" in changed_file for changed_file in changed_files))
     if deploy_changed and "deploy" not in prefixes:
         msg = textwrap.dedent(
-            f"""\
-            * {commit.hexsha}\n{quoted_commit_message}
-              Deploy files were changed but not mentioned in the commit message.
+            """\
+            * Deploy files were changed but not mentioned in the commit message.
               Please use the deploy: prefix to explain this change.
             """
         )
@@ -128,7 +125,6 @@ def main(title: str, changed_files: list[str]) -> None:
     with fileinput.FileInput(os.environ["GITHUB_OUTPUT"], inplace=True) as file:
         for line in file:
             print(line.replace("script-failure=true", "script-failure=false"))
-
 
 
 if __name__ == "__main__":
