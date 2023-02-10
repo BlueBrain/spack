@@ -127,7 +127,7 @@ def main(title: str, changed_files: list[str]) -> None:
 
     with fileinput.FileInput(os.environ["GITHUB_OUTPUT"], inplace=True) as file:
         for line in file:
-            print(line.replace("script-failure=true", "script-failure=false"), end="")
+            print(line.replace("script-failure=true", "script-failure=false"))
 
 
 
