@@ -57,6 +57,11 @@ def collect_prefixes(message: str) -> list[str]:
 
 
 def main(title: str, changed_files: list[str]) -> None:
+    print(
+        "Setting fail state to make sure we catch any script failures- we'll clean up at the end"
+    )
+    with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
+        fp.write("faulty-commits=true")
     repo = Repo(".")
 
     commit_message_issues = []
@@ -116,8 +121,9 @@ def main(title: str, changed_files: list[str]) -> None:
         commit_message_issues.insert(0, warning)
         with open("commit_message_issues.txt", "w") as fp:
             fp.write("\n".join(commit_message_issues))
+    else:
         with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
-            fp.write("faulty-commits=true")
+            fp.write("faulty-commits=false")
 
 
 if __name__ == "__main__":
