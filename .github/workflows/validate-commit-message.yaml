@@ -35,7 +35,8 @@ jobs:
 
       - name: Show output
         run: |
-          echo "Output: ${{ steps.commit-message-validator.outputs.faulty-commits }}"
+          echo "Faulty commits: ${{ steps.commit-message-validator.outputs.faulty-commits }}"
+          echo "Script failure: ${{ steps.commit-message-validator.outputs.script-failure }}"
 
       - name: Add comment to PR
         if: ${{ steps.commit-message-validator.outputs.faulty-commits == 'true' }}
