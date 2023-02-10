@@ -42,6 +42,13 @@ def get_unmentioned_packages(
     return unmentioned_packages
 
 
+def one_package_mentioned(prefixes: list[str], changed_files: list[str]) -> list[str]:
+    """Check whether at least one changed package is mentioned"""
+
+    changed_packages = get_changed_packages(changed_files)
+    return len([prefix for prefix in prefixes if prefix in changed_packages]) > 0
+
+
 def collect_prefixes(message: str) -> list[str]:
     """
     Collect all prefixes in the commit message
@@ -70,42 +77,55 @@ def main(title: str, changed_files: list[str]) -> None:
     commit = next(repo.iter_commits())
     print(f"Checking commit: {commit.message} (parents: {commit.parents})")
     quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
+
     prefixes = collect_prefixes(commit.message)
+    docs_changed = any(
+        "documentation" in changed_file for changed_file in changed_files
+    )
+    deploy_changed = any(
+        "yml" in changed_file for changed_file in changed_files
+    ) or any("yaml" in changed_file for changed_file in changed_files)
 
-    unmentioned_packages = get_unmentioned_packages(prefixes, changed_files)
-    if unmentioned_packages:
-        msg = textwrap.dedent(
-            f"""\
-            * The following packages were changed but not mentioned:
-              {", ".join(unmentioned_packages)}
-              You can simply use the above list followed by a colon, then explain what you changed.
-              Alternatively, you can use one line per package to describe the changes per package.
-            """
-        )
-        commit_message_issues.append(msg)
+    minimal_prefix_present = False
+    if one_package_mentioned(prefixes, changed_files):
+        minimal_prefix_present = True
+    elif docs_changed and "docs" in prefixes:
+        minimal_prefix_present = True
+    elif deploy_changed:
+        minimal_prefix_present = True
 
-    if (
-        any("documentation" in changed_file for changed_file in changed_files)
-        and "docs" not in prefixes
-    ):
-        msg = textwrap.dedent(
-            """\
-            * Docs were changed but not mentioned in the commit message.
-              Please use the `docs:` prefix to explain this change.
-            """
-        )
-        commit_message_issues.append(msg)
+    if not minimal_prefix_present:
+        unmentioned_packages = get_unmentioned_packages(prefixes, changed_files)
+        if unmentioned_packages:
+            msg = textwrap.dedent(
+                f"""\
+                * The following packages were changed but not mentioned:
+                  {", ".join(unmentioned_packages)}
+                  You can simply use the above list followed by a colon, \
+                  then explain what you changed.
+                  Alternatively, you can use one line per package \
+                  to describe the change per package.
+                """
+            )
+            commit_message_issues.append(msg)
 
-    deploy_changed = (any("yml" in changed_file for changed_file in changed_files) or
-                      any("yaml" in changed_file for changed_file in changed_files))
-    if deploy_changed and "deploy" not in prefixes:
-        msg = textwrap.dedent(
-            """\
-            * Deployment files were changed but not mentioned in the commit message.
-              Please use the `deploy:` prefix to explain this change.
-            """
-        )
-        commit_message_issues.append(msg)
+        if docs_changed and "docs" not in prefixes:
+            msg = textwrap.dedent(
+                """\
+                * Docs were changed but not mentioned in the commit message.
+                  Please use the `docs:` prefix to explain this change.
+                """
+            )
+            commit_message_issues.append(msg)
+
+        if deploy_changed and "deploy" not in prefixes:
+            msg = textwrap.dedent(
+                """\
+                * Deploy files were changed but not mentioned in the commit message.
+                  Please use the `deploy:` prefix to explain this change.
+                """
+            )
+            commit_message_issues.append(msg)
 
     if commit_message_issues:
         warning = textwrap.dedent(
@@ -113,6 +133,7 @@ def main(title: str, changed_files: list[str]) -> None:
             There are one or more issues with the commit message of commit {commit.hexsha}.
             Commit message:
             {quoted_commit_message}
+            Please satisfy at least one of the checks (one package, docs, or deploy).
             Issues:
             """
         )
