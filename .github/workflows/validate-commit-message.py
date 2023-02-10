@@ -78,7 +78,7 @@ def main(title: str, changed_files: list[str]) -> None:
     print(f"Checking commit: {commit.message} (parents: {commit.parents})")
     quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
 
-    prefixes = collect_prefixes(commit.message)
+    prefixes = collect_prefixes(title)
     docs_changed = any(
         "documentation" in changed_file for changed_file in changed_files
     )
