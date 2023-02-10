@@ -13,12 +13,10 @@ EXISTING_PACKAGES = []
 
 
 def prefix_invalid(line: str) -> bool:
-    """
-    Split the given line on a colon to look for the prefix, and check whether it is valid
-    """
-    package = line.split(":")[0]
-    if package.strip() not in EXISTING_PACKAGES and package not in KEYWORDS:
-        return True
+    packages = line.split(':')[0].split(',')
+    for package in map(str.strip, packages):
+        if package not in EXISTING_PACKAGES and package not in KEYWORDS:
+            return True
 
     return False
 
@@ -67,9 +65,10 @@ def main(title: str):
         faulty_commits.append(msg)
 
     if faulty_commits:
-        warning = "These commits are not formatted correctly. "
-        warning += "Please amend them to start with one of:\n"
-        warning += "* \\<package>: \n"
+        warning = 'These commits are not formatted correctly. '
+        warning += 'Please amend them to start with one of:\n'
+        warning += '* \\<package>: \n'
+        warning += '* \\<package>, <package>, ...: \n'
         warning += f'* {", ".join(keyword + ":" for keyword in KEYWORDS)}\n\n'
         warning += "### Faulty commits:\n"
         faulty_commits.insert(0, warning)
