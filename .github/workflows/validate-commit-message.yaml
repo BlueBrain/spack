@@ -27,9 +27,6 @@ jobs:
         id: commit-message-validator
         continue-on-error: true
         run: |
-          echo "Deepening shallow clone to ${{ github.event.pull_request.commits }} commits"
-          echo "PR number is ${{ github.event.pull_request.number }}"
-          git fetch --deepen=$((${{ github.event.pull_request.commits }} - 1))
           pip install gitpython
           python ./.github/workflows/validate-commit-message.py --title "${{ github.event.pull_request.title }}" --changed-files "${{ steps.changed-files.outputs.all_changed_and_modified_files }}"
 
