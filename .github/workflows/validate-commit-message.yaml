@@ -19,9 +19,9 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Show changed files
+      - name: Show PR info
         run: |
-          echo "${{ steps.changed-files.outputs.all_changed_and_modified_files }}"
+          echo "${{ github.event.pull_request.commits }}"
 
       - name: Validate commit messages
         id: commit-message-validator
