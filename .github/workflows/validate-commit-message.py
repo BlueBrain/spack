@@ -2,6 +2,7 @@
 
 # requires: gitpython
 
+import fileinput
 import json
 import os
 import textwrap
@@ -123,8 +124,11 @@ def main(title: str, changed_files: list[str]) -> None:
             fp.write("\n".join(commit_message_issues))
         with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
             fp.write("faulty-commits=true")
-    with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
-        fp.write("script-failure=false")
+
+    with fileinput.FileInput(os.environ["GITHUB_OUTPUT"], inplace=True) as file:
+        for line in file:
+            print(line.replace("script-failure=true", "script-failure=false"), end="")
+
 
 
 if __name__ == "__main__":
