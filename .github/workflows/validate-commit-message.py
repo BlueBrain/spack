@@ -29,7 +29,7 @@ def main(title):
         msg = textwrap.dedent(f"""\
             * Pull Request Title
               > {title}
-              
+
               Pull request title needs to be compliant as well, '
               as it will be used for the merge/squash commit'
             """)
