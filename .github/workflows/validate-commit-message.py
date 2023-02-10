@@ -70,7 +70,7 @@ def main(title: str, changed_files: list[str]) -> None:
     commit = next(repo.iter_commits())
     print(f"Checking commit: {commit.message} (parents: {commit.parents})")
     quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
-    prefixes = collect_prefixes()
+    prefixes = collect_prefixes(commit.message)
 
     unmentioned_packages = get_unmentioned_packages(prefixes, changed_files)
     if unmentioned_packages:
