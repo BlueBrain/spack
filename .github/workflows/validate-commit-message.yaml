@@ -45,7 +45,7 @@ jobs:
           reactions: eyes, confused, rocket
 
       - name: Fail the action
-        if: ${{ steps.commit-message-validator.outputs.faulty-commits == 'true' }}
+        if: ${{ steps.commit-message-validator.outputs.faulty-commits == 'true' || steps.commit-message-validator.outputs.script-failure == 'true' }}
         run: |
           echo "Something is not right - failing"
           exit 1

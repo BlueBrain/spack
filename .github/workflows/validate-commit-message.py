@@ -22,14 +22,14 @@ def get_changed_packages(changed_files: list[str]) -> list[str]:
     changed_package_paths = [path for path in changed_files if "/packages/" in path]
     for package_path in changed_package_paths:
         path_components = package_path.split("/")
-        changed_packages.append(
-            path_components[path_components.index("packages") + 1]
-        )
+        changed_packages.append(path_components[path_components.index("packages") + 1])
 
     return changed_packages
 
 
-def get_unmentioned_packages(prefixes: list[str], changed_files: list[str]) -> list[str]:
+def get_unmentioned_packages(
+    prefixes: list[str], changed_files: list[str]
+) -> list[str]:
     unmentioned_packages = []
 
     changed_packages = get_changed_packages(changed_files)
@@ -60,8 +60,8 @@ def main(title: str, changed_files: list[str]) -> None:
     print(
         "Setting fail state to make sure we catch any script failures- we'll clean up at the end"
     )
-    with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
-        fp.write("faulty-commits=true")
+        with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
+            fp.write("script-failure=true")
     repo = Repo(".")
 
     commit_message_issues = []
@@ -69,7 +69,7 @@ def main(title: str, changed_files: list[str]) -> None:
     commit = next(repo.iter_commits())
     print(f"Checking commit: {commit.message} (parents: {commit.parents})")
     quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
-    prefixes = collect_prefixes()
+    prefixes = collect_prefixes(commit.message)
 
     unmentioned_packages = get_unmentioned_packages(prefixes, changed_files)
     if unmentioned_packages:
@@ -121,9 +121,10 @@ def main(title: str, changed_files: list[str]) -> None:
         commit_message_issues.insert(0, warning)
         with open("commit_message_issues.txt", "w") as fp:
             fp.write("\n".join(commit_message_issues))
-    else:
         with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
-            fp.write("faulty-commits=false")
+            fp.write("faulty-commits=true")
+    with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
+        fp.write("script-failure=false")
 
 
 if __name__ == "__main__":
