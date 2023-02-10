@@ -58,17 +58,12 @@ def main(title: str):
         )
         faulty_commits.append(msg)
 
-    for commit in repo.iter_commits():
-        print(f"Commit: {commit.message} (parents: {commit.parents})")
-        if len(commit.parents) > 1:
-            print("Not going beyond a merge commit")
-            break
-
-        prefix = commit.message.splitlines()[0]
-        if prefix_invalid(prefix):
-            quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
-            msg = f"* {commit.hexsha}\n{quoted_commit_message}"
-            faulty_commits.append(msg)
+    commit = next(repo.iter_commits())
+    prefix = commit.message.splitlines()[0]
+    if prefix_invalid(prefix):
+        quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
+        msg = f"* {commit.hexsha}\n{quoted_commit_message}"
+        faulty_commits.append(msg)
 
     if faulty_commits:
         warning = "These commits are not formatted correctly. "
