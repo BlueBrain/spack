@@ -12,8 +12,12 @@ KEYWORDS = ["nopackage", "deploy", "docs"]
 EXISTING_PACKAGES = []
 
 
+def all_packages_mentioned(prefixes: list[str], changed_packages: list[str]) -> bool:
+    pass
+
+
 def prefix_invalid(line: str) -> bool:
-    packages = line.split(':')[0].split(',')
+    packages = line.split(":")[0].split(",")
     for package in map(str.strip, packages):
         if package not in EXISTING_PACKAGES and package not in KEYWORDS:
             return True
@@ -21,25 +25,39 @@ def prefix_invalid(line: str) -> bool:
     return False
 
 
-def get_changed_packages() -> list:
-    """
-    Return a list of package names which changed in the PR
-    """
-
-
-def docs_changed() -> bool:
+def docs_changed(changed_files: list[str]) -> bool:
     """
     Check whether anything changed in docs
     """
 
+    return any('documentation' in changed_file for changed_file in changed_files)
 
-def deploy_changed() -> bool:
+
+def deploy_changed(changed_files: list[str]) -> bool:
     """
     Check whether anything related to deploy changed
     """
 
+    return (any('yml' in changed_file for changed_file in changed_files) or
+            any('yaml' in changed_file for changed_file in changed_files))
 
-def main(title: str):
+
+def collect_prefixes(message: str) -> list[str]:
+    """
+    Collect all prefixes in the commit message
+    """
+    prefixes = []
+
+    for line in message.splitlines():
+        if ":" in line:
+            prefix = message.splitlines()[0]
+            prefix_items = [item.strip() for item in prefix.split(",")]
+            prefixes.extend(prefix_items)
+
+    return prefixes
+
+
+def main(title: str, changed_files: list[str]):
     repo = Repo(".")
 
     faulty_commits = []
@@ -58,17 +76,21 @@ def main(title: str):
 
     commit = next(repo.iter_commits())
     print(f"Checking commit: {commit.message} (parents: {commit.parents})")
-    prefix = commit.message.splitlines()[0]
-    if prefix_invalid(prefix):
-        quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
-        msg = f"* {commit.hexsha}\n{quoted_commit_message}"
-        faulty_commits.append(msg)
+    prefixes = collect_prefixes()
+
+    for line in commit.message.splitlines():
+        if ":" in line:
+            prefix = commit.message.splitlines()[0]
+            if prefix_invalid(prefix):
+                quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
+                msg = f"* {commit.hexsha}\n{quoted_commit_message}"
+                faulty_commits.append(msg)
 
     if faulty_commits:
-        warning = 'These commits are not formatted correctly. '
-        warning += 'Please amend them to start with one of:\n'
-        warning += '* \\<package>: \n'
-        warning += '* \\<package>, <package>, ...: \n'
+        warning = "These commits are not formatted correctly. "
+        warning += "Please amend them to start with one of:\n"
+        warning += "* \\<package>: \n"
+        warning += "* \\<package>, <package>, ...: \n"
         warning += f'* {", ".join(keyword + ":" for keyword in KEYWORDS)}\n\n'
         warning += "### Faulty commits:\n"
         faulty_commits.insert(0, warning)
