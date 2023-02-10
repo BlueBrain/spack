@@ -41,7 +41,7 @@ jobs:
         if: ${{ steps.commit-message-validator.outputs.faulty-commits == 'true' }}
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: faulty_commits.txt
+          filePath: commit_message_issues.txt
           reactions: eyes, confused, rocket
 
       - name: Fail the action

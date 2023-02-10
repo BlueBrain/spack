@@ -2,6 +2,7 @@
 
 # requires: gitpython
 
+import json
 import os
 import textwrap
 from argparse import ArgumentParser
@@ -12,34 +13,32 @@ KEYWORDS = ["nopackage", "deploy", "docs"]
 EXISTING_PACKAGES = []
 
 
-def all_packages_mentioned(prefixes: list[str], changed_packages: list[str]) -> bool:
-    pass
-
-
-def prefix_invalid(line: str) -> bool:
-    packages = line.split(":")[0].split(",")
-    for package in map(str.strip, packages):
-        if package not in EXISTING_PACKAGES and package not in KEYWORDS:
-            return True
-
-    return False
-
-
-def docs_changed(changed_files: list[str]) -> bool:
+def get_changed_packages(changed_files: list[str]) -> list[str]:
     """
-    Check whether anything changed in docs
+    Return all packages changed by the commit
     """
 
-    return any('documentation' in changed_file for changed_file in changed_files)
+    changed_packages = []
+    changed_package_paths = [path for path in changed_files if "/packages/" in path]
+    for package_path in changed_package_paths:
+        path_components = package_path.split("/")
+        changed_packages.append(
+            path_components[path_components.index("packages") + 1]
+        )
+
+    return changed_packages
 
 
-def deploy_changed(changed_files: list[str]) -> bool:
-    """
-    Check whether anything related to deploy changed
-    """
+def get_unmentioned_packages(prefixes: list[str], changed_files: list[str]) -> list[str]:
+    unmentioned_packages = []
 
-    return (any('yml' in changed_file for changed_file in changed_files) or
-            any('yaml' in changed_file for changed_file in changed_files))
+    changed_packages = get_changed_packages(changed_files)
+
+    for package in changed_packages:
+        if package not in prefixes:
+            unmentioned_packages.append(package)
+
+    return unmentioned_packages
 
 
 def collect_prefixes(message: str) -> list[str]:
@@ -57,45 +56,66 @@ def collect_prefixes(message: str) -> list[str]:
     return prefixes
 
 
-def main(title: str, changed_files: list[str]):
+def main(title: str, changed_files: list[str]) -> None:
     repo = Repo(".")
 
-    faulty_commits = []
-
-    if prefix_invalid(title):
-        msg = textwrap.dedent(
-            f"""\
-            * Pull Request Title
-              > {title}
-
-              Pull request title needs to be compliant as well, '
-              as it will be used for the merge/squash commit'
-            """
-        )
-        faulty_commits.append(msg)
+    commit_message_issues = []
 
     commit = next(repo.iter_commits())
     print(f"Checking commit: {commit.message} (parents: {commit.parents})")
+    quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
     prefixes = collect_prefixes()
 
-    for line in commit.message.splitlines():
-        if ":" in line:
-            prefix = commit.message.splitlines()[0]
-            if prefix_invalid(prefix):
-                quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
-                msg = f"* {commit.hexsha}\n{quoted_commit_message}"
-                faulty_commits.append(msg)
+    unmentioned_packages = get_unmentioned_packages(prefixes, changed_files)
+    if unmentioned_packages:
+        msg = textwrap.dedent(
+            f"""\
+            * {commit.hexsha}\n{quoted_commit_message}
+              The following packages were changed but not mentioned:
+              {", ".join(unmentioned_packages)}
+              You can simply use the above list followed by a colon, then explain what you changed.
+              Alternatively, you can use a line per package to describe the change per package.
+            """
+        )
+        commit_message_issues.append(msg)
 
-    if faulty_commits:
-        warning = "These commits are not formatted correctly. "
-        warning += "Please amend them to start with one of:\n"
-        warning += "* \\<package>: \n"
-        warning += "* \\<package>, <package>, ...: \n"
-        warning += f'* {", ".join(keyword + ":" for keyword in KEYWORDS)}\n\n'
-        warning += "### Faulty commits:\n"
-        faulty_commits.insert(0, warning)
-        with open("faulty_commits.txt", "w") as fp:
-            fp.write("\n".join(faulty_commits))
+    if (
+        any("documentation" in changed_file for changed_file in changed_files)
+        and "docs" not in prefixes
+    ):
+        msg = textwrap.dedent(
+            f"""\
+            * {commit.hexsha}\n{quoted_commit_message}
+              Docs were changed but not mentioned in the commit message.
+              Please use the docs: prefix to explain this change.
+            """
+        )
+        commit_message_issues.append(msg)
+
+    deploy_changed = (any("yml" in changed_file for changed_file in changed_files) or
+                      any("yaml" in changed_file for changed_file in changed_files))
+    if deploy_changed and "deploy" not in prefixes:
+        msg = textwrap.dedent(
+            f"""\
+            * {commit.hexsha}\n{quoted_commit_message}
+              Deploy files were changed but not mentioned in the commit message.
+              Please use the deploy: prefix to explain this change.
+            """
+        )
+        commit_message_issues.append(msg)
+
+    if commit_message_issues:
+        warning = textwrap.dedent(
+            f"""\
+            There are one or more issues with the commit message of commit {commit.hexsha}.
+            Commit message:
+            {quoted_commit_message}
+            Issues:
+            """
+        )
+        commit_message_issues.insert(0, warning)
+        with open("commit_message_issues.txt", "w") as fp:
+            fp.write("\n".join(commit_message_issues))
         with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
             fp.write("faulty-commits=true")
 
@@ -125,4 +145,4 @@ if __name__ == "__main__":
             print(f"No packages under {spack_repo}")
             pass
 
-    main(args.title)
+    main(args.title, json.loads(args.changed_files))
