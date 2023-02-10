@@ -62,7 +62,7 @@ def main(title: str, changed_files: list[str]) -> None:
         "Setting fail state to make sure we catch any script failures- we'll clean up at the end"
     )
     with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
-        fp.write("script-failure=true")
+        fp.write("script-failure=true\n")
     repo = Repo(".")
 
     commit_message_issues = []
