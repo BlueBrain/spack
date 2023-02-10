@@ -59,6 +59,7 @@ def main(title: str):
         faulty_commits.append(msg)
 
     commit = next(repo.iter_commits())
+    print(f"Checking commit: {commit.message} (parents: {commit.parents})")
     prefix = commit.message.splitlines()[0]
     if prefix_invalid(prefix):
         quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
