@@ -86,6 +86,11 @@ def main(title: str):
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("--title", required=True, help="PR title")
+    parser.add_argument(
+        "--changed-files",
+        required=True,
+        help="JSON formatted list of files changed in PR",
+    )
 
     args = parser.parse_args()
 
