@@ -162,7 +162,7 @@ class Neuron(CMakePackage):
             # The +tests variant is primarily used for CI pipelines, which do
             # not run on exclusive resources and do not give reliable results
             # for tests that test performance scaling
-            args.append('-DNRN_ENABLE_PERFORMANCE_TESTS=OFF')
+            args.append(self.define('NRN_ENABLE_PERFORMANCE_TESTS', False))
         compilation_flags = []
         if self.spec.variants['model_tests'].value != ("None",):
             args.append('-DNRN_ENABLE_MODEL_TESTS=' + ",".join(
