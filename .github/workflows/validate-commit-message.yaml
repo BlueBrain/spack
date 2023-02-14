@@ -35,7 +35,7 @@ jobs:
         run: |
           pip install gitpython
           set -x
-          python ./.github/workflows/validate-commit-message.py --title "${{ github.event.pull_request.title }}" --changed-files "${{ steps.changed-files.outputs.all_changed_and_modified_files }}" --commits "${{ github.event.pull_request.commits }}"
+          python ./.github/workflows/validate-commit-message.py --title "${{ github.event.pull_request.title }}" --changed-files "${{ steps.changed-files.outputs.changed-files }}" --commits "${{ github.event.pull_request.commits }}"
 
       - name: Show output
         run: |
