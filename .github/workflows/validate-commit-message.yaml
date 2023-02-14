@@ -19,9 +19,11 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Show PR info
+      - name: Show debug info
         run: |
           echo "${{ github.event.pull_request.commits }}"
+          echo "${{ github.event.pull_request.base.ref }}"
+          echo "${{ github.event.pull_request.head.repo.fork }}"
 
       - name: Validate commit messages
         id: commit-message-validator
