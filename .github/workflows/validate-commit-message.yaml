@@ -18,7 +18,7 @@ jobs:
       - name: Get diff with base branch
         id: changed-files
         run: |
-          CHANGED_FILES=$(git diff --name-only 8c3a2a3fe1a7570e84606985b2d902611501a56a...90fc5882b33c13692b8a67d1976982027c491c0b | jq -sR 'split("\n") | map(select(. != "")) | @json' | sed -r 's/^"|"$//g' | tr -s /)
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | jq -sR 'split("\n") | map(select(. != "")) | @json' | sed -r 's/^"|"$//g' | tr -s /)
           echo "changed-files=\"${CHANGED_FILES}\"" >> $GITHUB_OUTPUT
 
 
@@ -26,7 +26,8 @@ jobs:
         run: |
           echo "${{ github.event.pull_request.commits }}"
           echo "${{ github.event.pull_request.base.ref }}"
-          echo "${{ github.event.pull_request.head.repo.fork }}"
+          echo "${{ github.event.pull_request.base.sha }}"
+          echo "${{ github.event.pull_request.head.sha }}"
           echo "${{ steps.changed-files.outputs.changed-files }}"
 
       - name: Validate commit messages
