@@ -108,8 +108,8 @@ def process_message(
             message += textwrap.dedent(
                 f"""\
                 * The following packages were changed but not mentioned:
-                  {", ".join(unmentioned_packages)}
-                  You can simply use the above list followed by a colon, \
+                  `{", ".join(unmentioned_packages)}:`
+                  You can simply use the above list, \
                   then explain what you changed.
                   Alternatively, you can use one line per package \
                   to describe the change per package.
@@ -197,11 +197,14 @@ def main(title: str, changed_files: list[str], commits: int) -> None:
         )
 
     if commit_issue or title_issue:
+        if commits == 1:
+            one_commit = "The commit message of your commit must be compliant as well."
+        else:
+            one_commit = ""
         warning += textwrap.dedent(
-            """\
+            f"""\
             Please satisfy at least one of the checks (one package, docs, or deploy).
-            The PR title must be compliant. \
-            If there is only one commit, it must be compliant as well.
+            The PR title must be compliant. {one_commit}
             Issues:
             """
         )
