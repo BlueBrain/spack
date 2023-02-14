@@ -9,7 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
@@ -23,11 +24,12 @@ jobs:
 
       - name: Show debug info
         run: |
-          echo "${{ github.event.pull_request.commits }}"
-          echo "${{ github.event.pull_request.base.ref }}"
-          echo "${{ github.event.pull_request.base.sha }}"
-          echo "${{ github.event.pull_request.head.sha }}"
-          echo "${{ steps.changed-files.outputs.changed-files }}"
+          echo "GITHUB_SHA: ${GITHUB_SHA}"
+          echo "github.event.pull_request.commits: ${{ github.event.pull_request.commits }}"
+          echo "github.event.pull_request.base.ref: ${{ github.event.pull_request.base.ref }}"
+          echo "github.event.pull_request.base.sha: ${{ github.event.pull_request.base.sha }}"
+          echo "github.event.pull_request.head.sha: ${{ github.event.pull_request.head.sha }}"
+          echo "steps.changed-files.outputs.changed-files: ${{ steps.changed-files.outputs.changed-files }}"
 
       - name: Validate commit messages
         id: commit-message-validator
