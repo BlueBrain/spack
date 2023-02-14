@@ -120,7 +120,7 @@ def process_message(
         if docs_changed and "docs" not in prefixes:
             message += textwrap.dedent(
                 """\
-                * Docs were changed but not mentioned in the commit message.
+                * Docs were changed but not mentioned.
                   Please use the `docs:` prefix to explain this change.
                 """
             )
@@ -128,7 +128,7 @@ def process_message(
         if deploy_changed and "deploy" not in prefixes:
             message += textwrap.dedent(
                 """\
-                * Deploy files were changed but not mentioned in the commit message.
+                * Deploy files were changed but not mentioned.
                   Please use the `deploy:` prefix to explain this change.
                 """
             )
