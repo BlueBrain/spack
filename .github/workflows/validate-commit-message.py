@@ -29,6 +29,7 @@ def get_changed_packages(changed_files: list[str]) -> list[str]:
 
     changed_packages = []
     changed_package_paths = [path for path in changed_files if "/packages/" in path]
+    logger.debug("Changed package paths: %s", changed_package_paths)
     for package_path in changed_package_paths:
         path_components = package_path.split("/")
         changed_packages.append(path_components[path_components.index("packages") + 1])
@@ -67,7 +68,7 @@ def collect_prefixes(message: str) -> list[str]:
 
     for line in message.splitlines():
         if ":" in line:
-            prefix = message.splitlines()[0]
+            prefix = message.split(":")[0]
             prefix_items = [item.strip() for item in prefix.split(",")]
             prefixes.extend(prefix_items)
 
@@ -86,6 +87,7 @@ def process_message(
     Process a message (PR title or commit message).
     If issues are found, return a message describing them.
     """
+    logger.debug("Processing message: %s", message)
     prefixes = collect_prefixes(message)
     message = ""
 
@@ -141,6 +143,9 @@ def main(title: str, changed_files: list[str], commits: int) -> None:
     with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
         fp.write("script-failure=true\n")
     repo = Repo(".")
+
+    logger.debug("Title: %s", title)
+    logger.debug("Changed files: %s", changed_files)
 
     message_issues = []
     docs_changed = any(
