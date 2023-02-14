@@ -4,6 +4,7 @@
 
 import fileinput
 import json
+import logging
 import os
 import textwrap
 from argparse import ArgumentParser
@@ -11,6 +12,14 @@ from argparse import ArgumentParser
 from git import Commit, Repo
 
 EXISTING_PACKAGES = []
+
+logger = logging.getLogger(__name__)
+sh = logging.StreamHandler()
+fmt = logging.Formatter("%(asctime)s %(message)s")
+sh.setFormatter(fmt)
+sh.setLevel(logging.DEBUG)
+logger.addHandler(sh)
+logger.setLevel(logging.DEBUG)
 
 
 def get_changed_packages(changed_files: list[str]) -> list[str]:
@@ -24,6 +33,7 @@ def get_changed_packages(changed_files: list[str]) -> list[str]:
         path_components = package_path.split("/")
         changed_packages.append(path_components[path_components.index("packages") + 1])
 
+    logger.debug("Changed packages: %s", changed_packages)
     return changed_packages
 
 
@@ -38,6 +48,7 @@ def get_unmentioned_packages(
         if package not in prefixes:
             unmentioned_packages.append(package)
 
+    logger.debug("Packages changed but not mentioned: %s", unmentioned_packages)
     return unmentioned_packages
 
 
@@ -60,6 +71,7 @@ def collect_prefixes(message: str) -> list[str]:
             prefix_items = [item.strip() for item in prefix.split(",")]
             prefixes.extend(prefix_items)
 
+    logger.debug("Prefixes: %s", prefixes)
     return prefixes
 
 
@@ -79,10 +91,13 @@ def process_message(
 
     minimal_prefix_present = False
     if one_package_mentioned(prefixes, changed_files):
+        logger.debug("At least one package was mentioned")
         minimal_prefix_present = True
     elif docs_changed and "docs" in prefixes:
+        logger.debug("Docs were changed and mentioned")
         minimal_prefix_present = True
     elif deploy_changed and "deploy" in prefixes:
+        logger.debug("Deploy was changed and mentioned")
         minimal_prefix_present = True
 
     if not minimal_prefix_present:
@@ -120,7 +135,7 @@ def process_message(
 
 
 def main(title: str, changed_files: list[str], commits: int) -> None:
-    print(
+    logger.info(
         "Setting fail state to make sure we catch any script failures- we'll clean up at the end"
     )
     with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
@@ -146,7 +161,7 @@ def main(title: str, changed_files: list[str], commits: int) -> None:
         )
 
         commit = next(repo.iter_commits())
-        print(f"Checking commit: {commit.message} (parents: {commit.parents})")
+        logger.info(f"Checking commit: {commit.message} (parents: {commit.parents})")
 
         commit_issue = process_message(
             commit.message, changed_files, docs_changed, deploy_changed, commit
@@ -210,7 +225,7 @@ if __name__ == "__main__":
         try:
             EXISTING_PACKAGES.extend(next(os.walk(f"{spack_repo}/packages"))[1])
         except StopIteration:
-            print(f"No packages under {spack_repo}")
+            logger.critical(f"No packages under {spack_repo}")
             pass
 
     main(args.title, json.loads(args.changed_files), args.commits)
