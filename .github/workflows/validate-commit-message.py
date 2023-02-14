@@ -148,6 +148,10 @@ def main(title: str, changed_files: list[str], commits: int) -> None:
     logger.debug("Changed files: %s", changed_files)
 
     message_issues = []
+    commit_issue = None
+    title_issue = None
+    warning = ""
+
     docs_changed = any(
         "documentation" in changed_file for changed_file in changed_files
     )
@@ -172,20 +176,23 @@ def main(title: str, changed_files: list[str], commits: int) -> None:
             commit.message, changed_files, docs_changed, deploy_changed, commit
         )
 
+    if title_issue:
+        message_issues.append(title_issue)
+        warning += textwrap.dedent(
+            """\
+            There are one or more issues with the title of this PR.
+            """
+        )
+
     if commit_issue:
+        message_issues.append(commit_issue)
         quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
 
-        warning = textwrap.dedent(
+        warning += textwrap.dedent(
             f"""\
             There are one or more issues with the commit message of commit {commit.hexsha}.
             Commit message:
             {quoted_commit_message}
-            """
-        )
-    elif title_issue:
-        warning = textwrap.dedent(
-            """\
-            There are one or more issues with the title of this PR.
             """
         )
 
@@ -193,6 +200,8 @@ def main(title: str, changed_files: list[str], commits: int) -> None:
         warning += textwrap.dedent(
             """\
             Please satisfy at least one of the checks (one package, docs, or deploy).
+            The PR title must be compliant. \
+            If there is only one commit, it must be compliant as well.
             Issues:
             """
         )
