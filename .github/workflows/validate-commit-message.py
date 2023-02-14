@@ -228,4 +228,4 @@ if __name__ == "__main__":
             logger.critical(f"No packages under {spack_repo}")
             pass
 
-    main(args.title, json.loads(args.changed_files), args.commits)
+    main(args.title, json.loads(args.changed_files), int(args.commits))
