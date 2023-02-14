@@ -8,9 +8,8 @@ import os
 import textwrap
 from argparse import ArgumentParser
 
-from git import Repo
+from git import Commit, Repo
 
-KEYWORDS = ["nopackage", "deploy", "docs"]
 EXISTING_PACKAGES = []
 
 
@@ -64,40 +63,32 @@ def collect_prefixes(message: str) -> list[str]:
     return prefixes
 
 
-def main(title: str, changed_files: list[str]) -> None:
-    print(
-        "Setting fail state to make sure we catch any script failures- we'll clean up at the end"
-    )
-    with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
-        fp.write("script-failure=true\n")
-    repo = Repo(".")
-
-    commit_message_issues = []
-
-    commit = next(repo.iter_commits())
-    print(f"Checking commit: {commit.message} (parents: {commit.parents})")
-    quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
-
-    prefixes = collect_prefixes(title)
-    docs_changed = any(
-        "documentation" in changed_file for changed_file in changed_files
-    )
-    deploy_changed = any(
-        "yml" in changed_file for changed_file in changed_files
-    ) or any("yaml" in changed_file for changed_file in changed_files)
+def process_message(
+    message: str,
+    changed_files: list[str],
+    docs_changed: bool,
+    deploy_changed: bool,
+    commit: Commit = None,
+) -> str:
+    """
+    Process a message (PR title or commit message).
+    If issues are found, return a message describing them.
+    """
+    prefixes = collect_prefixes(message)
+    message = ""
 
     minimal_prefix_present = False
     if one_package_mentioned(prefixes, changed_files):
         minimal_prefix_present = True
     elif docs_changed and "docs" in prefixes:
         minimal_prefix_present = True
-    elif deploy_changed:
+    elif deploy_changed and "deploy" in prefixes:
         minimal_prefix_present = True
 
     if not minimal_prefix_present:
         unmentioned_packages = get_unmentioned_packages(prefixes, changed_files)
         if unmentioned_packages:
-            msg = textwrap.dedent(
+            message += textwrap.dedent(
                 f"""\
                 * The following packages were changed but not mentioned:
                   {", ".join(unmentioned_packages)}
@@ -105,41 +96,89 @@ def main(title: str, changed_files: list[str]) -> None:
                   then explain what you changed.
                   Alternatively, you can use one line per package \
                   to describe the change per package.
+                  Please mention at least one package.
                 """
             )
-            commit_message_issues.append(msg)
 
         if docs_changed and "docs" not in prefixes:
-            msg = textwrap.dedent(
+            message += textwrap.dedent(
                 """\
                 * Docs were changed but not mentioned in the commit message.
                   Please use the `docs:` prefix to explain this change.
                 """
             )
-            commit_message_issues.append(msg)
 
         if deploy_changed and "deploy" not in prefixes:
-            msg = textwrap.dedent(
+            message += textwrap.dedent(
                 """\
                 * Deploy files were changed but not mentioned in the commit message.
                   Please use the `deploy:` prefix to explain this change.
                 """
             )
-            commit_message_issues.append(msg)
 
-    if commit_message_issues:
+    return message
+
+
+def main(title: str, changed_files: list[str], commits: int) -> None:
+    print(
+        "Setting fail state to make sure we catch any script failures- we'll clean up at the end"
+    )
+    with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
+        fp.write("script-failure=true\n")
+    repo = Repo(".")
+
+    message_issues = []
+    docs_changed = any(
+        "documentation" in changed_file for changed_file in changed_files
+    )
+    deploy_changed = any(
+        changed_file.endswith("yml") or changed_file.endswith("yaml")
+        for changed_file in changed_files
+    )
+
+    if commits > 1:
+        title_issue = process_message(
+            title, changed_files, docs_changed, deploy_changed
+        )
+    else:
+        title_issue = process_message(
+            title, changed_files, docs_changed, deploy_changed
+        )
+
+        commit = next(repo.iter_commits())
+        print(f"Checking commit: {commit.message} (parents: {commit.parents})")
+
+        commit_issue = process_message(
+            commit.message, changed_files, docs_changed, deploy_changed, commit
+        )
+
+    if commit_issue:
+        quoted_commit_message = textwrap.indent(commit.message, prefix="  > ")
+
         warning = textwrap.dedent(
             f"""\
             There are one or more issues with the commit message of commit {commit.hexsha}.
             Commit message:
             {quoted_commit_message}
+            """
+        )
+    elif title_issue:
+        warning = textwrap.dedent(
+            """\
+            There are one or more issues with the title of this PR.
+            """
+        )
+
+    if commit_issue or title_issue:
+        warning += textwrap.dedent(
+            """\
             Please satisfy at least one of the checks (one package, docs, or deploy).
             Issues:
             """
         )
-        commit_message_issues.insert(0, warning)
-        with open("commit_message_issues.txt", "w") as fp:
-            fp.write("\n".join(commit_message_issues))
+        message_issues.insert(0, warning)
+        with open("message_issues.txt", "w") as fp:
+            fp.write("\n".join(message_issues))
         with open(os.environ["GITHUB_OUTPUT"], "a") as fp:
             fp.write("faulty-commits=true")
 
@@ -156,6 +195,7 @@ if __name__ == "__main__":
         required=True,
         help="JSON formatted list of files changed in PR",
     )
+    parser.add_argument("--commits", required=True, help="Number of commits in the PR")
 
     args = parser.parse_args()
 
@@ -173,4 +213,4 @@ if __name__ == "__main__":
             print(f"No packages under {spack_repo}")
             pass
 
-    main(args.title, json.loads(args.changed_files))
+    main(args.title, json.loads(args.changed_files), args.commits)
