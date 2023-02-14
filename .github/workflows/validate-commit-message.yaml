@@ -22,15 +22,6 @@ jobs:
           echo "changed-files=\"${CHANGED_FILES}\"" >> $GITHUB_OUTPUT
 
 
-      - name: Show debug info
-        run: |
-          echo "GITHUB_SHA: ${GITHUB_SHA}"
-          echo "github.event.pull_request.commits: ${{ github.event.pull_request.commits }}"
-          echo "github.event.pull_request.base.ref: ${{ github.event.pull_request.base.ref }}"
-          echo "github.event.pull_request.base.sha: ${{ github.event.pull_request.base.sha }}"
-          echo "github.event.pull_request.head.sha: ${{ github.event.pull_request.head.sha }}"
-          echo "steps.changed-files.outputs.changed-files: ${{ steps.changed-files.outputs.changed-files }}"
-
       - name: Validate commit messages
         id: commit-message-validator
         continue-on-error: true
