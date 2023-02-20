@@ -17,7 +17,6 @@ spack:
         - 'py-mvdtool%gcc'
         - 'py-neurodamus+all_deps'
         - py-pytouchreader
-        - reportinglib
         - spatial-index
         - spykfunc
         - steps
@@ -55,7 +54,6 @@ spack:
     - py-basalt@0.2.9
     - py-neurodamus+all_deps
     - py-pytouchreader
-    - reportinglib%intel
     - spatial-index
     - spykfunc
     - steps+petsc

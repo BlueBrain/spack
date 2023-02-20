@@ -59,7 +59,7 @@ class NeurodamusCore(SimModel):
     variant('mpi',    default=True,  description="Enable MPI support")
     variant('common', default=False, description="Bring in common synapse mechanisms")
     variant('hdf5',   default=True,  description="Enable old Hdf5 reader")
-    variant('report', default=True, description="Enable SONATA and binary reporting")
+    variant('report', default=True, description="Enable SONATA reporting")
     variant('synapsetool',  default=True, description="Enable SynapseTool reader (for edges)")
     variant('mvdtool',      default=True, description="Enable MVDTool reader (for nodes)")
     # NOTE: Several variants / dependencies come from SimModel
@@ -70,7 +70,6 @@ class NeurodamusCore(SimModel):
     depends_on("mpi",  when='+mpi', type=('build', 'run'))
     depends_on("hdf5+mpi", when='+hdf5+mpi')
     depends_on("hdf5~mpi", when='+hdf5~mpi')
-    depends_on('reportinglib',         when='+report')
     depends_on('libsonata-report',     when='+report')
     depends_on('synapsetool',          when='+synapsetool')
     depends_on('py-mvdtool',           when='+mvdtool', type='run')
