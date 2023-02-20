@@ -17,7 +17,6 @@ spack:
           - py-mvdtool
           - py-neurodamus+all_deps
           - py-pytouchreader
-          - reportinglib
           - spatial-index
           - spykfunc
           - steps
@@ -56,7 +55,6 @@ spack:
     - parquet-converters
     - py-neurodamus+all_deps
     - py-pytouchreader
-    - reportinglib
     - spatial-index
     - spykfunc
     - steps
