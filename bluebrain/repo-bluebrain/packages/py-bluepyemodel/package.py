@@ -10,7 +10,7 @@ class PyBluepyemodel(PythonPackage):
     """Python library to optimize and evaluate electrical models."""
 
     homepage = "https://bbpgitlab.epfl.ch/cells/bluepyemodel"
-    git      = "ssh://git@bbpgitlab.epfl.ch/cells/bluepyemodel.git"
+    git = "ssh://git@bbpgitlab.epfl.ch/cells/bluepyemodel.git"
 
     version('0.0.8.2021-12-22', tag='BluePyEModel-v0.0.8')
     version('0.0.8', tag='BluePyEModel-v0.0.8')
@@ -25,7 +25,7 @@ class PyBluepyemodel(PythonPackage):
     depends_on('py-pyyaml@5.3.1:', type=('build', 'run'))
     depends_on('py-gitpython', type=('build', 'run'))
     depends_on('py-bluepyopt@1.9:', type=('build', 'run'))
-    depends_on('py-bluepyefe@BPE2', type=('build', 'run'))
+    depends_on('py-bluepyefe@2.2.33', type=('build', 'run'))
     depends_on('py-neurom@3.0:3.999', type=('build', 'run'))
     depends_on('py-efel@3.1:', type=('build', 'run'))
     depends_on('py-psycopg2@2.8:', type=('build', 'run'))
