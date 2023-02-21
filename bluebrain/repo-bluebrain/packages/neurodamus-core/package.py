@@ -136,13 +136,13 @@ class NeurodamusCore(SimModel):
         variant_to_compile_flag = {
             "~mpi": "-DDISABLE_MPI",
             "~hdf5": "-DDISABLE_HDF5",
-            "~report": "-DDISABLE_REPORTINGLIB",
             "+synapsetool": "-DENABLE_SYNTOOL",
         }
 
         compile_flags = " ".join(
             flag for variant, flag in variant_to_compile_flag.items() if spec.satisfies(variant)
         )
+        compile_flags += " -DDISABLE_REPORTINGLIB"
         self._build_mods("mod", "", compile_flags, "mod_core")
 
     # NOTE: install() is inherited
