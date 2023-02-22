@@ -110,6 +110,9 @@ class Neuron(CMakePackage):
     depends_on("py-numpy",    when="+python", type=("build", "run"))
     depends_on("py-cython",   when="+rx3d", type="build")
     depends_on("py-pytest-cov", when="+tests@8:")
+    # Python extensions are now built with main (and only) setup.py
+    depends_on("py-pip",        when="+python")
+    depends_on("py-packaging",  when="+python")
 
     # dependency on coreneuron via submodule
     depends_on("coreneuron+legacy-unit~caliper", when="@:8.99+coreneuron+legacy-unit~caliper")
