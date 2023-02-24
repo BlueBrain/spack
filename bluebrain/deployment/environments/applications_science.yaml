@@ -50,11 +50,11 @@ spack:
     - py-bba-datafetch
     - py-bba-data-push
     - py-bba-webexporter
-    - py-bglibpy%gcc ^py-bluepy%gcc ^neuron%intel
+    - py-bglibpy%gcc ^py-bluepy%gcc ^neuron@8.2.2a%intel
     - py-bluepyefe
     - py-bluepyemodel
-    - py-bluepymm%gcc ^neuron%intel
-    - py-bluepyopt%gcc ^neuron%intel
+    - py-bluepymm%gcc ^neuron@8.2.2a%intel
+    - py-bluepyopt%gcc ^neuron@8.2.2a%intel
     - py-bluepyparallel
     - py-data-integrity-check
     - py-efel
