@@ -192,6 +192,7 @@ def main(title: str, changed_files: list[str], commits: int) -> None:
             f"""\
             There are one or more issues with the commit message of commit {commit.hexsha}.
             Commit message:
+
             {quoted_commit_message}
             """
         )
