@@ -103,7 +103,11 @@ strict_date = r"Copyright 2013-%s" % latest_year
 #: regexes for valid license lines at tops of files
 license_line_regexes = [
     r"Copyright 2013-(%d|%d|%d) Lawrence Livermore National Security, LLC and other"
-    % (latest_year - 2, latest_year - 1, latest_year),  # allow a little leeway: current or last year
+    % (
+        latest_year - 2,
+        latest_year - 1,
+        latest_year,
+    ),  # allow a little leeway: current or last year
     r"Spack Project Developers\. See the top-level COPYRIGHT file for details.",
     r"SPDX-License-Identifier: \(Apache-2\.0 OR MIT\)",
 ]
