@@ -13,6 +13,8 @@ packages:
     variants: +gas+gold+ld+plugins~libiberty
   boost:
     variants: +filesystem+pic+test
+  caliper:
+    require: "%gcc"
   coreneuron:
     # Keep this aligned with NEURON, otherwise the Spack solver may decide that
     # rolling back to NEURON 8.2.2 with external CoreNEURON is a net win
@@ -20,7 +22,7 @@ packages:
       - one_of: ["%intel", "%nvhpc"]
   cuda:
     # Should match what is provided by NVHPC, too
-    # version: [11.6.1]
+    version: [11.8.0]
     require: "%gcc"
   curl:
     version: [7.29.0]
@@ -56,6 +58,9 @@ packages:
     externals:
     - spec: libtool@2.4.2
       prefix: /usr
+  llvm:
+    # Non-GCC12 allowed for CUDA reasons
+    require: "%gcc"
   m4:
     version: [1.4.16]
     externals:
@@ -152,7 +157,7 @@ packages:
   timemory:
     variants: +mpi~cuda+cupti+caliper~gperftools~python@3.0.0a
   all:
-    require: "%gcc target=skylake"
+    require: "%gcc@12.2.0 target=skylake"
     providers:
       mpi:: [hpe-mpi]
       scalapack:: [intel-oneapi-mkl]
