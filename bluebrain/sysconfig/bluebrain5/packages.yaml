@@ -23,7 +23,7 @@ packages:
   cuda:
     # Should match what is provided by NVHPC, too
     version: [11.8.0]
-    require: "%gcc"
+    require: "%gcc@11.3.0"
   curl:
     version: [7.29.0]
     externals:
