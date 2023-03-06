@@ -25,14 +25,14 @@ DEFAULT_GCC_DIR=$(spack -E location --install-dir ${DEFAULT_GCC_HASH:-gcc@${DEFA
 # Use the Spack configuration to grab the matching module for GCC;
 # requires GCC to be compiler found beforehand.
 GCC_MODULES="$(spack -E config get compilers|sed -n "
-    /^\s*spec: gcc@${DEFAULT_GCC_VERSION}/,/^\s*modules:/ {
+    /^\s*spec: gcc@${LEGACY_GCC_VERSION}/,/^\s*modules:/ {
         /^\s*modules:/ {
             s/^\s*modules: \[\(.*\)\]\$/\1/;
             p;
         }
     }")"
-log "...using gcc ${LEGACY_GCC_VERSION} from ${LEGACY_GCC_DIR} for Intel (legacy)"
-log "...using gcc ${DEFAULT_GCC_VERSION} from ${DEFAULT_GCC_DIR} for modern Intel and NVHPC with module(s) ${GCC_MODULES}"
+log "...using gcc ${LEGACY_GCC_VERSION} from ${LEGACY_GCC_DIR} for Intel (legacy) and NVHPC with module(s) ${GCC_MODULES}"
+log "...using gcc ${DEFAULT_GCC_VERSION} from ${DEFAULT_GCC_DIR} for modern Intel"
 
 while read -r line; do
     sha="${line%% *}"    # Remove everything after and including the first space
