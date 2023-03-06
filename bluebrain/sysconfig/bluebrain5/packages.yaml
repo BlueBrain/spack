@@ -22,8 +22,7 @@ packages:
       - one_of: ["%intel", "%nvhpc"]
   cuda:
     # Should match what is provided by NVHPC, too
-    version: [11.8.0]
-    require: "%gcc@11.3.0"
+    require: "@11.8.0%gcc@11.3.0"
   curl:
     version: [7.29.0]
     externals:
