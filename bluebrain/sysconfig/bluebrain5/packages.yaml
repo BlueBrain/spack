@@ -96,6 +96,8 @@ packages:
   nmodl:
     require:
       - one_of: ["%gcc", "%intel", "%nvhpc"]
+  nvhpc:
+    require: "%gcc@11.3.0"
   omega-h:
     variants: ~kokkos~trilinos
   opencv:
