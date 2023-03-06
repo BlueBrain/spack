@@ -24,7 +24,7 @@ setup_environment:
     # Global default, as long as we have a 9.x.x, environment-modules picks
     # the wrong one as default :(
     DEFAULT_GCC_VERSION: "12.2.0"
-    # Needed for NVIDIA compilers, which lag behind reasonably modern times
+    # Used by the Intel compilers
     LEGACY_GCC_VERSION: "11.3.0"
     # Used for cloning Spack
     DEPLOYMENT_BRANCH: "$DEPLOYMENT_DEFAULT_BRANCH"
