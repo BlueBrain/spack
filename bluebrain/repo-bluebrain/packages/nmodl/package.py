@@ -65,6 +65,10 @@ class Nmodl(CMakePackage):
             "-DNMODL_3RDPARTY_USE_JSON=OFF",
             "-DNMODL_3RDPARTY_USE_PYBIND11=OFF",
             "-DNMODL_3RDPARTY_USE_SPDLOG=OFF",
+            # This recipe is used in CI pipelines that run the tests directly from
+            # the build directory and not via Spack's --test=X option. Setting this
+            # aims to override the implicit CMake argument that Spack injects.
+            self.define("BUILD_TESTING", True),
             self.define("PYTHON_EXECUTABLE", python.command),
             self.define_from_variant("NMODL_ENABLE_PYTHON_BINDINGS", "python"),
             self.define_from_variant("NMODL_ENABLE_LEGACY_UNITS", "legacy-unit"),
