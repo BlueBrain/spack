@@ -54,8 +54,6 @@ class Nmodl(CMakePackage):
     depends_on("spdlog")
 
     def cmake_args(self):
-        spec = self.spec
-
         # Do not use the cli11, fmt, pybind11 and spdlog submodule, use the one from
         # the Spack dependency graph.
         options = [
