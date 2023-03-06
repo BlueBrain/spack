@@ -120,7 +120,7 @@ while read -r line; do
         (
             module purge
             ${cmd}
-            makelocalrc ${NVHPC_DIR} -d "${NVHPC_TMPDIR}" -gcc ${DEFAULT_GCC_DIR}/bin/gcc -gpp ${DEFAULT_GCC_DIR}/bin/g++ -g77 ${DEFAULT_GCC_DIR}/bin/gfortran -x
+            makelocalrc ${NVHPC_DIR} -d "${NVHPC_TMPDIR}" -gcc ${LEGACY_GCC_DIR}/bin/gcc -gpp ${LEGACY_GCC_DIR}/bin/g++ -g77 ${LEGACY_GCC_DIR}/bin/gfortran -x
         )
         # olupton 2021-10-15: is this still needed? Not sure.
         echo "set PREOPTIONS=-D__GCC_ATOMIC_TEST_AND_SET_TRUEVAL=1;" >> "${NVHPC_TMPDIR}/localrc"
