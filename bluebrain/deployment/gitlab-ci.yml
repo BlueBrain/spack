@@ -243,7 +243,8 @@ github_information:
     -     sed -e "/:':/{s/'//g}" "spack_config/packages.yaml.tmp" > "spack_config/packages.yaml"
     # The Intel® Oneapi™ MKL module requires an OpenMP library in LD_LIBRARY_PATH,
     # manually add it in:
-    -     MKL_MODULE=$(module show intel-oneapi-mkl|&sed -ne 's/:$//g;2p')
+    -     MKL_MODULE=$(spack module tcl find intel-oneapi-mkl|&sed -ne 's/:$//g;2p')
+    -     echo "Modifying MKL module in ${MKL_MODULE}"
     -     echo "# This avoids a missing symbol 'omp_get_num_procs' when calling anything that needs MKL" >> "${MKL_MODULE}"
     -     echo "append-path      LD_LIBRARY_PATH $(module show intel-oneapi-compilers|&grep LD_LIBRARY_PATH|grep -oe '/gpfs[^:]*linux/compiler/lib/intel64_lin')" >> "${MKL_MODULE}"
     - fi
