@@ -241,7 +241,6 @@ github_information:
     # move afterwards
     -     spack export --scope=user --module tcl --explicit --unbuildable cuda intel-oneapi-mkl likwid llvm openscenegraph optix --exclude 'neuron|hdf5|nvhpc' ${shas} > "spack_config/packages.yaml.tmp"
     -     sed -e "/:':/{s/'//g}" "spack_config/packages.yaml.tmp" > "spack_config/packages.yaml"
-    - elif [[ "${CI_JOB_STAGE}" == "externals" ]]; then
     # The Intel® Oneapi™ MKL module requires an OpenMP library in LD_LIBRARY_PATH,
     # manually add it in:
     -     MKL_MODULE=$(module show intel-oneapi-mkl|&sed -ne 's/:$//g;2p')
