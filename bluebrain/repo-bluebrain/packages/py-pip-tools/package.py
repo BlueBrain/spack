@@ -9,7 +9,7 @@ from spack.package import *
 class PyPipTools(PythonPackage):
     """pip-tools keeps your pinned dependencies fresh."""
 
-    homepage = "https://pip-tools.rtfd.io"
+    homepage = "https://github.com/jazzband/pip-tools/"
     pypi = "pip-tools/pip-tools-6.12.3.tar.gz"
 
     version("6.12.3", sha256="480d44fae6e09fad3f9bd3d0a7e8423088715d10477e8ef0663440db25e3114f")
