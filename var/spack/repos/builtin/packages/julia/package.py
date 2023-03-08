@@ -302,6 +302,5 @@ class Julia(MakefilePackage):
         # certificates to where Julia expects them to be.  This allows users to install
         # software that otherwise may fail at their download stage.
         copy(
-            join_path(self.spec["openssl"].prefix.etc.openssl, "cert.pem"),
-            self.prefix.share.julia
+            join_path(self.spec["openssl"].prefix.etc.openssl, "cert.pem"), self.prefix.share.julia
         )
