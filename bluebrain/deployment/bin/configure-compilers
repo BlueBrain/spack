@@ -104,8 +104,6 @@ while read -r line; do
                 for f in $(find ${INTEL_DIR} -name "${comp}.cfg"); do
                     sed -i -z -e 's/ --gcc-toolchain=.*//g' ${f}
                     echo -n " --gcc-toolchain=${GCC_DIR}" >> ${f}
-                    echo -n " -Xlinker -rpath=${GCC_DIR}/lib" >> ${f}
-                    echo -n " -Xlinker -rpath=${GCC_DIR}/lib64" >> ${f}
                     log "updated ${f} to use GCC from ${GCC_DIR}"
                 done
             done
