@@ -33,6 +33,7 @@ class Ospray(CMakePackage):
     depends_on("openvkl", when="@2.9.0:")
     depends_on("snappy", when="@2.9.0:")
     depends_on("llvm@15.0.4", when="@2.11.0:")
+    depends_on("levelzero", when="@2.11.0:")
 
     conflicts("^gcc")
 

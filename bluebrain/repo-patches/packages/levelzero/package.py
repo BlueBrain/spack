@@ -6,7 +6,7 @@
 from spack.package import *
 
 
-class Zerolevel(CMakePackage):
+class LevelZero(CMakePackage):
     """
     Intel API to provide direct-to-metal interfaces to offload accelerator
     devices.
