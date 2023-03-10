@@ -43,18 +43,3 @@ class PyAtldld(PythonPackage):
             # Like 0.3.4, it doesn't really need opencv-python
             # if opencv is installed with Python bindings
             filter_file('"opencv-python",', "", "setup.py")
-
-    def setup_run_environment(self, env):
-        spec = self.spec
-        env.prepend_path(
-            "LD_LIBRARY_PATH",
-            os.path.join(
-                spec["intel-oneapi-mkl"].prefix,
-                "compiler",
-                str(spec["intel-oneapi-mkl"].version),
-                "linux",
-                "compiler",
-                "lib",
-                "intel64_lin",
-            ),
-        )
