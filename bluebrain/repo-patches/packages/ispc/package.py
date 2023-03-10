@@ -61,8 +61,3 @@ class Ispc(Package):
             else:
                 suffix = "b"
             return url.format(version, "linux", suffix)
-
-    def install(self, spec, prefix):
-        for d in ["bin", "examples"]:
-            if os.path.isdir(d):
-                install_tree(d, join_path(self.prefix, d))
