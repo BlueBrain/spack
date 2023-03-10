@@ -28,7 +28,12 @@ class Openvkl(CMakePackage):
     depends_on("rkcommon")
 
     def cmake_args(self):
-        return [
+        args = [
             "-DBUILD_EXAMPLES=OFF",
             "-DBUILD_BENCHMARKS=OFF",
         ]
+
+        if self.spec.satisfies("@1.3.2:1.3.2"):
+            args.append("-DCMAKE_INSTALL_INCLUDEDIR=include")
+
+        return args
