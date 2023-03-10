@@ -44,7 +44,7 @@ class PyAtldld(PythonPackage):
             os.path.join(
                 spec["intel-oneapi-mkl"].prefix,
                 "compiler",
-                spec["intel-oneapi-mkl"].version,
+                str(spec["intel-oneapi-mkl"].version),
                 "linux",
                 "compiler",
                 "lib",
