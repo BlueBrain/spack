@@ -66,3 +66,6 @@ class Ispc(Package):
         for d in ["bin", "examples", "lib64", "include"]:
             if os.path.isdir(d):
                 install_tree(d, join_path(self.prefix, d))
+
+    def setup_dependent_build_environment(self, env, dependent_spec):
+        env.prepend_path("CMAKE_PREFIX_PATH", join_path(self.prefix, "lib64", "cmake"))
