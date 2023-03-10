@@ -17,8 +17,9 @@ class Openvkl(CMakePackage):
     git = "https://github.com/openvkl/openvkl.git"
     generator = "Ninja"
 
-    version("1.2.0", tag="v1.2.0")
+    version("1.3.2", tag="v1.3.2")
     version("1.3.0", tag="v1.3.0")
+    version("1.2.0", tag="v1.2.0")
 
     depends_on("cmake@3.1:", type="build")
     depends_on("ispc", type="build")
@@ -27,4 +28,7 @@ class Openvkl(CMakePackage):
     depends_on("rkcommon")
 
     def cmake_args(self):
-        return ["-DBUILD_EXAMPLES=OFF"]
+        return [
+            "-DBUILD_EXAMPLES=OFF",
+            "-DBUILD_BENCHMARKS=OFF",
+        ]

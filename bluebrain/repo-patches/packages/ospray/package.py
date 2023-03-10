@@ -13,16 +13,18 @@ class Ospray(CMakePackage):
     git = "https://github.com/ospray/ospray.git"
     generator = "Ninja"
 
+    version("2.11.0", tag="v2.11.0")
+    version("2.10.0", tag="v2.10.0")
+    version("2.9.0", tag="v2.9.0")
     version("1.8.5", tag="v1.8.5")
     version("1.7.3", tag="v1.7.3")
-    version("2.9.0", tag="v2.9.0")
-    version("2.10.0", tag="v2.10.0")
 
     variant("apps", default=False, description="Build example applications")
 
     depends_on("cmake@3.1:", type="build")
     depends_on("ispc@:1.12", type="build", when="@:1.999")
-    depends_on("ispc@1.16.1:", type="build", when="@2.9.0:")
+    depends_on("ispc@1.16.1:", type="build", when="@2.9.0:2.10.0")
+    depends_on("ispc@1.19.0:", type=("build", "link"), when="@2.11.0:")
     depends_on("ninja", type="build")
     depends_on("embree")
     depends_on("mpi")
@@ -30,6 +32,7 @@ class Ospray(CMakePackage):
     depends_on("rkcommon", when="@2.9.0:")
     depends_on("openvkl", when="@2.9.0:")
     depends_on("snappy", when="@2.9.0:")
+    depends_on("llvm@15.0.4", when="@2.11.0")
 
     conflicts("^gcc")
 

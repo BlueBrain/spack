@@ -17,8 +17,9 @@ class Rkcommon(CMakePackage):
     git = "https://github.com/ospray/rkcommon.git"
     generator = "Ninja"
 
-    version("1.9.0", tag="v1.9.0")
+    version("1.11.0", tag="v1.11.0")
     version("1.10.0", tag="v1.10.0")
+    version("1.9.0", tag="v1.9.0")
 
     depends_on("cmake@3.1:", type="build")
     depends_on("ninja", type="build")
