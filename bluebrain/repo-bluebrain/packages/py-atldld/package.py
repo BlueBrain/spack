@@ -5,8 +5,7 @@
 
 import os
 
-from spack.build_systems.python import PythonPackage
-from spack.directives import depends_on, version
+from spack.package import *
 
 
 class PyAtldld(PythonPackage):
