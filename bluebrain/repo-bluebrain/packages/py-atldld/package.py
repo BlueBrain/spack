@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+import os
+
 from spack.build_systems.python import PythonPackage
 from spack.directives import depends_on, version
 
@@ -12,13 +14,11 @@ class PyAtldld(PythonPackage):
 
     homepage = "atlas-download-tools.rtfd.io"
     git = "https://github.com/BlueBrain/Atlas-Download-Tools.git"
+    pypi = "atldld/atldld-0.3.4.tar.gz"
 
     maintainers = ["EmilieDel", "jankrepl", "Stannislav"]
 
-    version("0.3.2", tag="v0.3.2")
-    version("0.3.1", tag="v0.3.1")
-    version("0.3.0", tag="v0.3.0")
-    version("0.2.2", tag="v0.2.2")
+    version("0.3.4", sha256="4385d279e984864814cdb586d19663c525fe2c1eef8dd4be19e8a87b8520a913")
 
     # Build dependencies
     depends_on("python@3.7:", type=("build", "run"))
@@ -30,9 +30,24 @@ class PyAtldld(PythonPackage):
     depends_on("py-dataclasses", when="@0.3.1: ^python@3.6", type=("build", "run"))
     depends_on("py-matplotlib", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
-    depends_on("py-opencv-python", type=("build", "run"))
+    depends_on("opencv+python3+python_bindings_generator+imgproc", type=("build", "run"))
     depends_on("py-pandas", type=("build", "run"))
     depends_on("py-pillow", when="@0.3.1:", type=("build", "run"))
     depends_on("py-requests", type=("build", "run"))
     depends_on("py-responses", type=("build", "run"))
     depends_on("py-scikit-image", type=("build", "run"))
+
+    def setup_run_environment(self, env):
+        spec = self.spec
+        env.prepend_path(
+            "LD_LIBRARY_PATH",
+            os.path.join(
+                spec["intel-oneapi-mkl"].prefix,
+                "compiler",
+                spec["intel-oneapi-mkl"].version,
+                "linux",
+                "compiler",
+                "lib",
+                "intel64_lin",
+            ),
+        )
