@@ -7,7 +7,6 @@ from spack.package import *
 
 from .neurodamus_model import (
     NeurodamusModel,
-    version_from_model_core_dep,
     version_from_model_ndpy_dep,
 )
 
@@ -26,4 +25,3 @@ class NeurodamusHippocampus(NeurodamusModel):
     version_from_model_ndpy_dep("1.8")
     version_from_model_ndpy_dep("1.7")
     version_from_model_ndpy_dep("1.6")
-    version_from_model_core_dep("1.5", "3.3.4")
