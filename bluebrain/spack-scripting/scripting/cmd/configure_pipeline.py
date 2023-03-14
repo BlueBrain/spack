@@ -1,8 +1,6 @@
-import os
 import re
 
 from llnl.util import tty
-from llnl.util.filesystem import filter_file
 
 import spack.config
 import spack.environment as ev
@@ -63,11 +61,7 @@ def get_commit(package_name, ref, ref_type):
             )
         commit, ref_check = remote_refs[0].split()
         assert remote_ref == ref_check
-        tty.info(
-            "{}: resolved {} {} to {}".format(
-                package_name, ref_type, ref, commit
-            )
-        )
+        tty.info("{}: resolved {} {} to {}".format(package_name, ref_type, ref, commit))
         return commit
 
 
