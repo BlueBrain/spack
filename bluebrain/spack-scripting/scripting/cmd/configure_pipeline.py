@@ -4,6 +4,8 @@ import re
 from llnl.util import tty
 from llnl.util.filesystem import filter_file
 
+import spack.config
+import spack.environment as ev
 import spack.repo
 from spack.util.executable import which
 from spack.util.naming import simplify_name
@@ -29,6 +31,44 @@ are given for the same Spack package, an error code is returned.
 """
 section = "extensions"
 level = "short"
+
+
+def get_commit(package_name, ref, ref_type):
+    """Get commit for a package based on references.
+
+    Translate any branches or tags into commit hashes and then use those
+    consistently. This guarantees different jobs in a pipeline all get the
+    same commit, and means we can handle provenance information (what did
+    @develop mean) in one place.
+    """
+    git = which("git")
+    if not git:
+        raise Exception("Git is required")
+    if ref_type == "commit":
+        return ref
+    else:
+        if ref_type == "branch":
+            remote_ref = "refs/heads/" + ref
+        else:
+            assert ref_type == "tag"
+            remote_ref = "refs/tags/" + ref
+        spack_package = spack.repo.path.get_pkg_class(package_name)
+        remote_refs = git("ls-remote", spack_package.git, remote_ref, output=str).splitlines()
+        assert len(remote_refs) < 2
+        if len(remote_refs) == 0:
+            raise Exception(
+                "Could not find {} {} on remote {} (tried {})".format(
+                    ref_type, ref, spack_package.git, remote_ref
+                )
+            )
+        commit, ref_check = remote_refs[0].split()
+        assert remote_ref == ref_check
+        tty.info(
+            "{}: resolved {} {} to {}".format(
+                package_name, ref_type, ref, commit
+            )
+        )
+        return commit
 
 
 def setup_parser(subparser):
@@ -92,88 +132,24 @@ def configure_pipeline(parser, args):
             "bash_name": package_name,
             "ref_type": ref_type,
             "ref": val,
+            "commit": get_commit(spack_package_name, val, ref_type),
         }
-
-    # Translate any branches or tags into commit hashes and then use those
-    # consistently. This guarantees different jobs in a pipeline all get the
-    # same commit, and means we can handle provenance information (what did
-    # @develop mean) in one place.
-    git = which("git")
-    if not git:
-        raise Exception("Git is required")
-    for spack_package_name, info in modifications.items():
-        if info["ref_type"] == "commit":
-            info["commit"] = info["ref"]
-        else:
-            if info["ref_type"] == "branch":
-                remote_ref = "refs/heads/" + info["ref"]
-            else:
-                assert info["ref_type"] == "tag"
-                remote_ref = "refs/tags/" + info["ref"]
-            spack_package = spack.repo.path.get_pkg_class(spack_package_name)
-            remote_refs = git("ls-remote", spack_package.git, remote_ref, output=str).splitlines()
-            assert len(remote_refs) < 2
-            if len(remote_refs) == 0:
-                raise Exception(
-                    "Could not find {} {} on remote {} (tried {})".format(
-                        info["ref_type"], info["ref"], spack_package.git, remote_ref
-                    )
-                )
-            commit, ref_check = remote_refs[0].split()
-            assert remote_ref == ref_check
-            tty.info(
-                "{}: resolved {} {} to {}".format(
-                    spack_package_name, info["ref_type"], info["ref"], commit
-                )
-            )
-            info["commit"] = commit
 
     if args.write_commit_file is not None:
         with open(args.write_commit_file, "w") as ofile:
             for spack_package_name, info in modifications.items():
                 ofile.write("{}_COMMIT={}\n".format(info["bash_name"], info["commit"]))
 
-    # Now modify the Spack recipes of the given packages
+    env = ev.active_environment()
+    if env:
+        scope = env.env_file_config_scope_name()
+    else:
+        scope = spack.config.default_modify_scope(section="packages")
+
+    # Now modify the Spack configuration to require the given packages
     for spack_package_name, info in modifications.items():
-        spack_package = spack.repo.path.get_pkg_class(spack_package_name)
-        spack_recipe = os.path.join(spack_package.package_dir, spack.repo.package_file_name)
-        # Using filter_file seems neater than calling sed, but it is a little
-        # more limited. First, remove any existing branch/commit/tag from the
-        # develop version.
-        tty.info("{}@develop: remove branch/commit/tag".format(spack_package_name))
-        filter_file(
-            "version\\s*\\(\\s*(['\"]{1})develop\\1(.*?)"
-            + ",\\s*(branch|commit|tag)=(['\"]{1})(.*?)\\4(.*?)\\)",
-            "version('develop'\\2\\6) # old: \\3=\\4\\5\\4",
-            spack_recipe,
-        )
-        # Second, insert the new commit="sha" part
-        tty.info('{}@develop: use commit="{}"'.format(spack_package_name, info["commit"]))
-        filter_file(
-            "version\\('develop'",
-            "version('develop', commit='{}'".format(info["commit"]),
-            spack_recipe,
-        )
-        # Third, make sure that the develop version, and only the develop
-        # version, is flagged as the preferred version. Start by getting a list
-        # of versions that are already explicitly flagged as preferred.
-        already_preferred = {
-            str(v)
-            for v, v_info in spack_package.versions.items()
-            if v_info.get("preferred", False)
-        }
-        # Make sure the develop version has an explicit preferred=True.
-        if "develop" not in already_preferred:
-            tty.info("{}@develop: add preferred=True".format(spack_package_name))
-            filter_file("version\\('develop'", "version('develop', preferred=True", spack_recipe)
-        # Make sure no other versions have an explicit preferred=True.
-        for other_version in already_preferred - {"develop"}:
-            tty.info("{}@{}: remove preferred=True".format(spack_package_name, other_version))
-            escaped_version = re.escape(other_version)
-            filter_file(
-                "version\\s*\\(\\s*(['\"]{1})"
-                + escaped_version
-                + "\\1(.*?),\\s*preferred=True(.*?)\\)",
-                "version('{version}'\\2\\3)".format(version=other_version),
-                spack_recipe,
-            )
+        new_version = "git.{}=develop".format(info["commit"])
+        config_path = "packages:{}:version".format(spack_package_name)
+        tty.info("setting {} in {}: {}".format(config_path, scope, new_version))
+        full_path = "{}:['{}']".format(config_path, new_version)
+        spack.config.add(full_path, scope=scope)
