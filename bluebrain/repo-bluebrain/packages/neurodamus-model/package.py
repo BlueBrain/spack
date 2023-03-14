@@ -95,14 +95,13 @@ class NeurodamusModel(SimModel):
         self._install_binaries()
 
     def merge_hoc_mod(self, spec, prefix):
-        """Add hocs, mods and python scripts from neurodamus-core.
+        """Add hocs, mods and python scripts from neurodamus-core which comes
+        as a submodule of py-neurodamus.
 
         This routine simply adds the additional mods to existing dirs
         so that incremental builds can actually happen.
         """
-        core = (
-            spec["py-neurodamus"] if spec.satisfies("^py-neurodamus") else spec["neurodamus-core"]
-        )
+        core = spec["py-neurodamus"]
         core_prefix = core.prefix
 
         # If we shall build mods for coreneuron,
@@ -184,9 +183,7 @@ class NeurodamusModel(SimModel):
         shutil.move(_BUILD_NEURODAMUS_FNAME, prefix.bin)
 
         # Create mods links in share
-        core = (
-            spec["py-neurodamus"] if spec.satisfies("^py-neurodamus") else spec["neurodamus-core"]
-        )
+        core = spec["py-neurodamus"]
         force_symlink(core.prefix.lib.mod, prefix.share.mod_neurodamus)
         force_symlink(prefix.lib.mod, prefix.share.mod_full)
 
