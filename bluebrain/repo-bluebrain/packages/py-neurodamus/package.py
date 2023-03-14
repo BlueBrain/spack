@@ -35,16 +35,6 @@ class PyNeurodamus(PythonPackage):
     version("2.10.1", tag="2.10.1", submodules=True)
     version("2.10.0", tag="2.10.0", submodules=True)
     version("2.9.0", tag="2.9.0", submodules=True)
-    version("2.8.1", commit="6b66cba")
-    version("2.8.0", tag="2.8.0")
-    version("2.7.1", tag="2.7.1")
-    version("2.7.0", tag="2.7.0")
-    version("2.6.0", tag="2.6.0")
-    version("2.5.3", tag="2.5.3")
-    version("2.5.0", tag="2.5.0")
-    version("2.4.0", tag="2.4.0")
-    version("2.3.1", tag="2.3.1")
-    version("1.3.2", tag="1.3.2")
 
     variant(
         "all_deps",
