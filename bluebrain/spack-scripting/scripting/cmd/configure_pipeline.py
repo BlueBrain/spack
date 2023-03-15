@@ -66,6 +66,18 @@ def get_commit(package_name, ref, ref_type):
 
 
 def setup_parser(subparser):
+    # lifted from cmd/config.py
+    scopes = spack.config.scopes()
+    scopes_metavar = spack.config.scopes_metavar
+
+    # User can only choose one
+    subparser.add_argument(
+        "--scope",
+        choices=scopes,
+        metavar=scopes_metavar,
+        help="configuration scope to read/modify",
+    )
+
     subparser.add_argument(
         "--ignore-packages",
         nargs="*",
@@ -134,11 +146,13 @@ def configure_pipeline(parser, args):
             for spack_package_name, info in modifications.items():
                 ofile.write("{}_COMMIT={}\n".format(info["bash_name"], info["commit"]))
 
-    env = ev.active_environment()
-    if env:
-        scope = env.env_file_config_scope_name()
-    else:
-        scope = spack.config.default_modify_scope(section="packages")
+    scope = args.scope
+    if not scope:
+        env = ev.active_environment()
+        if env:
+            scope = env.env_file_config_scope_name()
+        else:
+            scope = spack.config.default_modify_scope(section="packages")
 
     # Now modify the Spack configuration to require the given packages
     for spack_package_name, info in modifications.items():
