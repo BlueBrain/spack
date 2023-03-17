@@ -23,7 +23,7 @@ class PyBglibpy(PythonPackage):
     depends_on("py-numpy@1.8:", type="run")
     depends_on("py-matplotlib@3.0.3:", type="run")
     depends_on("py-cachetools", type="run")
-    depends_on("py-bluepy@2.4.2:2.999", type="run")
+    depends_on("py-bluepy@2.5.0:2.999", type="run")
     depends_on("py-bluepy-configfile@0.1.18:", type="run")
     depends_on("py-pandas@1.0.0:", type="run")
 
