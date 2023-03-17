@@ -2,11 +2,6 @@ packages:
   arrow:
     # for interoperability with Spark
     require: "+snappy"
-  autoconf:
-    version: [2.69]
-    externals:
-    - spec: autoconf@2.69
-      prefix: /usr
   binutils:
     version: [2.37]
     # Merged GCC / LLVM requirements
@@ -26,9 +21,9 @@ packages:
     # Pin GCC 11 because CUDA 11.8.0 is incompatible with GCC 12
     require: "@11.8.0%gcc@11.3.0 target=skylake"
   curl:
-    version: [7.29.0]
+    version: [7.76.1]
     externals:
-    - spec: curl@7.29.0
+    - spec: curl@7.76.1
       prefix: /usr
   darshan-runtime:
     variants: +slurm
@@ -44,28 +39,17 @@ packages:
   icu4c:
     version: [64.1]
     # Drags in heavy PEARL dependencies
-  intltool:
-    version: [0.50.2]
-    externals:
-    - spec: intltool@0.50.2
-      prefix: /usr
   julia:
     variants: +external_llvm
   kokkos:
     variants: +openmp
-  libtool:
-    buildable: false  # Different versions interact badly with autohell
-    version: [2.4.2]
-    externals:
-    - spec: libtool@2.4.2
-      prefix: /usr
   llvm:
     # Allow GCC != 12 for things that depend on CUDA
     require: "%gcc target=skylake"
   m4:
-    version: [1.4.16]
+    version: [1.4.19]
     externals:
-    - spec: m4@1.4.16
+    - spec: m4@1.4.19
       prefix: /usr
   model-neocortex:
     variants: ~gpu
@@ -102,27 +86,21 @@ packages:
   opencv:
     variants: ~gtk~vtk
   openssh:
-    version: [9.1p1]
+    version: [8.7p1-24]
     externals:
-    - spec: openssh@9.1p1
+    - spec: openssh@8.7p1-24
       prefix: /usr
   openssl:
-    version: [1.0.2k]
+    version: [3.0.1]
     externals:
-    - spec: openssl@1.0.2k
-      prefix: /usr
-  opengl:
-    buildable: false
-    version: [4.5]
-    externals:
-    - spec: opengl@4.5
+    - spec: openssl@3.0.1
       prefix: /usr
   ospray:
     require: "%intel"
   perl:
-    version: [5.16.3]
+    version: [5.32.1]
     externals:
-    - spec: perl@5.16.3
+    - spec: perl@5.32.1
       prefix: /usr
   petsc:
     variants: ~fortran
@@ -138,12 +116,6 @@ packages:
     variants: ~ssl~sql~tools
   range-v3:
     variants: ~doc
-  slurm:
-    buildable: false
-    version: [21.08.3]
-    externals:
-    - spec: slurm@21.08.3
-      prefix: /usr
   spdlog:
     variants: +fmt_external
   steps:
@@ -151,9 +123,9 @@ packages:
   superlu-dist:
     variants: +int64
   tar:
-    version: [1.28]
+    version: [1.34]
     externals:
-    - spec: tar@1.28
+    - spec: tar@1.34
       prefix: /usr
   timemory:
     variants: +mpi~cuda+cupti+caliper~gperftools~python@3.0.0a
