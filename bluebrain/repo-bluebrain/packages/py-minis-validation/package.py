@@ -30,8 +30,6 @@ class PyMinisValidation(PythonPackage):
     depends_on("py-bluepy@2.0:2.999", type=("build", "run"))
     depends_on("py-bluepy-configfile@0.1.10:0.999", type=("build", "run"))
     depends_on("py-bglibpy@4.7.2:4.8.2", type=("build", "run"), when="@:0.0.5")
-    depends_on("py-bglibpy@4.9.5:4", type=("build", "run"), when="@0.0.6:")
-
 
     def patch(self):
         # Purge version constraints caused by old (outdated) numba incompatibilities
