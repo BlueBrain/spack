@@ -20,6 +20,7 @@ class PyBluepysnap(PythonPackage):
 
     depends_on("python@3.7:", type=("build", "run"))
     depends_on("py-setuptools", type=("build", "run"))
+    depends_on("py-setuptools-scm", type="build")
 
     depends_on("py-cached-property@1.0:", type=("build", "run"))
     depends_on("py-h5py@3.0.1:3", type=("build", "run"))
