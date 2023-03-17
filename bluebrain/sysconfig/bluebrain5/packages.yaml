@@ -2,6 +2,8 @@ packages:
   arrow:
     # for interoperability with Spark
     require: "+snappy"
+  autoconf:
+    require: '%gcc@11.3.0'
   binutils:
     version: [2.37]
     # Merged GCC / LLVM requirements
@@ -32,6 +34,7 @@ packages:
   gcc:
     # +strip added to force rebuild of GCC with -fno-canonical-system-headers
     variants: +binutils+strip
+    require: '%gcc@11.3.0'
   gmsh:
     variants: ~mmg~fltk
   hdf5:
