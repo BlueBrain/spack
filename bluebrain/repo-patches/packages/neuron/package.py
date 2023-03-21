@@ -259,10 +259,15 @@ class Neuron(CMakePackage):
         # improves ccache performance in CI builds.
         if self.spec.satisfies("@8.2:"):
             args.append("-DNRN_AVOID_ABSOLUTE_PATHS=ON")
-        if ("%intel" in self.spec or "%oneapi" in self.spec) and self.spec.variants[
-            "build_type"
-        ].value == "Release":
-            # Compile for the host architecture. This is mainly just a test.
+        if (
+            ("%intel" in self.spec or "%oneapi" in self.spec)
+            and self.spec.satisfies("+coreneuron~nmodl")
+            and self.spec.variants["build_type"].value == "Release"
+        ):
+            # Compile for the host architecture when using MOD2C. This seems to be
+            # needed to undo a performance regression for this configuration that
+            # came with CoreNEURON being merged into NEURON. It can go away when
+            # mod2c goes away "soon"
             compilation_flags.append("-xHost")
         else:
             # Pass Spack's target architecture flags in explicitly so that they're
