@@ -63,6 +63,8 @@ setup_environment:
   script:
     # The `rules` keyword seems to not inherit variables specified via a
     # dotenv ⇒ do things manually once more
+    - echo "This is from fork PR"
+    - ls *
     - echo "DEFAULT_GCC_VERSION=$DEFAULT_GCC_VERSION" > deployment.env
     - echo "LEGACY_GCC_VERSION=$LEGACY_GCC_VERSION" >> deployment.env
     - echo "DEPLOYMENT_ARTIFACTS=$DEPLOYMENT_ARTIFACTS" >> deployment.env
