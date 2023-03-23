@@ -3,8 +3,6 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-import os
-
 from spack.package import *
 
 
@@ -138,11 +136,7 @@ class Gmsh(CMakePackage):
         # Make sure native file dialogs are used
         options.append("-DENABLE_NATIVE_FILE_CHOOSER=ON")
 
-        if os.path.isdir(self.prefix.lib):
-            lib_dir = self.prefix.lib
-        else:
-            lib_dir = self.prefix.lib64
-        options.append("-DCMAKE_INSTALL_NAME_DIR:PATH=%s" % lib_dir)
+        options.append("-DCMAKE_INSTALL_NAME_DIR:PATH=%s" % self.prefix.lib)
 
         # Prevent GMsh from using its own strange directory structure on OSX
         options.append("-DENABLE_OS_SPECIFIC_INSTALL=OFF")
@@ -180,8 +174,4 @@ class Gmsh(CMakePackage):
         return options
 
     def setup_run_environment(self, env):
-        if os.path.isdir(self.prefix.lib):
-            lib_dir = self.prefix.lib
-        else:
-            lib_dir = self.prefix.lib64
-        env.prepend_path("PYTHONPATH", lib_dir)
+        env.prepend_path("PYTHONPATH", self.prefix.lib)
