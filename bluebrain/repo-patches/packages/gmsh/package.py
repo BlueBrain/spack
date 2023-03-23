@@ -1,5 +1,6 @@
 import os
 
+from spack.package import *
 from spack.pkg.builtin.gmsh import Gmsh as BuiltinGmsh
 
 
