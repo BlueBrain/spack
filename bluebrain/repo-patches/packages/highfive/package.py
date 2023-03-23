@@ -52,7 +52,10 @@ class Highfive(CMakePackage):
     conflicts("~boost", when="@develop")
 
     depends_on("boost @1.41: +serialization+system", when="+boost")
+
+    depends_on("hdf5")
     depends_on("hdf5 ~mpi", when="~mpi")
+    depends_on("hdf5 +mpi", when="+mpi")
     depends_on("hdf5 +mpi", when="+mpi~page_buffer_patch")
 
     # Using the page buffer with pHDF5 requires HDF5 to be patched. This
