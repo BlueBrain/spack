@@ -80,5 +80,4 @@ class Highfive(CMakePackage):
             "-DHIGHFIVE_UNIT_TESTS:Bool=" + str(self.spec.satisfies("@develop")),
             "-DHIGHFIVE_TEST_SINGLE_INCLUDES:Bool=" + str(self.spec.satisfies("@develop")),
             "-DHIGHFIVE_USE_INSTALL_DEPS:Bool=ON",
-            "-DHDF5_NO_FIND_PACKAGE_CONFIG_FILE:Bool=ON",
         ]
