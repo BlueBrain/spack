@@ -71,6 +71,7 @@ class Steps(CMakePackage):
     depends_on("petsc~debug+int64~mpi", when="+petsc~mpi")
     depends_on("pkgconfig", type="build")
     depends_on("py-build", type="build", when="@5:")
+    depends_on("py-pip", type="build", when="@5:")
     depends_on("py-cython")
     depends_on("py-h5py", type=("build", "test", "run"))
     depends_on("py-gcovr", when="+coverage", type="build")
