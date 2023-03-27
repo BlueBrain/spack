@@ -18,12 +18,12 @@ class PyConnectomeManipulator(PythonPackage):
 
     depends_on("parquet-converters@0.8.0:", type="run")
 
-    depends_on("bluepysnap@1.0.5:", type=("build", "run"))
-    depends_on("numpy", type=("build", "run"))
-    depends_on("progressbar", type=("build", "run"))
-    depends_on("scipy", type=("build", "run"))
-    depends_on("scikit-learn", type=("build", "run"))
-    depends_on("submitit", type=("build", "run"))
+    depends_on("py-bluepysnap@1.0.5:", type=("build", "run"))
+    depends_on("py-numpy", type=("build", "run"))
+    depends_on("py-progressbar", type=("build", "run"))
+    depends_on("py-scipy", type=("build", "run"))
+    depends_on("py-scikit-learn", type=("build", "run"))
+    depends_on("py-submitit", type=("build", "run"))
     depends_on("py-voxcell", type=("build", "run"))
     depends_on("py-pyarrow", type=("build", "run"))
     depends_on("py-jsonpickle", type=("build", "run"))
