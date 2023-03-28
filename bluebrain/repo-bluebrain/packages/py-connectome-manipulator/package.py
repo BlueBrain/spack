@@ -28,7 +28,3 @@ class PyConnectomeManipulator(PythonPackage):
     depends_on("py-pyarrow", type=("build", "run"))
     depends_on("py-jsonpickle", type=("build", "run"))
     depends_on("py-submitit", type=("build", "run"))
-
-    def setup_run_environment(self, env):
-        """Add parquet-converters to the PATH."""
-        env.prepend_path("PATH", os.path.join(self.spec["parquet-converters"].prefix, "bin"))
