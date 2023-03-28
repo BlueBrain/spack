@@ -11,7 +11,7 @@ class PyConnectomeManipulator(PythonPackage):
     """Connectome generator tool."""
 
     homepage = "https://bbpgitlab.epfl.ch/conn/structural/connectome_manipulator"
-    git = "git@bbpgitlab.epfl.ch:conn/structural/connectome_manipulator.git"
+    git = "ssh://git@bbpgitlab.epfl.ch:conn/structural/connectome_manipulator.git"
 
     version("develop", branch="main")
     version("0.0.3", tag="connectome-manipulator-v0.0.3")
