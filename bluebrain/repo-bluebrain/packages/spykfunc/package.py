@@ -85,10 +85,5 @@ class Spykfunc(PythonPackage):
         env.set("BOOST_ROOT", self.spec["boost"].prefix)
 
     def setup_run_environment(self, env):
-        env.set("JAVA_HOME", self.spec["java"].prefix)
         env.set("SPARK_HOME", self.spec["spark"].prefix)
         env.set("HADOOP_HOME", self.spec["hadoop"].prefix)
-
-        if self.spec.satisfies("@:0.15.6"):
-            env.prepend_path("PATH", os.path.join(self.spec["py-sparkmanager"].prefix, "bin"))
-        env.prepend_path("PATH", os.path.join(self.spec["spark"].prefix, "bin"))
