@@ -47,6 +47,12 @@ spack:
           - ilmbase
           - openblas
           - openexr
+        cuda:
+          environment:
+            append_path:
+              LD_LIBRARY_PATH: '{prefix}/extras/CUPTI/lib64'
+            set:
+              NVHPC_CUDA_HOME: '{prefix}'
         hpe-mpi:
           environment:
             prepend_path:
