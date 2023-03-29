@@ -14,7 +14,7 @@ class PyConnectomeManipulator(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/conn/structural/connectome_manipulator.git"
 
     version("develop", branch="main")
-    version("0.0.3", tag="connectome-manipulator-v0.0.3")
+    version("0.0.4", tag="connectome-manipulator-v0.0.4")
 
     depends_on("parquet-converters@0.8.0:", type="run")
 
