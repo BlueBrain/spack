@@ -20,7 +20,7 @@ class PyBluepy(PythonPackage):
 
     depends_on("py-libsonata@0.1.7:0", type=("build", "run"))
     depends_on("py-pandas@1", type=("build", "run"))
-    depends_on("py-bluepy-configfile@0.1.20:0,develop", type=("build", "run"))
+    depends_on("py-bluepy-configfile@0.1.20:", type=("build", "run"))
     depends_on("py-numpy@1.8:", type=("build", "run"))
     depends_on("py-h5py@3.0.1:3", type=("build", "run"))
     depends_on("py-morph-tool@2.4.3:2", type=("build", "run"))
