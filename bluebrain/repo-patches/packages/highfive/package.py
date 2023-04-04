@@ -76,11 +76,10 @@ class Highfive(CMakePackage):
     )
 
     patch(
-        "remove-page-buffer-phdf5-check_v2.6.2.patch",
+        "remove-page-buffer-phdf5-check_v2.7.1.patch",
         when="@2.7.1+page_buffer_patch+mpi",
         sha256="352074bc2fb30357425042878de2334ffc2e24ac8da9353fe8a7c9c6a62dd95f",
     )
-
 
     def cmake_args(self):
         return [
