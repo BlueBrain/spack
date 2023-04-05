@@ -24,5 +24,5 @@ class Hdf5(BuiltinHdf5):
     patch(
         "page-buffer-check-on-file-open_v1.14.0.patch",
         when="@1.14.0+page_buffer_patch+mpi",
-        sha256="77fb681371736c156e348b4733e6cb505ed91e3968182a3c08f2eff052b90e34"
+        sha256="77fb681371736c156e348b4733e6cb505ed91e3968182a3c08f2eff052b90e34",
     )
