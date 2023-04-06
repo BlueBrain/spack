@@ -16,9 +16,11 @@ class Steps(CMakePackage):
 
     maintainers("tristan0x")
 
-    version("develop", branch="master", submodules=True)
-    version("5.0.0a", commit="b4bdd64", submodules=True)
-    version("4.1.0", submodules=True, preferred=True)
+    submodules = True
+
+    version("develop", branch="master")
+    version("5.0.0a", commit="b4bdd64")
+    version("4.1.0", tag="4.1.0", preferred=True)
 
     variant(
         "codechecks",
