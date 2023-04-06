@@ -235,7 +235,7 @@ class BundleFetchStrategy(FetchStrategy):
 
     def mirror_id(self):
         """BundlePackages don't have a mirror id."""
-        return ''
+        return ""
 
 
 class FetchStrategyComposite(pattern.Composite):
