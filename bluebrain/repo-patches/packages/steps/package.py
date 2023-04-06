@@ -77,7 +77,9 @@ class Steps(CMakePackage):
     depends_on("py-cython")
     depends_on("py-gcovr", when="+coverage", type="build")
     depends_on("py-h5py", type=("build", "test", "run"))
+    depends_on("py-pip", type="build", when="@5:")
     depends_on("py-matplotlib", type=("build", "test"))
+    depends_on("py-build", type="build", when="@5:")
     depends_on("py-mpi4py", when="+distmesh", type=("build", "test", "run"))
     depends_on("py-numpy", type=("build", "test", "run"))
     depends_on("py-scipy", type=("build", "test", "run"))
@@ -100,7 +102,6 @@ class Steps(CMakePackage):
         )
         args = [
             self.define("STEPS_INSTALL_PYTHON_DEPS", False),
-            self.define("STEPS_USE_STEPSBLENDER", False),
             self.define_from_variant("BUILD_STOCHASTIC_TESTS", "stochtests"),
             self.define_from_variant("BUILD_TESTING", "codechecks"),
             self.define_from_variant("ENABLE_CODECOVERAGE", "coverage"),
@@ -109,6 +110,7 @@ class Steps(CMakePackage):
             self.define_from_variant("STEPS_USE_CALIPER_PROFILING", "caliper"),
             self.define_from_variant("STEPS_USE_DIST_MESH", "distmesh"),
             self.define_from_variant("STEPS_USE_LIKWID_PROFILING", "likwid"),
+            self.define_from_variant("STEPS_USE_STEPSBLENDER", "blender"),
             self.define_from_variant("STEPS_USE_VESICLE_SOLVER", "vesicle"),
             self.define_from_variant("TARGET_NATIVE_ARCH", "native"),
             self.define_from_variant("USE_BDSYSTEM_LAPACK", "lapack"),
