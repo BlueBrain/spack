@@ -801,6 +801,8 @@ class GitFetchStrategy(VCSFetchStrategy):
 
     def mirror_id(self):
         repo_ref = self.commit or self.tag or self.branch
+        if repo_ref is None:
+            raise ValueError("GitFetchStrategy requires at least a commit, a tag, or a branch.")
         if self.submodules:
             repo_ref += "_submodules"
         if repo_ref:
