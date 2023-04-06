@@ -32,6 +32,7 @@ class Steps(CMakePackage):
         default=False if sys.platform == "darwin" else True,
         description="Generate non-portable arch-specific code",
     )
+    variant("blender", default=False, description="Build stepsblender package")
     variant("lapack", default=False, description="Use new BDSystem/Lapack code for E-Field solver")
     variant("distmesh", default=True, description="Add solvers based on distributed mesh")
     variant("petsc", default=True, description="Use PETSc library for parallel E-Field solver")
