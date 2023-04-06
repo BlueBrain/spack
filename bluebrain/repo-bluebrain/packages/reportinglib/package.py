@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 import os
 
-from spack.package import *
+from spack import *
 
 
 class Reportinglib(CMakePackage):

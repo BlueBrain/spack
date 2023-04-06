@@ -7,6 +7,7 @@ spack:
           - asciitoh5
           - model-neocortex
           - nest
+          - neurodamus
           - neurodamus-hippocampus
           - neurodamus-neocortex
           - neurodamus-thalamus
@@ -37,6 +38,7 @@ spack:
     - neuron%nvhpc+caliper+coreneuron+gpu+tests~openmp+nmodl
     - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp+nmodl+sympy
     - nest@2.20.1
+    - neurodamus+coreneuron  # Experimental
     - neurodamus-hippocampus+coreneuron+caliper
     - neurodamus-mousify+coreneuron+caliper
     - neurodamus-neocortex~plasticity+coreneuron+caliper
