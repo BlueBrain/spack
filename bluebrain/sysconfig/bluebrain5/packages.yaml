@@ -2,12 +2,12 @@ packages:
   arrow:
     # for interoperability with Spark
     require: "+snappy"
-  autoconf:
-    require: '%gcc@11.3.0'
   binutils:
     version: [2.37]
     # Merged GCC / LLVM requirements
     variants: +gas+gold+ld+plugins~libiberty
+# bison:
+#   require: "%gcc@11.3.1 target=skylake"
   boost:
     variants: +filesystem+pic+test
   caliper:
@@ -34,7 +34,6 @@ packages:
   gcc:
     # +strip added to force rebuild of GCC with -fno-canonical-system-headers
     variants: +binutils+strip
-    require: '%gcc@11.3.0'
   gmsh:
     variants: ~mmg~fltk
   hdf5:
@@ -82,8 +81,8 @@ packages:
     require:
       - one_of: ["%gcc", "%intel", "%nvhpc"]
   nvhpc:
-    # Consistently use GCC 11.3.0 for CUDA/NVIDIA
-    require: "%gcc@11.3.0 target=skylake"
+    # Consistently use GCC 11.3.1 for CUDA/NVIDIA
+    require: "%gcc@11.3.1 target=skylake"
   omega-h:
     variants: ~kokkos~trilinos
   opencv:

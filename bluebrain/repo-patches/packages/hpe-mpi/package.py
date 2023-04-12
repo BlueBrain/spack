@@ -20,9 +20,22 @@ class HpeMpi(Package):
     url = "http://www.no-name.com/hpempi-1.0.tar.gz"
 
     version(
-        "2.21",
-        sha256="2f27ad2e92ef0004b9a4dfb3b76837d1b657c43ff89f4deef99be58a322a80b7",
-        url="file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.21.tar.xz",
+        "2.27",
+        sha256="74a1a05d8e78b433ee579fc601b1c1c97ce1ebf5e3d77f659eabbd8637b96464",
+        url="file:///gpfs/bbp.cscs.ch/home/heeren/hpe-mpi-2.27.tar.xz")
+    version(
+        "2.27.hmpt",
+        sha256="b65240342869302f0b427cd01dafe262406b55be569695827e5db77eafd7ef4e",
+        url="file:///gpfs/bbp.cscs.ch/home/heeren/hpe-mpi-2.27.hmpt.tar.xz")
+    version(
+        "2.25.hmpt",
+        sha256="126a46bb2cbd4b63bd7b3aed74cee5e8d08e166e9748071fd0b308be29335e1a",
+        url="file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.25.hmpt.tar.xz",
+    )
+    version(
+        "2.22.hmpt",
+        sha256="e067e4ba382d306d540e1ad5bcd63035a4aa93e7d7c15d617e82de4160e5ad8a",
+        url="file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.22.hmpt.tar.xz",
     )
     version(
         "2.22",
@@ -35,14 +48,9 @@ class HpeMpi(Package):
         url="file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.21.hmpt.tar.xz",
     )
     version(
-        "2.22.hmpt",
-        sha256="e067e4ba382d306d540e1ad5bcd63035a4aa93e7d7c15d617e82de4160e5ad8a",
-        url="file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.22.hmpt.tar.xz",
-    )
-    version(
-        "2.25.hmpt",
-        sha256="126a46bb2cbd4b63bd7b3aed74cee5e8d08e166e9748071fd0b308be29335e1a",
-        url="file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.25.hmpt.tar.xz",
+        "2.21",
+        sha256="2f27ad2e92ef0004b9a4dfb3b76837d1b657c43ff89f4deef99be58a322a80b7",
+        url="file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.21.tar.xz",
     )
 
     provides("mpi")
