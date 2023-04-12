@@ -14,8 +14,6 @@ from .sim_model import SimModel, copy_all, make_link
 # Definitions
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
-PYNEURODAMUS_DEFAULT_V = PyNeurodamus.LATEST_STABLE
-COMMON_DEFAULT_V = "2.6.5"
 
 
 class Neurodamus(SimModel):
@@ -28,11 +26,11 @@ class Neurodamus(SimModel):
     git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-models.git"
 
     version("develop", submodules=True)
-    # Let the version scheme be different to avoid users loading it by mistake and getting puzzled
-    version("2023.04", branch="bump/2023-april", submodules=True)
+    # TODO: Shall we let the version scheme be different to avoid mixing with old neurodamus-**?
+    version("2023.04", tag="0.0.2", submodules=True)
 
     depends_on("py-neurodamus", type=("build", "run"))
-     # Note: We dont request link to MPI so that mpicc can do what is best
+    # Note: We dont request link to MPI so that mpicc can do what is best
     # and dont rpath it so we stay dynamic.
     # 'run' mode will load the same mpi module
     depends_on("mpi", type=("build", "run"))
@@ -47,14 +45,14 @@ class Neurodamus(SimModel):
     # and we must bring their dependencies.
     depends_on("zlib")  # for hdf5
 
-    phases = ["build_model", "merge_hoc_mod", "build", "install"]
+    phases = ["build_model_only", "build", "install"]
     models = ("common", "neocortex", "thalamus")
     model_mods_location = {
         "neocortex": "neocortex/mod/v6"
         # other cases it will fetch "<model_name>/mod"
     }
 
-    @run_before("build_model")
+    @run_before("build_model_only")
     def gather_hoc_mods(self):
         mkdirp("mod", "hoc")
         for model in self.models:
@@ -69,36 +67,42 @@ class Neurodamus(SimModel):
     variant(
         "common_mods",
         default="default",
-        description="Source of common mods. '': no change, other string: alternate path",
+        description="Source of common mods. 'default': no change, other string: alternate path",
     )
 
-    def build_model(self, spec, prefix):
-        """Build and install the bare model."""
+    def build_model_only(self, _spec, _prefix):
+        """Build and install the bare model.
+        This stage builds and installs the bare models without any neurodamus component
+        which is useful for e.g. BGLibPy.
+        Library can be found with env var BGLIBPY_MOD_LIBRARY_PATH
+        """
         self._build_mods("mod", dependencies=[])  # No dependencies
-        # Dont install intermediate src.
-        self._install_binaries()
+        self._install_binaries()  # No sources, only binaries
 
-    def merge_hoc_mod(self, spec, prefix):
+    @run_before("build")
+    def merge_hoc_mod(self):
         """Add hocs, mods and python scripts from neurodamus-core which comes
         as a submodule of py-neurodamus.
 
         This routine simply adds the additional mods to existing dirs
         so that incremental builds can actually happen.
         """
-        core = spec["py-neurodamus"]
+        core = self.spec["py-neurodamus"]
         core_prefix = core.prefix
 
         # If we shall build mods for coreneuron,
         # only bring from core those specified
-        if spec.satisfies("+coreneuron"):
+        if self.spec.satisfies("+coreneuron"):
             shutil.copytree("mod", "mod_core", True)
             core_nrn_mods = set()
+
             with open(core_prefix.lib.mod.join(_CORENRN_MODLIST_FNAME)) as core_mods:
                 for aux_mod in core_mods:
                     mod_fil = core_prefix.lib.mod.join(aux_mod.strip())
                     if os.path.isfile(mod_fil):
                         shutil.copy(mod_fil, "mod_core")
                         core_nrn_mods.add(aux_mod.strip())
+
             with working_dir(core_prefix.lib.mod):
                 all_mods = set(f for f in os.listdir() if f.endswith(".mod"))
             with open(join_path("mod", "neuron_only_mods.txt"), "w") as blackl:
@@ -111,7 +115,7 @@ class Neurodamus(SimModel):
         copy_all(core_prefix.lib.mod, "mod", make_link)
         copy_all(core_prefix.lib.python, "python", make_link)
 
-    def build(self, spec, prefix):
+    def build(self, spec, _prefix):
         """Build mod files from with nrnivmodl / nrnivmodl-core.
         To support shared libs, nrnivmodl is also passed RPATH flags.
         """
@@ -158,7 +162,6 @@ class Neurodamus(SimModel):
         share/ <- neuron & coreneuron mod.c's (modc and modc_core)
         python/ If neurodamus-core comes with python, create links
         """
-        # base dest dirs already created by model install
         # We install binaries normally, except lib has a suffix
         self._install_binaries()
 
@@ -194,8 +197,7 @@ class Neurodamus(SimModel):
         for libnrnmech_name in find(self.prefix.lib, "libnrnmech*", recursive=False):
             # We have the two libs and must export them in different vars
             #  - NRNMECH_LIB_PATH the combined lib (used by neurodamus-py)
-            #  - BGLIBPY_MOD_LIBRARY_PATH is the pure mechanism
-            #        (used by bglib-py)
+            #  - BGLIBPY_MOD_LIBRARY_PATH is the pure mechanism (used by bglibpy)
             if "libnrnmech." in libnrnmech_name:
                 env.set("NRNMECH_LIB_PATH", libnrnmech_name)
             else:
