@@ -119,29 +119,20 @@ class Neurodamus(SimModel):
         """Build mod files from with nrnivmodl / nrnivmodl-core.
         To support shared libs, nrnivmodl is also passed RPATH flags.
         """
-        # NOTE: sim-model now attempts to build all link and
-        # include flags from the dependencies
-        # link_flag += ' '
-        #         + spec['synapsetool'].package.dependency_libs(spec).joined()
-
-        # Create the library with all the mod files as libnrnmech.so/.dylib
-        self.mech_name = ""
-
-        if spec.satisfies("+synapsetool"):
-            base_include_flag = "-DENABLE_SYNTOOL"
-        else:
-            base_include_flag = ""
-
+        self.mech_name = ""  # Create the library with all the mod files as libnrnmech.so/.dylib
+        base_include_flag = "-DENABLE_SYNTOOL" if spec.satisfies("+synapsetool") else ""
         include_flag, link_flag = self._build_mods("mod", "", base_include_flag, "mod_core")
+        self._create_rebuild_script(include_flag, link_flag)
 
-        # Create rebuild script
-        if spec.satisfies("+coreneuron"):
-            nrnivmodlcore_call = str(self.nrnivmodl_core_exe)
+    def _create_rebuild_script(self, include_flag, link_flag):
+        if self.spec.satisfies("+coreneuron"):
+            nrnivmodlcore_call = str(self._nrnivmodlcore_exe)
             for param in self._nrnivmodlcore_params(include_flag, link_flag):
                 nrnivmodlcore_call += " '%s'" % param
             include_flag += " " + self._coreneuron_include_flag()
+            corenrnmech_section = _BUILD_LIBCORENRNMECH_TPL.format(cmd_call=nrnivmodlcore_call)
         else:
-            nrnivmodlcore_call = ""
+            corenrnmech_section = "# No CoreNEURON support"
 
         with open(_BUILD_NEURODAMUS_FNAME, "w") as f:
             f.write(
@@ -149,7 +140,7 @@ class Neurodamus(SimModel):
                     nrnivmodl=str(which("nrnivmodl")),
                     incflags=include_flag,
                     loadflags=link_flag,
-                    nrnivmodlcore_call=nrnivmodlcore_call,
+                    corenrnmech_section=corenrnmech_section,
                 )
             )
         os.chmod(_BUILD_NEURODAMUS_FNAME, 0o770)
@@ -230,26 +221,7 @@ if [ ! -d "$1" ]; then
     exit -1
 fi
 
-if [ -n "{nrnivmodlcore_call}" ]; then
-    rm -rf _core_mods
-    mkdir _core_mods
-    touch $1/neuron_only_mods.txt  # ensure exists
-    for f in $1/*.mod; do
-        if ! grep $(basename $f) $1/neuron_only_mods.txt; then
-            cp $f _core_mods/
-        fi
-    done
-    {nrnivmodlcore_call} _core_mods
-    libpath=$(dirname */libcorenrnmech_ext*)
-    extra_loadflags="-L $(pwd)/$libpath -lcorenrnmech_ext -Wl,-rpath=\\$ORIGIN"
-
-    echo "Your build supports CoreNeuron. However in some systems
-        the coreneuron mods might not be loadable without a location hint.
-        In case you get an error such as
-            'libcorenrnmech_ext.so: cannot open shared object file
-        please run the command:
-            export LD_LIBRARY_PATH=$libpath:\\$LD_LIBRARY_PATH"
-fi
+{corenrnmech_section}
 
 '{nrnivmodl}' -incflags '{incflags} '"$2" -loadflags \
     '{loadflags} '"$extra_loadflags $3" "$1"
@@ -258,4 +230,29 @@ fi
 if [ -d _core_mods ]; then
     rm -rf _core_mods
 fi
+"""
+
+_BUILD_LIBCORENRNMECH_TPL = """
+# BUILDS libcorenrnmech
+rm -rf _core_mods
+mkdir _core_mods
+touch $1/neuron_only_mods.txt  # ensure exists
+for f in $1/*.mod; do
+    if ! grep $(basename $f) $1/neuron_only_mods.txt; then
+        cp $f _core_mods/
+    fi
+done
+
+# Run nrnivmodlcore
+{cmd_call} _core_mods
+
+libpath=$(dirname */libcorenrnmech_ext*)
+extra_loadflags="-L $(pwd)/$libpath -lcorenrnmech_ext -Wl,-rpath=\\$ORIGIN"
+
+echo "Your build supports CoreNeuron. However in some systems
+    the coreneuron mods might not be loadable without a location hint.
+    In case you get an error such as
+        'libcorenrnmech_ext.so: cannot open shared object file
+    please run the command:
+        export LD_LIBRARY_PATH=$libpath:\\$LD_LIBRARY_PATH"
 """

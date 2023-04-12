@@ -11,7 +11,7 @@ from spack.package import *
 
 
 class SimModel(Package):
-    """The abstract base package for simulation models.
+    """The base package for building Neuron simulation models .
 
     Simulation models are groups of nmodl mechanisms. These packages are
     deployed as neuron/coreneuron modules (dynamic loadable libraries)
@@ -26,8 +26,8 @@ class SimModel(Package):
         version('develop', branch='master')
     ```
 
-    Nevertheless, for them to become full neurodamus packages, they may inherit
-    from NeurodamusModel instead. See neurodamus-xxx packages for examples.
+    This recipe is also used by Neurodamus, where the models are extended with
+    technical mod files required for auxiliary processes, like loading data.
 
     """
 
@@ -39,10 +39,6 @@ class SimModel(Package):
     # neuron/corenrn get linked automatically when using nrnivmodl[-core]
     # Dont duplicate the link dependency (only 'build' and 'run')
     depends_on("neuron+mpi", type=("build", "run"))
-    depends_on("coreneuron", when="+coreneuron ^neuron@:8.99", type=("build", "run"))
-    depends_on(
-        "coreneuron+caliper", when="+coreneuron+caliper ^neuron@:8.99", type=("build", "run")
-    )
     depends_on("neuron+caliper", when="+caliper", type=("build", "run"))
     depends_on("gettext", when="^neuron+binary")
 
@@ -62,50 +58,25 @@ class SimModel(Package):
     def lib_suffix(self):
         return ("_" + self.mech_name) if self.mech_name else ""
 
-    @property
-    def nrnivmodl_core_exe(self):
-        """with +coreneuron variant enabled in neuron, nrnivmodl-core
-        binary can come from two places: coreneuron or neuron. Depending
-        upon the spec that user has used, grab appropriate nrnivmodl-core
-        binary. Note that `which` uses $PATH to find out binary and it could
-        be "wrong" one i.e. coreneuron built under neuron may not have linked
-        with sonatareport and reportinglib.
-        TODO: this is temporary change until we move to 9.0a soon.
-        """
-        if self.spec.satisfies("^coreneuron"):
-            return which("nrnivmodl-core", path=self.spec["coreneuron"].prefix.bin, required=True)
-        else:
-            return which("nrnivmodl-core", path=self.spec["neuron"].prefix.bin, required=True)
-
     def _build_mods(
         self, mods_location, link_flag="", include_flag="", corenrn_mods=None, dependencies=None
     ):
         """Build shared lib & special from mods in a given path"""
-        # pass include and link flags for all dependency libraries
-        # Compiler wrappers are not used to have a more reproducible building
         if dependencies is None:
             dependencies = self.spec._dependencies_dict("link").keys()
-        for dep in set(dependencies):
-            libs = self.spec[dep].libs
-            link_flag += " {0} {1}".format(
-                self.spec[dep].libs.ld_flags,
-                " ".join(["-Wl,-rpath," + x for x in libs.directories]),
-            )
-            include_flag += " -I " + str(self.spec[dep].prefix.include)
-
+        inc_link_flags = self._raw_compiler_flags(dependencies, include_flag, link_flag)
         output_dir = os.path.basename(self.spec["neuron"].package.archdir)
-        include_flag_raw = include_flag
-        link_flag_raw = link_flag
+        include_flag, link_flag = inc_link_flags  # expand to use here with nrnivmodl
 
         if self.spec.satisfies("+coreneuron"):
             libnrncoremech = self.__build_mods_coreneuron(
-                corenrn_mods or mods_location, link_flag, include_flag
+                corenrn_mods or mods_location, include_flag, link_flag
             )
-            # Relevant flags to build neuron's nrnmech lib
+            # Additional flags to build Neuron's nrnmechlib w CoreNeuron
             # 'ENABLE_CORENEURON' only now, otherwise mods assume neuron
             # Only link with coreneuron when dependencies are passed
             if dependencies:
-                include_flag += self._coreneuron_include_flag()
+                include_flag += " -DENABLE_CORENEURON"
                 link_flag += " " + libnrncoremech.ld_flags
 
         # Neuron mechlib and special
@@ -114,31 +85,38 @@ class SimModel(Package):
             which("nrnivmodl")("-incflags", include_flag, "-loadflags", link_flag, mods_location)
 
         assert os.path.isfile(os.path.join(output_dir, "special"))
-        return include_flag_raw, link_flag_raw
+        return inc_link_flags
+
+    def _raw_compiler_flags(self, dependencies, include_flags="", link_flags=""):
+        """Compute include and link flags for all dependency libraries
+        Compiler wrappers are not used to have a more reproducible building
+        """
+        for dep in set(dependencies):
+            libs = self.spec[dep].libs
+            link_flags += " %s " % libs.ld_flags
+            link_flags += " ".join(["-Wl,-rpath," + x for x in libs.directories])
+            include_flags += " -I " + str(self.spec[dep].prefix.include)
+        return include_flags, link_flags
+
+    @property
+    def _nrnivmodlcore_exe(self):
+        return which("nrnivmodl-core", path=self.spec["neuron"].prefix.bin, required=True)
 
     def _nrnivmodlcore_params(self, inc_flags, link_flags):
         return ["-n", "ext", "-i", inc_flags, "-l", link_flags]
 
-    def _coreneuron_include_flag(self):
-        if self.spec.satisfies("^coreneuron"):
-            return " -DENABLE_CORENEURON" + " -I%s" % self.spec["coreneuron"].prefix.include
-        else:
-            return " -DENABLE_CORENEURON" + " -I%s" % self.spec["neuron"].prefix.include
-
-    def __build_mods_coreneuron(self, mods_location, link_flag, include_flag):
+    def __build_mods_coreneuron(self, mods_location, include_flag, link_flag):
         mods_location = os.path.abspath(mods_location)
-        assert os.path.isdir(mods_location) and find(mods_location, "*.mod", recursive=False), (
-            "Invalid mods dir: " + mods_location
-        )
+        mod_files = os.path.isdir(mods_location) and find(mods_location, "*.mod", recursive=False)
+        assert mod_files, "Invalid mods dir: " + mods_location
         nrnivmodl_params = self._nrnivmodlcore_params(include_flag, link_flag)
+
         with working_dir("build_" + self.mech_name, create=True):
             force_symlink(mods_location, "mod")
-            self.nrnivmodl_core_exe(*(nrnivmodl_params + ["mod"]))
+            self._nrnivmodlcore_exe(*(nrnivmodl_params + ["mod"]))
             output_dir = os.path.basename(self.spec["neuron"].package.archdir)
             mechlib = find_libraries("libcorenrnmech_ext*", output_dir)
-            assert len(mechlib.names) == 1, "Error creating corenrnmech. Found: " + str(
-                mechlib.names
-            )
+            assert len(mechlib.names) == 1, "Error creating corenrnmech. Found: %s" % mechlib.names
         return mechlib
 
     def install(self, spec, prefix, install_src=True):
@@ -166,36 +144,30 @@ class SimModel(Package):
 
         if self.spec.satisfies("+coreneuron"):
             with working_dir("build_" + mech_name):
-                if self.spec.satisfies("^coreneuron@0.0:0.14"):
-                    raise Exception(
-                        "Coreneuron versions before 0.14 are" "not supported by Neurodamus model"
-                    )
-                elif self.spec.satisfies("^coreneuron@0.14:0.16.99"):
-                    which("nrnivmech_install.sh", path=".")(prefix)
-                else:
-                    # Set dest to install
-                    self.nrnivmodl_core_exe("-d", prefix, "-n", "ext", "mod")
+                self._nrnivmodlcore_exe("-d", prefix, "-n", "ext", "mod")
 
         # Install special
         shutil.copy(join_path(arch, "special"), prefix.bin)
 
-        # Install libnrnmech - might have several links
-        libnrnmech_path = nrnivmodl_outdir
-        for f in find(libnrnmech_path, "libnrnmech.*", recursive=False):
-            if not os.path.islink(f):
-                bname = os.path.basename(f)
-                lib_dst = prefix.lib.join(
-                    bname[: bname.find(".")] + self.lib_suffix + "." + dso_suffix
-                )
-                shutil.move(f, lib_dst)  # Move so its not copied twice
-                break
-        else:
-            raise Exception("No libnrnmech found")
+        libnrnmech = self._find_install_libnrnmech(nrnivmodl_outdir)
 
         if self.spec.satisfies("^neuron~binary"):
             # Patch special for the new libname
-            which("sed")("-i.bak", 's#-dll .*#-dll %s "$@"#' % lib_dst, prefix.bin.special)
+            which("sed")("-i.bak", 's#-dll .*#-dll %s "$@"#' % libnrnmech, prefix.bin.special)
             os.remove(prefix.bin.join("special.bak"))
+
+    def _find_install_libnrnmech(self, libnrnmech_path):
+        """Find and move libnrnmech to final destination"""
+        for f in find(libnrnmech_path, "libnrnmech.*", recursive=False):
+            if not os.path.islink(f):
+                bname = os.path.basename(f)
+                lib_dst = self.prefix.lib.join(
+                    bname[: bname.find(".")] + self.lib_suffix + "." + dso_suffix
+                )
+                shutil.move(f, lib_dst)  # Move so its not copied twice
+                return lib_dst
+        else:
+            raise Exception("No libnrnmech found")
 
     def _install_src(self, prefix):
         """Copy original and translated c mods"""
@@ -232,35 +204,8 @@ class SimModel(Package):
             env.prepend_path("PYTHONPATH", self.prefix.lib.python)
         env.set("{}_ROOT".format(self.name.upper().replace("-", "_")), self.prefix)
 
-        # ENV variables to enable Caliper with certain settings
         if "+caliper" in self.spec:
-            env.set("NEURODAMUS_CALI_ENABLED", "true")  # Needed for slurm.taskprolog
-            env.set("CALI_MPIREPORT_FILENAME", "/dev/null")  # Prevents 'stdout' output
-            env.set("CALI_CHANNEL_FLUSH_ON_EXIT", "true")
-            env.set(
-                "CALI_MPIREPORT_LOCAL_CONFIG",
-                "SELECT sum(sum#time.duration), \
-                                                        inclusive_sum(sum#time.duration) \
-                                                    GROUP BY prop:nested",
-            )
-            env.set(
-                "CALI_MPIREPORT_CONFIG",
-                "SELECT annotation, \
-                        mpi.function, \
-                        min(sum#sum#time.duration) as exclusive_time_rank_min, \
-                        max(sum#sum#time.duration) as exclusive_time_rank_max, \
-                        avg(sum#sum#time.duration) as exclusive_time_rank_avg, \
-                        min(inclusive#sum#time.duration) AS inclusive_time_rank_min, \
-                        max(inclusive#sum#time.duration) AS inclusive_time_rank_max, \
-                        avg(inclusive#sum#time.duration) AS inclusive_time_rank_avg, \
-                        percent_total(sum#sum#time.duration) AS exclusive_time_pct, \
-                        inclusive_percent_total(sum#sum#time.duration) AS inclusive_time_pct \
-                    GROUP BY prop:nested FORMAT json",
-            )
-            env.set("CALI_SERVICES_ENABLE", "aggregate,event,mpi,mpireport,timestamp")
-            env.set(
-                "CALI_MPI_BLACKLIST", "MPI_Comm_rank,MPI_Comm_size,MPI_Wtick,MPI_Wtime"
-            )  # Ignore
+            env_set_caliper_flags(env)
 
     def setup_build_environment(self, env):
         self._setup_build_environment_common(env)
@@ -277,6 +222,32 @@ def profiling_wrapper_on():
     os.environ["USE_PROFILER_WRAPPER"] = "1"
     yield
     del os.environ["USE_PROFILER_WRAPPER"]
+
+
+def env_set_caliper_flags(env):
+    env.set("NEURODAMUS_CALI_ENABLED", "true")  # Needed for slurm.taskprolog
+    env.set("CALI_MPIREPORT_FILENAME", "/dev/null")  # Prevents 'stdout' output
+    env.set("CALI_CHANNEL_FLUSH_ON_EXIT", "true")
+    env.set(
+        "CALI_MPIREPORT_LOCAL_CONFIG",
+        "SELECT sum(sum#time.duration), inclusive_sum(sum#time.duration) GROUP BY prop:nested",
+    )
+    env.set(
+        "CALI_MPIREPORT_CONFIG",
+        "SELECT annotation, \
+                mpi.function, \
+                min(sum#sum#time.duration) as exclusive_time_rank_min, \
+                max(sum#sum#time.duration) as exclusive_time_rank_max, \
+                avg(sum#sum#time.duration) as exclusive_time_rank_avg, \
+                min(inclusive#sum#time.duration) AS inclusive_time_rank_min, \
+                max(inclusive#sum#time.duration) AS inclusive_time_rank_max, \
+                avg(inclusive#sum#time.duration) AS inclusive_time_rank_avg, \
+                percent_total(sum#sum#time.duration) AS exclusive_time_pct, \
+                inclusive_percent_total(sum#sum#time.duration) AS inclusive_time_pct \
+            GROUP BY prop:nested FORMAT json",
+    )
+    env.set("CALI_SERVICES_ENABLE", "aggregate,event,mpi,mpireport,timestamp")
+    env.set("CALI_MPI_BLACKLIST", "MPI_Comm_rank,MPI_Comm_size,MPI_Wtick,MPI_Wtime")
 
 
 def copy_all(src, dst, copyfunc=shutil.copy):
