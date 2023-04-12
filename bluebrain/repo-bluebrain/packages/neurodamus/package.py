@@ -14,8 +14,6 @@ from .sim_model import SimModel, copy_all, make_link
 # Definitions
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
-PYNEURODAMUS_DEFAULT_V = PyNeurodamus.LATEST_STABLE
-COMMON_DEFAULT_V = "2.6.5"
 
 
 class Neurodamus(SimModel):
@@ -28,11 +26,11 @@ class Neurodamus(SimModel):
     git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-models.git"
 
     version("develop", submodules=True)
-    # Let the version scheme be different to avoid users loading it by mistake and getting puzzled
-    version("2023.04", branch="bump/2023-april", submodules=True)
+    # TODO: Shall we let the version scheme be different to avoid mixing with old neurodamus-**?
+    version("2023.04", commit="c9a1a6fb", submodules=True)
 
     depends_on("py-neurodamus", type=("build", "run"))
-     # Note: We dont request link to MPI so that mpicc can do what is best
+    # Note: We dont request link to MPI so that mpicc can do what is best
     # and dont rpath it so we stay dynamic.
     # 'run' mode will load the same mpi module
     depends_on("mpi", type=("build", "run"))
@@ -47,7 +45,7 @@ class Neurodamus(SimModel):
     # and we must bring their dependencies.
     depends_on("zlib")  # for hdf5
 
-    phases = ["build_model", "merge_hoc_mod", "build", "install"]
+    phases = ["build_model_only", "build", "install"]
     models = ("common", "neocortex", "thalamus")
     model_mods_location = {
         "neocortex": "neocortex/mod/v6"
@@ -72,13 +70,14 @@ class Neurodamus(SimModel):
         description="Source of common mods. '': no change, other string: alternate path",
     )
 
-    def build_model(self, spec, prefix):
+    def build_model_only(self, _spec, _prefix):
         """Build and install the bare model."""
         self._build_mods("mod", dependencies=[])  # No dependencies
         # Dont install intermediate src.
         self._install_binaries()
 
-    def merge_hoc_mod(self, spec, prefix):
+    @run_before("build")
+    def merge_hoc_mod(self, spec, _prefix):
         """Add hocs, mods and python scripts from neurodamus-core which comes
         as a submodule of py-neurodamus.
 
@@ -93,12 +92,14 @@ class Neurodamus(SimModel):
         if spec.satisfies("+coreneuron"):
             shutil.copytree("mod", "mod_core", True)
             core_nrn_mods = set()
+
             with open(core_prefix.lib.mod.join(_CORENRN_MODLIST_FNAME)) as core_mods:
                 for aux_mod in core_mods:
                     mod_fil = core_prefix.lib.mod.join(aux_mod.strip())
                     if os.path.isfile(mod_fil):
                         shutil.copy(mod_fil, "mod_core")
                         core_nrn_mods.add(aux_mod.strip())
+
             with working_dir(core_prefix.lib.mod):
                 all_mods = set(f for f in os.listdir() if f.endswith(".mod"))
             with open(join_path("mod", "neuron_only_mods.txt"), "w") as blackl:
