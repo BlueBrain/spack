@@ -47,7 +47,7 @@ class Brion(CMakePackage):
     depends_on("bzip2")
     depends_on("highfive +boost")
     depends_on("mvdtool")
-    depends_on("glm@:0.9.9.5")
+    depends_on("glm@:0.9.9.8")
 
     extends("python", when="+python")
 
