@@ -390,7 +390,7 @@ check_python_modules:
 check_neuron_ci:
   needs: [update_config]
   rules:
-    - changes: [bluebrain/repo-patches/packages/neuron/package.py]
+    - if: $TRIGGER_CHILD_NEURON_PIPELINE
   trigger:
     project: hpc/cellular/nrn
     strategy: depend

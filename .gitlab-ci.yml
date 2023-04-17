@@ -50,6 +50,7 @@ setup_environment:
     # Keep only the latest for the deployment proper.  See below for PR
     # specialization
     DEPLOYMENT_ARTIFACTS: "$DEPLOYMENT_ROOT/artifacts"
+    TRIGGER_CHILD_NEURON_PIPELINE: ""
   rules:
     - if: '$CI_EXTERNAL_PULL_REQUEST_IID'
       variables:
@@ -61,6 +62,11 @@ setup_environment:
         # Somewhat awkward, but "$DEPLOYMENT_ROOT/modules" is already used.
         MODULE_ROOT: "$DEPLOYMENT_ROOT/config/modules"
       when: always
+    # If the NEURON recipe has been modified then trigger the NEURON CI against
+    # the PR deployment directory.
+    - changes: [bluebrain/repo-patches/packages/neuron/package.py]
+      variables:
+        TRIGGER_CHILD_NEURON_PIPELINE: "1"
     - when: always
   script:
     # The `rules` keyword seems to not inherit variables specified via a
@@ -78,6 +84,7 @@ setup_environment:
     - echo "DEPLOYMENT_UPSTREAM=$DEPLOYMENT_UPSTREAM" >> deployment.env
     - echo "MODULE_ROOT=$MODULE_ROOT" >> deployment.env
     - echo "OLD_DEPLOYMENT_MODULES=$OLD_DEPLOYMENT_MODULES" >> deployment.env
+    - echo "TRIGGER_CHILD_NEURON_PIPELINE=$TRIGGER_CHILD_NEURON_PIPELINE" >> deployment.env
     # Needed to nest `srun` commands within SLURM
     - echo "SLURM_OVERLAP=1" >> deployment.env
   artifacts:
