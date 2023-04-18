@@ -10,13 +10,13 @@ class PyDiameterSynthesis(PythonPackage):
     """Python library to generate synthetic diameters for neurons."""
 
     homepage = "https://github.com/BlueBrain/diameter-synthesis"
-    git      = "git@github.com:BlueBrain/diameter-synthesis.git"
+    git = "git@github.com:BlueBrain/diameter-synthesis.git"
 
-    version('develop', branch='main')
-    version('0.5.3', tag='0.5.3')
-    version('0.4.1', tag='0.4.1')  # Compatible with NeuroTS >= 3.1
-    version('0.3.3', tag='0.3.3')
-    version('0.2.5', tag='0.2.5')
+    version("develop", branch="main")
+    version("0.5.3", tag="0.5.3")
+    version("0.4.1", tag="0.4.1")  # Compatible with NeuroTS >= 3.1
+    version("0.3.3", tag="0.3.3")
+    version("0.2.5", tag="0.2.5")
 
     depends_on("py-setuptools", type="build")
 
