@@ -19,6 +19,7 @@ class PyNeurots(PythonPackage):
     version("2.5.0", tag="2.5.0")  # Last version of TNS before renaming
 
     depends_on("py-setuptools", type="build")
+    depends_on("py-setuptools-scm", type="build")
 
     depends_on("py-diameter-synthesis@0.5.3:", type=("build", "run"), when="@3.3.1:")
     depends_on("py-matplotlib@1.3.1:", type=("build", "run"))
