@@ -109,7 +109,7 @@ class Neuron(CMakePackage):
     variant(
         "prcellstate",
         default=False,
-        description="Enable tracking of voltage and conductivity with prcellstate on CoreNEURON"
+        description="Enable tracking of voltage and conductivity with prcellstate on CoreNEURON",
     )
 
     # Build with `ninja` instead of `make`
