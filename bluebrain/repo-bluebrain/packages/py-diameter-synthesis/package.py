@@ -19,6 +19,7 @@ class PyDiameterSynthesis(PythonPackage):
     version("0.2.5", tag="0.2.5")
 
     depends_on("py-setuptools", type="build")
+    depends_on("py-setuptools-scm", type="build")
 
     depends_on("py-click@7.0:", type=("build", "run"))
     depends_on("py-numpy@1.15.0:", type=("build", "run"))
