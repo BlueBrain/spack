@@ -10,7 +10,7 @@ class PyDiameterSynthesis(PythonPackage):
     """Python library to generate synthetic diameters for neurons."""
 
     homepage = "https://github.com/BlueBrain/diameter-synthesis"
-    git = "git@github.com:BlueBrain/diameter-synthesis.git"
+    git = "https://github.com/BlueBrain/diameter-synthesis.git"
 
     version("develop", branch="main")
     version("0.5.3", tag="0.5.3")
