@@ -10,7 +10,7 @@ class PyNeurots(PythonPackage):
     """Python library for neuron synthesis"""
 
     homepage = "https://github.com/BlueBrain/NeuroTS"
-    git = "git@github.com:BlueBrain/NeuroTS.git"
+    git = "https://github.com/BlueBrain/NeuroTS.git"
 
     version("develop", branch="main")
     version("3.3.1", tag="3.3.1")
