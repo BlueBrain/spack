@@ -1358,12 +1358,17 @@ class Repo(object):
         except ImportError:
             # BlueBrain: when pushing packages upstream, we delete them from our own
             # repositories. But references to our repositories remain in the database of
-            # the continuous deployment, 
+            # the continuous deployment, and therefore should be routed to the updated
+            # builtin package.
             if self.namespace in ("patches", "bluebrain"):
                 fullname = "spack.pkg.builtin.{0}".format(pkg_name)
                 try:
                     module = importlib.import_module(fullname)
-                    tty.warn("using package {0}.{1} from builtin packages".format(self.namespace, pkg_name))
+                    tty.warn(
+                        "using package {0}.{1} from builtin packages".format(
+                            self.namespace, pkg_name
+                        )
+                    )
                 except ImportError:
                     raise UnknownPackageError(fullname)
             else:
