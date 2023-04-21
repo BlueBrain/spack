@@ -62,6 +62,25 @@ class Ispc(CMakePackage):
         sha256="d3ccf547d3ba59779fd375e10417a436318f2200d160febb9f830a26f0daefdc",
     )
 
+    depends_on(
+        "llvm",
+       when="^llvm@15.0",
+       patches=[
+           patch(
+               "https://raw.githubusercontent.com/ispc/ispc/v1.19.0/llvm_patches/14_0_15_0_disable-DIArgList-in-SPIR-V.patch",
+               sha256="36971ca75148bb5fda07e7904c58937f3cbf92492782bcad11e3679865847508"
+           ),
+           patch(
+               "https://raw.githubusercontent.com/ispc/ispc/v1.19.0/llvm_patches/15_0_16_0_fp16_converts.patch",
+               sha256="147591e854eb74321edddb7cde22772ef6d6d5c7e2c21d6c1d6a841e040c5c6d"
+           ),
+           patch(
+               "https://raw.githubusercontent.com/ispc/ispc/v1.19.0/llvm_patches/15_0_disable-A-B-A-B-and-BSWAP-in-InstCombine.patch",
+               sha256="1a59b0cefdda0588d2972bdeb08612ef3d37ba3887633f4ad7ee91bef10e76da"
+           ),
+       ]
+    )
+
     def setup_build_environment(self, env):
         if self.spec.satisfies("@1.18.0:"):
             env.append_flags("LDFLAGS", "-lcurses")
