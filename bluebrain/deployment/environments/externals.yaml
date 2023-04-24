@@ -118,8 +118,7 @@ spack:
     # - intel-mpi
     - intel-oneapi-mkl@2021.4.0
     - intel-oneapi-tbb@2021.4.0
-    # Ospray's preference
-    - ispc@1.18.0^llvm@14
+    - ispc
     # If julia's curl does not match what they normally ship, downloading behind a proxy
     # will break.
     - julia@1.6^curl@7.73  # As requested by Polina S.
