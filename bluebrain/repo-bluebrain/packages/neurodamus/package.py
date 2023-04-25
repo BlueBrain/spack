@@ -4,19 +4,18 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 import os
 import shutil
+from contextlib import contextmanager
 
 from llnl.util import tty
 
 from spack.package import *
-
-from .sim_model import SimModel, copy_all, make_link
 
 # Definitions
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
 
 
-class Neurodamus(SimModel):
+class Neurodamus(Package):
     """The next-generation AllInOne Neurodamus deployment.
 
     Neurodamus includes BBP's simulation suite with all internal sim models.
@@ -27,7 +26,19 @@ class Neurodamus(SimModel):
 
     version("develop", submodules=True)
     # TODO: Shall we let the version scheme be different to avoid mixing with old neurodamus-**?
+    version("2023.05", tag="0.0.2", submodules=True)
     version("2023.04", tag="0.0.2", submodules=True)
+
+    variant("synapsetool", default=True, description="Enable SynapseTool reader (for edges)")
+    variant("mvdtool", default=True, description="Enable MVDTool reader (for nodes)")
+    variant("coreneuron", default=False, description="Enable CoreNEURON Support")
+    variant("caliper", default=False, description="Enable Caliper instrumentation")
+
+    # neuron/corenrn get linked automatically when using nrnivmodl[-core]
+    # Dont duplicate the link dependency (only 'build' and 'run')
+    depends_on("neuron+mpi", type=("build", "run"))
+    depends_on("neuron+caliper", when="+caliper", type=("build", "run"))
+    depends_on("gettext", when="^neuron+binary")
 
     depends_on("py-neurodamus", type=("build", "run"))
     # Note: We dont request link to MPI so that mpicc can do what is best
@@ -45,39 +56,20 @@ class Neurodamus(SimModel):
     # and we must bring their dependencies.
     depends_on("zlib")  # for hdf5
 
-    phases = ["build_model_only", "build", "install"]
+    phases = ["build", "install"]
     models = ("common", "neocortex", "thalamus")
     model_mods_location = {
         "neocortex": "neocortex/mod/v6"
         # other cases it will fetch "<model_name>/mod"
     }
-
-    @run_before("build_model_only")
-    def gather_hoc_mods(self):
+    
+    def _gather_hoc_mods(self):
         mkdirp("mod", "hoc")
         for model in self.models:
             mod_src = self.model_mods_location.get(model, model + "/mod")
             tty.info(f"Add mods for {model}: {mod_src}")
             copy_all(mod_src, "mod", make_link)
             copy_all(model + "/hoc", "hoc", make_link)
-
-    # NOTE: Several variants / dependencies come from SimModel
-    variant("synapsetool", default=True, description="Enable SynapseTool reader (for edges)")
-    variant("mvdtool", default=True, description="Enable MVDTool reader (for nodes)")
-    variant(
-        "common_mods",
-        default="default",
-        description="Source of common mods. 'default': no change, other string: alternate path",
-    )
-
-    def build_model_only(self, _spec, _prefix):
-        """Build and install the bare model.
-        This stage builds and installs the bare models without any neurodamus component
-        which is useful for e.g. BGLibPy.
-        Library can be found with env var BGLIBPY_MOD_LIBRARY_PATH
-        """
-        self._build_mods("mod", dependencies=[])  # No dependencies
-        self._install_binaries()  # No sources, only binaries
 
     @run_before("build")
     def merge_hoc_mod(self):
@@ -90,30 +82,46 @@ class Neurodamus(SimModel):
         core = self.spec["py-neurodamus"]
         core_prefix = core.prefix
 
-        # If we shall build mods for coreneuron,
-        # only bring from core those specified
-        if self.spec.satisfies("+coreneuron"):
-            shutil.copytree("mod", "mod_core", True)
-            core_nrn_mods = set()
-
-            with open(core_prefix.lib.mod.join(_CORENRN_MODLIST_FNAME)) as core_mods:
-                for aux_mod in core_mods:
-                    mod_fil = core_prefix.lib.mod.join(aux_mod.strip())
-                    if os.path.isfile(mod_fil):
-                        shutil.copy(mod_fil, "mod_core")
-                        core_nrn_mods.add(aux_mod.strip())
-
-            with working_dir(core_prefix.lib.mod):
-                all_mods = set(f for f in os.listdir() if f.endswith(".mod"))
-            with open(join_path("mod", "neuron_only_mods.txt"), "w") as blackl:
-                blackl.write("\n".join(all_mods - core_nrn_mods) + "\n")
-
         # Neurodamus model may not have python scripts
         mkdirp("python")
+
+        self._gather_hoc_mods()
 
         copy_all(core_prefix.lib.hoc, "hoc", make_link)
         copy_all(core_prefix.lib.mod, "mod", make_link)
         copy_all(core_prefix.lib.python, "python", make_link)
+
+    def _build_mods(
+        self, mods_location, link_flag="", include_flag="", dependencies=None
+    ):
+        """Build shared lib & special from mods in a given path"""
+        if dependencies is None:
+            dependencies = self.spec._dependencies_dict("link").keys()
+        inc_link_flags = self._raw_compiler_flags(dependencies, include_flag, link_flag)
+        output_dir = os.path.basename(self.spec["neuron"].package.archdir)
+        include_flag, link_flag = inc_link_flags  # expand to use here with nrnivmodl
+
+        # Neuron mechlib and special
+        with profiling_wrapper_on():
+            link_flag += " -L{0} -Wl,-rpath,{0}".format(str(self.prefix.lib))
+            if self.spec.satisfies("+coreneuron"):
+                which("nrnivmodl")("-coreneuron", "-incflags", include_flag, "-loadflags", link_flag, mods_location)
+            else:
+                which("nrnivmodl")("-incflags", include_flag, "-loadflags", link_flag, mods_location)
+
+        assert os.path.isfile(os.path.join(output_dir, "special"))
+        return inc_link_flags
+
+    def _raw_compiler_flags(self, dependencies, include_flags="", link_flags=""):
+        """Compute include and link flags for all dependency libraries
+        Compiler wrappers are not used to have a more reproducible building
+        """
+        for dep in set(dependencies):
+            libs = self.spec[dep].libs
+            link_flags += " %s " % libs.ld_flags
+            link_flags += " ".join(["-Wl,-rpath," + x for x in libs.directories])
+            include_flags += " -I " + str(self.spec[dep].prefix.include)
+        return include_flags, link_flags
 
     def build(self, spec, _prefix):
         """Build mod files from with nrnivmodl / nrnivmodl-core.
@@ -121,18 +129,14 @@ class Neurodamus(SimModel):
         """
         self.mech_name = ""  # Create the library with all the mod files as libnrnmech.so/.dylib
         base_include_flag = "-DENABLE_SYNTOOL" if spec.satisfies("+synapsetool") else ""
-        include_flag, link_flag = self._build_mods("mod", "", base_include_flag, "mod_core")
+        include_flag, link_flag = self._build_mods("mod", "", base_include_flag)
         self._create_rebuild_script(include_flag, link_flag)
 
     def _create_rebuild_script(self, include_flag, link_flag):
         if self.spec.satisfies("+coreneuron"):
-            nrnivmodlcore_call = str(self._nrnivmodlcore_exe)
-            for param in self._nrnivmodlcore_params(include_flag, link_flag):
-                nrnivmodlcore_call += " '%s'" % param
-            include_flag += " " + self._coreneuron_include_flag()
-            corenrnmech_section = _BUILD_LIBCORENRNMECH_TPL.format(cmd_call=nrnivmodlcore_call)
+            corenrnmech_flag = "-coreneuron"
         else:
-            corenrnmech_section = "# No CoreNEURON support"
+            corenrnmech_flag = ""
 
         with open(_BUILD_NEURODAMUS_FNAME, "w") as f:
             f.write(
@@ -140,10 +144,60 @@ class Neurodamus(SimModel):
                     nrnivmodl=str(which("nrnivmodl")),
                     incflags=include_flag,
                     loadflags=link_flag,
-                    corenrnmech_section=corenrnmech_section,
+                    corenrnmech_flag=corenrnmech_flag,
                 )
             )
         os.chmod(_BUILD_NEURODAMUS_FNAME, 0o770)
+
+    def _install_binaries(self, mech_name=None):
+        # Install special
+        mkdirp(self.spec.prefix.bin)
+        mkdirp(self.spec.prefix.lib)
+        mkdirp(self.spec.prefix.share.modc)
+
+        mech_name = mech_name or self.mech_name
+        nrnivmodl_outdir = self.spec["neuron"].package.archdir
+        arch = os.path.basename(nrnivmodl_outdir)
+        prefix = self.prefix
+
+        # Install special
+        shutil.copy(join_path(arch, "special"), prefix.bin)
+
+        libnrnmech = self._find_install_libnrnmech(nrnivmodl_outdir)
+
+        if self.spec.satisfies("^neuron~binary"):
+            # Patch special for the new libname
+            which("sed")("-i.bak", 's#-dll .*#-dll %s "$@"#' % libnrnmech, prefix.bin.special)
+            os.remove(prefix.bin.join("special.bak"))
+
+    def _find_install_libnrnmech(self, libnrnmech_path):
+        """Find and move libnrnmech to final destination"""
+        for f in find(libnrnmech_path, "libnrnmech.*", recursive=False):
+            if not os.path.islink(f):
+                bname = os.path.basename(f)
+                lib_dst = self.prefix.lib.join(
+                    bname[: bname.find(".")] + "." + dso_suffix
+                )
+                shutil.move(f, lib_dst)  # Move so its not copied twice
+                return lib_dst
+        else:
+            raise Exception("No libnrnmech found")
+
+    def _install_src(self, prefix):
+        """Copy original and translated c mods"""
+        arch = os.path.basename(self.spec["neuron"].package.archdir)
+        mkdirp(prefix.lib.mod, prefix.lib.hoc, prefix.lib.python)
+        copy_all("mod", prefix.lib.mod)
+        copy_all("hoc", prefix.lib.hoc)
+        if os.path.isdir("python"):  # Recent neurodamus
+            copy_all("python", prefix.lib.python)
+
+        for cmod in find(arch, "*.cpp", recursive=False):
+            shutil.move(cmod, prefix.share.neuron_modcpp)
+        
+        if self.spec.satisfies("+coreneuron"):
+            for cmod in find(arch + "coreneuron/mod2c", "*.cpp", recursive=False):
+                shutil.move(cmod, prefix.share.coreneuron_modcpp)
 
     def install(self, spec, prefix):
         """Install phase.
@@ -183,17 +237,101 @@ class Neurodamus(SimModel):
                 prefix.lib.hoc.join("defvar.hoc"),
             )
 
-    def setup_run_environment(self, env):
-        self._setup_run_environment_common(env)
-        for libnrnmech_name in find(self.prefix.lib, "libnrnmech*", recursive=False):
-            # We have the two libs and must export them in different vars
-            #  - NRNMECH_LIB_PATH the combined lib (used by neurodamus-py)
-            #  - BGLIBPY_MOD_LIBRARY_PATH is the pure mechanism (used by bglibpy)
-            if "libnrnmech." in libnrnmech_name:
-                env.set("NRNMECH_LIB_PATH", libnrnmech_name)
-            else:
-                env.set("BGLIBPY_MOD_LIBRARY_PATH", libnrnmech_name)
+    def setup_build_environment(self, env):
+        env.unset("LC_ALL")
+        # MPI wrappers know the actual compiler from OMPI_CC or MPICH_CC, which
+        # at build-time, are set to compiler wrappers. While that is correct,
+        # we dont want for with nrnivmodl since flags have been calculated
+        # manually. The chosen way to override those (unknown name) env vars
+        # is using setup_run_environment() from the MPI package.
+        if "mpi" in self.spec:
+            self.spec["mpi"].package.setup_run_environment(env)
 
+    def setup_run_environment(self, env):
+        # Dont export /lib as an ldpath.
+        # We dont want to find these libs automatically
+        to_rm = ("LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "DYLD_FALLBACK_LIBRARY_PATH")
+        env.env_modifications = [
+            envmod for envmod in env.env_modifications if envmod.name not in to_rm
+        ]
+        if os.path.isdir(self.prefix.lib.hoc):
+            env.set("HOC_LIBRARY_PATH", self.prefix.lib.hoc)
+        if os.path.isdir(self.prefix.lib.python):
+            env.prepend_path("PYTHONPATH", self.prefix.lib.python)
+        env.set("{}_ROOT".format(self.name.upper().replace("-", "_")), self.prefix)
+        # We have to export two different env vars for the neuron library
+        #  - NRNMECH_LIB_PATH used by neurodamus-py
+        #  - BGLIBPY_MOD_LIBRARY_PATH used by bglibpy
+        libnrnmech_name = join_path(self.prefix.lib, "libnrnmech.so")
+        env.set("NRNMECH_LIB_PATH", libnrnmech_name)
+        env.set("BGLIBPY_MOD_LIBRARY_PATH", libnrnmech_name)
+
+@contextmanager
+def profiling_wrapper_on():
+    os.environ["USE_PROFILER_WRAPPER"] = "1"
+    yield
+    del os.environ["USE_PROFILER_WRAPPER"]
+
+
+def env_set_caliper_flags(env):
+    env.set("NEURODAMUS_CALI_ENABLED", "true")  # Needed for slurm.taskprolog
+    env.set("CALI_MPIREPORT_FILENAME", "/dev/null")  # Prevents 'stdout' output
+    env.set("CALI_CHANNEL_FLUSH_ON_EXIT", "true")
+    env.set(
+        "CALI_MPIREPORT_LOCAL_CONFIG",
+        "SELECT sum(sum#time.duration), inclusive_sum(sum#time.duration) GROUP BY prop:nested",
+    )
+    env.set(
+        "CALI_MPIREPORT_CONFIG",
+        "SELECT annotation, \
+                mpi.function, \
+                min(sum#sum#time.duration) as exclusive_time_rank_min, \
+                max(sum#sum#time.duration) as exclusive_time_rank_max, \
+                avg(sum#sum#time.duration) as exclusive_time_rank_avg, \
+                min(inclusive#sum#time.duration) AS inclusive_time_rank_min, \
+                max(inclusive#sum#time.duration) AS inclusive_time_rank_max, \
+                avg(inclusive#sum#time.duration) AS inclusive_time_rank_avg, \
+                percent_total(sum#sum#time.duration) AS exclusive_time_pct, \
+                inclusive_percent_total(sum#sum#time.duration) AS inclusive_time_pct \
+            GROUP BY prop:nested FORMAT json",
+    )
+    env.set("CALI_SERVICES_ENABLE", "aggregate,event,mpi,mpireport,timestamp")
+    env.set("CALI_MPI_BLACKLIST", "MPI_Comm_rank,MPI_Comm_size,MPI_Wtick,MPI_Wtime")
+
+
+def copy_all(src, dst, copyfunc=shutil.copy):
+    """Copy/process all files in a src dir into a destination dir."""
+    isdir = os.path.isdir
+    for name in os.listdir(src):
+        pth = join_path(src, name)
+        isdir(pth) or copyfunc(pth, dst)
+
+
+def make_link(src, dst):
+    """Create a symlink in a given destination.
+    make_link is copy compatible i.e. will take the same args and behave
+    similarly to shutil.copy except that it will create a soft link instead.
+    If destination is a directory then a new symlink is created inside with
+    the same name as the original file.
+    Relative src paths create a relative symlink (properly relocated) while
+    absolute paths crete an abolute-path symlink.
+    If another link already exists in the destination with the same it is
+    deleted before link creation.
+    Args:
+        src (str): The path of the file to create a link to
+        dst (str): The link destination path (may be a directory)
+    """
+    if os.path.isdir(dst):
+        dst_dir = dst
+        dst = join_path(dst, os.path.basename(src))
+    else:
+        dst_dir = os.path.dirname(dst)
+    if not os.path.isabs(src):
+        src = os.path.relpath(src, dst_dir)  # update path relation
+    # Silently replace links, just like copy replaces files
+    if os.path.islink(dst):
+        os.remove(dst)
+    os.symlink(src, dst)
 
 _BUILD_NEURODAMUS_TPL = """#!/bin/sh
 set -e
@@ -221,38 +359,7 @@ if [ ! -d "$1" ]; then
     exit -1
 fi
 
-{corenrnmech_section}
-
-'{nrnivmodl}' -incflags '{incflags} '"$2" -loadflags \
+'{nrnivmodl}' '{corenrnmech_flag}' -incflags '{incflags} '"$2" -loadflags \
     '{loadflags} '"$extra_loadflags $3" "$1"
 
-# Final Cleanup
-if [ -d _core_mods ]; then
-    rm -rf _core_mods
-fi
-"""
-
-_BUILD_LIBCORENRNMECH_TPL = """
-# BUILDS libcorenrnmech
-rm -rf _core_mods
-mkdir _core_mods
-touch $1/neuron_only_mods.txt  # ensure exists
-for f in $1/*.mod; do
-    if ! grep $(basename $f) $1/neuron_only_mods.txt; then
-        cp $f _core_mods/
-    fi
-done
-
-# Run nrnivmodlcore
-{cmd_call} _core_mods
-
-libpath=$(dirname */libcorenrnmech_ext*)
-extra_loadflags="-L $(pwd)/$libpath -lcorenrnmech_ext -Wl,-rpath=\\$ORIGIN"
-
-echo "Your build supports CoreNeuron. However in some systems
-    the coreneuron mods might not be loadable without a location hint.
-    In case you get an error such as
-        'libcorenrnmech_ext.so: cannot open shared object file
-    please run the command:
-        export LD_LIBRARY_PATH=$libpath:\\$LD_LIBRARY_PATH"
 """
