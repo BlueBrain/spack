@@ -19,8 +19,8 @@ class Steps(CMakePackage):
     submodules = True
 
     version("develop", branch="master")
-    version("5.0.0a", commit="b4bdd64")
-    version("4.1.0", tag="4.1.0", preferred=True)
+    version("5.0.0a", commit="f6f4d68")
+    version("4.1.1", tag="4.1.1", preferred=True)
 
     variant(
         "codechecks",
