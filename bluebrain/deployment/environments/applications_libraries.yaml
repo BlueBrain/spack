@@ -49,8 +49,8 @@ spack:
     - omega-h+gmsh
     - petsc+int64+mpi
     - petsc+complex+int64+mpi
-    - slepc ^petsc+int64+mpi
-    - slepc ^petsc+complex+int64+mpi
+    - slepc~arpack ^petsc+int64+mpi
+    - slepc~arpack ^petsc+complex+int64+mpi
     - py-cgal-pybind
     - py-dask-mpi
     - py-flake8
