@@ -33,7 +33,7 @@ spack:
           - python-dev
         projections:
           all: '{name}/{version}'
-          petsc+complex+int64+mpi: '{name}-complex/{version}'
+          petsc+int64+mpi+complex: '{name}-complex/{version}'
           ^petsc+complex: '{name}-complex/{version}'
   packages:
     petsc:
@@ -48,9 +48,9 @@ spack:
     - neuron+mpi
     - omega-h+gmsh
     - petsc+int64+mpi
-    - petsc+complex+int64+mpi
+    - petsc+int64+mpi+complex
     - slepc~arpack ^petsc+int64+mpi
-    - slepc~arpack ^petsc+complex+int64+mpi
+    - slepc~arpack ^petsc+int64+mpi+complex
     - py-cgal-pybind
     - py-dask-mpi
     - py-flake8
@@ -59,10 +59,10 @@ spack:
     - py-mpi4py
     - py-notebook
     - py-numpy
-    - py-petsc4py
-    - py-petsc4py ^petsc+complex+int64+mpi
-    - py-slepc4py ^slepc~arpack
-    - py-slepc4py ^petsc+complex+int64+mpi ^slepc~arpack
+    - py-petsc4py ^petsc+int64+mpi
+    - py-petsc4py ^petsc+int64+mpi+complex
+    - py-slepc4py ^slepc~arpack ^petsc+int64+mpi
+    - py-slepc4py ^slepc~arpack ^petsc+int64+mpi+complex
     - py-pip
     - py-poisson-recon-pybind
     - py-rtree
