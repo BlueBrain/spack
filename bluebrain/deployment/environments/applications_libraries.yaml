@@ -61,8 +61,8 @@ spack:
     - py-numpy
     - py-petsc4py
     - py-petsc4py ^petsc+complex+int64+mpi
-    - py-slepc4py
-    - py-slepc4py ^petsc+complex+int64+mpi
+    - py-slepc4py ^slepc~arpack
+    - py-slepc4py ^petsc+complex+int64+mpi ^slepc~arpack
     - py-pip
     - py-poisson-recon-pybind
     - py-rtree
