@@ -207,13 +207,22 @@ class SimModel(Package):
         if os.path.isdir("python"):  # Recent neurodamus
             copy_all("python", prefix.lib.python)
 
-        for cmod in find(arch, "*.cpp", recursive=False):
-            shutil.move(cmod, prefix.share.modcpp)
+        full_neuron_cpp_generated_files = find(arch, "*.cpp", recursive=False)
+        assert (
+            len(full_neuron_cpp_generated_files) > 0
+        ), "Couldn't find NEURON generated cpp files for mod files"
+        for cppmod in full_neuron_cpp_generated_files:
+            shutil.move(cppmod, prefix.share.modcpp)
         if self.spec.satisfies("+coreneuron"):
             mkdirp(prefix.share.modcpp_core)
-            for cmod in find(arch + "corenrn/mod2c", "*.cpp", recursive=False):
-                shutil.move(cmod, prefix.share.modcpp_core)
-
+            full_coreneuron_cpp_generated_files = find(
+                "build_/" + arch + "/corenrn/mod2c", "*.cpp", recursive=False
+            )
+            assert (
+                len(full_coreneuron_cpp_generated_files) > 0
+            ), "Couldn't find CoreNEURON generated cpp files for mod files"
+            for core_cppmod in full_coreneuron_cpp_generated_files:
+                shutil.move(core_cppmod, prefix.share.modcpp_core)
 
     def _setup_build_environment_common(self, env):
         env.unset("LC_ALL")
