@@ -146,7 +146,7 @@ class SimModel(Package):
 
         bin/ <- special and special-core
         lib/ <- hoc, mod and lib*mech*.so
-        share/ <- neuron & coreneuron mod.c's (modc and modc_core)
+        share/ <- neuron & coreneuron mod.cpp's (modcpp and modcpp_core)
         """
         self._install_binaries()
 
@@ -157,7 +157,7 @@ class SimModel(Package):
         # Install special
         mkdirp(self.spec.prefix.bin)
         mkdirp(self.spec.prefix.lib)
-        mkdirp(self.spec.prefix.share.modc)
+        mkdirp(self.spec.prefix.share.modcpp)
 
         mech_name = mech_name or self.mech_name
         nrnivmodl_outdir = self.spec["neuron"].package.archdir
@@ -206,8 +206,13 @@ class SimModel(Package):
         if os.path.isdir("python"):  # Recent neurodamus
             copy_all("python", prefix.lib.python)
 
-        for cmod in find(arch, "*.c", recursive=False):
-            shutil.move(cmod, prefix.share.modc)
+        for cmod in find(arch, "*.cpp", recursive=False):
+            shutil.move(cmod, prefix.share.modcpp)
+        if self.spec.satisfies("+coreneuron"):
+            mkdirp(prefix.share.modcpp_core)
+            for cmod in find(arch + "corenrn/mod2c", "*.cpp", recursive=False):
+                shutil.move(cmod, prefix.share.modcpp_core)
+
 
     def _setup_build_environment_common(self, env):
         env.unset("LC_ALL")
