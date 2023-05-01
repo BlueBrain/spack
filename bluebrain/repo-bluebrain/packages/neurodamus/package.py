@@ -62,7 +62,7 @@ class Neurodamus(Package):
         "neocortex": "neocortex/mod/v6"
         # other cases it will fetch "<model_name>/mod"
     }
-    
+
     def _gather_hoc_mods(self):
         mkdirp("mod", "hoc")
         for model in self.models:
@@ -91,9 +91,7 @@ class Neurodamus(Package):
         copy_all(core_prefix.lib.mod, "mod", make_link)
         copy_all(core_prefix.lib.python, "python", make_link)
 
-    def _build_mods(
-        self, mods_location, link_flag="", include_flag="", dependencies=None
-    ):
+    def _build_mods(self, mods_location, link_flag="", include_flag="", dependencies=None):
         """Build shared lib & special from mods in a given path"""
         if dependencies is None:
             dependencies = self.spec._dependencies_dict("link").keys()
@@ -105,9 +103,18 @@ class Neurodamus(Package):
         with profiling_wrapper_on():
             link_flag += " -L{0} -Wl,-rpath,{0}".format(str(self.prefix.lib))
             if self.spec.satisfies("+coreneuron"):
-                which("nrnivmodl")("-coreneuron", "-incflags", include_flag, "-loadflags", link_flag, mods_location)
+                which("nrnivmodl")(
+                    "-coreneuron",
+                    "-incflags",
+                    include_flag,
+                    "-loadflags",
+                    link_flag,
+                    mods_location,
+                )
             else:
-                which("nrnivmodl")("-incflags", include_flag, "-loadflags", link_flag, mods_location)
+                which("nrnivmodl")(
+                    "-incflags", include_flag, "-loadflags", link_flag, mods_location
+                )
 
         assert os.path.isfile(os.path.join(output_dir, "special"))
         return inc_link_flags
@@ -175,9 +182,7 @@ class Neurodamus(Package):
         for f in find(libnrnmech_path, "libnrnmech.*", recursive=False):
             if not os.path.islink(f):
                 bname = os.path.basename(f)
-                lib_dst = self.prefix.lib.join(
-                    bname[: bname.find(".")] + "." + dso_suffix
-                )
+                lib_dst = self.prefix.lib.join(bname[: bname.find(".")] + "." + dso_suffix)
                 shutil.move(f, lib_dst)  # Move so its not copied twice
                 return lib_dst
         else:
@@ -194,7 +199,7 @@ class Neurodamus(Package):
 
         for cmod in find(arch, "*.cpp", recursive=False):
             shutil.move(cmod, prefix.share.neuron_modcpp)
-        
+
         if self.spec.satisfies("+coreneuron"):
             for cmod in find(arch + "coreneuron/mod2c", "*.cpp", recursive=False):
                 shutil.move(cmod, prefix.share.coreneuron_modcpp)
@@ -266,6 +271,7 @@ class Neurodamus(Package):
         env.set("NRNMECH_LIB_PATH", libnrnmech_name)
         env.set("BGLIBPY_MOD_LIBRARY_PATH", libnrnmech_name)
 
+
 @contextmanager
 def profiling_wrapper_on():
     os.environ["USE_PROFILER_WRAPPER"] = "1"
@@ -332,6 +338,7 @@ def make_link(src, dst):
     if os.path.islink(dst):
         os.remove(dst)
     os.symlink(src, dst)
+
 
 _BUILD_NEURODAMUS_TPL = """#!/bin/sh
 set -e
