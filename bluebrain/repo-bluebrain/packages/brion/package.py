@@ -25,7 +25,7 @@ class Brion(CMakePackage):
 
     depends_on("cmake@3.1:", type="build")
     depends_on("ninja", type="build")
-    depends_on("doxygen", type="build")
+    depends_on("doxygen", type="build", when="+doc")
 
     depends_on("python@3.4:", type=("build", "run"), when="+python")
     depends_on("py-numpy", type=("build", "run", "test"), when="+python")
@@ -58,12 +58,13 @@ class Brion(CMakePackage):
     )
 
     def patch(self):
-        filter_file(
-            r"-Werror",
-            "-Werror -Wno-error=deprecated-copy -Wno-error=range-loop-construct "
-            "-Wno-error=unused-function",
-            "CMake/CompileOptions.cmake",
-        )
+        if self.spec.satisfies("%gcc@12:"):
+            filter_file(
+                r"-Werror",
+                "-Werror -Wno-error=deprecated-copy -Wno-error=range-loop-construct "
+                "-Wno-error=unused-function",
+                "CMake/CompileOptions.cmake",
+            )
 
     def cmake_args(self):
         args = [
