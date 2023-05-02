@@ -146,7 +146,7 @@ class SimModel(Package):
 
         bin/ <- special and special-core
         lib/ <- hoc, mod and lib*mech*.so
-        share/ <- neuron & coreneuron mod.cpp's (modcpp and modcpp_core)
+        share/ <- neuron & coreneuron mod cpp files (modcpp and modcpp_core)
         """
         self._install_binaries()
 
