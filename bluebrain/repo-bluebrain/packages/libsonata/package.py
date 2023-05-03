@@ -40,7 +40,11 @@ class Libsonata(CMakePackage):
     depends_on("highfive~mpi", when="~mpi")
     depends_on("mpi", when="+mpi")
     depends_on("catch2@2", when="@0.1.3:")
-    depends_on("nlohmann-json")
+    # Version restriction guessed from old deployment
+    #
+    # No `when` clause, as clingo will penalize new versions with the
+    # version penalty from `nlohmann-js` then :(
+    depends_on("nlohmann-json@:3.9.1")
 
     conflicts("^highfive@2.5:2.6")
 
