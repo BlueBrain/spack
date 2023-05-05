@@ -99,7 +99,6 @@ class Neuron(CMakePackage):
     variant("openmp", default=False, description="Enable OpenMP support")
     variant("report", default=True, description="Enable SONATA and binary reports")
     variant("shared", default=True, description="Build shared library")
-    variant("nmodl", default=True, description="Use NMODL instead of MOD2C")
     variant(
         "codegenopt",
         default=False,
@@ -120,7 +119,7 @@ class Neuron(CMakePackage):
     depends_on("bison", type="build")
     depends_on("caliper+mpi", type=("build", "link", "run"), when="+caliper+mpi")
     depends_on("caliper~mpi", type=("build", "link", "run"), when="+caliper~mpi")
-    depends_on("flex", type="build")
+    depends_on("flex@2.6:", type="build")
 
     # Readline became incompatible with Mac so we use neuron internal readline.
     # HOWEVER, with the internal version there is a bug which makes
@@ -156,8 +155,7 @@ class Neuron(CMakePackage):
     depends_on("python", type=("build", "run"))
     depends_on("boost", when="@8.99:+tests+coreneuron")
     depends_on("cuda", when="@8.99:+gpu")
-    depends_on("flex@2.6:", type="build", when="+nmodl")
-    depends_on("nmodl@0.4.0:", when="@8.99:+nmodl")
+    depends_on("nmodl@0.4.0:", when="@8.2:8.99+coreneuron")
     depends_on("reportinglib", when="@8.99:+report+coreneuron")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
 
@@ -165,8 +163,6 @@ class Neuron(CMakePackage):
 
     # for coreneuron: some basic conflicts
     conflicts("+sympyopt", when="~sympy")
-    conflicts("+sympy", when="~nmodl")
-    conflicts("+codegenopt", when="~nmodl")
     conflicts("+unified", when="~gpu")
     gpu_compiler_message = "For gpu build use %pgi or %nvhpc"
     conflicts("%gcc", when="+gpu", msg=gpu_compiler_message)
@@ -174,10 +170,8 @@ class Neuron(CMakePackage):
     incompatible_version = "Variant available only with version >= 9.0"
     conflicts("+gpu", when="@:8.99", msg=incompatible_version)
     conflicts("+sympy", when="@:8.99", msg=incompatible_version)
-    conflicts("+nmodl", when="@:8.99", msg=incompatible_version)
     conflicts("+openmp", when="@:8.99", msg=incompatible_version)
     conflicts("+gpu", when="~coreneuron", msg=incompatible_version)
-    conflicts("+nmodl", when="~coreneuron", msg=incompatible_version)
     conflicts("+sympy", when="~coreneuron", msg=incompatible_version)
 
     # ==============================================
@@ -267,22 +261,11 @@ class Neuron(CMakePackage):
         # improves ccache performance in CI builds.
         if self.spec.satisfies("@8.2:"):
             args.append("-DNRN_AVOID_ABSOLUTE_PATHS=ON")
-        if (
-            ("%intel" in self.spec or "%oneapi" in self.spec)
-            and self.spec.satisfies("+coreneuron~nmodl")
-            and self.spec.variants["build_type"].value == "Release"
-        ):
-            # Compile for the host architecture when using MOD2C. This seems to be
-            # needed to undo a performance regression for this configuration that
-            # came with CoreNEURON being merged into NEURON. It can go away when
-            # mod2c goes away "soon"
-            compilation_flags.append("-xHost")
-        else:
-            # Pass Spack's target architecture flags in explicitly so that they're
-            # saved to the nrnivmodl Makefile.
-            compilation_flags.append(
-                self.spec.architecture.target.optimization_flags(self.spec.compiler)
-            )
+        # Pass Spack's target architecture flags in explicitly so that they're
+        # saved to the nrnivmodl Makefile.
+        compilation_flags.append(
+            self.spec.architecture.target.optimization_flags(self.spec.compiler)
+        )
         if "%intel" in self.spec:
             # icpc: command line warning #10121: overriding '-march=skylake' with '-march=skylake'
             compilation_flags.append("-diag-disable=10121")
@@ -315,7 +298,7 @@ class Neuron(CMakePackage):
             if "+prcellstate" in self.spec:
                 options.append("-DCORENRN_ENABLE_PRCELLSTATE=ON")
 
-            if spec.satisfies("+nmodl"):
+            if spec.satisfies("+coreneuron"):
                 options.append("-DCORENRN_ENABLE_NMODL=ON")
                 options.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
 
