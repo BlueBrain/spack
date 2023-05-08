@@ -40,7 +40,6 @@ class Coreneuron(CMakePackage):
     variant("tests", default=False, description="Enable building tests")
 
     # nmodl specific options
-    variant("nmodl", default=False, description="Use NMODL instead of MOD2C")
     variant(
         "codegenopt",
         default=False,
@@ -62,8 +61,7 @@ class Coreneuron(CMakePackage):
 
     depends_on("boost", when="+tests")
     depends_on("cuda", when="+gpu")
-    depends_on("flex", type="build", when="~nmodl")
-    depends_on("flex@2.6:", type="build", when="+nmodl")
+    depends_on("flex@2.6:", type="build")
     depends_on("mpi", when="+mpi")
     depends_on("reportinglib", when="+report")
     depends_on("libsonata-report@1.0.0.20210610:", when="@1.0.0.20220304:+report")
@@ -74,8 +72,8 @@ class Coreneuron(CMakePackage):
     depends_on("caliper~mpi", when="@1.0.0.20220304:+caliper~mpi")
 
     # nmodl specific dependency
-    depends_on("nmodl@0.4.0:", when="@8.2:+nmodl")
-    depends_on("nmodl@0.3.0:", when="@1.0:+nmodl")
+    depends_on("nmodl@0.4.0:", when="@8.2:8.99")
+    depends_on("nmodl@0.3.0:", when="@1.0:")
 
     # Old versions. Required by previous neurodamus package.
     version("master", git=url, submodules=True)
@@ -89,8 +87,6 @@ class Coreneuron(CMakePackage):
 
     # sympy and codegen options are only usable with nmodl
     conflicts("+sympyopt", when="~sympy")
-    conflicts("+sympy", when="~nmodl")
-    conflicts("+codegenopt", when="~nmodl")
 
     # Cannot enabled Unified Memory without GPU build
     conflicts("+unified", when="~gpu")
@@ -163,20 +159,14 @@ class Coreneuron(CMakePackage):
             "-DPYTHON_EXECUTABLE=%s" % spec["python"].command.path,
         ]
 
-        # Versions after this only used C++, but we might still need C
-        # flags if mod2c is being built as a submodule.
-        if spec.satisfies("@:1.0") or spec.satisfies("~nmodl"):
-            options.append("-DCMAKE_C_FLAGS=%s" % flags)
-
         if spec.satisfies("+caliper"):
             options.append("-DCORENRN_ENABLE_CALIPER_PROFILING=ON")
 
         if "+legacy-unit" in self.spec:
             options.append("-DCORENRN_ENABLE_LEGACY_UNITS=ON")
 
-        if spec.satisfies("+nmodl"):
-            options.append("-DCORENRN_ENABLE_NMODL=ON")
-            options.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
+        options.append("-DCORENRN_ENABLE_NMODL=ON")
+        options.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
 
         nmodl_options = "codegen --force"
 
