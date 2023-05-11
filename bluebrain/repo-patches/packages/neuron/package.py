@@ -99,6 +99,7 @@ class Neuron(CMakePackage):
     variant("openmp", default=False, description="Enable OpenMP support")
     variant("report", default=True, description="Enable SONATA and binary reports")
     variant("shared", default=True, description="Build shared library")
+    variant("nmodl", default=True, description="Use NMODL instead of MOD2C")
     variant(
         "codegenopt",
         default=False,
