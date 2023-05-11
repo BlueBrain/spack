@@ -155,7 +155,11 @@ class Neuron(CMakePackage):
     depends_on("python", type=("build", "run"))
     depends_on("boost", when="@8.99:+tests+coreneuron")
     depends_on("cuda", when="@8.99:+gpu")
-    depends_on("nmodl@0.4.0:", when="@8.2:8.99+coreneuron")
+    # The upper bound for the below line and the lower bound for 2 lines below
+    # should change to the new neuron version which is going to be created once
+    # the neuron PR for removing nmodl is going to be merged
+    depends_on("nmodl@0.4.0:", when="@8.2:8.99+nmodl")
+    depends_on("nmodl@0.4.0:", when="@9:")
     depends_on("reportinglib", when="@8.99:+report+coreneuron")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
 
