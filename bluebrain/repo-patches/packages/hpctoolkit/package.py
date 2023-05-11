@@ -1,7 +1,7 @@
+import os
+
 from spack.package import *
 from spack.pkg.builtin.hpctoolkit import Hpctoolkit as BuiltinHpctoolkit
-
-import os
 
 
 class Hpctoolkit(BuiltinHpctoolkit):
