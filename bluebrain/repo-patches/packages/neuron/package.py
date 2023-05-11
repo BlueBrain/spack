@@ -99,7 +99,6 @@ class Neuron(CMakePackage):
     variant("openmp", default=False, description="Enable OpenMP support")
     variant("report", default=True, description="Enable SONATA and binary reports")
     variant("shared", default=True, description="Build shared library")
-    variant("nmodl", default=True, description="Use NMODL instead of MOD2C")
     variant(
         "codegenopt",
         default=False,
@@ -156,10 +155,6 @@ class Neuron(CMakePackage):
     depends_on("python", type=("build", "run"))
     depends_on("boost", when="@8.99:+tests+coreneuron")
     depends_on("cuda", when="@8.99:+gpu")
-    # The upper bound for the below line and the lower bound for 2 lines below
-    # should change to the new neuron version which is going to be created once
-    # the neuron PR for removing nmodl is going to be merged
-    depends_on("nmodl@0.4.0:", when="@8.2:8.99+nmodl")
     depends_on("nmodl@0.4.0:", when="@9:")
     depends_on("reportinglib", when="@8.99:+report+coreneuron")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
@@ -176,8 +171,11 @@ class Neuron(CMakePackage):
     conflicts("+gpu", when="@:8.99", msg=incompatible_version)
     conflicts("+sympy", when="@:8.99", msg=incompatible_version)
     conflicts("+openmp", when="@:8.99", msg=incompatible_version)
-    conflicts("+gpu", when="~coreneuron", msg=incompatible_version)
-    conflicts("+sympy", when="~coreneuron", msg=incompatible_version)
+    coreneuron_disabled_message = "Variant only available with CoreNEURON enabled and version >= 9.0"
+    conflicts("+gpu", when="~coreneuron", msg=coreneuron_disabled_message)
+    conflicts("+sympy", when="~coreneuron", msg=coreneuron_disabled_message)
+    conflicts("+sympyopt", when="~coreneuron", msg=coreneuron_disabled_message)
+    conflicts("+codegenopt", when="~coreneuron", msg=coreneuron_disabled_message)
 
     # ==============================================
     # ==== CMake build system related functions ====
@@ -304,7 +302,6 @@ class Neuron(CMakePackage):
                 options.append("-DCORENRN_ENABLE_PRCELLSTATE=ON")
 
             if spec.satisfies("+coreneuron"):
-                options.append("-DCORENRN_ENABLE_NMODL=ON")
                 options.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
 
             nmodl_options = "codegen --force"
