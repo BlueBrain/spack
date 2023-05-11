@@ -171,7 +171,9 @@ class Neuron(CMakePackage):
     conflicts("+gpu", when="@:8.99", msg=incompatible_version)
     conflicts("+sympy", when="@:8.99", msg=incompatible_version)
     conflicts("+openmp", when="@:8.99", msg=incompatible_version)
-    coreneuron_disabled_message = "Variant only available with CoreNEURON enabled and version >= 9.0"
+    coreneuron_disabled_message = (
+        "Variant only available with CoreNEURON enabled and version >= 9.0"
+    )
     conflicts("+gpu", when="~coreneuron", msg=coreneuron_disabled_message)
     conflicts("+sympy", when="~coreneuron", msg=coreneuron_disabled_message)
     conflicts("+sympyopt", when="~coreneuron", msg=coreneuron_disabled_message)
@@ -404,13 +406,13 @@ class Neuron(CMakePackage):
             "CC {0} {1}".format(assign_operator, env["CC"]),
             "CC = {0}".format(cc_compiler),
             nrnmech_makefile,
-            **kwargs
+            **kwargs,
         )
         filter_file(
             "CXX {0} {1}".format(assign_operator, env["CXX"]),
             "CXX = {0}".format(cxx_compiler),
             nrnmech_makefile,
-            **kwargs
+            **kwargs,
         )
 
         # for coreneuron
