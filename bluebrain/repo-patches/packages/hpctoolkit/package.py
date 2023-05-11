@@ -3,6 +3,7 @@ from spack.pkg.builtin.hpctoolkit import Hpctoolkit as BuiltinHpctoolkit
 
 import os
 
+
 class Hpctoolkit(BuiltinHpctoolkit):
     __doc__ = BuiltinHpctoolkit.__doc__
 
