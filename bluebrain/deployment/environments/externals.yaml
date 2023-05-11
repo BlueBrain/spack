@@ -25,6 +25,7 @@ spack:
           - git-lfs
           - gmake
           - graphviz
+          - hpctoolkit
           - hpe-mpi
           - intel-oneapi-mkl
           - intel-oneapi-tbb
@@ -111,6 +112,7 @@ spack:
     - graphviz
     - hdf5~mpi@1.10.7
     - help2man
+    - hpctoolkit@2023.03.stable+mpi+python
     - hpe-mpi@2.25.hmpt
     - intel-mkl
     # Leads to issues down the line, where it is preferred over hpe-mpi
