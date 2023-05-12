@@ -183,7 +183,7 @@ exclude_lines = [
     'raise AssertionError',
     'raise NotImplementedError',
 
-    # Don't complain if non-runnable code isn't run:
+    # Don't complain if non-runnable code isn't run:  sadasdsad
     'if 0:',
     'if False:',
     'if __name__ == .__main__.:',
