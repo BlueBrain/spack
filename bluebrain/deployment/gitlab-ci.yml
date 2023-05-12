@@ -393,6 +393,7 @@ check_neuron_ci:
     - if: $TRIGGER_CHILD_NEURON_PIPELINE
   trigger:
     project: hpc/cellular/nrn
+    branch: cornu/remove_mod2c
     strategy: depend
   variables:
     # Warning: inconsistent results possible if the head of $CI_COMMIT_BRANCH

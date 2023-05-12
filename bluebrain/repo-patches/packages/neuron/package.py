@@ -30,7 +30,7 @@ class Neuron(CMakePackage):
     # Patch for recent CMake versions that don't identify NVHPC as PGI
     patch("patch-v800-cmake-nvhpc.patch", when="@8.0.0%nvhpc^cmake@3.20:")
 
-    version("develop", branch="cornu/remove_mod2c")
+    version("develop", branch="master")
     version("9.0.a6", commit="67a672a")
     version("9.0.a5", commit="522c866")
     version("9.0.a4", commit="de2c927")
