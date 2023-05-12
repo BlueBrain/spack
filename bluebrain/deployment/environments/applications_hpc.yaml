@@ -32,20 +32,20 @@ spack:
           +ngv+metabolism: '{name}-multiscale/{version}'
           ^petsc+complex: '{name}-complex/{version}'
   specs:
-    - neuron+tests
-    - neuron+tests+nmodl+sympy
-    - neuron%nvhpc+caliper+gpu+tests+openmp
-    - neuron%nvhpc+caliper+gpu+tests~openmp+nmodl
-    - neuron%nvhpc+caliper+gpu+tests+openmp+nmodl+sympy
+    - neuron+tests+coreneuron
+    - neuron+tests+nmodl+sympy+coreneuron
+    - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp
+    - neuron%nvhpc+caliper+coreneuron+gpu+tests~openmp+nmodl
+    - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp+nmodl+sympy
     - nest@2.20.1
-    - neurodamus-hippocampus+caliper
-    - neurodamus-mousify+caliper
-    - neurodamus-neocortex~plasticity+caliper
-    - neurodamus-neocortex+plasticity+caliper
+    - neurodamus-hippocampus+coreneuron+caliper
+    - neurodamus-mousify+coreneuron+caliper
+    - neurodamus-neocortex~plasticity+coreneuron+caliper
+    - neurodamus-neocortex+plasticity+coreneuron+caliper
     - neurodamus-neocortex+ngv+metabolism+caliper~~coreneuron
-    - neurodamus-thalamus+caliper
-    - neuron build_type=Debug
-    - neuron build_type=FastDebug
+    - neurodamus-thalamus+coreneuron+caliper
+    - neuron+coreneuron build_type=Debug
+    - neuron+coreneuron build_type=FastDebug
     - nmodl
     - parquet-converters
     - py-archive-advisor
