@@ -145,13 +145,7 @@ class Neuron(CMakePackage):
     depends_on("py-pip", type=("build"), when="@9:")
     depends_on("py-packaging", type=("run"), when="@9:")
 
-    # dependency on coreneuron via submodule
-    depends_on("coreneuron+legacy-unit~caliper", when="@:8.99+coreneuron+legacy-unit~caliper")
-    depends_on("coreneuron~legacy-unit~caliper", when="@:8.99+coreneuron~legacy-unit~caliper")
-    depends_on("coreneuron+legacy-unit+caliper", when="@:8.99+coreneuron+legacy-unit+caliper")
-    depends_on("coreneuron~legacy-unit+caliper", when="@:8.99+coreneuron~legacy-unit+caliper")
-
-    # dependencies from coreneuron package
+    # coreneuron dependencies
     depends_on("python", type=("build", "run"))
     depends_on("boost", when="@8.99:+tests+coreneuron")
     depends_on("cuda", when="@8.99:+gpu")
@@ -337,9 +331,6 @@ class Neuron(CMakePackage):
                 options.append(self.define("CORENRN_ENABLE_GPU", True))
 
             args.extend(options)
-
-        if self.spec.satisfies("@:8.99+coreneuron"):
-            args.append(self.define("CORENEURON_DIR", self.spec["coreneuron"].prefix))
 
         return args
 

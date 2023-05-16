@@ -40,10 +40,6 @@ class SimModel(Package):
     # neuron/corenrn get linked automatically when using nrnivmodl[-core]
     # Dont duplicate the link dependency (only 'build' and 'run')
     depends_on("neuron+mpi", type=("build", "run"))
-    depends_on("coreneuron", when="+coreneuron ^neuron@:8.99", type=("build", "run"))
-    depends_on(
-        "coreneuron+caliper", when="+coreneuron+caliper ^neuron@:8.99", type=("build", "run")
-    )
     depends_on("neuron+caliper", when="+caliper", type=("build", "run"))
     depends_on("gettext", when="^neuron+binary")
 
@@ -65,18 +61,7 @@ class SimModel(Package):
 
     @property
     def nrnivmodl_core_exe(self):
-        """with +coreneuron variant enabled in neuron, nrnivmodl-core
-        binary can come from two places: coreneuron or neuron. Depending
-        upon the spec that user has used, grab appropriate nrnivmodl-core
-        binary. Note that `which` uses $PATH to find out binary and it could
-        be "wrong" one i.e. coreneuron built under neuron may not have linked
-        with sonatareport and reportinglib.
-        TODO: this is temporary change until we move to 9.0a soon.
-        """
-        if self.spec.satisfies("^coreneuron"):
-            return which("nrnivmodl-core", path=self.spec["coreneuron"].prefix.bin, required=True)
-        else:
-            return which("nrnivmodl-core", path=self.spec["neuron"].prefix.bin, required=True)
+        return which("nrnivmodl-core", path=self.spec["neuron"].prefix.bin, required=True)
 
     def _build_mods(
         self, mods_location, link_flag="", include_flag="", corenrn_mods=None, dependencies=None
@@ -121,10 +106,7 @@ class SimModel(Package):
         return ["-n", "ext", "-i", inc_flags, "-l", link_flags]
 
     def _coreneuron_include_flag(self):
-        if self.spec.satisfies("^coreneuron"):
-            return " -DENABLE_CORENEURON" + " -I%s" % self.spec["coreneuron"].prefix.include
-        else:
-            return " -DENABLE_CORENEURON" + " -I%s" % self.spec["neuron"].prefix.include
+        return " -DENABLE_CORENEURON" + " -I%s" % self.spec["neuron"].prefix.include
 
     def __build_mods_coreneuron(self, mods_location, link_flag, include_flag):
         mods_location = os.path.abspath(mods_location)
@@ -167,15 +149,8 @@ class SimModel(Package):
 
         if self.spec.satisfies("+coreneuron"):
             with working_dir("build_" + mech_name):
-                if self.spec.satisfies("^coreneuron@0.0:0.14"):
-                    raise Exception(
-                        "Coreneuron versions before 0.14 are" "not supported by Neurodamus model"
-                    )
-                elif self.spec.satisfies("^coreneuron@0.14:0.16.99"):
-                    which("nrnivmech_install.sh", path=".")(prefix)
-                else:
-                    # Set dest to install
-                    self.nrnivmodl_core_exe("-d", prefix, "-n", "ext", "mod")
+                # Set dest to install
+                self.nrnivmodl_core_exe("-d", prefix, "-n", "ext", "mod")
 
         # Install special
         shutil.copy(join_path(arch, "special"), prefix.bin)
