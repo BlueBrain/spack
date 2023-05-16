@@ -17,7 +17,7 @@ from .sim_model import SimModel, copy_all, make_link
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
 PYNEURODAMUS_DEFAULT_V = PyNeurodamus.LATEST_STABLE
-COMMON_DEFAULT_V = "2.6.5"
+COMMON_DEFAULT_V = "NMDA_fix"
 
 
 def version_from_model_ndpy_dep(
@@ -47,7 +47,7 @@ class NeurodamusModel(SimModel):
     resource(
         name="common_mods",
         git="ssh://git@bbpgitlab.epfl.ch/hpc/sim/models/common.git",
-        tag=COMMON_DEFAULT_V,
+        branch=COMMON_DEFAULT_V,
         destination="common_latest",
     )
 
