@@ -61,8 +61,7 @@ class Brion(CMakePackage):
         if self.spec.satisfies("%gcc@12:"):
             filter_file(
                 r"-Werror",
-                "-Werror -Wno-error=deprecated-copy -Wno-error=range-loop-construct "
-                "-Wno-error=unused-function",
+                "-Wno-error",
                 "CMake/CompileOptions.cmake",
             )
 
