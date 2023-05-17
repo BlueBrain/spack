@@ -30,6 +30,8 @@ class Libsonata(CMakePackage):
     version("0.1.11", tag="v0.1.11")
     version("0.1.10", tag="v0.1.10")
 
+    patch("0001-Include-Catch2-only-if-building-tests.patch")
+
     variant("mpi", default=True, description="Enable MPI backend")
     variant("tests", default=False, description="Enable building tests")
     variant("cxxstd", default="14", when="@0.1.17:", description="The C++ standard to use")
