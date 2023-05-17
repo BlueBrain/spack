@@ -40,7 +40,7 @@ class Libsonata(CMakePackage):
     depends_on("highfive+mpi", when="+mpi")
     depends_on("highfive~mpi", when="~mpi")
     depends_on("mpi", when="+mpi")
-    depends_on("catch2@2", when="@0.1.3:")
+    depends_on("catch2@2", when="@0.1.3: +tests")
     # Version restriction guessed from old deployment
     #
     # No `when` clause, as clingo will penalize new versions with the
