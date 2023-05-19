@@ -30,6 +30,8 @@ class Libsonata(CMakePackage):
     version("0.1.11", tag="v0.1.11")
     version("0.1.10", tag="v0.1.10")
 
+    # This was added to be able to build nmodl with catch2@3
+    # TODO: remove in the next version
     patch("0001-Include-Catch2-only-if-building-tests.patch")
 
     variant("mpi", default=True, description="Enable MPI backend")
