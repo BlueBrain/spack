@@ -7,102 +7,91 @@ packages:
       prefix: /usr
   automake:
     buildable: false
-    version: [1.13.4]
+    version: [1.16.1]
     externals:
-    - spec: automake@1.13.4
+    - spec: automake@1.16.1
       prefix: /usr
   bison:
     buildable: false
-    version: [2.7]
+    version: [3.0.4]
     externals:
-    - spec: bison@2.7
+    - spec: bison@3.0.4
       prefix: /usr
   boost:
+    buildable: false
+    version: [1.76.0]
+    externals:
+    - spec: boost@1.76.0
+      prefix: /cineca/prod/opt/libraries/boost/1.76.0/intelmpi--oneapi-2021--binary
     variants: +pic
   cmake:
     buildable: false
-    version: [3.5.2]
+    version: [3.20]
     externals:
-    - spec: cmake@3.12.0
-      prefix: /cineca/prod/opt/tools/cmake/3.12.0/none
+    - spec: cmake@3.20
+      prefix: /cineca/prod/opt/tools/cmake/3.20/none
   flex:
     buildable: false
-    version: [2.5.37]
+    version: [2.6.1]
     externals:
-    - spec: flex@2.5.37
+    - spec: flex@2.6.1
       prefix: /usr
   gettext:
     buildable: false
-    version: [0.19.7]
+    version: [0.19.8]
     externals:
-    - spec: gettext@0.19.7
+    - spec: gettext@0.19.8
       prefix: /usr
   hdf5:
     variants: ~fortran ~cxx
     buildable: false
-    version: [1.8.18]
+    version: [1.10.7]
     externals:
-    - spec: hdf5@1.8.18+mpi+hl
-      prefix: /cineca/prod/opt/libraries/hdf5/1.8.18/intel--pe-xe-2018--binary
-    - spec: hdf5@1.8.18~mpi+hl
-      prefix: /cineca/prod/opt/libraries/hdf5/1.8.18/gnu--7.3.0
-  intel-mpi-external:
+    - spec: hdf5@1.10.7+mpi+hl
+      prefix: /cineca/prod/opt/libraries/hdf5/1.10.7/intelmpi--oneapi-2021--binary
+  intel-oneapi-mpi:
     buildable: false
-    version: [2018]
+    version: [2022]
     externals:
-    - spec: intel-mpi-external@2018
-      prefix: /cineca/prod/opt/compilers/intel/pe-xe-2018/binary/impi/2018.4.274
+    - spec: intel-oneapi-mpi@2021.5.0
+      prefix: /cineca/prod/opt/compilers/intel/oneapi-2022/binary/
   libtool:
     buildable: false
-    version: [2.4.2]
+    version: [2.4.6]
     externals:
-    - spec: libtool@2.4.2
+    - spec: libtool@2.4.6
       prefix: /usr
   ncurses:
     buildable: false
-    version: [5.9]
+    version: [6.1]
     externals:
-    - spec: ncurses@5.9
+    - spec: ncurses@6.1
       prefix: /usr
   pkg-config:
     buildable: false
-    version: [0.27.1]
+    version: [1.4.2]
     externals:
-    - spec: pkg-config@0.27.1
+    - spec: pkg-config@1.4.2
       prefix: /usr
   python:
     buildable: false
-    version: [3.6.4, 2.7.12]
+    version: [3.8.12]
     externals:
-    - spec: python@3.6.4
-      prefix: /cineca/prod/opt/compilers/python/3.6.4/none
-    - spec: python@2.7.12
-      prefix: /cineca/prod/opt/compilers/python/2.7.12/none
-  py-matplotlib:
-    buildable: false
-    version: [2.2.3]
-    externals:
-    - spec: py-matplotlib@2.2.3
-      prefix: /cineca/prod/opt/compilers/python/3.6.4/none
+    - spec: python@3.8.12
+      prefix: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-cascadelake/intel-2021.4.0/python-3.8.12-tvg3jcaazvbwlpwrdeiyin4rjulbae26
   py-numpy:
     buildable: false
-    version: [1.14.0]
+    version: [1.21.3]
     externals:
-    - spec: py-numpy@1.14.0
-      prefix: /cineca/prod/opt/libraries/numpy/1.14.0/python--3.6.4
-  py-scipy:
+    - spec: py-numpy@1.21.3
+      prefix: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-cascadelake/gcc-10.2.0/py-numpy-1.21.3-z4dyktmvnfzfl44iydcxks5kdi3ffdyl
+  py-cython:
     buildable: false
-    version: [1.1.0]
+    version: [0.29.24]
     externals:
-    - spec: py-scipy@1.1.0
-      prefix: /cineca/prod/opt/libraries/scipy/1.1.0/python--3.6.4
-  zlib:
-    buildable: false
-    version: [1.2.11]
-    externals:
-    - spec: zlib@1.2.11
-      prefix: /cineca/prod/opt/libraries/zlib/1.2.11/intel--pe-xe-2017--binary
+    - spec: py-cython@0.29.24
+      prefix: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-cascadelake/intel-2021.4.0/py-cython-0.29.24-5n66v2llix3pmvokxd2cwi2mhrym5ztj
   all:
     compiler: [intel]
     providers:
-      mpi: [intel-mpi-external]
+      mpi: [intel-oneapi-mpi]

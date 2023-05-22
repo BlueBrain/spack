@@ -1,40 +1,78 @@
 compilers:
 - compiler:
-    spec: gcc@6.1.0
+    spec: gcc@8.4.1
     paths:
-      cc: /cineca/prod/opt/compilers/gnu/6.1.0/none/bin/gcc
-      cxx: /cineca/prod/opt/compilers/gnu/6.1.0/none/bin/g++
-      f77: /cineca/prod/opt/compilers/gnu/6.1.0/none/bin/gfortran
-      fc: /cineca/prod/opt/compilers/gnu/6.1.0/none/bin/gfortran
+      cc: /usr/bin/gcc
+      cxx: /usr/bin/g++
+      f77: /usr/bin/gfortran
+      fc: /usr/bin/gfortran
     flags: {}
-    operating_system: centos7
+    operating_system: centos8
     target: x86_64
-    modules: ['gnu/6.1.0']
+    modules: []
     environment: {}
     extra_rpaths: []
 - compiler:
-    spec: gcc@7.3.0
+    spec: intel@2021.4.0
     paths:
-      cc: /cineca/prod/opt/compilers/gnu/7.3.0/none/bin/gcc
-      cxx: /cineca/prod/opt/compilers/gnu/7.3.0/none/bin/g++
-      f77: /cineca/prod/opt/compilers/gnu/7.3.0/none/bin/gfortran
-      fc: /cineca/prod/opt/compilers/gnu/7.3.0/none/bin/gfortran
+      cc: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/intel-oneapi-compilers-2021.4.0-lbin5nsvjomf7fxnwfikasy5d5uxuol3/compiler/latest/linux/bin/intel64/icc
+      cxx: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/intel-oneapi-compilers-2021.4.0-lbin5nsvjomf7fxnwfikasy5d5uxuol3/compiler/latest/linux/bin/intel64/icpc
+      f77: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/intel-oneapi-compilers-2021.4.0-lbin5nsvjomf7fxnwfikasy5d5uxuol3/compiler/latest/linux/bin/intel64/ifort
+      fc: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/intel-oneapi-compilers-2021.4.0-lbin5nsvjomf7fxnwfikasy5d5uxuol3/compiler/latest/linux/bin/intel64/ifort
     flags: {}
-    operating_system: centos7
+    operating_system: centos8
     target: x86_64
-    modules: ['gnu/7.3.0']
+    modules: []
     environment: {}
     extra_rpaths: []
-
 - compiler:
-    spec: intel@18.0.5
+    spec: intel@2021.5.0
     paths:
-      cc: /cineca/prod/opt/compilers/intel/pe-xe-2018/binary/bin/icc
-      cxx: /cineca/prod/opt/compilers/intel/pe-xe-2018/binary/bin/icpc
-      f77: /cineca/prod/opt/compilers/intel/pe-xe-2018/binary/bin/ifort
-      fc: /cineca/prod/opt/compilers/intel/pe-xe-2018/binary/bin/ifort
+      cc: /cineca/prod/opt/compilers/intel/oneapi-2022/binary/compiler/latest/linux/bin/intel64/icc
+      cxx: /cineca/prod/opt/compilers/intel/oneapi-2022/binary/compiler/latest/linux/bin/intel64/icpc
+      f77: /cineca/prod/opt/compilers/intel/oneapi-2022/binary/compiler/latest/linux/bin/intel64/ifort
+      fc: /cineca/prod/opt/compilers/intel/oneapi-2022/binary/compiler/latest/linux/bin/intel64/ifort
     flags: {}
-    operating_system: centos7
+    operating_system: centos8
+    target: x86_64
+    modules: []
+    environment: {}
+    extra_rpaths: []
+- compiler:
+    spec: oneapi@2021.4.0
+    paths:
+      cc: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/intel-oneapi-compilers-2021.4.0-lbin5nsvjomf7fxnwfikasy5d5uxuol3/compiler/latest/linux/bin/icx
+      cxx: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/intel-oneapi-compilers-2021.4.0-lbin5nsvjomf7fxnwfikasy5d5uxuol3/compiler/latest/linux/bin/icpx
+      f77: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/intel-oneapi-compilers-2021.4.0-lbin5nsvjomf7fxnwfikasy5d5uxuol3/compiler/latest/linux/bin/ifx
+      fc: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/intel-oneapi-compilers-2021.4.0-lbin5nsvjomf7fxnwfikasy5d5uxuol3/compiler/latest/linux/bin/ifx
+    flags: {}
+    operating_system: centos8
+    target: x86_64
+    modules: []
+    environment: {}
+    extra_rpaths: []
+- compiler:
+    spec: gcc@10.2.0
+    paths:
+      cc: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/gcc-10.2.0-cdzxiuliq73albrymyt5qhzzbto3oxga/bin/gcc
+      cxx: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/gcc-10.2.0-cdzxiuliq73albrymyt5qhzzbto3oxga/bin/g++
+      f77: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/gcc-10.2.0-cdzxiuliq73albrymyt5qhzzbto3oxga/bin/gfortran
+      fc: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/gcc-10.2.0-cdzxiuliq73albrymyt5qhzzbto3oxga/bin/gfortran
+    flags: {}
+    operating_system: centos8
+    target: x86_64
+    modules: []
+    environment: {}
+    extra_rpaths: []
+- compiler:
+    spec: nvhpc@21.9
+    paths:
+      cc: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/nvhpc-21.9-buuc3336la46ki2aomprake24b2d23jj/Linux_x86_64/21.9/compilers/bin/nvc
+      cxx: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/nvhpc-21.9-buuc3336la46ki2aomprake24b2d23jj/Linux_x86_64/21.9/compilers/bin/nvc++
+      f77: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/nvhpc-21.9-buuc3336la46ki2aomprake24b2d23jj/Linux_x86_64/21.9/compilers/bin/nvfortran
+      fc: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-skylake_avx512/gcc-8.4.1/nvhpc-21.9-buuc3336la46ki2aomprake24b2d23jj/Linux_x86_64/21.9/compilers/bin/nvfortran
+    flags: {}
+    operating_system: centos8
     target: x86_64
     modules: []
     environment: {}
