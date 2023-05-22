@@ -1,9 +1,9 @@
 config:
-  install_tree: $SPACK_INSTALL_PREFIX/install
-  source_cache: $SPACK_INSTALL_PREFIX/.cache
-  module_roots:
-    tcl: $SPACK_INSTALL_PREFIX/modules/tcl
-  build_stage:
-    - $SPACK_INSTALL_PREFIX/.stage
-  install_path_scheme: '${ARCHITECTURE}/${COMPILERNAME}-${COMPILERVER}/${PACKAGE}-${VERSION}-${HASH:6}'
-  build_jobs: 16
+  install_tree:
+    root: $SPACK_INSTALL_PREFIX/
+    projections:
+      all: install_{compiler.name}-{compiler.version}-{target}/{name}-{version}-{hash:6}
+  source_cache: $SPACK_INSTALL_PREFIX/sources
+  environments_root: $SPACK_INSTALL_PREFIX/environments
+  # This seems to be the optimum for GPFS, according to @olupton
+  build_jobs: 8

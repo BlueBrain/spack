@@ -158,7 +158,6 @@ class Neuron(CMakePackage):
     depends_on("cuda", when="@8.99:+gpu")
     depends_on("flex@2.6:", type="build", when="+nmodl")
     depends_on("nmodl@0.4.0:", when="@8.99:+nmodl")
-    depends_on("reportinglib", when="@8.99:+report+coreneuron")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
 
     conflicts("+rx3d", when="~python")
