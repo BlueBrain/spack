@@ -24,8 +24,6 @@ class Neuron(CMakePackage):
     url = "http://www.neuron.yale.edu/ftp/neuron/versions/v7.5/nrn-7.5.tar.gz"
     git = "https://github.com/neuronsimulator/nrn"
 
-    # Patch which reverts 81a7a39 for numerical compat
-    patch("revert_Import3d_numerical_format.master.patch", when="@7.8.1:")
     # Patch which reverts d9605cb for not hanging on ExperimentalMechComplex
     # Patch for recent CMake versions that don't identify NVHPC as PGI
     patch("patch-v800-cmake-nvhpc.patch", when="@8.0.0%nvhpc^cmake@3.20:")
@@ -89,7 +87,7 @@ class Neuron(CMakePackage):
         multi=True,
         values=("None", "olfactory", "channel-benchmark", "tqperf-heavy"),
     )
-    variant("legacy-unit", default=True, description="Enable legacy units")
+    variant("legacy-unit", default=False, description="Enable legacy units")
     variant("caliper", default=False, description="Add LLNL/Caliper support")
 
     # extra variants from coreneuron recipe
