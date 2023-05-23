@@ -15,9 +15,8 @@ class Nmodl(CMakePackage):
 
     version("develop", branch="master", submodules=True)
     version("llvm", branch="llvm", submodules=True)
-    version("0.5.c", commit="c3b0736")
-    version("0.5.b", commit="243453d")
-    version("0.5.a", commit="94cba1c")
+    version("0.6.0", tag="0.6")
+    version("0.5.0", tag="0.5")
     version("0.4.0", tag="0.4")
 
     variant("legacy-unit", default=True, description="Enable legacy units")
@@ -32,7 +31,8 @@ class Nmodl(CMakePackage):
     depends_on("cuda", when="+llvm_cuda")
 
     depends_on("bison@3.0.5:", type="build")
-    depends_on("catch2@2")
+    depends_on("catch2@2", when="@:0.6.1")
+    depends_on("catch2@3:", when="@0.6.1:")
     depends_on("cli11")
     depends_on("cmake@3.17.0:", type="build")
     depends_on("flex@2.6:", type="build")

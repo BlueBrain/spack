@@ -31,6 +31,7 @@ class Neuron(CMakePackage):
     patch("patch-v800-cmake-nvhpc.patch", when="@8.0.0%nvhpc^cmake@3.20:")
 
     version("develop", branch="master")
+    version("9.0.a6", commit="67a672a")
     version("9.0.a5", commit="522c866")
     version("9.0.a4", commit="de2c927")
     version("9.0.a3", commit="afce1ef")
@@ -98,7 +99,7 @@ class Neuron(CMakePackage):
     variant("openmp", default=False, description="Enable OpenMP support")
     variant("report", default=True, description="Enable SONATA and binary reports")
     variant("shared", default=True, description="Build shared library")
-    variant("nmodl", default=False, description="Use NMODL instead of MOD2C")
+    variant("nmodl", default=True, description="Use NMODL instead of MOD2C")
     variant(
         "codegenopt",
         default=False,
@@ -106,6 +107,11 @@ class Neuron(CMakePackage):
     )
     variant("sympy", default=False, description="Use NMODL with SymPy to solve ODEs")
     variant("sympyopt", default=False, description="Use NMODL with SymPy Optimizations")
+    variant(
+        "prcellstate",
+        default=False,
+        description="Enable tracking of voltage and conductivity with prcellstate on CoreNEURON",
+    )
 
     # Build with `ninja` instead of `make`
     generator = "Ninja"
@@ -187,7 +193,6 @@ class Neuron(CMakePackage):
             cmake_enable_option(variant)
             for variant in [
                 "+interviews",
-                "+legacy-fr",
                 "+python",
                 "+memacs",
                 "+rx3d",
@@ -238,6 +243,9 @@ class Neuron(CMakePackage):
             if "%intel" in self.spec:
                 # This one definitely seems wise
                 compilation_flags += ["-fp-model", "consistent"]
+            elif "%oneapi" in self.spec:
+                # The documentation doesn't mention consistent for these intel compilers
+                compilation_flags.append("-fp-model=precise")
             # Remove default flags (RelWithDebInfo etc.)
             args.append("-DCMAKE_BUILD_TYPE=Custom")
 
@@ -303,6 +311,9 @@ class Neuron(CMakePackage):
 
             if "+legacy-unit" in self.spec:
                 options.append("-DCORENRN_ENABLE_LEGACY_UNITS=ON")
+
+            if "+prcellstate" in self.spec:
+                options.append("-DCORENRN_ENABLE_PRCELLSTATE=ON")
 
             if spec.satisfies("+nmodl"):
                 options.append("-DCORENRN_ENABLE_NMODL=ON")
