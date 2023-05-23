@@ -58,18 +58,28 @@ class Neurodamus(Package):
 
     phases = ["build", "install"]
     models = ("common", "neocortex", "thalamus")
+
+    # Specify all the locations so that we don't need to follow links
+    # This is important to avoid same mod ending up with different names
     model_mods_location = {
-        "neocortex": "neocortex/mod/v6"
+        "neocortex": ["neocortex/mod/common", "neocortex/mod/v6"]
         # other cases it will fetch "<model_name>/mod"
+    }
+    model_suffixes = {
+        "neocortex": "NCX",
+        "thalamus": "THA",
+        # No rule -> no renaming
     }
 
     def _gather_hoc_mods(self):
         mkdirp("mod", "hoc")
         for model in self.models:
-            mod_src = self.model_mods_location.get(model, model + "/mod")
-            tty.info(f"Add mods for {model}: {mod_src}")
-            copy_all(mod_src, "mod", make_link)
-            copy_all(model + "/hoc", "hoc", make_link)
+            tty.info(f"Add mods for {model}")
+            for mod_src in self.model_mods_location.get(model, [model + "/mod"]):
+                suffix = self.model_suffixes.get(model)
+                mod_patch_f = copy_patch("SUFFIX ", "SUFFIX " + suffix) if suffix else shutil.copy
+                copy_all(mod_src, "mod", mod_patch_f, skip_links=True)
+                copy_all(model + "/hoc", "hoc", make_link)
 
     @run_before("build")
     def merge_hoc_mod(self):
@@ -305,12 +315,14 @@ def env_set_caliper_flags(env):
     env.set("CALI_MPI_BLACKLIST", "MPI_Comm_rank,MPI_Comm_size,MPI_Wtick,MPI_Wtime")
 
 
-def copy_all(src, dst, copyfunc=shutil.copy):
+def copy_all(src, dst, copyfunc=shutil.copy, skip_links=False):
     """Copy/process all files in a src dir into a destination dir."""
-    isdir = os.path.isdir
+    path = os.path
     for name in os.listdir(src):
         pth = join_path(src, name)
-        isdir(pth) or copyfunc(pth, dst)
+        if path.isdir(pth) or (skip_links and path.islink(pth)):
+            continue
+        copyfunc(pth, dst)
 
 
 def make_link(src, dst):
@@ -338,6 +350,19 @@ def make_link(src, dst):
     if os.path.islink(dst):
         os.remove(dst)
     os.symlink(src, dst)
+
+
+def copy_patch(find, replace, n_times=1):
+    """return the custom patcher function"""
+
+    def _copy_f(src_f, dst_f):
+        if os.path.isdir(dst_f):
+            dst_f = join_path(dst_f, os.path.basename(src_f))
+        with open(src_f) as src, open(dst_f, "w") as dst:
+            full_str = src.read()
+            dst.write(full_str.replace(find, replace, n_times))
+
+    return _copy_f
 
 
 _BUILD_NEURODAMUS_TPL = """#!/bin/sh
