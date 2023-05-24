@@ -17,6 +17,7 @@ class PyAtlasSplitter(PythonPackage):
     version("0.1.2", sha256="ad79132bc18eed0bfc2c5633adde274cb49161eb9e0f0ab4350807d7afdd7a2d")
 
     depends_on("py-atlas-commons@0.1.4:", type=("build", "run"))
+    depends_on("py-pyarrow@8.0.0:", type=("build", "run"))
     depends_on("py-cgal-pybind@0.1.4:", type=("build", "run"))
     depends_on("py-click@7.0:", type=("build", "run"))
     depends_on("py-numpy@1.15.0:", type=("build", "run"))
