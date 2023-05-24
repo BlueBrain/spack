@@ -169,7 +169,7 @@ class SimModel(Package):
             with working_dir("build_" + mech_name):
                 if self.spec.satisfies("^coreneuron@0.0:0.14"):
                     raise Exception(
-                        "Coreneuron versions before 0.14 are" "not supported by Neurodamus model"
+                        "Coreneuron versions before 0.14 are not supported by Neurodamus model"
                     )
                 elif self.spec.satisfies("^coreneuron@0.14:0.16.99"):
                     which("nrnivmech_install.sh", path=".")(prefix)

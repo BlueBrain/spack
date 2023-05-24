@@ -58,7 +58,7 @@ class Neuron(CMakePackage):
         description="CMake build type",
         values=("Debug", "FastDebug", "RelWithDebInfo", "Release"),
     )
-    variant("coreneuron", default=True, description="Enable CoreNEURON support")
+    variant("coreneuron", default=True, description="Enable CoreNEURON support", when="@:9")
     variant(
         "mod-compatibility",
         default=True,
@@ -99,7 +99,7 @@ class Neuron(CMakePackage):
     variant("openmp", default=False, description="Enable OpenMP support")
     variant("report", default=True, description="Enable SONATA and binary reports")
     variant("shared", default=True, description="Build shared library")
-    variant("nmodl", default=True, description="Use NMODL instead of MOD2C")
+    variant("nmodl", default=True, description="Use NMODL instead of MOD2C", when="@:9")
     variant(
         "codegenopt",
         default=False,
@@ -120,7 +120,7 @@ class Neuron(CMakePackage):
     depends_on("bison", type="build")
     depends_on("caliper+mpi", type=("build", "link", "run"), when="+caliper+mpi")
     depends_on("caliper~mpi", type=("build", "link", "run"), when="+caliper~mpi")
-    depends_on("flex", type="build")
+    depends_on("flex@2.6:", type="build")
 
     # Readline became incompatible with Mac so we use neuron internal readline.
     # HOWEVER, with the internal version there is a bug which makes
@@ -156,8 +156,7 @@ class Neuron(CMakePackage):
     depends_on("python", type=("build", "run"))
     depends_on("boost", when="@8.99:+tests+coreneuron")
     depends_on("cuda", when="@8.99:+gpu")
-    depends_on("flex@2.6:", type="build", when="+nmodl")
-    depends_on("nmodl@0.4.0:", when="@8.99:+nmodl")
+    depends_on("nmodl@0.4.0:", when="@9:+nmodl")
     depends_on("reportinglib", when="@8.99:+report+coreneuron")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
 
@@ -176,9 +175,12 @@ class Neuron(CMakePackage):
     conflicts("+sympy", when="@:8.99", msg=incompatible_version)
     conflicts("+nmodl", when="@:8.99", msg=incompatible_version)
     conflicts("+openmp", when="@:8.99", msg=incompatible_version)
-    conflicts("+gpu", when="~coreneuron", msg=incompatible_version)
-    conflicts("+nmodl", when="~coreneuron", msg=incompatible_version)
-    conflicts("+sympy", when="~coreneuron", msg=incompatible_version)
+    coreneuron_disabled_message = (
+        "Variant only available with CoreNEURON enabled and version >= 9.0"
+    )
+    conflicts("+gpu", when="~coreneuron", msg=coreneuron_disabled_message)
+    conflicts("+nmodl", when="~coreneuron", msg=coreneuron_disabled_message)
+    conflicts("+sympy", when="~coreneuron", msg=coreneuron_disabled_message)
 
     # ==============================================
     # ==== CMake build system related functions ====
@@ -419,13 +421,13 @@ class Neuron(CMakePackage):
             "CC {0} {1}".format(assign_operator, env["CC"]),
             "CC = {0}".format(cc_compiler),
             nrnmech_makefile,
-            **kwargs
+            **kwargs,
         )
         filter_file(
             "CXX {0} {1}".format(assign_operator, env["CXX"]),
             "CXX = {0}".format(cxx_compiler),
             nrnmech_makefile,
-            **kwargs
+            **kwargs,
         )
 
         # for coreneuron
