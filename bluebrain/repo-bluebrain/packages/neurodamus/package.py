@@ -57,18 +57,19 @@ class Neurodamus(Package):
     depends_on("zlib")  # for hdf5
 
     phases = ["build", "install"]
-    models = ("common", "neocortex", "thalamus")
+    models = ("common", "neocortex", "thalamus", "hippocampus")
 
     # Specify all the locations so that we don't need to follow links
-    # This is important to avoid same mod ending up with different names
+    # This is important to avoid same mod ending up duplicated with different names
     model_mods_location = {
         "neocortex": ["neocortex/mod/common", "neocortex/mod/v6"]
         # other cases it will fetch "<model_name>/mod"
     }
-    model_suffixes = {
+    model_prefixes = {
         "neocortex": "NCX",
         "thalamus": "THA",
-        # No rule -> no renaming
+        "hippocampus": "HIP",
+        # Dont prefix mods from common
     }
 
     def _gather_hoc_mods(self):
@@ -76,8 +77,9 @@ class Neurodamus(Package):
         for model in self.models:
             tty.info(f"Add mods for {model}")
             for mod_src in self.model_mods_location.get(model, [model + "/mod"]):
-                suffix = self.model_suffixes.get(model)
-                mod_patch_f = copy_patch("SUFFIX ", "SUFFIX " + suffix) if suffix else shutil.copy
+                prefix = self.model_prefixes.get(model)
+                patch_exprs = ("SUFFIX ", "POINT_PROCESS ")
+                mod_patch_f = copy_patch_prefix(patch_exprs, prefix) if prefix else shutil.copy
                 copy_all(mod_src, "mod", mod_patch_f, skip_links=True)
                 copy_all(model + "/hoc", "hoc", make_link)
 
@@ -98,7 +100,7 @@ class Neurodamus(Package):
         self._gather_hoc_mods()
 
         copy_all(core_prefix.lib.hoc, "hoc", make_link)
-        copy_all(core_prefix.lib.mod, "mod", make_link)
+        copy_all(core_prefix.lib.mod, "mod", skip_existing=True)
         copy_all(core_prefix.lib.python, "python", make_link)
 
     def _build_mods(self, mods_location, link_flag="", include_flag="", dependencies=None):
@@ -315,12 +317,14 @@ def env_set_caliper_flags(env):
     env.set("CALI_MPI_BLACKLIST", "MPI_Comm_rank,MPI_Comm_size,MPI_Wtick,MPI_Wtime")
 
 
-def copy_all(src, dst, copyfunc=shutil.copy, skip_links=False):
+def copy_all(src, dst, copyfunc=shutil.copy, skip_links=False, skip_existing=False):
     """Copy/process all files in a src dir into a destination dir."""
     path = os.path
     for name in os.listdir(src):
         pth = join_path(src, name)
         if path.isdir(pth) or (skip_links and path.islink(pth)):
+            continue
+        if skip_existing and path.exists(dst):
             continue
         copyfunc(pth, dst)
 
@@ -352,15 +356,25 @@ def make_link(src, dst):
     os.symlink(src, dst)
 
 
-def copy_patch(find, replace, n_times=1):
+def copy_patch_prefix(find_expr, prefix, n_times=1, if_exists="rename"):
     """return the custom patcher function"""
+    if type(find_expr) == str:
+        find_expr = (find_expr,)
 
     def _copy_f(src_f, dst_f):
         if os.path.isdir(dst_f):
             dst_f = join_path(dst_f, os.path.basename(src_f))
+        if os.path.exists(dst_f):
+            if if_exists == "rename":
+                folder, filename = os.path.split(dst_f)
+                dst_f = join_path(folder, f"{prefix}_{filename}")
+            # otherwise overwrite
         with open(src_f) as src, open(dst_f, "w") as dst:
             full_str = src.read()
-            dst.write(full_str.replace(find, replace, n_times))
+            for expr in find_expr:
+                replace = expr + prefix + "_"
+                full_str = full_str.replace(expr, replace, n_times)
+            dst.write(full_str)
 
     return _copy_f
 
