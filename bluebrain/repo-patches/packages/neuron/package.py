@@ -58,7 +58,7 @@ class Neuron(CMakePackage):
         description="CMake build type",
         values=("Debug", "FastDebug", "RelWithDebInfo", "Release"),
     )
-    variant("coreneuron", default=True, description="Enable CoreNEURON support", when="@:9")
+    variant("coreneuron", default=True, description="Enable CoreNEURON support", when="@:8.99")
     variant(
         "mod-compatibility",
         default=True,
@@ -99,7 +99,7 @@ class Neuron(CMakePackage):
     variant("openmp", default=False, description="Enable OpenMP support")
     variant("report", default=True, description="Enable SONATA and binary reports")
     variant("shared", default=True, description="Build shared library")
-    variant("nmodl", default=True, description="Use NMODL instead of MOD2C", when="@:9")
+    variant("nmodl", default=True, description="Use NMODL instead of MOD2C", when="@:8.99")
     variant(
         "codegenopt",
         default=False,
