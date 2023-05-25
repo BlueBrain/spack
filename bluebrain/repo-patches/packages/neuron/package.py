@@ -101,27 +101,36 @@ class Neuron(CMakePackage):
     variant("openmp", default=False, description="Enable OpenMP support", when="@9:")
     variant("report", default=True, description="Enable SONATA and binary reports")
     variant("shared", default=True, description="Build shared library")
+    nmodl_variant_exists = "@9:9.0.a6 +coreneuron"
     variant(
         "nmodl",
         default=True,
         description="Use NMODL instead of MOD2C",
-        when="@9:9.0.a6 +coreneuron",
+        when=nmodl_variant_exists,
     )
-    variant(
-        "codegenopt",
-        default=False,
-        description="Use NMODL with codedgen ionvar copies optimizations",
-        when="+nmodl",
-    )
-    variant(
-        "sympy", default=False, description="Use NMODL with SymPy to solve ODEs", when="@9: +nmodl"
-    )
-    variant(
-        "sympyopt",
-        default=False,
-        description="Use NMODL with SymPy Optimizations",
-        when="@9: +sympy",
-    )
+    # There are three different eras relevant for these variants:
+    # * neuron@:9 -- coreneuron was a separate package, so nmodl is irrelevant to this recipe
+    # * neuron@9:9.0.a6 -- coreneuron exists inside neuron, nmodl is active if +coreneuron+nmodl
+    # * neuron@develop -- coreneuron exists inside neuron, mod2c is dead so nmodl active if +coreneuron
+    for nmodl_spec in [nmodl_variant_exists + "+nmodl", "@develop +coreneuron"]:
+        variant(
+            "codegenopt",
+            default=False,
+            description="Use NMODL with codedgen ionvar copies optimizations",
+            when=nmodl_spec,
+        )
+        variant(
+            "sympy",
+            default=False,
+            description="Use NMODL with SymPy to solve ODEs",
+            when=nmodl_spec,
+        )
+        variant(
+            "sympyopt",
+            default=False,
+            description="Use NMODL with SymPy Optimizations",
+            when=nmodl_spec,
+        )
     variant(
         "prcellstate",
         default=False,
