@@ -95,19 +95,33 @@ class Neuron(CMakePackage):
     # extra variants from coreneuron recipe
     variant("gpu", default=False, description="Enable GPU build", when="@9: +coreneuron")
     variant("knl", default=False, description="Enable KNL specific flags")
-    variant("unified", default=False, description="Enable Unified Memory with GPU build", when="+gpu")
+    variant(
+        "unified", default=False, description="Enable Unified Memory with GPU build", when="+gpu"
+    )
     variant("openmp", default=False, description="Enable OpenMP support", when="@9:")
     variant("report", default=True, description="Enable SONATA and binary reports")
     variant("shared", default=True, description="Build shared library")
-    variant("nmodl", default=True, description="Use NMODL instead of MOD2C", when="@9:9.0.a6 +coreneuron")
+    variant(
+        "nmodl",
+        default=True,
+        description="Use NMODL instead of MOD2C",
+        when="@9:9.0.a6 +coreneuron",
+    )
     variant(
         "codegenopt",
         default=False,
         description="Use NMODL with codedgen ionvar copies optimizations",
         when="+nmodl",
     )
-    variant("sympy", default=False, description="Use NMODL with SymPy to solve ODEs", when="@9: +nmodl")
-    variant("sympyopt", default=False, description="Use NMODL with SymPy Optimizations", when="@9: +sympy")
+    variant(
+        "sympy", default=False, description="Use NMODL with SymPy to solve ODEs", when="@9: +nmodl"
+    )
+    variant(
+        "sympyopt",
+        default=False,
+        description="Use NMODL with SymPy Optimizations",
+        when="@9: +sympy",
+    )
     variant(
         "prcellstate",
         default=False,
