@@ -40,9 +40,9 @@ class SimModel(Package):
     # neuron/corenrn get linked automatically when using nrnivmodl[-core]
     # Dont duplicate the link dependency (only 'build' and 'run')
     depends_on("neuron+mpi", type=("build", "run"))
-    depends_on("coreneuron", when="+coreneuron ^neuron@:8.99", type=("build", "run"))
+    depends_on("coreneuron", when="+coreneuron ^neuron@:9", type=("build", "run"))
     depends_on(
-        "coreneuron+caliper", when="+coreneuron+caliper ^neuron@:8.99", type=("build", "run")
+        "coreneuron+caliper", when="+coreneuron+caliper ^neuron@:9", type=("build", "run")
     )
     depends_on("neuron+caliper", when="+caliper", type=("build", "run"))
     depends_on("gettext", when="^neuron+binary")
@@ -73,7 +73,7 @@ class SimModel(Package):
         with sonatareport and reportinglib.
         TODO: this is temporary change until we move to 9.0a soon.
         """
-        if self.spec.satisfies("^coreneuron"):
+        if self.spec.satisfies("^coreneuron") and self.spec["neuron"].satisfies("@:8.99"):
             return which("nrnivmodl-core", path=self.spec["coreneuron"].prefix.bin, required=True)
         else:
             return which("nrnivmodl-core", path=self.spec["neuron"].prefix.bin, required=True)
