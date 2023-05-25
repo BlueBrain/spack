@@ -58,7 +58,7 @@ class Neuron(CMakePackage):
         description="CMake build type",
         values=("Debug", "FastDebug", "RelWithDebInfo", "Release"),
     )
-    variant("coreneuron", default=True, description="Enable CoreNEURON support", when="@:8.99")
+    variant("coreneuron", default=True, description="Enable CoreNEURON support")
     variant(
         "mod-compatibility",
         default=True,
