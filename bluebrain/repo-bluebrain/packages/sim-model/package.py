@@ -40,13 +40,11 @@ class SimModel(Package):
     # neuron/corenrn get linked automatically when using nrnivmodl[-core]
     # Dont duplicate the link dependency (only 'build' and 'run')
     depends_on("neuron+mpi", type=("build", "run"))
-    depends_on("coreneuron", when="+coreneuron ^neuron@:9", type=("build", "run"))
-    depends_on("coreneuron+caliper", when="+coreneuron+caliper ^neuron@:9", type=("build", "run"))
+    depends_on("neuron+coreneuron+python", type=("build", "run"), when="+coreneuron")
+    depends_on("coreneuron", when="+coreneuron ^neuron@:8", type=("build", "run"))
+    depends_on("coreneuron+caliper", when="+coreneuron+caliper ^neuron@:8", type=("build", "run"))
     depends_on("neuron+caliper", when="+caliper", type=("build", "run"))
     depends_on("gettext", when="^neuron+binary")
-
-    conflicts("^neuron~python", when="+coreneuron")
-    conflicts("^neuron~coreneuron", when="+coreneuron")
 
     phases = ("build", "install")
 

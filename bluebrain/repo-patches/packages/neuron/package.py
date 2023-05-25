@@ -113,6 +113,8 @@ class Neuron(CMakePackage):
     # * neuron@9:9.0.a6 -- coreneuron exists inside neuron, nmodl is active if +coreneuron+nmodl
     # * neuron@develop -- coreneuron exists inside neuron, mod2c is dead so nmodl active if +coreneuron
     for nmodl_spec in [nmodl_variant_exists + "+nmodl", "@develop +coreneuron"]:
+        # The lack of version constraint is a lie; most neuron/coreneuron versions are only compatible with one
+        depends_on("nmodl", when=nmodl_spec)
         variant(
             "codegenopt",
             default=False,
@@ -175,12 +177,12 @@ class Neuron(CMakePackage):
     depends_on("coreneuron~legacy-unit~caliper", when="@:8.99+coreneuron~legacy-unit~caliper")
     depends_on("coreneuron+legacy-unit+caliper", when="@:8.99+coreneuron+legacy-unit+caliper")
     depends_on("coreneuron~legacy-unit+caliper", when="@:8.99+coreneuron~legacy-unit+caliper")
+    conflicts("coreneuron", when="@9:")
 
     # dependencies from coreneuron package
     depends_on("python", type=("build", "run"))
     depends_on("boost", when="@8.99:+tests+coreneuron")
     depends_on("cuda", when="@8.99:+gpu")
-    depends_on("nmodl@0.4.0:", when="@9:+nmodl")
     depends_on("reportinglib", when="@8.99:+report+coreneuron")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
 
