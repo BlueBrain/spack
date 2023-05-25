@@ -41,9 +41,7 @@ class SimModel(Package):
     # Dont duplicate the link dependency (only 'build' and 'run')
     depends_on("neuron+mpi", type=("build", "run"))
     depends_on("coreneuron", when="+coreneuron ^neuron@:9", type=("build", "run"))
-    depends_on(
-        "coreneuron+caliper", when="+coreneuron+caliper ^neuron@:9", type=("build", "run")
-    )
+    depends_on("coreneuron+caliper", when="+coreneuron+caliper ^neuron@:9", type=("build", "run"))
     depends_on("neuron+caliper", when="+caliper", type=("build", "run"))
     depends_on("gettext", when="^neuron+binary")
 
