@@ -50,8 +50,8 @@ class Neuron(CMakePackage):
         "binary",
         default=True,
         description="Create special as a binary instead of shell script (8.0.x and earlier)",
+        when="@:8.0.999",
     )
-    conflicts("~binary", when="@8.0.999:")
     variant(
         "build_type",
         default="RelWithDebInfo",
@@ -73,7 +73,7 @@ class Neuron(CMakePackage):
     variant("memacs", default=True, description="Enable use of memacs")
     variant("mpi", default=True, description="Enable MPI parallelism")
     variant("python", default=True, description="Enable python")
-    variant("rx3d", default=True, description="Enable cython translated 3-d rxd.")
+    variant("rx3d", default=True, description="Enable cython translated 3-d rxd.", when="+python")
     variant(
         "sanitizers",
         default="None",
@@ -93,20 +93,21 @@ class Neuron(CMakePackage):
     variant("caliper", default=False, description="Add LLNL/Caliper support")
 
     # extra variants from coreneuron recipe
-    variant("gpu", default=False, description="Enable GPU build")
+    variant("gpu", default=False, description="Enable GPU build", when="@9: +coreneuron")
     variant("knl", default=False, description="Enable KNL specific flags")
-    variant("unified", default=False, description="Enable Unified Memory with GPU build")
-    variant("openmp", default=False, description="Enable OpenMP support")
+    variant("unified", default=False, description="Enable Unified Memory with GPU build", when="+gpu")
+    variant("openmp", default=False, description="Enable OpenMP support", when="@9:")
     variant("report", default=True, description="Enable SONATA and binary reports")
     variant("shared", default=True, description="Build shared library")
-    variant("nmodl", default=True, description="Use NMODL instead of MOD2C", when="@:8.99")
+    variant("nmodl", default=True, description="Use NMODL instead of MOD2C", when="@9:9.0.a6 +coreneuron")
     variant(
         "codegenopt",
         default=False,
         description="Use NMODL with codedgen ionvar copies optimizations",
+        when="+nmodl",
     )
-    variant("sympy", default=False, description="Use NMODL with SymPy to solve ODEs")
-    variant("sympyopt", default=False, description="Use NMODL with SymPy Optimizations")
+    variant("sympy", default=False, description="Use NMODL with SymPy to solve ODEs", when="@9: +nmodl")
+    variant("sympyopt", default=False, description="Use NMODL with SymPy Optimizations", when="@9: +sympy")
     variant(
         "prcellstate",
         default=False,
@@ -160,27 +161,10 @@ class Neuron(CMakePackage):
     depends_on("reportinglib", when="@8.99:+report+coreneuron")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
 
-    conflicts("+rx3d", when="~python")
-
     # for coreneuron: some basic conflicts
-    conflicts("+sympyopt", when="~sympy")
-    conflicts("+sympy", when="~nmodl")
-    conflicts("+codegenopt", when="~nmodl")
-    conflicts("+unified", when="~gpu")
-    gpu_compiler_message = "For gpu build use %pgi or %nvhpc"
+    gpu_compiler_message = "neuron: for gpu build use %pgi or %nvhpc"
     conflicts("%gcc", when="+gpu", msg=gpu_compiler_message)
     conflicts("%intel", when="+gpu", msg=gpu_compiler_message)
-    incompatible_version = "Variant available only with version >= 9.0"
-    conflicts("+gpu", when="@:8.99", msg=incompatible_version)
-    conflicts("+sympy", when="@:8.99", msg=incompatible_version)
-    conflicts("+nmodl", when="@:8.99", msg=incompatible_version)
-    conflicts("+openmp", when="@:8.99", msg=incompatible_version)
-    coreneuron_disabled_message = (
-        "Variant only available with CoreNEURON enabled and version >= 9.0"
-    )
-    conflicts("+gpu", when="~coreneuron", msg=coreneuron_disabled_message)
-    conflicts("+nmodl", when="~coreneuron", msg=coreneuron_disabled_message)
-    conflicts("+sympy", when="~coreneuron", msg=coreneuron_disabled_message)
 
     # ==============================================
     # ==== CMake build system related functions ====
