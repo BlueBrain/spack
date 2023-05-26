@@ -113,7 +113,8 @@ class Neuron(CMakePackage):
     # * neuron@9:9.0.a6 -- coreneuron exists inside neuron, nmodl is active if +coreneuron+nmodl
     # * neuron@develop -- coreneuron exists inside neuron,
     #                     mod2c is dead so nmodl active if +coreneuron
-    for nmodl_spec in [nmodl_variant_exists + "+nmodl", "@develop +coreneuron"]:
+    nmodl_enabled_specs = [nmodl_variant_exists + "+nmodl", "@develop +coreneuron"]
+    for nmodl_spec in nmodl_enabled_specs:
         # The lack of version constraint is a lie
         # most neuron/coreneuron versions are only compatible with one
         depends_on("nmodl", when=nmodl_spec)
@@ -328,9 +329,10 @@ class Neuron(CMakePackage):
             if "+prcellstate" in self.spec:
                 options.append("-DCORENRN_ENABLE_PRCELLSTATE=ON")
 
-            if spec.satisfies("+nmodl"):
-                options.append("-DCORENRN_ENABLE_NMODL=ON")
-                options.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
+            for nmodl_spec in self.nmodl_enabled_specs:
+                if spec.satisfies(nmodl_spec):
+                    options.append("-DCORENRN_ENABLE_NMODL=ON")
+                    options.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
 
             nmodl_options = "codegen --force"
 
