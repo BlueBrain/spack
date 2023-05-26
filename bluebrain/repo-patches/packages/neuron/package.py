@@ -111,9 +111,11 @@ class Neuron(CMakePackage):
     # There are three different eras relevant for these variants:
     # * neuron@:9 -- coreneuron was a separate package, so nmodl is irrelevant to this recipe
     # * neuron@9:9.0.a6 -- coreneuron exists inside neuron, nmodl is active if +coreneuron+nmodl
-    # * neuron@develop -- coreneuron exists inside neuron, mod2c is dead so nmodl active if +coreneuron
+    # * neuron@develop -- coreneuron exists inside neuron,
+    #                     mod2c is dead so nmodl active if +coreneuron
     for nmodl_spec in [nmodl_variant_exists + "+nmodl", "@develop +coreneuron"]:
-        # The lack of version constraint is a lie; most neuron/coreneuron versions are only compatible with one
+        # The lack of version constraint is a lie
+        # most neuron/coreneuron versions are only compatible with one
         depends_on("nmodl", when=nmodl_spec)
         variant(
             "codegenopt",
