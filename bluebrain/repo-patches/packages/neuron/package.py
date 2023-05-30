@@ -99,7 +99,7 @@ class Neuron(CMakePackage):
         "unified", default=False, description="Enable Unified Memory with GPU build", when="+gpu"
     )
     variant("openmp", default=False, description="Enable OpenMP support", when="@9:")
-    variant("report", default=True, description="Enable SONATA and binary reports")
+    variant("report", default=True, description="Enable SONATA reports")
     variant("shared", default=True, description="Build shared library")
     nmodl_variant_exists = "@9:9.0.a6 +coreneuron"
     variant(
@@ -186,7 +186,6 @@ class Neuron(CMakePackage):
     depends_on("python", type=("build", "run"))
     depends_on("boost", when="@8.99:+tests+coreneuron")
     depends_on("cuda", when="@8.99:+gpu")
-    depends_on("reportinglib", when="@8.99:+report+coreneuron")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
 
     # for coreneuron: some basic conflicts
