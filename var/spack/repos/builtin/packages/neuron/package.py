@@ -28,7 +28,7 @@ class Neuron(CMakePackage):
     variant("coreneuron", default=False, description="Enable CoreNEURON as submodule")
     variant("cross-compile", default=False, description="Build for cross-compile environment")
     variant("interviews", default=False, description="Enable GUI with INTERVIEWS")
-    variant("legacy-unit", default=False, description="Enable legacy units")
+    variant("legacy-unit", default=True, description="Enable legacy units")
     variant("mpi", default=True, description="Enable MPI parallelism")
     variant("python", default=True, description="Enable python")
     variant("rx3d", default=False, description="Enable cython translated 3-d rxd")

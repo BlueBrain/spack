@@ -29,7 +29,7 @@ class Neuron(CMakePackage):
     patch("patch-v800-cmake-nvhpc.patch", when="@8.0.0%nvhpc^cmake@3.20:")
 
     version("develop", branch="master")
-    version("9.0.a6", commit="67a672a")
+    version("9.0.a7", commit="67a672a")
     version("9.0.a5", commit="522c866")
     version("9.0.a4", commit="de2c927")
     version("9.0.a3", commit="afce1ef")
@@ -87,7 +87,7 @@ class Neuron(CMakePackage):
         multi=True,
         values=("None", "olfactory", "channel-benchmark", "tqperf-heavy"),
     )
-    variant("legacy-unit", default=False, description="Enable legacy units")
+    variant("legacy-unit", default=True, description="Enable legacy units")
     variant("caliper", default=False, description="Add LLNL/Caliper support")
 
     # extra variants from coreneuron recipe
