@@ -99,7 +99,7 @@ class Neuron(CMakePackage):
     variant("openmp", default=False, description="Enable OpenMP support", when="@9:")
     variant("report", default=True, description="Enable SONATA reports")
     variant("shared", default=True, description="Build shared library")
-    nmodl_variant_exists = "@9:9.0.a6 +coreneuron"
+    nmodl_variant_exists = "@9:9.0.a7 +coreneuron"
     variant(
         "nmodl",
         default=True,
