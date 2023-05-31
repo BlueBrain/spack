@@ -62,6 +62,3 @@ class NeurodamusNeocortex(NeurodamusModel):
         # Metabolism takes precedence over all mod files
         if self.spec.satisfies("+metabolism"):
             copy_all("mod/metabolism", "mod", make_link)
-
-        if self.spec.satisfies("@1.12:~plasticity~v5~ngv~metabolism"):
-            copy("mod/common/ProbAMPANMDA_EMS.mod", "mod")
