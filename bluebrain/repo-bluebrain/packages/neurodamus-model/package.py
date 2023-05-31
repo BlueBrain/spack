@@ -47,7 +47,7 @@ class NeurodamusModel(SimModel):
     resource(
         name="common_mods",
         git="ssh://git@bbpgitlab.epfl.ch/hpc/sim/models/common.git",
-        tag=COMMON_DEFAULT_V,
+        branch="feature/common_AMPA",
         destination="common_latest",
     )
 
