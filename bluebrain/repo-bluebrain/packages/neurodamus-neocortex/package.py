@@ -46,10 +46,6 @@ class NeurodamusNeocortex(NeurodamusModel):
 
     @run_before("build_model")
     def prepare_mods(self):
-        # this needs to be first so that other changes can overwrite this file
-        if self.spec.satisfies("@1.12:"):
-            copy("mod/common/ProbAMPANMDA_EMS.mod", "mod", make_link)
-
         if self.spec.satisfies("+v5"):
             copy_all("mod/v5", "mod", make_link)
         copy_all("mod/v6", "mod", make_link)
@@ -66,3 +62,6 @@ class NeurodamusNeocortex(NeurodamusModel):
         # Metabolism takes precedence over all mod files
         if self.spec.satisfies("+metabolism"):
             copy_all("mod/metabolism", "mod", make_link)
+
+        if self.spec.satisfies("@1.12:~plasticity~v5~ngv~metabolism"):
+            copy("mod/common/ProbAMPANMDA_EMS.mod", "mod")
