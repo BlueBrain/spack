@@ -297,6 +297,12 @@ class Neuron(CMakePackage):
             compilation_flags.append(
                 self.spec.architecture.target.optimization_flags(self.spec.compiler)
             )
+            # In case we're using GCC compiler we enable `-ffast-math` to allow vectorization
+            # of mechanism kernels in case `libmvec` is available in the system.
+            # Due to the fact that the generated code by NMODL includes `#pragma omp simd` clauses
+            # we also need to enable `+openmp` to make sure that the code gets vectorized
+            if "%gcc" in self.spec and self.spec.variants["build_type"].value in ["Release", "RelWithDebInfo"]:
+                compilation_flags.append("-ffast-math")
         if "%intel" in self.spec:
             # icpc: command line warning #10121: overriding '-march=skylake' with '-march=skylake'
             compilation_flags.append("-diag-disable=10121")
