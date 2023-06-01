@@ -301,7 +301,10 @@ class Neuron(CMakePackage):
             # of mechanism kernels in case `libmvec` is available in the system.
             # Due to the fact that the generated code by NMODL includes `#pragma omp simd` clauses
             # we also need to enable `+openmp` to make sure that the code gets vectorized
-            if "%gcc" in self.spec and self.spec.variants["build_type"].value in ["Release", "RelWithDebInfo"]:
+            if "%gcc" in self.spec and self.spec.variants["build_type"].value in [
+                "Release",
+                "RelWithDebInfo",
+            ]:
                 compilation_flags.append("-ffast-math")
         if "%intel" in self.spec:
             # icpc: command line warning #10121: overriding '-march=skylake' with '-march=skylake'
