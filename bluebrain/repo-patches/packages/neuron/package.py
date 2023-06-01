@@ -305,7 +305,9 @@ class Neuron(CMakePackage):
                 "Release",
                 "RelWithDebInfo",
             ]:
-                compilation_flags.append("-ffinite-math-only -fno-math-errno -funsafe-math-optimizations")
+                compilation_flags.append(
+                    "-ffinite-math-only -fno-math-errno -funsafe-math-optimizations"
+                )
                 if "+openmp" not in self.spec:
                     compilation_flags.append("-fopenmp-simd")
         if "%intel" in self.spec:
