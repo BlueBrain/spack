@@ -25,9 +25,8 @@ class Neurodamus(Package):
     git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-models.git"
 
     version("develop", submodules=True)
-    # TODO: Shall we let the version scheme be different to avoid mixing with old neurodamus-**?
+    # Let the version scheme be different to avoid mixing with old neurodamus-**?
     version("2023.05", tag="0.0.2", submodules=True)
-    version("2023.04", tag="0.0.2", submodules=True)
 
     variant("synapsetool", default=True, description="Enable SynapseTool reader (for edges)")
     variant("mvdtool", default=True, description="Enable MVDTool reader (for nodes)")
@@ -57,31 +56,33 @@ class Neurodamus(Package):
     depends_on("zlib")  # for hdf5
 
     phases = ["build", "install"]
-    models = ("common", "neocortex", "thalamus", "hippocampus")
-
-    # Specify all the locations so that we don't need to follow links
-    # This is important to avoid same mod ending up duplicated with different names
+    models = ("neocortex", "thalamus", "hippocampus")
     model_mods_location = {
-        "neocortex": ["neocortex/mod/common", "neocortex/mod/v6"]
+        "neocortex": ["neocortex/mod/v6"],
         # other cases it will fetch "<model_name>/mod"
     }
     model_prefixes = {
         "neocortex": "NCX",
         "thalamus": "THA",
         "hippocampus": "HIP",
-        # Dont prefix mods from common
     }
+    # PPs are present also in helpers. Rules to rename them
+    hoc_names_to_prefix = (
+        "ProbAMPANMDA_EMS(",  # parenthesis to just replace the process call
+        "ProbGABAAB_EMS(",
+        "GluSynapse(",
+    )
 
     def _gather_hoc_mods(self):
         mkdirp("mod", "hoc")
         for model in self.models:
             tty.info(f"Add mods for {model}")
+            hoc_src = model + "/hoc"
             for mod_src in self.model_mods_location.get(model, [model + "/mod"]):
-                prefix = self.model_prefixes.get(model)
+                prefix = self.model_prefixes[model]
                 patch_exprs = ("SUFFIX ", "POINT_PROCESS ")
-                mod_patch_f = copy_patch_prefix(patch_exprs, prefix) if prefix else shutil.copy
-                copy_all(mod_src, "mod", mod_patch_f, skip_links=True)
-                copy_all(model + "/hoc", "hoc", make_link)
+                copy_all(mod_src, "mod", copy_patch(patch_exprs, suffix=f" {prefix}_"))
+                copy_all(hoc_src, "hoc", copy_patch(self.hoc_names_to_prefix, prefix=f"{prefix}_"))
 
     @run_before("build")
     def merge_hoc_mod(self):
@@ -114,19 +115,11 @@ class Neurodamus(Package):
         # Neuron mechlib and special
         with profiling_wrapper_on():
             link_flag += " -L{0} -Wl,-rpath,{0}".format(str(self.prefix.lib))
+            nrnivmodl_args = ["-incflags", include_flag, "-loadflags", link_flag, mods_location]
             if self.spec.satisfies("+coreneuron"):
-                which("nrnivmodl")(
-                    "-coreneuron",
-                    "-incflags",
-                    include_flag,
-                    "-loadflags",
-                    link_flag,
-                    mods_location,
-                )
+                which("nrnivmodl")("-coreneuron", *nrnivmodl_args)
             else:
-                which("nrnivmodl")(
-                    "-incflags", include_flag, "-loadflags", link_flag, mods_location
-                )
+                which("nrnivmodl")(*nrnivmodl_args)
 
         assert os.path.isfile(os.path.join(output_dir, "special"))
         return inc_link_flags
@@ -356,8 +349,14 @@ def make_link(src, dst):
     os.symlink(src, dst)
 
 
-def copy_patch_prefix(find_expr, prefix, n_times=1, if_exists="rename"):
-    """return the custom patcher function"""
+def copy_patch(find_expr, prefix="", suffix="", n_times=1, if_exists="rename"):
+    """Creates a copy-patcher function according to params
+
+    Args:
+        find_expr: The expression(s) to find
+        prefix: The prefix to append when `find_expr` is found
+        suffix: The suffix to append
+    """
     if type(find_expr) == str:
         find_expr = (find_expr,)
 
@@ -366,15 +365,33 @@ def copy_patch_prefix(find_expr, prefix, n_times=1, if_exists="rename"):
             dst_f = join_path(dst_f, os.path.basename(src_f))
         if os.path.exists(dst_f):
             if if_exists == "rename":
+                create_mode = "rename"
                 folder, filename = os.path.split(dst_f)
-                dst_f = join_path(folder, f"{prefix}_{filename}")
-            # otherwise overwrite
-        with open(src_f) as src, open(dst_f, "w") as dst:
+                dst_f = join_path(folder, f"{prefix}{suffix}{filename}".replace(" ", ""))
+            else:
+                create_mode = "overwrite"
+        else:
+            create_mode = "new_file"
+
+        with open(src_f) as src:
             full_str = src.read()
-            for expr in find_expr:
-                replace = expr + prefix + "_"
-                full_str = full_str.replace(expr, replace, n_times)
-            dst.write(full_str)
+
+        for expr in find_expr:
+            new_expr = expr
+            if prefix:
+                new_expr = prefix + new_expr
+            if suffix:
+                new_expr += suffix
+            tty.warn(f"Replacing {expr} with {new_expr} in [{src_f} -> {dst_f}]")
+            new_full_str = full_str.replace(expr, new_expr, n_times)
+
+        if new_full_str == full_str:
+            # No changes were made. For now assume this is a special file, so dont modify anything
+            if create_mode != "new_file":
+                return
+
+        with open(dst_f, "w") as dst:
+            dst.write(new_full_str)
 
     return _copy_f
 
