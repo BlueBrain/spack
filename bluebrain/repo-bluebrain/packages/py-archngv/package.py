@@ -13,8 +13,6 @@ class PyArchngv(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/nse/ArchNGV.git"
 
     version("develop", branch="main")
-    version("2.0.2", tag="ArchNGV-v2.0.2")
-    version("2.0.1", tag="ArchNGV-v2.0.1")
     version("3.0.0", tag="ArchNGV-v3.0.0")
 
     depends_on("py-setuptools@42:", type="build")
@@ -23,7 +21,7 @@ class PyArchngv(PythonPackage):
     depends_on("py-scipy@1.5.0:", type=("build", "run"))
     depends_on("py-h5py@3.1.0:", type=("build", "run"))
     depends_on("py-libsonata@0.1.8:", type=("build", "run"))
-    depends_on("py-bluepysnap@0.13:0.99", type=("build", "run"))
+    depends_on("py-bluepysnap", type=("build", "run"))
     depends_on("py-cached-property@1.5:", type=("build", "run"))
     depends_on("py-voxcell@3.0.0:", type=("build", "run"))
     depends_on("py-vascpy@0.1.0:", type=("build", "run"))
