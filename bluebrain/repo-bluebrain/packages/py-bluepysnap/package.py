@@ -31,4 +31,4 @@ class PyBluepysnap(PythonPackage):
     depends_on("py-pandas@1.0.0:1", type=("build", "run"))
     depends_on("py-click@7.0:", type=("build", "run"))
     depends_on("py-more-itertools@8.2.0:", type=("build", "run"))
-    depends_on("spatial-index@1.2.1", type=("build", "run"))
+    depends_on("spatial-index@1.2.1:", type=("build", "run"))
