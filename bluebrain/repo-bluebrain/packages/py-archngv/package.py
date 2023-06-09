@@ -44,7 +44,7 @@ class PyArchngv(PythonPackage):
     depends_on("py-neurots@2.5.0", type=("build", "run"))
     depends_on("py-diameter-synthesis@0.2.5", type=("build", "run"))
     depends_on("py-trimesh@2.38.10:", type=("build", "run"))
-    #needed for trimesh marchingcubes
+    # needed for trimesh marchingcubes
     depends_on("py-scikit-image", type=("build", "run"))
 
     depends_on("py-dask+distributed+bag@2.0:", type=("build", "run"))
