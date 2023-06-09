@@ -13,7 +13,7 @@ class PyArchngv(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/nse/ArchNGV.git"
 
     version("develop", branch="main")
-    version("3.0.1", tag="ArchNGV-v3.0.1")
+    version("3.0.2", tag="ArchNGV-v3.0.2")
 
     depends_on("py-setuptools@42:", type="build")
 
@@ -49,7 +49,6 @@ class PyArchngv(PythonPackage):
     depends_on("py-distributed@2.0:", type=("build", "run"))
     depends_on("py-dask-mpi@2.0:", type=("build", "run"))
 
-    depends_on("py-mock", type="test")
     depends_on("py-pytest", type="test")
 
     @run_after("install")
