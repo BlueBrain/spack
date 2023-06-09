@@ -15,6 +15,7 @@ class MorphoKit(CMakePackage):
     submodules = True
 
     version("develop", branch="main")
+    version("0.3.5", commit="aee8232e8acb7add30e210b11fe2528fa658fb9f")
     version("0.3.4", tag="v0.3.4")
     version("0.3.3", tag="0.3.3")
     version("0.3.2", tag="v0.3.2")
@@ -23,7 +24,8 @@ class MorphoKit(CMakePackage):
     version("0.2.0", tag="v0.2.0")
 
     depends_on("cmake@3.2:", type="build")
-    depends_on("morphio@2.3.9:")
+    depends_on("morphio@2.3.9:", when="@0.3.4")
+    depends_on("morphio@3.3.5:", when="@0.3.5:")
     depends_on("cli11", when="@0.3.3:")  # for utilities
     depends_on("libsonata", when="@0.3.3:")  # for utilities
     depends_on("highfive@2.4.0:", when="@0.3.3:")  # for utilities
