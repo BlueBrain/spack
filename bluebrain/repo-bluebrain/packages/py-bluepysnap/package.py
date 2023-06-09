@@ -27,7 +27,7 @@ class PyBluepysnap(PythonPackage):
     depends_on("py-libsonata@0.1.21:", type=("build", "run"))
     depends_on("py-morphio@3", type=("build", "run"))
     depends_on("py-morph-tool@2.4.3:2", type=("build", "run"))
-    depends_on("py-numpy@1.8:1.22", type=("build", "run"))
+    depends_on("py-numpy@1.8:", type=("build", "run"))
     depends_on("py-pandas@1.0.0:1", type=("build", "run"))
     depends_on("py-click@7.0:", type=("build", "run"))
     depends_on("py-more-itertools@8.2.0:", type=("build", "run"))
