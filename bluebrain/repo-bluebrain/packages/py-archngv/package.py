@@ -17,10 +17,10 @@ class PyArchngv(PythonPackage):
 
     depends_on("py-setuptools@42:", type="build")
 
-    depends_on("py-numpy@1.19.5:", type=("build", "run"))
+    depends_on("py-numpy@1.19.5:1.22", type=("build", "run"))
     depends_on("py-scipy@1.5.0:", type=("build", "run"))
     depends_on("py-h5py@3.1.0:", type=("build", "run"))
-    depends_on("py-libsonata@0.1.8:", type=("build", "run"))
+    depends_on("py-libsonata@0.1.21:", type=("build", "run"))
     depends_on("py-bluepysnap@1.0.5:", type=("build", "run"))
     depends_on("py-cached-property@1.5:", type=("build", "run"))
     depends_on("py-voxcell@3.0.0:", type=("build", "run"))

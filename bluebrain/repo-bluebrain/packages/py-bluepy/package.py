@@ -14,7 +14,6 @@ class PyBluepy(PythonPackage):
 
     version("develop", branch="main")
     version("2.5.1", tag="bluepy-v2.5.1")
-    version("2.4.5", tag="bluepy-v2.4.5")
 
     depends_on("py-setuptools", type=("build", "run"))
 
