@@ -15,7 +15,7 @@ class PyBluepysnap(PythonPackage):
     pypi = "bluepysnap/bluepysnap-0.12.0.tar.gz"
 
     version("develop", branch="master")
-    version("1.0.5", sha256="8c9c50bcd7282a96c006c5c7ddffe53542378abc1d400bdf82e91b770d7224e0")
+    version("1.0.6", sha256="78d76354b3076e2e6d5f2332ac8380086854c7890aad86d01d6f21a927f73198")
 
     depends_on("python@3.7:", type=("build", "run"))
     depends_on("py-setuptools", type=("build", "run"))
