@@ -233,10 +233,10 @@ class SimModel(Package):
     def _setup_run_environment_common(self, env):
         # Dont export /lib as an ldpath.
         # We dont want to find these libs automatically
-        to_rm = ("LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "DYLD_FALLBACK_LIBRARY_PATH")
-        env.env_modifications = [
-            envmod for envmod in env.env_modifications if envmod.name not in to_rm
-        ]
+        # to_rm = ("LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "DYLD_FALLBACK_LIBRARY_PATH")
+        # env.env_modifications = [
+        #     envmod for envmod in env.env_modifications if envmod.name not in to_rm
+        # ]
         if os.path.isdir(self.prefix.lib.hoc):
             env.set("HOC_LIBRARY_PATH", self.prefix.lib.hoc)
         if os.path.isdir(self.prefix.lib.python):
