@@ -472,7 +472,7 @@ class Neuron(CMakePackage):
 
     def setup_run_environment(self, env):
         env.prepend_path("PATH", join_path(self.prefix, "bin"))
-        env.prepend_path("LD_LIBRARY_PATH", join_path(self.prefix, "lib"))
+        # env.prepend_path("LD_LIBRARY_PATH", join_path(self.prefix, "lib"))
         if self.spec.satisfies("+mpi"):
             env.set("MPICC_CC", self.compiler.cc)
             env.set("MPICXX_CXX", self.compiler.cxx)
