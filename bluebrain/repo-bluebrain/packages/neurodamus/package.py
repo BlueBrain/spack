@@ -13,6 +13,7 @@ from spack.package import *
 # Definitions
 _CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
+WITH_CORENEURON = True
 
 
 class Neurodamus(Package):
@@ -30,7 +31,6 @@ class Neurodamus(Package):
 
     variant("synapsetool", default=True, description="Enable SynapseTool reader (for edges)")
     variant("mvdtool", default=True, description="Enable MVDTool reader (for nodes)")
-    variant("coreneuron", default=False, description="Enable CoreNEURON Support")
     variant("caliper", default=False, description="Enable Caliper instrumentation")
 
     # neuron/corenrn get linked automatically when using nrnivmodl[-core]
@@ -45,7 +45,6 @@ class Neurodamus(Package):
     # 'run' mode will load the same mpi module
     depends_on("mpi", type=("build", "run"))
     depends_on("hdf5+mpi")
-    depends_on("reportinglib")
     depends_on("libsonata-report")
     depends_on("synapsetool+mpi", when="+synapsetool")
     depends_on("py-mvdtool+mpi", type="run", when="+mvdtool")
@@ -116,7 +115,7 @@ class Neurodamus(Package):
         with profiling_wrapper_on():
             link_flag += " -L{0} -Wl,-rpath,{0}".format(str(self.prefix.lib))
             nrnivmodl_args = ["-incflags", include_flag, "-loadflags", link_flag, mods_location]
-            if self.spec.satisfies("+coreneuron"):
+            if WITH_CORENEURON:
                 which("nrnivmodl")("-coreneuron", *nrnivmodl_args)
             else:
                 which("nrnivmodl")(*nrnivmodl_args)
@@ -145,10 +144,7 @@ class Neurodamus(Package):
         self._create_rebuild_script(include_flag, link_flag)
 
     def _create_rebuild_script(self, include_flag, link_flag):
-        if self.spec.satisfies("+coreneuron"):
-            corenrnmech_flag = "-coreneuron"
-        else:
-            corenrnmech_flag = ""
+        corenrnmech_flag = "-coreneuron" if WITH_CORENEURON else ""
 
         with open(_BUILD_NEURODAMUS_FNAME, "w") as f:
             f.write(
@@ -205,7 +201,7 @@ class Neurodamus(Package):
         for cmod in find(arch, "*.cpp", recursive=False):
             shutil.move(cmod, prefix.share.neuron_modcpp)
 
-        if self.spec.satisfies("+coreneuron"):
+        if WITH_CORENEURON:
             for cmod in find(arch + "coreneuron/mod2c", "*.cpp", recursive=False):
                 shutil.move(cmod, prefix.share.coreneuron_modcpp)
 
