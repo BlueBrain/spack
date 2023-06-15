@@ -48,7 +48,7 @@ class Coreneuron(CMakePackage):
     )
     variant("sympy", default=False, description="Use NMODL with SymPy to solve ODEs")
     variant("sympyopt", default=False, description="Use NMODL with SymPy Optimizations")
-    variant("legacy-unit", default=True, description="Enable legacy units")
+    variant("legacy-unit", default=False, description="Enable legacy units")
 
     # Build with `ninja` instead of `make`
     generator = "Ninja"
@@ -65,10 +65,8 @@ class Coreneuron(CMakePackage):
     depends_on("flex", type="build", when="~nmodl")
     depends_on("flex@2.6:", type="build", when="+nmodl")
     depends_on("mpi", when="+mpi")
-    depends_on("reportinglib", when="+report")
     depends_on("libsonata-report@1.0.0.20210610:", when="@1.0.0.20220304:+report")
     depends_on("libsonata-report@:0.1", when="@:1.0+report")
-    depends_on("reportinglib+profile", when="+report+profile")
     depends_on("tau", when="+profile")
     depends_on("caliper+mpi", when="@1.0.0.20220304:+caliper+mpi")
     depends_on("caliper~mpi", when="@1.0.0.20220304:+caliper~mpi")

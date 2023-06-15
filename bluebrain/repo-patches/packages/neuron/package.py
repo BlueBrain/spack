@@ -25,13 +25,14 @@ class Neuron(CMakePackage):
     git = "https://github.com/neuronsimulator/nrn"
 
     # Patch which reverts 81a7a39 for numerical compat
-    patch("revert_Import3d_numerical_format.master.patch", when="@7.8.1:")
+    patch("revert_Import3d_numerical_format.master.patch", when="@7.8.1:9.0.a6")
+
     # Patch which reverts d9605cb for not hanging on ExperimentalMechComplex
     # Patch for recent CMake versions that don't identify NVHPC as PGI
     patch("patch-v800-cmake-nvhpc.patch", when="@8.0.0%nvhpc^cmake@3.20:")
 
     version("develop", branch="master")
-    version("9.0.a6", commit="67a672a")
+    version("9.0.a8", commit="67a672a")
     version("9.0.a5", commit="522c866")
     version("9.0.a4", commit="de2c927")
     version("9.0.a3", commit="afce1ef")
@@ -50,8 +51,8 @@ class Neuron(CMakePackage):
         "binary",
         default=True,
         description="Create special as a binary instead of shell script (8.0.x and earlier)",
+        when="@:8.0.999",
     )
-    conflicts("~binary", when="@8.0.999:")
     variant(
         "build_type",
         default="RelWithDebInfo",
@@ -73,7 +74,7 @@ class Neuron(CMakePackage):
     variant("memacs", default=True, description="Enable use of memacs")
     variant("mpi", default=True, description="Enable MPI parallelism")
     variant("python", default=True, description="Enable python")
-    variant("rx3d", default=True, description="Enable cython translated 3-d rxd.")
+    variant("rx3d", default=True, description="Enable cython translated 3-d rxd.", when="+python")
     variant(
         "sanitizers",
         default="None",
@@ -89,24 +90,53 @@ class Neuron(CMakePackage):
         multi=True,
         values=("None", "olfactory", "channel-benchmark", "tqperf-heavy"),
     )
-    variant("legacy-unit", default=True, description="Enable legacy units")
+    variant("legacy-unit", default=False, description="Enable legacy units")
     variant("caliper", default=False, description="Add LLNL/Caliper support")
 
     # extra variants from coreneuron recipe
-    variant("gpu", default=False, description="Enable GPU build")
+    variant("gpu", default=False, description="Enable GPU build", when="@9: +coreneuron")
     variant("knl", default=False, description="Enable KNL specific flags")
-    variant("unified", default=False, description="Enable Unified Memory with GPU build")
-    variant("openmp", default=False, description="Enable OpenMP support")
-    variant("report", default=True, description="Enable SONATA and binary reports")
-    variant("shared", default=True, description="Build shared library")
-    variant("nmodl", default=True, description="Use NMODL instead of MOD2C")
     variant(
-        "codegenopt",
-        default=False,
-        description="Use NMODL with codedgen ionvar copies optimizations",
+        "unified", default=False, description="Enable Unified Memory with GPU build", when="+gpu"
     )
-    variant("sympy", default=False, description="Use NMODL with SymPy to solve ODEs")
-    variant("sympyopt", default=False, description="Use NMODL with SymPy Optimizations")
+    variant("openmp", default=False, description="Enable OpenMP support", when="@9:")
+    variant("report", default=True, description="Enable SONATA reports")
+    variant("shared", default=True, description="Build shared library")
+    nmodl_variant_exists = "@9:9.0.a8 +coreneuron"
+    variant(
+        "nmodl",
+        default=True,
+        description="Use NMODL instead of MOD2C",
+        when=nmodl_variant_exists,
+    )
+    # There are three different eras relevant for these variants:
+    # * neuron@:9 -- coreneuron was a separate package, so nmodl is irrelevant to this recipe
+    # * neuron@9:9.0.a6 -- coreneuron exists inside neuron, nmodl is active if +coreneuron+nmodl
+    # * neuron@develop -- coreneuron exists inside neuron,
+    #                     mod2c is dead so nmodl active if +coreneuron
+    nmodl_enabled_specs = [nmodl_variant_exists + "+nmodl", "@develop +coreneuron"]
+    for nmodl_spec in nmodl_enabled_specs:
+        # The lack of version constraint is a lie
+        # most neuron/coreneuron versions are only compatible with one
+        depends_on("nmodl", when=nmodl_spec)
+        variant(
+            "codegenopt",
+            default=False,
+            description="Use NMODL with codedgen ionvar copies optimizations",
+            when=nmodl_spec,
+        )
+        variant(
+            "sympy",
+            default=False,
+            description="Use NMODL with SymPy to solve ODEs",
+            when=nmodl_spec,
+        )
+        variant(
+            "sympyopt",
+            default=False,
+            description="Use NMODL with SymPy Optimizations",
+            when=nmodl_spec,
+        )
     variant(
         "prcellstate",
         default=False,
@@ -120,7 +150,7 @@ class Neuron(CMakePackage):
     depends_on("bison", type="build")
     depends_on("caliper+mpi", type=("build", "link", "run"), when="+caliper+mpi")
     depends_on("caliper~mpi", type=("build", "link", "run"), when="+caliper~mpi")
-    depends_on("flex", type="build")
+    depends_on("flex@2.6:", type="build")
 
     # Readline became incompatible with Mac so we use neuron internal readline.
     # HOWEVER, with the internal version there is a bug which makes
@@ -151,34 +181,18 @@ class Neuron(CMakePackage):
     depends_on("coreneuron~legacy-unit~caliper", when="@:8.99+coreneuron~legacy-unit~caliper")
     depends_on("coreneuron+legacy-unit+caliper", when="@:8.99+coreneuron+legacy-unit+caliper")
     depends_on("coreneuron~legacy-unit+caliper", when="@:8.99+coreneuron~legacy-unit+caliper")
+    conflicts("coreneuron", when="@9:")
 
     # dependencies from coreneuron package
     depends_on("python", type=("build", "run"))
     depends_on("boost", when="@8.99:+tests+coreneuron")
     depends_on("cuda", when="@8.99:+gpu")
-    depends_on("flex@2.6:", type="build", when="+nmodl")
-    depends_on("nmodl@0.4.0:", when="@8.99:+nmodl")
-    depends_on("reportinglib", when="@8.99:+report+coreneuron")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
 
-    conflicts("+rx3d", when="~python")
-
     # for coreneuron: some basic conflicts
-    conflicts("+sympyopt", when="~sympy")
-    conflicts("+sympy", when="~nmodl")
-    conflicts("+codegenopt", when="~nmodl")
-    conflicts("+unified", when="~gpu")
-    gpu_compiler_message = "For gpu build use %pgi or %nvhpc"
+    gpu_compiler_message = "neuron: for gpu build use %pgi or %nvhpc"
     conflicts("%gcc", when="+gpu", msg=gpu_compiler_message)
     conflicts("%intel", when="+gpu", msg=gpu_compiler_message)
-    incompatible_version = "Variant available only with version >= 9.0"
-    conflicts("+gpu", when="@:8.99", msg=incompatible_version)
-    conflicts("+sympy", when="@:8.99", msg=incompatible_version)
-    conflicts("+nmodl", when="@:8.99", msg=incompatible_version)
-    conflicts("+openmp", when="@:8.99", msg=incompatible_version)
-    conflicts("+gpu", when="~coreneuron", msg=incompatible_version)
-    conflicts("+nmodl", when="~coreneuron", msg=incompatible_version)
-    conflicts("+sympy", when="~coreneuron", msg=incompatible_version)
 
     # ==============================================
     # ==== CMake build system related functions ====
@@ -283,6 +297,24 @@ class Neuron(CMakePackage):
             compilation_flags.append(
                 self.spec.architecture.target.optimization_flags(self.spec.compiler)
             )
+            # In case we're using GCC compiler we enable certain optimization options
+            # to allow vectorization of mechanism kernels in case `libmvec` is available
+            # in the system.
+            # Due to the fact that the generated code by NMODL includes `#pragma omp simd`
+            # clauses we also need to enable `+openmp` or add `-fopenmp-simd` to make sure
+            # that the code gets vectorized
+            if "%gcc" in self.spec and self.spec.variants["build_type"].value in [
+                "Release",
+                "RelWithDebInfo",
+            ]:
+                compilation_flags += [
+                    "-ffinite-math-only",
+                    "-fno-math-errno",
+                    "-funsafe-math-optimizations",
+                    "-fno-associative-math",
+                ]
+                if "+openmp" not in self.spec:
+                    compilation_flags.append("-fopenmp-simd")
         if "%intel" in self.spec:
             # icpc: command line warning #10121: overriding '-march=skylake' with '-march=skylake'
             compilation_flags.append("-diag-disable=10121")
@@ -315,9 +347,10 @@ class Neuron(CMakePackage):
             if "+prcellstate" in self.spec:
                 options.append("-DCORENRN_ENABLE_PRCELLSTATE=ON")
 
-            if spec.satisfies("+nmodl"):
-                options.append("-DCORENRN_ENABLE_NMODL=ON")
-                options.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
+            for nmodl_spec in self.nmodl_enabled_specs:
+                if spec.satisfies(nmodl_spec):
+                    options.append("-DCORENRN_ENABLE_NMODL=ON")
+                    options.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
 
             nmodl_options = "codegen --force"
 
@@ -419,13 +452,13 @@ class Neuron(CMakePackage):
             "CC {0} {1}".format(assign_operator, env["CC"]),
             "CC = {0}".format(cc_compiler),
             nrnmech_makefile,
-            **kwargs
+            **kwargs,
         )
         filter_file(
             "CXX {0} {1}".format(assign_operator, env["CXX"]),
             "CXX = {0}".format(cxx_compiler),
             nrnmech_makefile,
-            **kwargs
+            **kwargs,
         )
 
         # for coreneuron
