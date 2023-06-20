@@ -6,6 +6,7 @@ import subprocess
 from spack.package import *
 from spack.pkg.builtin.singularityce import Singularityce as BuiltinSingularityce
 
+
 class Singularityce(BuiltinSingularityce):
     __doc__ = BuiltinSingularityce.__doc__
 
