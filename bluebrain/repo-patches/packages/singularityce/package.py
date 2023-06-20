@@ -10,6 +10,10 @@ import subprocess
 class Singularityce(BuiltinSingularityce):
     __doc__ = BuiltinSingularityce.__doc__
 
+    # BBPP154-53: Depend on HPE-MPI implementation for BB5 to get the expected MPI
+    #             performance from the executed images
+    depends_on("hpe-mpi", type="run")
+
     def setup_run_environment(self, env):
         # BBPP154-53: append to SINGULARITY_CONTAINLIBS env variable all the
         #             InfiniBand, NUMA, MLX, and NL libraries
