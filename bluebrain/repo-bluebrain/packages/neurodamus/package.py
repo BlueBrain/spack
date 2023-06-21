@@ -11,7 +11,6 @@ from llnl.util import tty
 from spack.package import *
 
 # Definitions
-_CORENRN_MODLIST_FNAME = "coreneuron_modlist.txt"
 _BUILD_NEURODAMUS_FNAME = "build_neurodamus.sh"
 WITH_CORENEURON = True
 
@@ -25,7 +24,7 @@ class Neurodamus(Package):
     homepage = "https://bbpgitlab.epfl.ch/hpc/sim/neurodamus-models"
     git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-models.git"
 
-    version("develop", submodules=True)
+    version("develop", branch="main", submodules=True)
     # Let the version scheme be different to avoid mixing with old neurodamus-**?
     version("2023.05", tag="0.0.2", submodules=True)
 
@@ -138,7 +137,6 @@ class Neurodamus(Package):
         """Build mod files from with nrnivmodl / nrnivmodl-core.
         To support shared libs, nrnivmodl is also passed RPATH flags.
         """
-        self.mech_name = ""  # Create the library with all the mod files as libnrnmech.so/.dylib
         base_include_flag = "-DENABLE_SYNTOOL" if spec.satisfies("+synapsetool") else ""
         include_flag, link_flag = self._build_mods("mod", "", base_include_flag)
         self._create_rebuild_script(include_flag, link_flag)
@@ -157,19 +155,26 @@ class Neurodamus(Package):
             )
         os.chmod(_BUILD_NEURODAMUS_FNAME, 0o770)
 
-    def _install_binaries(self, mech_name=None):
+    def _install_binaries(self):
         # Install special
+        prefix = self.prefix
         mkdirp(self.spec.prefix.bin)
         mkdirp(self.spec.prefix.lib)
         mkdirp(self.spec.prefix.share.modc)
 
-        mech_name = mech_name or self.mech_name
+        # Neuron 9.0 Note:
+        #  - We rely on the fact that "nrnivmodl" understands "-coreneuron"
+        #    and binaries are generated in a single archdir folder
         nrnivmodl_outdir = self.spec["neuron"].package.archdir
-        arch = os.path.basename(nrnivmodl_outdir)
-        prefix = self.prefix
+
+        if WITH_CORENEURON:
+            for filename, dest in [("libcorenrnmech.*", prefix.lib), ("special-core", prefix.bin)]:
+                f = find(nrnivmodl_outdir, filename, recursive=False)
+                assert len(f) == 1, "Could not find " + filename
+                shutil.copy(f[0], dest)
 
         # Install special
-        shutil.copy(join_path(arch, "special"), prefix.bin)
+        shutil.copy(join_path(nrnivmodl_outdir, "special"), prefix.bin)
 
         libnrnmech = self._find_install_libnrnmech(nrnivmodl_outdir)
 
@@ -270,7 +275,8 @@ class Neurodamus(Package):
         #  - BGLIBPY_MOD_LIBRARY_PATH used by bglibpy
         libnrnmech_name = join_path(self.prefix.lib, "libnrnmech.so")
         env.set("NRNMECH_LIB_PATH", libnrnmech_name)
-        env.set("BGLIBPY_MOD_LIBRARY_PATH", libnrnmech_name)
+        # With this unified recipe we are dropping BGLIBPY_MOD_LIBRARY_PATH
+        # Since it requires building model a second time without some mechanisms
 
 
 @contextmanager
