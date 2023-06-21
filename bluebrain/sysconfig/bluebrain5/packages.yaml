@@ -73,6 +73,10 @@ packages:
       - one_of: ["%oneapi", "%intel"]
   mxnet:
     version: [1.8.0]  # Don't build @1.master because nobody likes moving targets
+  neurodamus:
+    variants: ~~gpu
+    require:
+      - one_of: ["%oneapi", "%intel"]
   neurodamus-hippocampus:
     variants: ~~gpu
     require:
