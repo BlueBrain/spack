@@ -71,7 +71,7 @@ class Neurodamus(Package):
         "GluSynapse(",
     )
 
-    def _gather_hoc_mods(self):
+    def _combine_models(self):
         mkdirp("mod", "hoc")
         for model in self.models:
             tty.info(f"Add mods for {model}")
@@ -96,11 +96,11 @@ class Neurodamus(Package):
         # Neurodamus model may not have python scripts
         mkdirp("python")
 
-        self._gather_hoc_mods()
+        self._combine_models()
 
-        copy_all(core_prefix.lib.hoc, "hoc", make_link)
+        copy_all(core_prefix.lib.hoc, "hoc", skip_existing=True)
         copy_all(core_prefix.lib.mod, "mod", skip_existing=True)
-        copy_all(core_prefix.lib.python, "python", make_link)
+        copy_all(core_prefix.lib.python, "python")
 
     def _build_mods(self, mods_location, link_flag="", include_flag="", dependencies=None):
         """Build shared lib & special from mods in a given path"""
@@ -316,12 +316,13 @@ def copy_all(src, dst, copyfunc=shutil.copy, skip_links=False, skip_existing=Fal
     """Copy/process all files in a src dir into a destination dir."""
     path = os.path
     for name in os.listdir(src):
-        pth = join_path(src, name)
-        if path.isdir(pth) or (skip_links and path.islink(pth)):
+        src_pth = join_path(src, name)
+        if path.isdir(src_pth) or (skip_links and path.islink(src_pth)):
             continue
-        if skip_existing and path.exists(dst):
+        dst_pth = join_path(dst, name)
+        if skip_existing and path.exists(dst_pth):
             continue
-        copyfunc(pth, dst)
+        copyfunc(src_pth, dst_pth)
 
 
 def make_link(src, dst):
