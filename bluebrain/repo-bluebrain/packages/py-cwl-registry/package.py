@@ -18,16 +18,19 @@ class PyCwlRegistry(PythonPackage):
 
     depends_on("py-setuptools", type=("build", "run"))
 
+    depends_on("py-arrow", type=("build", "run"))
     depends_on("py-click@8.0.0:", type=("build", "run"))
     depends_on("py-voxcell", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
     depends_on("py-pandas", type=("build", "run"))
+
     depends_on("py-libsonata", type=("build", "run"))
     depends_on("py-nexusforge", type=("build", "run"))
     depends_on("py-bba-data-push@1.0.4:", type=("build", "run"))
     depends_on("py-joblib", type=("build", "run"))
     depends_on("py-cwl-luigi@0.3.1:", type=("build", "run"))
     depends_on("py-entity-management@1.2.0:", type=("build", "run"))
+
 
     @run_after("install")
     @on_package_attributes(run_tests=True)
