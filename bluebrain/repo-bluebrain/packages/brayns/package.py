@@ -24,7 +24,7 @@ class Brayns(CMakePackage):
     depends_on("ninja", type="build")
     depends_on("git", type="build")
 
-    depends_on("brion@3.3.9:")
+    depends_on("brion@3.3.12:")
     depends_on("libsonata@0.1.18:")
     depends_on("morphio@3.3.4:")
     depends_on("mvdtool@2.4.9:")
