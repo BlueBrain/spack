@@ -31,7 +31,6 @@ class PyCwlRegistry(PythonPackage):
     depends_on("py-cwl-luigi@0.3.1:", type=("build", "run"))
     depends_on("py-entity-management@1.2.0:", type=("build", "run"))
 
-
     @run_after("install")
     @on_package_attributes(run_tests=True)
     def test_install(self):
