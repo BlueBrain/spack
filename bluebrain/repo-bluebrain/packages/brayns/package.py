@@ -17,6 +17,7 @@ class Brayns(CMakePackage):
     version("develop", branch="develop")
     version("3.1.2", tag="3.1.2")
     version("3.2.0", tag="3.2.0")
+    version("3.2.1", tag="3.2.1")
 
     depends_on("cmake@3.15:", type="build")
     depends_on("ispc@1.18.0:", type="build")
