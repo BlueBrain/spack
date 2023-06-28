@@ -113,7 +113,7 @@ class SingularityBase(MakefilePackage):
         return "spack_perms_fix.sh"
 
     def perm_script_tmpl(self):
-        return join_path(os.path.dirname(__file__), "{0}.j2".format(self.perm_script()))
+        return "{0}.j2".format(self.perm_script())
 
     def perm_script_path(self):
         return join_path(self.spec.prefix.bin, self.perm_script())
