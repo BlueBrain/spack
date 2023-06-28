@@ -206,7 +206,7 @@ class Singularityce(SingularityBase):
 
 SINGULARITY_TEMPLATE = """#!/bin/sh -eu
 
-{% for cf  in chown_files %}
+{% for cf in chown_files %}
 chown root {{ prefix }}/{{ cf }}
 {% endfor %}
 
