@@ -2,6 +2,7 @@ import os
 import re
 import shutil
 import subprocess
+
 from spack.package import *
 from spack.pkg.builtin.singularityce import Singularityce as BuiltinSingularityce
 
