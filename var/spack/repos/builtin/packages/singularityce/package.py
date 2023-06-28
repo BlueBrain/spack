@@ -121,10 +121,6 @@ class SingularityBase(MakefilePackage):
     def _build_script(self, filename, variable_data):
         with open(filename, "w") as f:
             env = spack.tengine.make_environment(dirs=self.package_dir)
-            tmpl = open(self.perm_script_tmpl(), 'r')
-            content = tmpl.read()
-            print(content)
-            tmpl.close()
             t = env.get_template(self.perm_script_tmpl())
             f.write(t.render(variable_data))
 
