@@ -55,32 +55,40 @@ class Neurodamus(Package):
 
     phases = ["build", "install"]
     models = ("neocortex", "thalamus", "hippocampus")
-    model_mods_location = {
-        "neocortex": ["neocortex/mod/v6"],
-        # other cases it will fetch "<model_name>/mod"
-    }
     model_prefixes = {
         "neocortex": "NCX",
         "thalamus": "THA",
         "hippocampus": "HIP",
     }
-    # PPs are present also in helpers. Rules to rename them
-    hoc_names_to_prefix = (
-        "ProbAMPANMDA_EMS(",  # parenthesis to just replace the process call
-        "ProbGABAAB_EMS(",
-        "GluSynapse(",
-    )
 
     def _combine_models(self):
         mkdirp("mod", "hoc")
+        model_mods_location = {
+            "neocortex": ["neocortex/mod/v6"],
+            # other cases it will fetch "<model_name>/mod"
+        }
+        mod_patch_exprs = ("SUFFIX ", "POINT_PROCESS ")  # keep spaces
+        # PPs names are present also in helpers. Rules to rename them
+        hoc_names_to_prefix = (
+            "ProbAMPANMDA_EMS(",  # parenthesis to just replace the process call
+            "ProbGABAAB_EMS(",
+            "GluSynapse(",
+        )
+
+        # Copy common technical mod files. At the moment it still comes with general synapses mods
+        # Needed for tests and generalized circuits
+        tty.info("Adding stock common mods")
+        copy_all("common/mod", "mod")
+        copy_all("common/hoc", "hoc")
+
+        # Now create a version of the mod files specific for each model
         for model in self.models:
             tty.info(f"Add mods for {model}")
             hoc_src = model + "/hoc"
-            for mod_src in self.model_mods_location.get(model, [model + "/mod"]):
+            for mod_src in model_mods_location.get(model, [model + "/mod"]):
                 prefix = self.model_prefixes[model]
-                patch_exprs = ("SUFFIX ", "POINT_PROCESS ")
-                copy_all(mod_src, "mod", copy_patch(patch_exprs, suffix=f" {prefix}_"))
-                copy_all(hoc_src, "hoc", copy_patch(self.hoc_names_to_prefix, prefix=f"{prefix}_"))
+                copy_all(mod_src, "mod", copy_patch(mod_patch_exprs, suffix=f" {prefix}_"))
+                copy_all(hoc_src, "hoc", copy_patch(hoc_names_to_prefix, prefix=f"{prefix}_"))
 
     @run_before("build")
     def merge_hoc_mod(self):
@@ -378,6 +386,7 @@ def copy_patch(find_expr, prefix="", suffix="", n_times=1, if_exists="rename"):
 
         with open(src_f) as src:
             full_str = src.read()
+            full_str_orig = full_str  # have a backup to compare
 
         for expr in find_expr:
             new_expr = expr
@@ -385,16 +394,20 @@ def copy_patch(find_expr, prefix="", suffix="", n_times=1, if_exists="rename"):
                 new_expr = prefix + new_expr
             if suffix:
                 new_expr += suffix
-            tty.warn(f"Replacing {expr} with {new_expr} in [{src_f} -> {dst_f}]")
-            new_full_str = full_str.replace(expr, new_expr, n_times)
+            tty.info(f"Replacing '{expr}' with '{new_expr}' in [{src_f} -> {dst_f}]")
+            full_str = full_str.replace(expr, new_expr, n_times)
 
-        if new_full_str == full_str:
-            # No changes were made. For now assume this is a special file, so dont modify anything
+        if full_str == full_str_orig:
+            # No changes were made. This is likely a special file.
+            # Don't create specialized version. Just write out if it's new
+
             if create_mode != "new_file":
+                tty.warn(f"File {src_f} not patched! Skipping...")
                 return
+            tty.warn(f"File {src_f} not patched! Creating...")
 
         with open(dst_f, "w") as dst:
-            dst.write(new_full_str)
+            dst.write(full_str)
 
     return _copy_f
 
