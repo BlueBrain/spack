@@ -24,9 +24,6 @@ class SingularityBase(MakefilePackage):
     depends_on("git", when="@develop")  # mconfig uses it for version info
     depends_on("shadow", type="run", when="@3.3:")
     depends_on("cryptsetup", type=("build", "run"), when="@3.4:")
-    # BlueBrain: build failed due to missing dependency
-    # It's not in repo-patches because then the build fails due to missing spack_perms_fix.sh
-    depends_on('glib@2', type=('build', 'run'))
 
     conflicts("platform=darwin", msg="singularity requires a Linux VM on Windows & Mac")
 
@@ -203,6 +200,7 @@ class Singularityce(SingularityBase):
     version("3.9.9", sha256="1381433d64138c08e93ffacdfb4844e82c2288f1e39a9d2c631a1c4021381f2a")
     version("3.9.1", sha256="1ba3bb1719a420f48e9b0a6afdb5011f6c786d0f107ef272528c632fff9fd153")
     version("3.8.0", sha256="5fa2c0e7ef2b814d8aa170826b833f91e5031a85d85cd1292a234e6c55da1be1")
+
 
 SINGULARITY_TEMPLATE = """#!/bin/sh -eu
 
