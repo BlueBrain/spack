@@ -123,7 +123,7 @@ class SingularityBase(MakefilePackage):
             env = spack.tengine.make_environment(dirs=self.package_dir)
             with open(self.perm_script_tmpl(), "w") as f_tmpl:
                 f_tmpl.write(SINGULARITY_TEMPLATE)
-            t = env.get_template(self.perm_script())
+            t = env.get_template(self.perm_script_tmpl())
             f.write(t.render(variable_data))
 
     @run_after("install")
