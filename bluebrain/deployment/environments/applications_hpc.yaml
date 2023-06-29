@@ -5,6 +5,7 @@ spack:
       tcl:
         include:
           - asciitoh5
+          - hpctm-1459
           - model-neocortex
           - nest
           - neurodamus-hippocampus
@@ -30,6 +31,7 @@ spack:
           +plasticity: '{name}-plasticity/{version}'
           +ngv+metabolism: '{name}-multiscale/{version}'
   specs:
+    - hpctm-1459
     - neuron+tests+coreneuron
     - neuron+tests+coreneuron+sympy
     - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp
