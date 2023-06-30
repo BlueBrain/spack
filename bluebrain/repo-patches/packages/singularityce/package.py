@@ -20,11 +20,11 @@ class Singularityce(BuiltinSingularityce):
         # BBPP154-53: append to SINGULARITY_CONTAINLIBS env variable all the
         #             InfiniBand, NUMA, MLX, and NL libraries
         ldconfig_results = subprocess.run(
-            ["ldconfig", "-p"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            ["ldconfig", "-p"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
         for lib in re.findall(
             r"[\_\-/a-zA-Z0-9]*(?:/libib|/libnuma|/libmlx|/libnl).*\.so[.0-9]*",
-            ldconfig_results.stdout,
+            ldconfig_results.stdout.decode("utf-8"),
         ):
             if os.path.isfile(lib):
                 env.append_path("SINGULARITY_CONTAINLIBS", lib, separator=",")
