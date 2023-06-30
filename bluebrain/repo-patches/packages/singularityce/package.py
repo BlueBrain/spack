@@ -10,8 +10,6 @@ from spack.pkg.builtin.singularityce import Singularityce as BuiltinSingularityc
 class Singularityce(BuiltinSingularityce):
     __doc__ = BuiltinSingularityce.__doc__
 
-    depends_on("glib@2", type=("build", "run"))
-
     # BBPP154-53: Depend on HPE-MPI implementation for BB5 to get the expected MPI
     #             performance from the executed images
     depends_on("hpe-mpi", type="run")
