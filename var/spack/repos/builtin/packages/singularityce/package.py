@@ -77,7 +77,8 @@ class SingularityBase(MakefilePackage):
                 confstring += " --without-suid"
             if "~network" in spec:
                 confstring += " --without-network"
-            confstring += " --without-conmon"
+            if self.singularity_name != "apptainer":
+                confstring += " --without-conmon"
             configure = Executable(confstring)
             configure()
 
