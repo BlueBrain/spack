@@ -160,6 +160,12 @@ class Neuron(CMakePackage):
 
     # Transient dependency
     depends_on("gettext")
+    
+    # MorphIO
+    depends_on("hdf5+cxx", type=("build", "link", "run"))
+    depends_on("py-pybind11", type=("build"))
+    depends_on("morphio", type=("build", "link", "run"))
+    depends_on("highfive", type=("build", "link", "run"))
 
     depends_on("mpi", when="+mpi")
     depends_on("py-mpi4py", when="+mpi+python+tests")
