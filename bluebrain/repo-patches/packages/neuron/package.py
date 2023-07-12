@@ -103,6 +103,7 @@ class Neuron(CMakePackage):
     variant("openmp", default=False, description="Enable OpenMP support", when="@9:")
     variant("report", default=True, description="Enable SONATA reports")
     variant("shared", default=True, description="Build shared library")
+    variant("morphio", default=True, description="Use MorphIO for morphology loading")
     nmodl_variant_exists = "@9:9.0.a8 +coreneuron"
     variant(
         "nmodl",
@@ -162,10 +163,10 @@ class Neuron(CMakePackage):
     depends_on("gettext")
     
     # MorphIO
-    depends_on("hdf5+cxx", type=("build", "link", "run"))
-    depends_on("py-pybind11", type=("build"))
-    depends_on("morphio", type=("build", "link", "run"))
-    depends_on("highfive", type=("build", "link", "run"))
+    depends_on("hdf5+cxx", type=("build", "link", "run"), when="+morphio")
+    depends_on("py-pybind11", type=("build"), when="+morphio")
+    depends_on("morphio", type=("build"), when="+morphio")
+    depends_on("highfive", type=("build", "link", "run"), when="+morphio")
 
     depends_on("mpi", when="+mpi")
     depends_on("py-mpi4py", when="+mpi+python+tests")
@@ -219,6 +220,7 @@ class Neuron(CMakePackage):
                 "+rx3d",
                 "+coreneuron",
                 "+tests",
+                "+morphio",
             ]
         ]
         if self.spec.satisfies("+tests"):
