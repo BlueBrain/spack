@@ -6,6 +6,7 @@ spack:
         include:
           - asciitoh5
           - model-neocortex
+          - morpho-kit
           - nest
           - neurodamus-hippocampus
           - neurodamus-neocortex
