@@ -16,6 +16,6 @@ class PyPydash(PythonPackage):
 
     version("5.1.0", sha256="1b2b050ac1bae049cd07f5920b14fabbe52638f485d9ada1eb115a9eebff6835")
 
-    depends_on("py-typing-extensions@3.10", type=("build", "run"))
+    depends_on("py-typing-extensions@3.10:", type=("build", "run"))
     depends_on("py-setuptools", type=("build"))
     depends_on("python@3.7:")
