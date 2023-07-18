@@ -13,7 +13,7 @@ class PyOrderedmultidict(PythonPackage):
     homepage = "https://github.com/gruns/orderedmultidict"
     pypi = "orderedmultidict/orderedmultidict-1.0.1.tar.gz"
 
-    version("2.1.3", sha256="04070bbb5e87291cc9bfa51df413677faf2141c73c61d2a5f7b26bea3cd882ad")
+    version("1.0.1", sha256="04070bbb5e87291cc9bfa51df413677faf2141c73c61d2a5f7b26bea3cd882ad")
 
     depends_on("python@3.7:", type=("build", "run"))
     depends_on("py-setuptools", type=("build"))
