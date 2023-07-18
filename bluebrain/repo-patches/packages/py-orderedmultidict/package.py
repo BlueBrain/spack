@@ -6,7 +6,7 @@
 from spack.package import *
 
 
-class PyOrderedMultiDict(PythonPackage):
+class PyOrderedmultidict(PythonPackage):
     """omdict is an ordered multivalue dictionary that retains
     method parity with Python's dict and helps power furl"""
 
