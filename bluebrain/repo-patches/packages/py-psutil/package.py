@@ -26,4 +26,4 @@ class PyPsutil(PythonPackage):
 
     depends_on("python@2.6:2.8,3.4:", type=("build", "run"))
     depends_on("python@2.7:2.8,3.4:", when="@5.9.2:", type=("build", "run"))
-    depends_on("py-setuptools", type="build")
+    depends_on("py-setuptools", type=("build"))

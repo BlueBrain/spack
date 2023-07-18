@@ -16,5 +16,5 @@ class PyOrderedmultidict(PythonPackage):
     version("2.1.3", sha256="04070bbb5e87291cc9bfa51df413677faf2141c73c61d2a5f7b26bea3cd882ad")
 
     depends_on("python@3.7:", type=("build", "run"))
-    depends_on("py-setuptools", type="build")
+    depends_on("py-setuptools", type=("build"))
     depends_on("py-six@1.8.0", type=("run"))
