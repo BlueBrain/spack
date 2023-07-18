@@ -6,7 +6,7 @@
 from spack.package import *
 
 
-class PyPyDash(PythonPackage):
+class PyPydash(PythonPackage):
     """The kitchen sink of Python utility libraries for 
     doing stuff in a functional way"""
 
