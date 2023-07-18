@@ -15,7 +15,7 @@ class PyBraynscircuitstudiobackend(PythonPackage):
     version("develop", branch="develop")
     version("1.0.0", tag="v1.0.0")
 
-    depends_on("python@3.7:", type=("build", "run"))
+    depends_on("python@3.9:", type=("build", "run"))
     depends_on("py-setuptools", type=("build", "run"))
     depends_on("py-aiohttp@3.8.3", type=("run"))
     depends_on("py-aiosignal@1.2.0", type=("run"))
