@@ -13,7 +13,7 @@ class PyBraynsCircuitStudioBackend(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/viz/brayns/braynscircuitstudiobackend.git"
 
     version("develop", branch="develop")
-    version("2.5.1", tag="bluepy-v2.5.1")
+    version("1.0.0", tag="v1.0.0")
 
     depends_on("py-setuptools", type=("build", "run"))
     depends_on("py-aiohttp@3.8.3", type=("build", "run"))
