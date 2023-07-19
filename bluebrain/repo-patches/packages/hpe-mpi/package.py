@@ -18,11 +18,7 @@ class HpeMpi(Package):
 
     homepage = "http://www.no-name.com"
     url = "http://www.no-name.com/hpempi-1.0.tar.gz"
-    version(
-        "2.26",
-        sha256="2f27ad2e92ef0004b9a4dfb3b76837d1b657c43ff89f4deef99be58a322a80b7",
-        url="file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.21.tar.xz",
-    ) 
+
     version(
         "2.21",
         sha256="2f27ad2e92ef0004b9a4dfb3b76837d1b657c43ff89f4deef99be58a322a80b7",
