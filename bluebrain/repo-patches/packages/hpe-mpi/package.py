@@ -107,7 +107,9 @@ class HpeMpi(Package):
         lib_directory = self.prefix.lib
         for lib in os.listdir(lib_directory):
             if os.path.isfile(os.path.join(lib_directory, lib)):
-                env.append_path("SINGULARITY_CONTAINLIBS", os.path.join(lib_directory, lib), separator=",")
+                env.append_path(
+                    "SINGULARITY_CONTAINLIBS", os.path.join(lib_directory, lib), separator=","
+                )
         env.prepend_path(
             "SINGULARITYENV_LD_PRELOAD", "/.singularity.d/libs/libmpi.so", separator=","
         )
