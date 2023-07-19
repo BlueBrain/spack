@@ -18,7 +18,11 @@ class HpeMpi(Package):
 
     homepage = "http://www.no-name.com"
     url = "http://www.no-name.com/hpempi-1.0.tar.gz"
-
+    version(
+        "2.26",
+        sha256="2f27ad2e92ef0004b9a4dfb3b76837d1b657c43ff89f4deef99be58a322a80b7",
+        url="file:///gpfs/bbp.cscs.ch/apps/hpc/download/hpe-mpi/hpe-mpi-2.21.tar.xz",
+    ) 
     version(
         "2.21",
         sha256="2f27ad2e92ef0004b9a4dfb3b76837d1b657c43ff89f4deef99be58a322a80b7",
@@ -104,9 +108,10 @@ class HpeMpi(Package):
         #             LD_PRELOAD env variable of the container to make sure that
         #             the executable that might have hardcoded RPATH use this
         #             HPE-MPI implementation
-        libdir = self.prefix.lib
-        for lib in libdir:
-            env.append_path("SINGULARITY_CONTAINLIBS", lib, separator=",")
+        lib_directory = self.prefix.lib
+        for lib in os.listdir(lib_directory):
+            if os.path.isfile(os.path.join(lib_directory, lib)):
+                env.append_path("SINGULARITY_CONTAINLIBS", os.path.join(lib_directory, lib), separator=",")
         env.prepend_path(
             "SINGULARITYENV_LD_PRELOAD", "/.singularity.d/libs/libmpi.so", separator=","
         )
