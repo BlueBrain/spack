@@ -9,7 +9,7 @@ class PyNeurodamus(PythonPackage):
     """The BBP simulation control suite, Python API"""
 
     homepage = "https://github.com/BlueBrain/neurodamus"
-    git = "git@bbpgitlab.epfl.ch:hpc/sim/neurodamus.git"
+    git = "https://github.com/BlueBrain/neurodamus.git"
 
     version("develop", branch="main")
     version("2.15.3", tag="2.15.3")
