@@ -14,7 +14,7 @@ class PyConnectomeManipulator(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/conn/structural/connectome_manipulator.git"
 
     version("develop", branch="main")
-    version("0.0.4.20230721", commit="")
+    version("0.0.6", tag="connectome-manipulator-v0.0.6")
     version("0.0.4", tag="connectome-manipulator-v0.0.4")
 
     depends_on("parquet-converters@0.8.0:", type="run")
@@ -28,7 +28,7 @@ class PyConnectomeManipulator(PythonPackage):
     depends_on("py-voxcell", type=("build", "run"))
     depends_on("py-pyarrow+parquet@3.0.0:", type=("build", "run"))
     depends_on("py-jsonpickle", type=("build", "run"))
-    depends_on("py-distributed", type=("build", "run"))
-    depends_on("py-dask-mpi", type=("build", "run"))
+    depends_on("py-distributed", type=("build", "run"), when="@0.0.6:")
+    depends_on("py-dask-mpi", type=("build", "run"), when="@0.0.6:")
 
-    depends_on("py-submitit", type=("build", "run"), when="@:0.04")
+    depends_on("py-submitit", type=("build", "run"), when="@:0.0.4")
