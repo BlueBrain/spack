@@ -7,7 +7,7 @@ from spack.package import *
 
 
 class PyPydash(PythonPackage):
-    """The kitchen sink of Python utility libraries for 
+    """The kitchen sink of Python utility libraries for
     doing stuff in a functional way"""
 
     homepage = "https://github.com/dgilland/pydash"
