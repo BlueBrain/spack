@@ -6,7 +6,7 @@
 from spack.package import *
 
 
-class PyBraynscircuitstudiobackend(PythonPackage):
+class PyBraynsCircuitStudioBackend(PythonPackage):
     """Services for Brayns Circuit Studio software."""
 
     homepage = "https://bbpgitlab.epfl.ch/viz/brayns/braynscircuitstudiobackend"
