@@ -47,7 +47,7 @@ def create_jira_ticket_generic(body, token: str, api_url: str):
     try:
         retval = result.json()
         print(f"Created issue {retval['key']}")
-    except:
+    except Exception:
         print("No ticket key returned, here's the raw result conten:")
         print(result.content)
 
@@ -65,7 +65,10 @@ def create_jira_ticket_generic(body, token: str, api_url: str):
 @click.option("--description", help="What to put in the description field")
 @click.option(
     "--description-file",
-    help="Path to the file with the contents of what to put in the description field. If both this and --description are given, --description will be appended.",
+    help=(
+        "Path to the file with the contents of what to put in the description field. "
+        "If both this and --description are given, --description will be appended."
+    ),
 )
 @click.option(
     "--token",
@@ -110,7 +113,7 @@ def file_ticket(project, summary, description, description_file, token):
     )
 
     print(body)
-    # create_jira_ticket_generic(body, token, api_url)
+    create_jira_ticket_generic(body, token, api_url)
 
 
 if __name__ == "__main__":
