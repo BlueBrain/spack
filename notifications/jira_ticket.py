@@ -93,13 +93,20 @@ def file_ticket(project, summary, description, description_file, token):
         with open(description_file, "r") as fp:
             final_description = fp.read()
 
+    if project == "BSD":
+        issue_type = "Task"
+    elif project == "HELP":
+        issue_type = "Support request"
+    else:
+        raise ValueError("Unknown project, don't know what issue type to set")
+
     body = create_generic_jira_body(
         summary=summary,
         description=final_description,
         component_names=[],
         project_key=project,
         labels=[],
-        issue_type="Task",
+        issue_type=issue_type,
     )
 
     print(body)
