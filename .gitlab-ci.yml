@@ -201,3 +201,17 @@ clean_merged_prs:
   variables:
     DEPLOYMENT_BASE: $DEPLOYMENT_BASE
     GITHUB_PULL_REQUEST_ID: "merged"
+
+
+# some changes require a human to be notified. We'll do this through JIRA tickets
+notificatons:
+  image: python:3.11-bullseye
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $DEPLOYMENT_DEFAULT_BRANCH'
+      changes:
+        - var/spack/repos/builtin/packages/apptainer/*
+        - var/spack/repos/builtin/packages/singularity/*
+        - var/spack/repos/builtin/packages/singularityce/*
+  script:
+    - pip install -r notifications/requirements.txt
+    - python notifications/jira_ticket.py --summary "Please run the spack permissions fix scripts" --description-file notifications/apptainer_singularity.txt
