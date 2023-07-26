@@ -110,7 +110,7 @@ def file_ticket(project, summary, description, description_file, token):
     )
 
     print(body)
-    create_jira_ticket_generic(body, token, api_url)
+    # create_jira_ticket_generic(body, token, api_url)
 
 
 if __name__ == "__main__":
