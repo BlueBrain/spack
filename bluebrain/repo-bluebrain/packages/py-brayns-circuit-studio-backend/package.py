@@ -13,6 +13,7 @@ class PyBraynsCircuitStudioBackend(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/viz/brayns/braynscircuitstudiobackend.git"
 
     version("develop", branch="develop")
+    version("1.0.1", commit="d912756c23182259525579ff0d5ff696ab650995")
     version("1.0.0", tag="v1.0.0")
 
     depends_on("python@3.9:", type=("build", "run"))
