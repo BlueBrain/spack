@@ -215,4 +215,6 @@ notifications:
         - var/spack/repos/builtin/packages/singularityce/*
   script:
     - pip install -r notifications/requirements.txt
+    - git log -n 3 >> notifications/apptainer_singularity.txt
+    - echo '{noformat}\n\nThank you!' >> notifications/apptainer_singularity.txt
     - python notifications/jira_ticket.py --summary "Please run the spack permissions fix scripts" --description-file notifications/apptainer_singularity.txt
