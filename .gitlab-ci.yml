@@ -217,4 +217,4 @@ notifications:
     - pip install -r bluebrain/notifications/requirements.txt
     - git log -n 3 >> bluebrain/notifications/apptainer_singularity.txt
     - echo -e '{noformat}\n\nThank you!' >> bluebrain/notifications/apptainer_singularity.txt
-    - python bluebrain/notifications/jira_ticket.py --summary "Please run the spack permissions fix scripts" --description-file bluebrain/notifications/apptainer_singularity.txt
+    - python bluebrain/notifications/jira_ticket.py --project HELP --summary "Please run the spack permissions fix scripts" --description-file bluebrain/notifications/apptainer_singularity.txt
