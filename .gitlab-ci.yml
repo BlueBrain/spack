@@ -214,7 +214,7 @@ notifications:
         - var/spack/repos/builtin/packages/singularity/*
         - var/spack/repos/builtin/packages/singularityce/*
   script:
-    - pip install -r notifications/requirements.txt
-    - git log -n 3 >> notifications/apptainer_singularity.txt
-    - echo '{noformat}\n\nThank you!' >> notifications/apptainer_singularity.txt
-    - python notifications/jira_ticket.py --summary "Please run the spack permissions fix scripts" --description-file notifications/apptainer_singularity.txt
+    - pip install -r bluebrain/notifications/requirements.txt
+    - git log -n 3 >> bluebrain/notifications/apptainer_singularity.txt
+    - echo -e '{noformat}\n\nThank you!' >> bluebrain/notifications/apptainer_singularity.txt
+    - python bluebrain/notifications/jira_ticket.py --summary "Please run the spack permissions fix scripts" --description-file bluebrain/notifications/apptainer_singularity.txt
