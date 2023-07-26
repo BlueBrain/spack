@@ -204,7 +204,8 @@ clean_merged_prs:
 
 
 # some changes require a human to be notified. We'll do this through JIRA tickets
-notificatons:
+notifications:
+  needs: [atomic_build]
   image: python:3.11-bullseye
   rules:
     - if: '$CI_EXTERNAL_PULL_REQUEST_IID'
