@@ -13,11 +13,12 @@ class PyBraynsCircuitStudioBackend(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/viz/brayns/braynscircuitstudiobackend.git"
 
     version("develop", branch="develop")
-    version("1.0.1", commit="d912756c23182259525579ff0d5ff696ab650995")
+    version("1.0.1", commit="13389b219a11665c856af813e205d4225ffe062a")
     version("1.0.0", tag="v1.0.0")
 
     depends_on("python@3.9:", type=("build", "run"))
     depends_on("py-setuptools", type=("build", "run"))
+    
     depends_on("py-aiohttp@3.8.3", type=("run"))
     depends_on("py-aiosignal@1.2.0", type=("run"))
     depends_on("py-async-timeout@4.0.2", type=("run"))
@@ -40,3 +41,4 @@ class PyBraynsCircuitStudioBackend(PythonPackage):
     depends_on("py-furl@2.1.3:", type=("run"))
     depends_on("py-pytz@2022.7.1", type=("run"))
     depends_on("py-sentry-sdk@1.15.0", type=("run"))
+    depends_on("py-bluepy@2.5.1", type=("run"))
