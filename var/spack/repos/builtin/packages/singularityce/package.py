@@ -12,6 +12,7 @@ from spack.package import *
 
 
 class SingularityBase(MakefilePackage):
+    # comment to trigger build
     variant("suid", default=True, description="install SUID binary")
     variant("network", default=True, description="install network plugins")
 
