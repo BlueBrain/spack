@@ -2,6 +2,7 @@
 Creates a jira ticket, based on a script provided by Luis
 You need a personal access token: go to your jira profile and click on Personal Access Tokens
 """
+import subprocess
 import typing
 
 import click
@@ -96,6 +97,8 @@ def file_ticket(project, summary, description, description_file, token):
         with open(description_file, "r") as fp:
             final_description = fp.read()
 
+    git_log = subprocess.check_output(["git", "log", "-n", "3", "--color=never"]).decode()
+    final_description = final_description.format(git_log=git_log)
     if project == "BSD":
         issue_type = "Task"
     elif project == "HELP":
