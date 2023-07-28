@@ -218,7 +218,7 @@ notifications:
     - apt-get install -y jq wget
     - echo "Finding ID of the atomic build"
     - ATOMIC_BUILD_ID=$(wget --header "Content-Type:application/json" --header "PRIVATE-TOKEN:${API_READ_TOKEN}" -O- "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/pipelines/${CI_PIPELINE_ID}/bridges" | jq '.[] | select(.name == "atomic_build") | .downstream_pipeline.id')
-    - echo "Atomic build pipeline ID: ${ATOMIC_BUILD_ID}"
+    - echo "Atomic build pipeline ID is ${ATOMIC_BUILD_ID}"
     - set +e
       # TODO: API_READ_TOKEN should be replaced by one not tied to my user account
     - wget --header "Content-Type:application/json" --header "PRIVATE-TOKEN:${API_READ_TOKEN}" -O- "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/pipelines/${ATOMIC_BUILD_ID}/test_report"
