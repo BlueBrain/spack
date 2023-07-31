@@ -208,7 +208,7 @@ notifications:
   needs: [atomic_build]
   image: python:3.11-bullseye
   rules:
-    - if: '$CI_EXTERNAL_PULL_REQUEST_IID'
+    - if: '$CI_COMMIT_BRANCH == $DEPLOYMENT_DEFAULT_BRANCH'
       changes:
         - var/spack/repos/builtin/packages/apptainer/*
         - var/spack/repos/builtin/packages/singularity/*
