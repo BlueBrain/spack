@@ -222,7 +222,7 @@ notifications:
     - set +e
     - wget --header "Content-Type:application/json" --header "PRIVATE-TOKEN:${GITLAB_API_KEY}" -O- "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/pipelines/${ATOMIC_BUILD_ID}/test_report"
     - |
-      wget --header "Content-Type:application/json" --header "PRIVATE-TOKEN:${GITLAB_API_KEY}" -O- "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/pipelines/${ATOMIC_BUILD_ID}/test_report" | jq -e '.test_suites[] | select(.name == "externals") .test_cases[] | select(.classname == "singularity" or .classname == "singularityce" or .classname == "apptainer")'
+      wget --header "Content-Type:application/json" --header "PRIVATE-TOKEN:${GITLAB_API_KEY}" -O- "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/pipelines/${ATOMIC_BUILD_ID}/test_report" | jq -e '.test_suites[] | select(.name == "externals") .test_cases[] | select(.status != "skipped" and (.classname == "singularity" or .classname == "singularityce" or .classname == "apptainer"))'
       if [[ $? -ne 0 ]]
       then
         echo "No test found - no need to warn anyone."
