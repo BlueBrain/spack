@@ -42,4 +42,3 @@ class PyBraynsCircuitStudioBackend(PythonPackage):
     depends_on("py-pytz@2022.7.1", type=("run"))
     depends_on("py-sentry-sdk@1.15.0", type=("run"))
     depends_on("py-bluepy@2.5.1", type=("run"))
-    depends_on("py-greenlet@0.4.17", type=("run"))
