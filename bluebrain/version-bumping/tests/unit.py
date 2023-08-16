@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 import textwrap
 from unittest.mock import MagicMock, patch
 
@@ -42,6 +43,12 @@ def no_ci_job_token():
 @pytest.fixture
 def maybe_ci_job_token(request):
     return request.getfixturevalue(request.param)
+
+
+@pytest.fixture
+def clean_test_file():
+    yield
+    subprocess.run("git checkout -- tests/test_package_file.py", shell=True)
 
 
 @pytest.mark.parametrize(
@@ -208,9 +215,25 @@ def test_process_packages_missing_versions(
 @patch("src.bumper.Bumper.get_latest_spack_version")
 @patch("src.bumper.Bumper.get_latest_source_version")
 @patch("src.bumper.Bumper.add_spack_version")
-def test_process_packages(mock_add_spack_version, mock_get_latest_source_version, mock_get_latest_spack_version, bumper):
+def test_process_packages(
+    mock_add_spack_version, mock_get_latest_source_version, mock_get_latest_spack_version, bumper
+):
     mock_get_latest_spack_version.return_value = version.parse("1.2.2")
     mock_get_latest_source_version.return_value = ("v1.2.3", version.parse("1.2.3"))
     bumper.packages = {"test_package": {}}
     bumper.process_packages()
     mock_add_spack_version.assert_called_once()
+
+
+def test_add_spack_version(bumper, clean_test_file):
+    source_file = "tests/test_package_file.py"
+    target_file = "tests/test_package_file_new_version.py"
+    bumper.add_spack_version("test_package", "test-v1.5.0", version.parse("1.5.0"), source_file)
+
+    with open(source_file, "r") as fp:
+        source = fp.read()
+
+    with open(target_file, "r") as fp:
+        target = fp.read()
+
+    assert source == target

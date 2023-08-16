@@ -15,7 +15,7 @@ sh = logging.StreamHandler()
 sh.setLevel(logging.INFO)
 sh.setFormatter(fmt)
 logger.addHandler(sh)
-fh = RotatingFileHandler("./bumper.log", backupCount=5)
+fh = RotatingFileHandler("./bumper.log", maxBytes=50000)
 fh.setLevel(logging.DEBUG)
 fh.setFormatter(fmt)
 logger.addHandler(fh)
@@ -146,8 +146,21 @@ class Bumper:
             key=lambda x: x[1],
         )
 
-    def add_spack_version(self, package, latest_source_version):
-        pass
+    def add_spack_version(self, package, latest_source_tag, latest_source_version, package_file):
+        logger.info(f"===> Adding version {latest_source_version} for {package}")
+        source_lines = self.get_source_lines(package_file)
+        for idx, line in enumerate(source_lines):
+            if line.strip().startswith("version("):
+                spaces = " " * (len(line) - len(line.lstrip()))
+                new_line = (
+                    f'{spaces}version("{latest_source_version}", tag="{latest_source_tag}")\n'
+                )
+                logger.info(new_line)
+                source_lines.insert(idx, new_line)
+                break
+
+        with open(package_file, "w") as fp:
+            fp.write("".join(source_lines))
 
     def process_packages(self):
         """
@@ -175,7 +188,9 @@ class Bumper:
                 bigger = latest_source_version > latest_spack_version
                 if bigger:
                     logger.info(f"Newer version available for {package}: {latest_source_version}")
-                    self.add_spack_version(package, latest_source_version)
+                    self.add_spack_version(
+                        package, latest_source_tag, latest_source_version, package_file
+                    )
             else:
                 missing_versions.append(package)
 

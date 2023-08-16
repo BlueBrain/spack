@@ -3,6 +3,7 @@ def version(*args, **kwargs):
 
 
 class TestPackage:
+    version("1.5.0", tag="test-v1.5.0")
     version("stable", branch="main")
     version("1.2.4", tag="test-v1.2.4")
     version(
