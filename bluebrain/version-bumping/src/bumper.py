@@ -6,6 +6,7 @@ import re
 import subprocess
 from logging.handlers import RotatingFileHandler
 
+from git import Actor, Repo
 from packaging import version
 
 logger = logging.getLogger(__name__)
@@ -41,6 +42,8 @@ PACKAGES = {
     "touchdetector": {"tag_regex": re.compile(r"\d+\.\d+\.\d+")},
     "spykfunc": {"tag_regex": re.compile(r"v\d+\.\d+\.\d+")},
 }
+
+COMMIT_BRANCH = "automatic-version-bumps"
 
 
 class Bumper:
@@ -162,6 +165,39 @@ class Bumper:
         with open(package_file, "w") as fp:
             fp.write("".join(source_lines))
 
+    def checkout_branch(self, repo, branch_name):
+        """
+        Check out the branch, creating it if necessary
+        """
+        logger.info(f"===> Checking out {branch_name}")
+        remote = repo.remote()
+        existing_branches = [ref.name for ref in remote.refs]
+        remote_ref_name = f"{remote.name}/{branch_name}"
+        try:
+            remote_ref = next(ref for ref in remote.refs if ref.name == remote_ref_name)
+            logger.debug(f"{branch_name} already exists, checkout only")
+            remote_ref.checkout()
+        except StopIteration:
+            logger.debug(f"{branch_name} does not exist yet - creating")
+            repo.create_head(branch_name)
+            new_branch = next(head for head in repo.heads if head.name == branch_name)
+            new_branch.checkout()
+
+    def commit(self, repo):
+        """
+        Commit outstanding changes, creating the branch if necessary
+        """
+        self.checkout_branch(repo, COMMIT_BRANCH)
+        author = Actor("Version Bumper Script", "erik.heeren@epfl.ch")
+        repo.index.commit("Commit message", author=author, committer=author)
+        repo.remote().push(refspec=f"{COMMIT_BRANCH}:{COMMIT_BRANCH}")
+
+    def get_repo(self):
+        # TODO: push from the gitlab clone to github or do we create a fresh clone?
+        # TODO: make it check whether the object is already instantiated
+        # TODO: use the proper path, "." is not correct
+        return Repo(".")
+
     def process_packages(self):
         """
         Check packages for newer versions and update recipes if necessary
@@ -174,6 +210,7 @@ class Bumper:
         """
 
         missing_versions = []
+        repo = self.get_repo()
         for package in self.packages:
             package_file = f"bluebrain/repo-bluebrain/packages/{package}/package.py"
             latest_spack_version = self.get_latest_spack_version(package, package_file)
@@ -191,6 +228,7 @@ class Bumper:
                     self.add_spack_version(
                         package, latest_source_tag, latest_source_version, package_file
                     )
+                    repo.index.add([package_file])
             else:
                 missing_versions.append(package)
 
@@ -198,6 +236,9 @@ class Bumper:
             raise RuntimeError(
                 f"Some packages had either no spack or source control versions: {missing_versions}"
             )
+
+        if repo.index.diff("HEAD"):
+            self.commit(repo)
 
 
 if __name__ == "__main__":

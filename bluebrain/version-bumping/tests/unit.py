@@ -1,3 +1,4 @@
+import functools
 import os
 import re
 import subprocess
@@ -6,7 +7,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from packaging import version
-from src.bumper import Bumper
+from src.bumper import COMMIT_BRANCH, Bumper
+
+MOCK_BRANCH_NAMES = ["some-branch", "some-other-branch", "yet-another-branch"]
 
 
 @pytest.fixture
@@ -49,6 +52,16 @@ def maybe_ci_job_token(request):
 def clean_test_file():
     yield
     subprocess.run("git checkout -- tests/test_package_file.py", shell=True)
+
+
+@pytest.fixture
+def maybe_commit_branch(request):
+    if request.param:
+        MOCK_BRANCH_NAMES.append(COMMIT_BRANCH)
+        yield
+        MOCK_BRANCH_NAMES.remove(COMMIT_BRANCH)
+    else:
+        yield
 
 
 @pytest.mark.parametrize(
@@ -180,8 +193,15 @@ def test_get_latest_source_version_no_git_repo(bumper):
 @patch("src.bumper.Bumper.get_latest_spack_version")
 @patch("src.bumper.Bumper.get_latest_source_version")
 @patch("src.bumper.Bumper.add_spack_version")
+@patch("src.bumper.Bumper.get_repo")
+@patch("src.bumper.Bumper.commit")
 def test_process_packages_no_new_version(
-    mock_add_spack_version, mock_get_latest_source_version, mock_get_latest_spack_version, bumper
+    mock_commit,
+    mock_get_repo,
+    mock_add_spack_version,
+    mock_get_latest_source_version,
+    mock_get_latest_spack_version,
+    bumper,
 ):
     mock_get_latest_spack_version.return_value = version.parse("1.2.3")
     mock_get_latest_source_version.return_value = "1.2.3", version.parse("1.2.3")
@@ -197,8 +217,9 @@ def test_process_packages_no_new_version(
 )
 @patch("src.bumper.Bumper.get_latest_spack_version")
 @patch("src.bumper.Bumper.get_latest_source_version")
+@patch("src.bumper.Bumper.get_repo")
 def test_process_packages_missing_versions(
-    mock_get_latest_source_version, mock_get_latest_spack_version, mocks, bumper
+    mock_get_repo, mock_get_latest_source_version, mock_get_latest_spack_version, mocks, bumper
 ):
     mock_get_latest_source_version.return_value = mocks[0]
     mock_get_latest_spack_version.return_value = mocks[1]
@@ -215,14 +236,22 @@ def test_process_packages_missing_versions(
 @patch("src.bumper.Bumper.get_latest_spack_version")
 @patch("src.bumper.Bumper.get_latest_source_version")
 @patch("src.bumper.Bumper.add_spack_version")
+@patch("src.bumper.Bumper.commit")
+@patch("src.bumper.Bumper.get_repo")
 def test_process_packages(
-    mock_add_spack_version, mock_get_latest_source_version, mock_get_latest_spack_version, bumper
+    mock_get_repo,
+    mock_commit,
+    mock_add_spack_version,
+    mock_get_latest_source_version,
+    mock_get_latest_spack_version,
+    bumper,
 ):
     mock_get_latest_spack_version.return_value = version.parse("1.2.2")
     mock_get_latest_source_version.return_value = ("v1.2.3", version.parse("1.2.3"))
     bumper.packages = {"test_package": {}}
     bumper.process_packages()
     mock_add_spack_version.assert_called_once()
+    mock_commit.assert_called_once()
 
 
 def test_add_spack_version(bumper, clean_test_file):
@@ -237,3 +266,82 @@ def test_add_spack_version(bumper, clean_test_file):
         target = fp.read()
 
     assert source == target
+
+
+class Index:
+    def commit(self, *args, **kwargs):
+        pass
+
+
+class Repo:
+    """
+    Used to mock git.Repo
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.heads = [Ref(f"{branch_name}") for branch_name in MOCK_BRANCH_NAMES]
+        self._remote = None
+        self.index = Index()
+
+    def remote(self):
+        if not self._remote:
+            self._remote = Remote("origin")
+
+        return self._remote
+
+    def create_head(self, branch_name):
+        self.heads.append(Ref(branch_name))
+
+
+class Remote:
+    """
+    Used to mock git.Repo.remote
+    """
+
+    def __init__(self, name, *args, **kwargs):
+        self.name = name
+        self.refs = [Ref(f"{self.name}/{branch_name}") for branch_name in MOCK_BRANCH_NAMES]
+
+    def push(self, *args, **kwargs):
+        pass
+
+    def __repr__(self):
+        return f"Remote: <{self.name}>"
+
+
+class Ref:
+    """
+    Used to mock both ref and head, as we need the same functionality
+    """
+
+    def __init__(self, name, *args, **kwargs):
+        self.name = name
+
+    def checkout(self):
+        pass
+
+    def __repr__(self):
+        return f"<{self.name}>"
+
+
+@pytest.mark.parametrize("maybe_commit_branch", [True, False], indirect=True)
+def test_checkout_branch(maybe_commit_branch, bumper):
+    mock_repo = Repo()
+    repo = MagicMock(wraps=mock_repo)
+    repo.heads = mock_repo.heads
+
+    bumper.checkout_branch(repo, COMMIT_BRANCH)
+    if COMMIT_BRANCH in MOCK_BRANCH_NAMES:
+        repo.create_head.assert_not_called()
+    else:
+        repo.create_head.assert_called_with(COMMIT_BRANCH)
+
+
+@patch("src.bumper.Bumper.checkout_branch")
+def test_commit(mock_checkout_branch, bumper):
+    mock_repo = Repo()
+    repo = MagicMock(wraps=mock_repo)
+    repo.heads = mock_repo.heads
+
+    bumper.commit(repo)
+    repo.index.commit.assert_called_once()
