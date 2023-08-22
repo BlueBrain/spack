@@ -233,7 +233,8 @@ class Bumper:
             logger.debug("PR doesn't exist yet - filing")
             data = {
                 "title": f"{', '.join(packages)}: new releases",
-                "body": "Bumper found new releases, here are the spack version bumps",
+                "body": "Bumper found new releases, please check carefully and add new "\
+                "dependencies, remove obsolete dependencies, ...",
                 "head": f"{COMMIT_BRANCH}",
                 "base": "bluebrain:develop",
             }

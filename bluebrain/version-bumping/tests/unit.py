@@ -424,7 +424,8 @@ def test_file_pull_request(mock_requests, mock_repo, github_api_key, bumper, alr
             "https://api.github.com/repos/bluebrain/spack/pulls",
             json={
                 "title": "test_package, another_package: new releases",
-                "body": "Bumper found new releases, here are the spack version bumps",
+                "body": "Bumper found new releases, please check carefully and add new "
+                "dependencies, remove obsolete dependencies, ...",
                 "head": COMMIT_BRANCH,
                 "base": "bluebrain:develop",
             },
@@ -449,4 +450,6 @@ def test_repo(mock_repo, bumper, github_api_key, remote_exists):
         repo.create_remote.assert_not_called()
     else:
         repo.create_remote.assert_called_once()
-        repo.create_remote.assert_called_with("github", "https://bbp-hpcteam:${GITHUB_API_KEY}@github.com/bluebrain/spack")
+        repo.create_remote.assert_called_with(
+            "github", "https://bbp-hpcteam:${GITHUB_API_KEY}@github.com/bluebrain/spack"
+        )
