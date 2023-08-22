@@ -240,5 +240,5 @@ version-bumper:
       when: always
     - when: never
   script:
-    - pip install gitpython requests
+    - pip install -r bluebrain/version-bumping/requirements.txt
     - python bluebrain/version-bumping/src/bumper.py
