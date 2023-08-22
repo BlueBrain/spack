@@ -231,3 +231,14 @@ notifications:
         pip install -r bluebrain/notifications/requirements.txt
         python bluebrain/notifications/jira_ticket.py --project HELP --summary "Please run the spack permissions fix scripts" --description-file bluebrain/notifications/apptainer_singularity.txt
       fi
+
+
+version-bumper:
+  image: python:3.11-bullseye
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - when: never
+  script:
+    - pip install gitpython requests
+    - python bluebrain/version-bumping/src/bumper.py
