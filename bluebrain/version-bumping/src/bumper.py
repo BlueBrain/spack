@@ -26,6 +26,7 @@ logger.handlers[-1].doRollover()
 SPACK_VERSION_REX = re.compile(r"version\(['\"](?P<version>[^'\"]+)['\"],.*")
 GIT_REGEX = re.compile(r"^git *= *['\"][a-z]+://([a-z]+@)?(?P<git_url>[^'\"]+)['\"]")
 
+# See README for the same explanation.
 # Main key is the package name as it appears in Spack
 # The sub dictionary has a required key "tag_regex", which is a regular expression that
 # specifies which tags in the git repository are used as released versions.
@@ -45,6 +46,7 @@ PACKAGES = {
 }
 
 COMMIT_BRANCH = "automatic-version-bumps"
+VERSION_BUMPER_EMAIL = "erik.heeren@epfl.ch"
 
 
 class Bumper:
@@ -192,7 +194,7 @@ class Bumper:
         logger.info(f"===> Committing and pushing")
         repo = self.repo()
         self.checkout_branch(repo, COMMIT_BRANCH)
-        author = Actor("Version Bumper Script", "erik.heeren@epfl.ch")
+        author = Actor("Version Bumper Script", VERSION_BUMPER_EMAIL)
         prefix = ", ".join(packages)
         commit_message = f"{prefix}: new versions"
         logger.debug(f"Committing with message {commit_message}")
