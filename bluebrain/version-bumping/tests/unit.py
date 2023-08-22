@@ -18,6 +18,16 @@ def bumper():
 
 
 @pytest.fixture
+def github_api_key():
+    if "GITHUB_API_KEY" not in os.environ:
+        os.environ["GITHUB_API_KEY"] = "api_key"
+
+    yield
+
+    os.environ.pop("GITHUB_API_KEY")
+
+
+@pytest.fixture
 def ci_job_token():
     if "CI_JOB_TOKEN" not in os.environ:
         os.environ["CI_JOB_TOKEN"] = "test_token"
@@ -193,11 +203,13 @@ def test_get_latest_source_version_no_git_repo(bumper):
 @patch("src.bumper.Bumper.get_latest_spack_version")
 @patch("src.bumper.Bumper.get_latest_source_version")
 @patch("src.bumper.Bumper.add_spack_version")
-@patch("src.bumper.Bumper.get_repo")
+@patch("src.bumper.Bumper.repo")
 @patch("src.bumper.Bumper.commit")
+@patch("src.bumper.Bumper.file_pull_request")
 def test_process_packages_no_new_version(
+    mock_file_pull_request,
     mock_commit,
-    mock_get_repo,
+    mock_repo,
     mock_add_spack_version,
     mock_get_latest_source_version,
     mock_get_latest_spack_version,
@@ -217,9 +229,9 @@ def test_process_packages_no_new_version(
 )
 @patch("src.bumper.Bumper.get_latest_spack_version")
 @patch("src.bumper.Bumper.get_latest_source_version")
-@patch("src.bumper.Bumper.get_repo")
+@patch("src.bumper.Bumper.repo")
 def test_process_packages_missing_versions(
-    mock_get_repo, mock_get_latest_source_version, mock_get_latest_spack_version, mocks, bumper
+    mock_repo, mock_get_latest_source_version, mock_get_latest_spack_version, mocks, bumper
 ):
     mock_get_latest_source_version.return_value = mocks[0]
     mock_get_latest_spack_version.return_value = mocks[1]
@@ -237,9 +249,11 @@ def test_process_packages_missing_versions(
 @patch("src.bumper.Bumper.get_latest_source_version")
 @patch("src.bumper.Bumper.add_spack_version")
 @patch("src.bumper.Bumper.commit")
-@patch("src.bumper.Bumper.get_repo")
+@patch("src.bumper.Bumper.repo")
+@patch("src.bumper.Bumper.file_pull_request")
 def test_process_packages(
-    mock_get_repo,
+    mock_file_pull_request,
+    mock_repo,
     mock_commit,
     mock_add_spack_version,
     mock_get_latest_source_version,
@@ -282,10 +296,11 @@ class Repo:
         self.heads = [Ref(f"{branch_name}") for branch_name in MOCK_BRANCH_NAMES]
         self._remote = None
         self.index = Index()
+        self.push_success = kwargs.get("push_success", True)
 
     def remote(self):
         if not self._remote:
-            self._remote = Remote("origin")
+            self._remote = Remote("origin", push_success=self.push_success)
 
         return self._remote
 
@@ -301,9 +316,10 @@ class Remote:
     def __init__(self, name, *args, **kwargs):
         self.name = name
         self.refs = [Ref(f"{self.name}/{branch_name}") for branch_name in MOCK_BRANCH_NAMES]
+        self.push_success = kwargs.get("push_success", True)
 
     def push(self, *args, **kwargs):
-        pass
+        return [Result(success=self.push_success)]
 
     def __repr__(self):
         return f"Remote: <{self.name}>"
@@ -324,6 +340,23 @@ class Ref:
         return f"<{self.name}>"
 
 
+class Result:
+    def __init__(self, success=True):
+        self.FAST_FORWARD = 256
+        self.NEW_HEAD = 2
+        self.REMOTE_REJECTED = 16
+        self.ERROR = 1024
+
+        self.flags = 0
+
+        if success:
+            self.flags |= self.FAST_FORWARD
+        else:
+            self.flags |= self.ERROR
+            self.flags |= self.REMOTE_REJECTED
+            self.summary = "Remote rejected"
+
+
 @pytest.mark.parametrize("maybe_commit_branch", [True, False], indirect=True)
 def test_checkout_branch(maybe_commit_branch, bumper):
     mock_repo = Repo()
@@ -338,10 +371,82 @@ def test_checkout_branch(maybe_commit_branch, bumper):
 
 
 @patch("src.bumper.Bumper.checkout_branch")
-def test_commit(mock_checkout_branch, bumper):
-    mock_repo = Repo()
-    repo = MagicMock(wraps=mock_repo)
+@patch("src.bumper.Bumper.repo")
+def test_commit(mock_repo, mock_checkout_branch, bumper):
+    fake_repo = Repo()
+    repo = MagicMock(wraps=fake_repo)
     repo.heads = mock_repo.heads
+    mock_repo.return_value = repo
 
-    bumper.commit(repo)
+    bumper.commit(["test_package"])
     repo.index.commit.assert_called_once()
+
+
+@patch("src.bumper.Bumper.checkout_branch")
+@patch("src.bumper.Bumper.repo")
+def test_failed_push(mock_repo, mock_checkout_branch, bumper):
+    fake_repo = Repo(push_success=False)
+    repo = MagicMock(wraps=fake_repo)
+    repo.heads = mock_repo.heads
+    mock_repo.return_value = repo
+
+    with pytest.raises(RuntimeError, match="Undesirable push result: 1040 - Remote rejected"):
+        bumper.commit("test_package")
+
+
+@patch("src.bumper.Bumper.repo")
+@patch("src.bumper.requests")
+@pytest.mark.parametrize("already_exists", [True, False])
+def test_file_pull_request(mock_requests, mock_repo, github_api_key, bumper, already_exists):
+    fake_repo = Repo(push_success=False)
+    repo = MagicMock(wraps=fake_repo)
+    repo.heads = mock_repo.heads
+    mock_repo.return_value = repo
+    mock_session = MagicMock()
+    mock_get = MagicMock()
+    if already_exists:
+        pull_requests = [
+            {"_links": {"self": {"href": "https://github.com/bluebrain/spack/pulls/1"}}}
+        ]
+    else:
+        pull_requests = []
+    mock_get.json.return_value = pull_requests
+    mock_session.get.return_value = mock_get
+    mock_requests.Session.return_value = mock_session
+
+    bumper.file_pull_request(["test_package", "another_package"])
+
+    if already_exists:
+        mock_session.post.assert_not_called()
+    else:
+        mock_session.post.assert_called_once()
+        mock_session.post.assert_called_with(
+            "https://api.github.com/repos/bluebrain/spack/pulls",
+            json={
+                "title": "test_package, another_package: new releases",
+                "body": "Bumper found new releases, here are the spack version bumps",
+                "head": COMMIT_BRANCH,
+                "base": "bluebrain:develop",
+            },
+        )
+
+
+@patch("src.bumper.Repo")
+@pytest.mark.parametrize("remote_exists", [True, False])
+def test_repo(mock_repo, bumper, github_api_key, remote_exists):
+    repo = MagicMock()
+    mock_repo.return_value = repo
+    if remote_exists:
+        repo.remote.return_value = Remote("github")
+    else:
+        repo.remote.side_effect = ValueError("No such remote")
+        bumper_repo = bumper.repo()
+
+    bumper_repo = bumper.repo()
+    assert bumper_repo == repo
+
+    if remote_exists:
+        repo.create_remote.assert_not_called()
+    else:
+        repo.create_remote.assert_called_once()
+        repo.create_remote.assert_called_with("github", "https://bbp-hpcteam:${GITHUB_API_KEY}@github.com/bluebrain/spack")

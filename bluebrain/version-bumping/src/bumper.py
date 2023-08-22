@@ -6,6 +6,7 @@ import re
 import subprocess
 from logging.handlers import RotatingFileHandler
 
+import requests
 from git import Actor, Repo
 from packaging import version
 
@@ -49,6 +50,7 @@ COMMIT_BRANCH = "automatic-version-bumps"
 class Bumper:
     def __init__(self):
         self.packages = self.get_packages()
+        self._repo = None
 
     def get_packages(self):
         """
@@ -183,20 +185,66 @@ class Bumper:
             new_branch = next(head for head in repo.heads if head.name == branch_name)
             new_branch.checkout()
 
-    def commit(self, repo):
+    def commit(self, packages):
         """
         Commit outstanding changes, creating the branch if necessary
         """
+        logger.info(f"===> Committing and pushing")
+        repo = self.repo()
         self.checkout_branch(repo, COMMIT_BRANCH)
         author = Actor("Version Bumper Script", "erik.heeren@epfl.ch")
-        repo.index.commit("Commit message", author=author, committer=author)
-        repo.remote().push(refspec=f"{COMMIT_BRANCH}:{COMMIT_BRANCH}")
+        prefix = ", ".join(packages)
+        commit_message = f"{prefix}: new versions"
+        logger.debug(f"Committing with message {commit_message}")
+        repo.index.commit(commit_message, author=author, committer=author)
+        result = repo.remote().push(refspec=f"{COMMIT_BRANCH}:{COMMIT_BRANCH}")
+        if result[0].flags not in [result[0].FAST_FORWARD, result[0].NEW_HEAD]:
+            raise RuntimeError(f"Undesirable push result: {result[0].flags} - {result[0].summary}")
 
-    def get_repo(self):
-        # TODO: push from the gitlab clone to github or do we create a fresh clone?
-        # TODO: make it check whether the object is already instantiated
-        # TODO: use the proper path, "." is not correct
-        return Repo(".")
+    def repo(self):
+        """
+        Instantiate the repo if it isn't done yet, and add the github remote if necessary
+        """
+        # TODO: make sure "." is correct
+        if not self._repo:
+            self._repo = Repo(".")
+            try:
+                remote = self._repo.remote("github")
+            except ValueError:
+                remote = self._repo.create_remote(
+                    "github",
+                    "https://bbp-hpcteam:${GITHUB_API_KEY}@github.com/bluebrain/spack",
+                )
+        return self._repo
+
+    def file_pull_request(self, packages):
+        logger.info(f"===> Filing pull request")
+        url = "https://api.github.com/repos/bluebrain/spack"
+        session = requests.Session()
+        session.headers = {
+            "Authorization": f"token {os.environ['GITHUB_API_KEY']}",
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        }
+
+        logger.debug(f"Getting pull requests with head {COMMIT_BRANCH}")
+        pulls = session.get(f"{url}/pulls?base=develop&head={COMMIT_BRANCH}").json()
+        if not pulls:
+            logger.debug("PR doesn't exist yet - filing")
+            data = {
+                "title": f"{', '.join(packages)}: new releases",
+                "body": "Bumper found new releases, here are the spack version bumps",
+                "head": f"{COMMIT_BRANCH}",
+                "base": "bluebrain:develop",
+            }
+            response = session.post(f"{url}/pulls", json=data)
+
+            logger.debug("Pull request made")
+            logger.debug(response)
+            logger.debug(response.content)
+            response.raise_for_status()
+        else:
+            logger.debug("Pull request already exists: {pulls[0]['_links']['self']['href']}")
 
     def process_packages(self):
         """
@@ -210,7 +258,8 @@ class Bumper:
         """
 
         missing_versions = []
-        repo = self.get_repo()
+        updated_packages = []
+        repo = self.repo()
         for package in self.packages:
             package_file = f"bluebrain/repo-bluebrain/packages/{package}/package.py"
             latest_spack_version = self.get_latest_spack_version(package, package_file)
@@ -225,6 +274,7 @@ class Bumper:
                 bigger = latest_source_version > latest_spack_version
                 if bigger:
                     logger.info(f"Newer version available for {package}: {latest_source_version}")
+                    updated_packages.append(package)
                     self.add_spack_version(
                         package, latest_source_tag, latest_source_version, package_file
                     )
@@ -238,7 +288,8 @@ class Bumper:
             )
 
         if repo.index.diff("HEAD"):
-            self.commit(repo)
+            self.commit(updated_packages)
+            self.file_pull_request(updated_packages)
 
 
 if __name__ == "__main__":
