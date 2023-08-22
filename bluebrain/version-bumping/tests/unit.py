@@ -427,7 +427,7 @@ def test_file_pull_request(mock_requests, mock_repo, github_api_key, bumper, alr
                 "body": "Bumper found new releases, please check carefully and add new "
                 "dependencies, remove obsolete dependencies, ...",
                 "head": COMMIT_BRANCH,
-                "base": "bluebrain:develop",
+                "base": "develop",
             },
         )
 

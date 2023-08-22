@@ -238,7 +238,7 @@ class Bumper:
                 "body": "Bumper found new releases, please check carefully and add new "\
                 "dependencies, remove obsolete dependencies, ...",
                 "head": f"{COMMIT_BRANCH}",
-                "base": "bluebrain:develop",
+                "base": "develop",
             }
             response = session.post(f"{url}/pulls", json=data)
 
