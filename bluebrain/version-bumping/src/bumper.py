@@ -82,7 +82,8 @@ class Bumper:
         ]
         if not version_lines:
             raise ValueError(
-                f"Could not determine versions for {package}. Only tag-based versions are supported."
+                f"Could not determine versions for {package}. "
+                "Only tag-based versions are supported."
             )
         spack_versions = [
             re.match(SPACK_VERSION_REX, version_line).groupdict()["version"]
@@ -133,7 +134,8 @@ class Bumper:
         repo_tags = proc.stdout.decode()
         if "tag_regex" not in self.packages[package]:
             logger.critical(
-                f"No tag_regex specified for {package}. These are all the tags available: {repo_tags}"
+                f"No tag_regex specified for {package}. "
+                f"These are all the tags available: {repo_tags}"
             )
             return None, None
         repo_release_tags = re.findall(self.packages[package]["tag_regex"], repo_tags)
@@ -175,7 +177,6 @@ class Bumper:
         """
         logger.info(f"===> Checking out {branch_name}")
         remote = repo.remote()
-        existing_branches = [ref.name for ref in remote.refs]
         remote_ref_name = f"{remote.name}/{branch_name}"
         try:
             remote_ref = next(ref for ref in remote.refs if ref.name == remote_ref_name)
@@ -191,7 +192,7 @@ class Bumper:
         """
         Commit outstanding changes, creating the branch if necessary
         """
-        logger.info(f"===> Committing and pushing")
+        logger.info("===> Committing and pushing")
         repo = self.repo()
         self.checkout_branch(repo, COMMIT_BRANCH)
         author = Actor("Version Bumper Script", VERSION_BUMPER_EMAIL)
@@ -199,7 +200,7 @@ class Bumper:
         commit_message = f"{prefix}: new versions"
         logger.debug(f"Committing with message {commit_message}")
         repo.index.commit(commit_message, author=author, committer=author)
-        result = repo.remote().push(refspec=f"{COMMIT_BRANCH}:{COMMIT_BRANCH}")
+        result = repo.remote("github").push(refspec=f"{COMMIT_BRANCH}:{COMMIT_BRANCH}")
         if result[0].flags not in [result[0].FAST_FORWARD, result[0].NEW_HEAD]:
             raise RuntimeError(f"Undesirable push result: {result[0].flags} - {result[0].summary}")
 
@@ -211,16 +212,16 @@ class Bumper:
         if not self._repo:
             self._repo = Repo(".")
             try:
-                remote = self._repo.remote("github")
+                self._repo.remote("github")
             except ValueError:
-                remote = self._repo.create_remote(
+                self._repo.create_remote(
                     "github",
                     "https://bbp-hpcteam:${GITHUB_API_KEY}@github.com/bluebrain/spack",
                 )
         return self._repo
 
     def file_pull_request(self, packages):
-        logger.info(f"===> Filing pull request")
+        logger.info("===> Filing pull request")
         url = "https://api.github.com/repos/bluebrain/spack"
         session = requests.Session()
         session.headers = {
@@ -235,7 +236,7 @@ class Bumper:
             logger.debug("PR doesn't exist yet - filing")
             data = {
                 "title": f"{', '.join(packages)}: new releases",
-                "body": "Bumper found new releases, please check carefully and add new "\
+                "body": "Bumper found new releases, please check carefully and add new "
                 "dependencies, remove obsolete dependencies, ...",
                 "head": f"{COMMIT_BRANCH}",
                 "base": "develop",

@@ -1,4 +1,3 @@
-import functools
 import os
 import re
 import subprocess
@@ -110,7 +109,7 @@ def test_get_source_lines(bumper):
 def test_get_source_lines_nonexistent_file(bumper):
     source_file = "/tmp/this/file/does/not/exist"
     with pytest.raises(ValueError, match=f"Source file {source_file} does not exist"):
-        source = bumper.get_source_lines(source_file)
+        bumper.get_source_lines(source_file)
 
 
 def test_get_latest_spack_version(bumper):
@@ -130,7 +129,7 @@ def test_get_latest_spack_version_no_tags(bumper):
         ValueError,
         match=err_msg,
     ):
-        latest_spack_version = bumper.get_latest_spack_version(
+        bumper.get_latest_spack_version(
             "test_package", "tests/test_package_no_tag_versions.py"
         )
 
@@ -294,15 +293,18 @@ class Repo:
 
     def __init__(self, *args, **kwargs):
         self.heads = [Ref(f"{branch_name}") for branch_name in MOCK_BRANCH_NAMES]
-        self._remote = None
+        self._remotes = []
         self.index = Index()
         self.push_success = kwargs.get("push_success", True)
 
-    def remote(self):
-        if not self._remote:
-            self._remote = Remote("origin", push_success=self.push_success)
+    def remote(self, name="origin"):
+        try:
+            _remote = next(r for r in self._remotes if r.name == name)
+        except StopIteration:
+            _remote = Remote(name, push_success=self.push_success)
+            self._remotes.append(_remote)
 
-        return self._remote
+        return _remote
 
     def create_head(self, branch_name):
         self.heads.append(Ref(branch_name))
@@ -391,7 +393,7 @@ def test_failed_push(mock_repo, mock_checkout_branch, bumper):
     mock_repo.return_value = repo
 
     with pytest.raises(RuntimeError, match="Undesirable push result: 1040 - Remote rejected"):
-        bumper.commit("test_package")
+        bumper.commit(["test_package"])
 
 
 @patch("src.bumper.Bumper.repo")
