@@ -242,3 +242,6 @@ version-bumper:
   script:
     - pip install -r bluebrain/version-bumping/requirements.txt
     - python bluebrain/version-bumping/src/bumper.py
+  artifacts:
+    when: always
+    paths: [bumper.log]
