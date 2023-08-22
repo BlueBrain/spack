@@ -129,9 +129,7 @@ def test_get_latest_spack_version_no_tags(bumper):
         ValueError,
         match=err_msg,
     ):
-        bumper.get_latest_spack_version(
-            "test_package", "tests/test_package_no_tag_versions.py"
-        )
+        bumper.get_latest_spack_version("test_package", "tests/test_package_no_tag_versions.py")
 
 
 @patch(
