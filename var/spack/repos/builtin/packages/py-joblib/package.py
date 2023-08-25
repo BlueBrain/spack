@@ -17,6 +17,7 @@ class PyJoblib(PythonPackage):
     # unnecessary dependencies.
     skip_modules = ["joblib.test"]
 
+    version("1.3.2", sha256="92f865e621e17784e7955080b6d042489e3b8e294949cc44c6eac304f59772b1")
     version("1.2.0", sha256="e1cee4a79e4af22881164f218d4311f60074197fb707e082e803b61f6d137018")
     version("1.1.0", sha256="4158fcecd13733f8be669be0683b96ebdbbd38d23559f54dca7205aea1bf1e35")
     version("1.0.1", sha256="9c17567692206d2f3fb9ecf5e991084254fe631665c450b443761c4186a613f7")
