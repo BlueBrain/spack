@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 import os
+import re
 import shutil
 from contextlib import contextmanager
 
@@ -31,6 +32,7 @@ class Neurodamus(Package):
     variant("synapsetool", default=True, description="Enable SynapseTool reader (for edges)")
     variant("mvdtool", default=True, description="Enable MVDTool reader (for nodes)")
     variant("caliper", default=False, description="Enable Caliper instrumentation")
+    variant("only_synapses", default=True, description="Keep etype mods unmodified")
 
     # neuron/corenrn get linked automatically when using nrnivmodl[-core]
     # Dont duplicate the link dependency (only 'build' and 'run')
@@ -54,41 +56,10 @@ class Neurodamus(Package):
     depends_on("zlib")  # for hdf5
 
     phases = ["build", "install"]
-    models = ("neocortex", "thalamus", "hippocampus")
-    model_prefixes = {
-        "neocortex": "NCX",
-        "thalamus": "THA",
-        "hippocampus": "HIP",
-    }
 
     def _combine_models(self):
-        mkdirp("mod", "hoc")
-        model_mods_location = {
-            "neocortex": ["neocortex/mod/v6"],
-            # other cases it will fetch "<model_name>/mod"
-        }
-        mod_patch_exprs = ("SUFFIX ", "POINT_PROCESS ")  # keep spaces
-        # PPs names are present also in helpers. Rules to rename them
-        hoc_names_to_prefix = (
-            "ProbAMPANMDA_EMS(",  # parenthesis to just replace the process call
-            "ProbGABAAB_EMS(",
-            "GluSynapse(",
-        )
-
-        # Copy common technical mod files. At the moment it still comes with general synapses mods
-        # Needed for tests and generalized circuits
-        tty.info("Adding stock common mods")
-        copy_all("common/mod", "mod")
-        copy_all("common/hoc", "hoc")
-
-        # Now create a version of the mod files specific for each model
-        for model in self.models:
-            tty.info(f"Add mods for {model}")
-            hoc_src = model + "/hoc"
-            for mod_src in model_mods_location.get(model, [model + "/mod"]):
-                prefix = self.model_prefixes[model]
-                copy_all(mod_src, "mod", copy_patch(mod_patch_exprs, suffix=f" {prefix}_"))
-                copy_all(hoc_src, "hoc", copy_patch(hoc_names_to_prefix, prefix=f"{prefix}_"))
+        args = ["--only-synapses"] if self.spec.satisfies("+only_synapses") else []
+        which("model_manager.py")("model_config.json", **args)
 
     @run_before("build")
     def merge_hoc_mod(self):
@@ -106,8 +77,8 @@ class Neurodamus(Package):
 
         self._combine_models()
 
-        copy_all(core_prefix.lib.hoc, "hoc", skip_existing=True)
-        copy_all(core_prefix.lib.mod, "mod", skip_existing=True)
+        copy_all(core_prefix.lib.hoc, "build/ALL/hoc", skip_existing=True)
+        copy_all(core_prefix.lib.mod, "build/ALL/mod", skip_existing=True)
         copy_all(core_prefix.lib.python, "python")
 
     def _build_mods(self, mods_location, link_flag="", include_flag="", dependencies=None):
@@ -332,84 +303,6 @@ def copy_all(src, dst, copyfunc=shutil.copy, skip_links=False, skip_existing=Fal
             continue
         copyfunc(src_pth, dst_pth)
 
-
-def make_link(src, dst):
-    """Create a symlink in a given destination.
-    make_link is copy compatible i.e. will take the same args and behave
-    similarly to shutil.copy except that it will create a soft link instead.
-    If destination is a directory then a new symlink is created inside with
-    the same name as the original file.
-    Relative src paths create a relative symlink (properly relocated) while
-    absolute paths crete an abolute-path symlink.
-    If another link already exists in the destination with the same it is
-    deleted before link creation.
-    Args:
-        src (str): The path of the file to create a link to
-        dst (str): The link destination path (may be a directory)
-    """
-    if os.path.isdir(dst):
-        dst_dir = dst
-        dst = join_path(dst, os.path.basename(src))
-    else:
-        dst_dir = os.path.dirname(dst)
-    if not os.path.isabs(src):
-        src = os.path.relpath(src, dst_dir)  # update path relation
-    # Silently replace links, just like copy replaces files
-    if os.path.islink(dst):
-        os.remove(dst)
-    os.symlink(src, dst)
-
-
-def copy_patch(find_expr, prefix="", suffix="", n_times=1, if_exists="rename"):
-    """Creates a copy-patcher function according to params
-
-    Args:
-        find_expr: The expression(s) to find
-        prefix: The prefix to append when `find_expr` is found
-        suffix: The suffix to append
-    """
-    if type(find_expr) == str:
-        find_expr = (find_expr,)
-
-    def _copy_f(src_f, dst_f):
-        if os.path.isdir(dst_f):
-            dst_f = join_path(dst_f, os.path.basename(src_f))
-        if os.path.exists(dst_f):
-            if if_exists == "rename":
-                create_mode = "rename"
-                folder, filename = os.path.split(dst_f)
-                dst_f = join_path(folder, f"{prefix}{suffix}{filename}".replace(" ", ""))
-            else:
-                create_mode = "overwrite"
-        else:
-            create_mode = "new_file"
-
-        with open(src_f) as src:
-            full_str = src.read()
-            full_str_orig = full_str  # have a backup to compare
-
-        for expr in find_expr:
-            new_expr = expr
-            if prefix:
-                new_expr = prefix + new_expr
-            if suffix:
-                new_expr += suffix
-            tty.info(f"Replacing '{expr}' with '{new_expr}' in [{src_f} -> {dst_f}]")
-            full_str = full_str.replace(expr, new_expr, n_times)
-
-        if full_str == full_str_orig:
-            # No changes were made. This is likely a special file.
-            # Don't create specialized version. Just write out if it's new
-
-            if create_mode != "new_file":
-                tty.warn(f"File {src_f} not patched! Skipping...")
-                return
-            tty.warn(f"File {src_f} not patched! Creating...")
-
-        with open(dst_f, "w") as dst:
-            dst.write(full_str)
-
-    return _copy_f
 
 
 _BUILD_NEURODAMUS_TPL = """#!/bin/sh
