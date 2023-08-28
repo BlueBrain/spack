@@ -25,9 +25,9 @@ class Neurodamus(Package):
     homepage = "https://bbpgitlab.epfl.ch/hpc/sim/neurodamus-models"
     git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-models.git"
 
-    version("develop", branch="main", submodules=True)
+    version("develop", branch="model_combiner", submodules=True)
     # Let the version scheme be different to avoid mixing with old neurodamus-**?
-    version("2023.05", tag="0.0.2", submodules=True)
+    # version("2023.05", tag="0.0.2", submodules=True)
 
     variant("synapsetool", default=True, description="Enable SynapseTool reader (for edges)")
     variant("mvdtool", default=True, description="Enable MVDTool reader (for nodes)")
