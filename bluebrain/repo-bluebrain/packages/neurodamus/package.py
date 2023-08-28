@@ -3,7 +3,6 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 import os
-import re
 import shutil
 from contextlib import contextmanager
 
@@ -57,10 +56,6 @@ class Neurodamus(Package):
 
     phases = ["build", "install"]
 
-    def _combine_models(self):
-        args = ["--only-synapses"] if self.spec.satisfies("+only_synapses") else []
-        which("model_manager.py")("model_config.json", **args)
-
     @run_before("build")
     def merge_hoc_mod(self):
         """Add hocs, mods and python scripts from neurodamus-core which comes
@@ -69,16 +64,17 @@ class Neurodamus(Package):
         This routine simply adds the additional mods to existing dirs
         so that incremental builds can actually happen.
         """
-        core = self.spec["py-neurodamus"]
-        core_prefix = core.prefix
+        mm_args = ["--only-synapses"] if self.spec.satisfies("+only_synapses") else []
+        which("./model_manager.py")("model_config.json", *mm_args)
+        which("ls")("build/ALL/mod", "build/ALL/hoc")
 
-        # Neurodamus model may not have python scripts
+        shutil.move("build/ALL/hoc", ".")
+        shutil.move("build/ALL/mod", ".")
         mkdirp("python")
 
-        self._combine_models()
-
-        copy_all(core_prefix.lib.hoc, "build/ALL/hoc", skip_existing=True)
-        copy_all(core_prefix.lib.mod, "build/ALL/mod", skip_existing=True)
+        core_prefix = self.spec["py-neurodamus"].prefix  # Since inclusion of core into nd-py
+        copy_all(core_prefix.lib.hoc, "hoc", skip_existing=True)
+        copy_all(core_prefix.lib.mod, "mod", skip_existing=True)
         copy_all(core_prefix.lib.python, "python")
 
     def _build_mods(self, mods_location, link_flag="", include_flag="", dependencies=None):
@@ -302,7 +298,6 @@ def copy_all(src, dst, copyfunc=shutil.copy, skip_links=False, skip_existing=Fal
         if skip_existing and path.exists(dst_pth):
             continue
         copyfunc(src_pth, dst_pth)
-
 
 
 _BUILD_NEURODAMUS_TPL = """#!/bin/sh
