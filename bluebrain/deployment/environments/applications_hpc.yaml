@@ -6,6 +6,7 @@ spack:
         include:
           - asciitoh5
           - model-neocortex
+          - morpho-kit
           - nest
           - neurodamus  # experimental
           - neurodamus-hippocampus
@@ -30,8 +31,8 @@ spack:
           +common: '{name}/{version}-commonmods'
           +plasticity: '{name}-plasticity/{version}'
           +ngv+metabolism: '{name}-multiscale/{version}'
-          ^petsc+complex: '{name}-complex/{version}'
   specs:
+    - morpho-kit
     - neuron+tests+coreneuron
     - neuron+tests+coreneuron+sympy
     - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp
@@ -56,7 +57,6 @@ spack:
     - spykfunc
     - steps
     - steps@5
-    - steps@5 ^petsc+complex
     - synapsetool
     - touchdetector
     - unit-test-translator

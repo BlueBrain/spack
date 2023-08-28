@@ -8,10 +8,14 @@ from spack.package import *
 class PyNeurodamus(PythonPackage):
     """The BBP simulation control suite, Python API"""
 
-    homepage = "https://bbpteam.epfl.ch/project/spaces/display/BGLIB/Neurodamus"
-    git = "ssh://git@bbpgitlab.epfl.ch/hpc/sim/neurodamus-py.git"
+    homepage = "https://github.com/BlueBrain/neurodamus"
+    git = "https://github.com/BlueBrain/neurodamus.git"
 
     version("develop", branch="main")
+    version("2.16.1", tag="2.16.1")
+    version("2.16.0", tag="2.16.0")
+    version("2.15.3", tag="2.15.3")
+    version("2.15.2", tag="2.15.2")
     version("2.15.1", tag="2.15.1")
     version("2.15.0", tag="2.15.0")
     version("2.14.0", tag="2.14.0", submodules=True)

@@ -18,12 +18,12 @@ spack:
           - py-bbp-workflow-cli
           - py-bluepy
           - py-bluepysnap
-          - py-currentscape
+          - py-connectome-manipulator
           - py-entity-management
           - py-minis-validation
           - py-morphio
           - py-morph-tool
-          - py-morphology-repair-workflow
+          - py-neuror
           - py-region-grower
           - py-cwl-registry
   packages:
@@ -53,11 +53,10 @@ spack:
     - py-bbp-workflow-cli
     - py-bluepy
     - py-bluepysnap
-    - py-currentscape
     - py-entity-management
     - py-minis-validation
     - py-morphio
-    - py-morphology-repair-workflow
-    - py-morph-tool
+    - py-neuror
+    - py-morph-tool+neuron
     - py-region-grower
     - py-cwl-registry
