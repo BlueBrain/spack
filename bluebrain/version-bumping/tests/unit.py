@@ -1,11 +1,17 @@
 import os
 import re
 import subprocess
+import sys
 import textwrap
 from unittest.mock import MagicMock, patch
 
 import pytest
 from packaging import version
+
+sys.modules["spack"] = MagicMock()
+sys.modules["spack.bootstrap"] = ""
+sys.modules["spack.package_base"] = ""
+
 from src.bumper import COMMIT_BRANCH, Bumper
 
 MOCK_BRANCH_NAMES = ["some-branch", "some-other-branch", "yet-another-branch"]
@@ -112,11 +118,15 @@ def test_get_source_lines_nonexistent_file(bumper):
         bumper.get_source_lines(source_file)
 
 
-def test_get_latest_spack_version(bumper):
+@patch("src.bumper.Bumper.get_spack_package")
+def test_get_latest_spack_version(mock_get_spack_package, bumper):
+    spack_version = MagicMock()
+    spack_version.string = "1.2.4"
+    spack_package = MagicMock()
+    spack_package.versions = {spack_version: {"tag": "v1.2.4"}}
+    mock_get_spack_package.return_value = spack_package
     bumper.packages = {"test_package": {}}
-    latest_spack_version = bumper.get_latest_spack_version(
-        "test_package", "tests/test_package_file.py"
-    )
+    latest_spack_version = bumper.get_latest_spack_version("test_package")
     assert latest_spack_version == version.parse("1.2.4")
 
 
@@ -129,35 +139,33 @@ def test_get_latest_spack_version_no_tags(bumper):
         ValueError,
         match=err_msg,
     ):
-        bumper.get_latest_spack_version("test_package", "tests/test_package_no_tag_versions.py")
+        bumper.get_latest_spack_version("test_package")
 
 
-@patch(
-    "src.bumper.Bumper.get_source_lines",
-    return_value=['git = "ssh://git@bbpgitlab.epfl.ch/hpc/test_package.git"'],
-)
 @patch("src.bumper.subprocess")
 @patch("src.bumper.logger")
-def test_get_latest_source_version(mock_logger, mock_subprocess, mock_get_source_lines, bumper):
+@patch("src.bumper.Bumper.get_spack_package")
+def test_get_latest_source_version(mock_get_spack_package, mock_logger, mock_subprocess, bumper):
+    spack_package = MagicMock()
+    spack_package.git = 'git = "ssh://git@bbpgitlab.epfl.ch/hpc/test_package.git"'
+    mock_get_spack_package.return_value = spack_package
     command_result = MagicMock()
     command_result.stdout = textwrap.dedent(
         """\
-                                            non-version
-                                            v1.2.3
-                                            test-v1.2.0
-                                            test-v1.2.3
-                                            test-1.2.4
-                                            v1.2.5
-                                            1.2.6
-                                            """
+        non-version
+        v1.2.3
+        test-v1.2.0
+        test-v1.2.3
+        test-1.2.4
+        v1.2.5
+        1.2.6
+        """
     ).encode()
     mock_subprocess.run = MagicMock(return_value=command_result)
     bumper.packages = {
         "test_package": {"tag_regex": re.compile(r"test-v\d+\.\d+\.\d+"), "tag_strip": "test-"}
     }
-    latest_source_tag, latest_source_version = bumper.get_latest_source_version(
-        "test_package", "tests/test_package_file.py"
-    )
+    latest_source_tag, latest_source_version = bumper.get_latest_source_version("test_package")
     assert latest_source_tag == "test-v1.2.3"
     assert latest_source_version == version.parse("v1.2.3")
     mock_logger.debug.assert_called_with(
@@ -165,15 +173,15 @@ def test_get_latest_source_version(mock_logger, mock_subprocess, mock_get_source
     )
 
 
-@patch(
-    "src.bumper.Bumper.get_source_lines",
-    return_value=['git = "ssh://git@bbpgitlab.epfl.ch/hpc/test_package.git"'],
-)
 @patch("src.bumper.subprocess")
 @patch("src.bumper.logger")
+@patch("src.bumper.Bumper.get_spack_package")
 def test_get_latest_source_version_no_tag_regex_specified(
-    mock_logger, mock_subprocess, mock_get_source_lines, bumper
+    mock_get_spack_package, mock_logger, mock_subprocess, bumper
 ):
+    spack_package = MagicMock()
+    spack_package.git = 'git = "ssh://git@bbpgitlab.epfl.ch/hpc/test_package.git"'
+    mock_get_spack_package.return_value = spack_package
     command_result = MagicMock()
     listed_tags = textwrap.dedent(
         """\
@@ -185,16 +193,19 @@ def test_get_latest_source_version_no_tag_regex_specified(
     command_result.stdout = listed_tags.encode()
     mock_subprocess.run = MagicMock(return_value=command_result)
     bumper.packages = {"test_package": {}}
-    retval = bumper.get_latest_source_version("test_package", "tests/test_package_file.py")
+    retval = bumper.get_latest_source_version("test_package")
     assert retval == (None, None)
     mock_logger.critical.assert_called_with(
         f"No tag_regex specified for test_package. These are all the tags available: {listed_tags}"
     )
 
 
-def test_get_latest_source_version_no_git_repo(bumper):
+@patch("src.bumper.Bumper.get_spack_package")
+def test_get_latest_source_version_no_git_repo(mock_get_spack_package, bumper):
+    spack_package = MagicMock(spec=[])
+    mock_get_spack_package.return_value = spack_package
     with pytest.raises(ValueError, match="Could not find git source for test_package"):
-        bumper.get_latest_source_version("test_package", "tests/test_package_file.py")
+        bumper.get_latest_source_version("test_package")
 
 
 @patch("src.bumper.Bumper.get_latest_spack_version")

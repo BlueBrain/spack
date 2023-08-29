@@ -4,11 +4,18 @@ import logging
 import os
 import re
 import subprocess
+import sys
 from logging.handlers import RotatingFileHandler
 
 import requests
 from git import Actor, Repo
 from packaging import version
+
+sys.path.append("./lib/spack/")
+sys.path.append("./lib/spack/external/")
+
+import spack.bootstrap
+import spack.package_base
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -23,7 +30,6 @@ fh.setFormatter(fmt)
 logger.addHandler(fh)
 logger.handlers[-1].doRollover()
 
-SPACK_VERSION_REX = re.compile(r"version\(['\"](?P<version>[^'\"]+)['\"],.*")
 GIT_REGEX = re.compile(r"^git *= *['\"][a-z]+://([a-z]+@)?(?P<git_url>[^'\"]+)['\"]")
 
 # See README for the same explanation.
@@ -71,29 +77,28 @@ class Bumper:
         else:
             raise ValueError(f"Source file {package_file} does not exist")
 
-    def get_latest_spack_version(self, package, package_file):
+    def get_spack_package(self, package_name):
+        return spack.repo.path.get_pkg_class(package_name)
+
+    def get_latest_spack_version(self, package):
         """
         Get the latest version of a package in spack
         """
+
         logger.info(f"===> Getting latest spack version for {package}")
-        src = self.get_source_lines(package_file)
-        version_lines = [
-            line.strip() for line in src if line.strip().startswith("version") and "tag=" in line
-        ]
-        if not version_lines:
+        spack_package = self.get_spack_package(package)
+        try:
+            print(spack_package.versions)
+            max_version = max(
+                v for v in spack_package.versions if "tag" in spack_package.versions[v]
+            )
+        except ValueError:
             raise ValueError(
                 f"Could not determine versions for {package}. "
                 "Only tag-based versions are supported."
             )
-        spack_versions = [
-            re.match(SPACK_VERSION_REX, version_line).groupdict()["version"]
-            for version_line in version_lines
-        ]
-        logger.debug(f"{package} versions:")
-        for spack_version in spack_versions:
-            logger.debug(f"  * {spack_version}")
 
-        return max([version.parse(spack_version) for spack_version in spack_versions])
+        return version.parse(max_version.string)
 
     def build_git_url(self, package_git_url):
         """
@@ -113,15 +118,16 @@ class Bumper:
 
         return package_git_url
 
-    def get_latest_source_version(self, package, package_file):
+    def get_latest_source_version(self, package):
         """
         Get the latest version of a package in source control
         """
         logger.info(f"===> Getting latest source control version for {package}")
-        src = self.get_source_lines(package_file)
+        spack_package = self.get_spack_package(package)
         try:
-            git_line = next(line.strip() for line in src if line.strip().startswith("git"))
-        except StopIteration:
+            git_line = spack_package.git
+            print(git_line)
+        except AttributeError:
             raise ValueError(f"Could not find git source for {package}")
         git_repo = re.match(GIT_REGEX, git_line).groupdict()["git_url"]
         logger.debug(f"{package} lives in {git_repo}")
@@ -266,10 +272,8 @@ class Bumper:
         repo = self.repo()
         for package in self.packages:
             package_file = f"bluebrain/repo-bluebrain/packages/{package}/package.py"
-            latest_spack_version = self.get_latest_spack_version(package, package_file)
-            latest_source_tag, latest_source_version = self.get_latest_source_version(
-                package, package_file
-            )
+            latest_spack_version = self.get_latest_spack_version(package)
+            latest_source_tag, latest_source_version = self.get_latest_source_version(package)
             logger.info(f"Tag: {latest_source_tag}")
             logger.info(f"Version: {latest_source_version}")
             if latest_spack_version and latest_source_version:
