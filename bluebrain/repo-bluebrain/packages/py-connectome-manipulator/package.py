@@ -31,5 +31,6 @@ class PyConnectomeManipulator(PythonPackage):
     depends_on("py-jsonpickle", type=("build", "run"))
     depends_on("py-distributed", type=("build", "run"), when="@0.0.6:")
     depends_on("py-dask-mpi", type=("build", "run"), when="@0.0.6:")
+    depends_on("py-tables", type=("build", "run"), when="@0.0.7:")
 
     depends_on("py-submitit", type=("build", "run"), when="@:0.0.4")
