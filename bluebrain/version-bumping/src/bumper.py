@@ -14,8 +14,8 @@ from packaging import version
 sys.path.append("./lib/spack/")
 sys.path.append("./lib/spack/external/")
 
-import spack.bootstrap
-import spack.package_base
+import spack.bootstrap  # noqa: E402
+import spack.package_base  # noqa: E402
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

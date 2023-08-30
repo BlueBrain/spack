@@ -12,7 +12,7 @@ sys.modules["spack"] = MagicMock()
 sys.modules["spack.bootstrap"] = ""
 sys.modules["spack.package_base"] = ""
 
-from src.bumper import COMMIT_BRANCH, Bumper
+from src.bumper import COMMIT_BRANCH, Bumper  # noqa: E402
 
 MOCK_BRANCH_NAMES = ["some-branch", "some-other-branch", "yet-another-branch"]
 
