@@ -23,7 +23,7 @@ class PyNeurots(PythonPackage):
     depends_on("py-setuptools-scm", type="build")
 
     depends_on("py-diameter-synthesis@0.5.4:", type=("build", "run"), when="@3.4:")
-    depends_on("py-diameter-synthesis@0.5.2:", type=("build", "run"), when="@3.3.1:")
+    depends_on("py-diameter-synthesis@0.5.3:", type=("build", "run"), when="@:3.3")
     depends_on("py-matplotlib@1.3.1:", type=("build", "run"))
     depends_on("py-tmd@2.2.0:", type=("build", "run"))
     depends_on("py-morphio@3", type=("build", "run"))

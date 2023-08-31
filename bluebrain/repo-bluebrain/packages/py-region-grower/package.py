@@ -20,6 +20,8 @@ class PyRegionGrower(PythonPackage):
 
     depends_on("py-setuptools", type="build")
 
+    depends_on("python@3.8:", type=("build", "run"))
+
     depends_on("py-attrs@19.3.0:", type=("build", "run"))
     depends_on("py-click@8.0:", type=("build", "run"), when="@1:")
     depends_on("py-click@7.0:", type=("build", "run"), when="@0.3.1:0.4.3")
