@@ -11,7 +11,7 @@ class PyMorphTool(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/morph-tool"
     git = "https://github.com/BlueBrain/morph-tool.git"
-    pypi = "morph-tool/morph-tool-2.4.1.tar.gz"
+    pypi = "morph-tool/morph-tool-2.9.1.tar.gz"
 
     version("develop", branch="master")
     version("2.9.1", sha256="305e9456c8047726588b23dfa070eb95ccbe5573e9fea3e0a83dc93eacdf61dc")
