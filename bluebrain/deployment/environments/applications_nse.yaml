@@ -58,5 +58,5 @@ spack:
     - py-morphio
     - py-neuror
     - py-morph-tool+neuron
-    - py-region-grower
+    - py-region-grower ^py-jinja2@3:  # otherwise, nmodl will fail
     - py-cwl-registry
