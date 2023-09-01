@@ -19,7 +19,6 @@ spack:
           - py-bluepyparallel
           - py-connectome-manipulator
           - py-data-integrity-check
-          - py-diameter-synthesis
           - py-efel
           - py-neurots
           - py-nexusforge
@@ -65,7 +64,6 @@ spack:
     - py-connectome-manipulator
     - py-connectome-manipulator@0.0.4  # FIXME purge after archive of July 2023 has been deployed
     - py-data-integrity-check
-    - py-diameter-synthesis
     - py-efel
     - py-nexusforge
     - py-neurots
