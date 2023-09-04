@@ -23,6 +23,7 @@ spack:
           - py-efel
           - py-nexusforge
           - py-nexus-sdk
+          - py-synthesis-workflow
           - py-token-fetch
           - py-visual-cortex-analysis
   packages:
@@ -68,5 +69,6 @@ spack:
     - py-efel
     - py-nexusforge
     - py-nexus-sdk
+    - py-synthesis-workflow
     - py-token-fetch
     - py-visual-cortex-analysis

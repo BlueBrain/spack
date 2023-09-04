@@ -37,6 +37,7 @@ class PyMatplotlib(PythonPackage):
         "pylab",
     ]
 
+    version("3.7.3", sha256="f09b3dd6bdeb588de91f853bbb2d6f0ff8ab693485b0c49035eaa510cb4f142e")
     version("3.6.2", sha256="b03fd10a1709d0101c054883b550f7c4c5e974f751e2680318759af005964990")
     version("3.6.1", sha256="e2d1b7225666f7e1bcc94c0bc9c587a82e3e8691da4757e357e5c2515222ee37")
     version("3.6.0", sha256="c5108ebe67da60a9204497d8d403316228deb52b550388190c53a57394d41531")
@@ -147,6 +148,7 @@ class PyMatplotlib(PythonPackage):
     depends_on("py-cycler@0.10:", type=("build", "run"))
     depends_on("py-fonttools@4.22:", when="@3.5:", type=("build", "run"))
     depends_on("py-kiwisolver@1.0.1:", type=("build", "run"), when="@2.2.0:")
+    depends_on("py-numpy@1.20:", when="@3.7:", type=("build", "link", "run"))
     depends_on("py-numpy@1.19:", when="@3.6:", type=("build", "run"))
     depends_on("py-numpy@1.17:", when="@3.5:", type=("build", "run"))
     depends_on("py-numpy@1.16:", when="@3.4:", type=("build", "run"))
@@ -155,11 +157,14 @@ class PyMatplotlib(PythonPackage):
     depends_on("py-packaging@20:", when="@3.6:", type=("build", "run"))
     depends_on("py-packaging", when="@3.5:", type=("build", "run"))
     depends_on("pil@6.2:", when="@3.3:", type=("build", "run"))
+    depends_on("py-pyparsing@2.3.1:3.0", when="@3.7.2:", type=("build", "run"))
+    depends_on("py-pyparsing@2.3.1:", when="@3.7:", type=("build", "run"))
     depends_on("py-pyparsing@2.2.1:", when="@3.4:", type=("build", "run"))
     depends_on("py-pyparsing@2.0.3,2.0.5:2.1.1,2.1.3:2.1.5,2.1.7:", type=("build", "run"))
     depends_on("py-python-dateutil@2.7:", when="@3.4:", type=("build", "run"))
     depends_on("py-python-dateutil@2.1:", type=("build", "run"))
     depends_on("py-setuptools", type=("build", "run"))
+    depends_on("py-importlib-resources@3.2:", when="@3.7: ^python@:3.9", type=("build", "run"))
 
     # Historical dependencies
     depends_on(
@@ -229,6 +234,9 @@ class PyMatplotlib(PythonPackage):
     # Dependencies for building matplotlib
     # Setup dependencies
     depends_on("py-certifi@2020.6.20:", when="@3.3.1:", type="build")
+    depends_on("py-pybind11@2.6:", when="@3.7:", type="build")
+    depends_on("py-setuptools@42:", when="@3.7.2:3.7", type=("build", "run"))
+    depends_on("py-setuptools", when="@:3.7.1", type=("build", "run"))
     depends_on("py-setuptools-scm@7:", when="@3.6:", type="build")
     depends_on("py-setuptools-scm@4:6", when="@3.5", type="build")
     depends_on("py-setuptools-scm-git-archive", when="@3.5", type="build")
