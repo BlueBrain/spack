@@ -20,7 +20,6 @@ spack:
           - py-connectome-manipulator
           - py-data-integrity-check
           - py-efel
-          - py-neurots
           - py-nexusforge
           - py-nexus-sdk
           - py-token-fetch
@@ -66,7 +65,6 @@ spack:
     - py-data-integrity-check
     - py-efel
     - py-nexusforge
-    - py-neurots
     - py-nexus-sdk
     - py-token-fetch
     - py-visual-cortex-analysis
