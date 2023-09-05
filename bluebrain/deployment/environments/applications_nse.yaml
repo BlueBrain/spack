@@ -20,7 +20,6 @@ spack:
           - py-bluepysnap
           - py-connectome-manipulator
           - py-entity-management
-          - py-minis-validation
           - py-morphio
           - py-morph-tool
           - py-neuror
@@ -54,7 +53,6 @@ spack:
     - py-bluepy
     - py-bluepysnap
     - py-entity-management
-    - py-minis-validation
     - py-morphio
     - py-neuror
     - py-morph-tool+neuron
