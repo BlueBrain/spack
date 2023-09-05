@@ -21,3 +21,4 @@ class PyFzTdRecipe(PythonPackage):
 
     depends_on("py-lxml", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
+    depends_on("py-pandas", type=("build", "run"))
