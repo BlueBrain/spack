@@ -8,6 +8,7 @@ spack:
           - model-neocortex
           - morpho-kit
           - nest
+          - neurodamus  # experimental
           - neurodamus-hippocampus
           - neurodamus-neocortex
           - neurodamus-thalamus
@@ -38,6 +39,7 @@ spack:
     - neuron%nvhpc+caliper+coreneuron+gpu+tests~openmp
     - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp+sympy
     - nest@2.20.1
+    - neurodamus  # Experimental (comes with CoreNeuron)
     - neurodamus-hippocampus+coreneuron+caliper
     - neurodamus-mousify+coreneuron+caliper
     - neurodamus-neocortex~plasticity+coreneuron+caliper
