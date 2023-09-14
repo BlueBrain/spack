@@ -49,6 +49,7 @@ class Neuron(CMakePackage):
     version("8.0.0", tag="8.0.0")
     version("7.8.1", tag="7.8.1")
 
+    variant("backtrace", default=False, description="Enable printing backtraces on failure.")
     variant(
         "binary",
         default=True,
@@ -216,6 +217,9 @@ class Neuron(CMakePackage):
                 "+tests",
             ]
         ]
+        if self.spec.satisfies("+backtrace"):
+            args.append(self.define("NRN_ENABLE_BACKTRACE", True))
+
         if self.spec.satisfies("+tests"):
             # The +tests variant is used in CI pipelines that run the tests
             # directly from the build directory, not via Spack's --test=X
