@@ -36,7 +36,7 @@ class PyCwlRegistry(PythonPackage):
     depends_on("py-fz-td-recipe", type=("build", "run"))
     depends_on("py-pydantic", type=("build", "run"))
     depends_on("py-morphio", type=("build", "run"))
-    depends_on("py-jsonschema", type("build", "run"))
+    depends_on("py-jsonschema", type=("build", "run"))
 
     @run_after("install")
     @on_package_attributes(run_tests=True)
