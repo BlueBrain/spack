@@ -192,6 +192,8 @@ class Neuron(CMakePackage):
     depends_on("cuda", when="@8.99:+gpu")
     depends_on("libsonata-report", when="@8.99:+report+coreneuron")
 
+    depends_on("libdwarf", when="+backtrace")
+
     # for coreneuron: some basic conflicts
     gpu_compiler_message = "neuron: for gpu build use %pgi or %nvhpc"
     conflicts("%gcc", when="+gpu", msg=gpu_compiler_message)
