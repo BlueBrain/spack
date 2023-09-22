@@ -34,7 +34,7 @@ class Brayns(CMakePackage):
     depends_on("rkcommon@1.10.0", when="@:3.2.0")
 
     depends_on("ospray@2.10.5", when="@3.2.1")
-    
+
     depends_on("ospray@2.10.6", when="@3.2.2:")
 
     depends_on("spdlog@1.9.2")
