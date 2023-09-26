@@ -73,6 +73,7 @@ class Neuron(CMakePackage):
         "legacy-fr",
         default=True,
         description="Use original faraday, R, etc. instead of 2019 nist constants",
+        when="@:8.99",
     )
     variant("memacs", default=True, description="Enable use of memacs")
     variant("mpi", default=True, description="Enable MPI parallelism")
@@ -93,7 +94,7 @@ class Neuron(CMakePackage):
         multi=True,
         values=("None", "olfactory", "channel-benchmark", "tqperf-heavy"),
     )
-    variant("legacy-unit", default=False, description="Enable legacy units")
+    variant("legacy-unit", default=False, description="Enable legacy units", when="@:8.99")
     variant("caliper", default=False, description="Add LLNL/Caliper support")
 
     # extra variants from coreneuron recipe

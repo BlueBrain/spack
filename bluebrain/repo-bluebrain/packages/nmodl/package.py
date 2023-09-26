@@ -70,10 +70,11 @@ class Nmodl(CMakePackage):
             self.define("BUILD_TESTING", True),
             self.define("PYTHON_EXECUTABLE", python.command),
             self.define_from_variant("NMODL_ENABLE_PYTHON_BINDINGS", "python"),
-            self.define_from_variant("NMODL_ENABLE_LEGACY_UNITS", "legacy-unit"),
             self.define_from_variant("NMODL_ENABLE_LLVM", "llvm"),
             self.define_from_variant("NMODL_ENABLE_LLVM_CUDA", "llvm_cuda"),
         ]
+        if self.spec.satisfiefs("@:0.7"):
+            self.define_from_variant("NMODL_ENABLE_LEGACY_UNITS", "legacy-unit")
         return options
 
     def setup_build_environment(self, env):
