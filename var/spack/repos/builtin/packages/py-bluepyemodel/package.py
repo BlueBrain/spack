@@ -10,7 +10,7 @@ class PyBluepyemodel(PythonPackage):
     """Python library to optimize and evaluate electrical models."""
 
     homepage = "https://github.com/BlueBrain/BluePyEModel"
-    git = "git@github.com:BlueBrain/BluePyEModel.git"
+    git = "ssh://git@github.com/BlueBrain/BluePyEModel.git"
 
     # TODO: remove old versions together with the patch below
     version("0.0.11", tag="bluepyemodel-v0.0.11")
