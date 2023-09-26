@@ -73,7 +73,7 @@ class Nmodl(CMakePackage):
             self.define_from_variant("NMODL_ENABLE_LLVM", "llvm"),
             self.define_from_variant("NMODL_ENABLE_LLVM_CUDA", "llvm_cuda"),
         ]
-        if self.spec.satisfiefs("@:0.7"):
+        if self.spec.satisfies("@:0.7"):
             self.define_from_variant("NMODL_ENABLE_LEGACY_UNITS", "legacy-unit")
         return options
 
