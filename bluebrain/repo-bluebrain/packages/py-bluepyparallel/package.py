@@ -12,7 +12,7 @@ class PyBluepyparallel(PythonPackage):
     homepage = "https://bbpgitlab.epfl.ch/neuromath/bluepyparallel"
     git = "ssh://git@bbpgitlab.epfl.ch/neuromath/bluepyparallel.git"
 
-    version("0.0.9", tag="BluePyParallel-v0.0.9")
+    version("0.0.9", tag="bluepyparallel-v0.0.9")
     version("0.0.5", tag="BluePyParallel-v0.0.5")
 
     depends_on("py-setuptools", type="build")

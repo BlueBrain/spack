@@ -38,7 +38,7 @@ class PySynthesisWorkflow(PythonPackage):
     depends_on("py-neuroc@0.2.8:", type=("build", "run"))
     depends_on("py-neurocollage@0.3:", type=("build", "run"))
     depends_on("py-neurom@3.2.2:", type=("build", "run"))
-    depends_on("py-neurots@3.3.1", type=("build", "run"))
+    depends_on("py-neurots@3.3.1:", type=("build", "run"))
     depends_on("py-numpy@1.24.1:", type=("build", "run"))
     depends_on("py-pandas@1.5.3:", type=("build", "run"))
     depends_on("py-pyyaml@6:", type=("build", "run"))
