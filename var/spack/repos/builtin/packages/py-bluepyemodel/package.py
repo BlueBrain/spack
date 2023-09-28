@@ -12,9 +12,7 @@ class PyBluepyemodel(PythonPackage):
     homepage = "https://github.com/BlueBrain/BluePyEModel"
     pypi = "bluepyemodel/bluepyemodel-0.0.33.tar.gz"
 
-    # TODO: remove old versions together with the patch below
-    version("0.0.11", tag="bluepyemodel-v0.0.11")
-    version("0.0.8", tag="BluePyEModel-v0.0.8")
+    version("0.0.33", sha256="fc10b786c36fc7f07a98877ead72b9e7fc6a894e9d41bda1cf192d7fcb0cf7b2")
 
     depends_on("py-setuptools", type="build")
 
