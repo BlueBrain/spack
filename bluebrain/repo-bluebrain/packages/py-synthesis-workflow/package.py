@@ -45,6 +45,6 @@ class PySynthesisWorkflow(PythonPackage):
     depends_on("py-region-grower@1:", type=("build", "run"))
     depends_on("py-scipy@1.10:", type=("build", "run"))
     depends_on("py-seaborn@0.12.2:", type=("build", "run"))
-    depends_on("py-tmd@2.2:", type=("build", "run"))
+    depends_on("py-tmd@2.3.1:", type=("build", "run"))
     depends_on("py-tqdm@4.64.1:", type=("build", "run"))
     depends_on("py-voxcell@3.1.3:3", type=("build", "run"))
