@@ -1,10 +1,9 @@
-# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2023 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 import os
-import subprocess
 import sys
 
 from spack.package import *
@@ -21,74 +20,44 @@ class Neuron(CMakePackage):
     """
 
     homepage = "https://www.neuron.yale.edu/"
-    url = "http://www.neuron.yale.edu/ftp/neuron/versions/v7.5/nrn-7.5.tar.gz"
+    url = "https://github.com/neuronsimulator/nrn/releases/download/8.2.3/nrn-full-src-package-8.2.3.tar.gz"
     git = "https://github.com/neuronsimulator/nrn"
-
-    # Patch which reverts 81a7a39 for numerical compat
-    patch("revert_Import3d_numerical_format.master.patch", when="@7.8.1:9.0.a6")
-
-    # Patch which reverts d9605cb for not hanging on ExperimentalMechComplex
-    # Patch for recent CMake versions that don't identify NVHPC as PGI
-    patch("patch-v800-cmake-nvhpc.patch", when="@8.0.0%nvhpc^cmake@3.20:")
+    maintainers("pramodk", "nrnhines", "iomaganaris", "ohm314", "matz-e")
 
     version("develop", branch="master")
+    # TODO: for testing purposes, remove it
+    version("9.0", commit="53c9392d7")
     version("9.0.a14", commit="bd9426d9")
-    version("9.0.a13", commit="3bbdd8da")
-    version("9.0.a12", commit="6004512f")
-    version("9.0.a11", commit="b38dd11b")
-    version("9.0.a10", commit="af51e51e")
-    version("9.0.a9", commit="baf3b14")
-    version("9.0.a8", commit="67a672a")
-    version("9.0.a5", commit="522c866")
-    version("9.0.a4", commit="de2c927")
-    version("9.0.a3", commit="afce1ef")
-    version("9.0.a2", commit="89f7dab")
-    version("9.0.a1", commit="b3c4b4f")
-    version("8.2.2", tag="8.2.2")
-    version("8.2.1", tag="8.2.1")
+    version("8.2.3", tag="8.2.3")
     version("8.2.0", tag="8.2.0")
     version("8.1.0", tag="8.1.0")
-    version("8.0.2", tag="8.0.2")
-    version("8.0.1", tag="8.0.1")
     version("8.0.0", tag="8.0.0")
-    version("7.8.1", tag="7.8.1")
+    version("7.8.2", tag="7.8.2")
 
-    variant(
-        "binary",
-        default=True,
-        description="Create special as a binary instead of shell script (8.0.x and earlier)",
-        when="@:8.0.999",
-    )
+    # neuron variants for basic installation
+    variant("interviews", default=False, description="Enable GUI with INTERVIEWS")
+    variant("legacy-unit", default=False, description="Enable legacy units")
+    variant("mpi", default=True, description="Enable MPI parallelism")
+    variant("python", default=True, description="Enable python")
+    variant("tests", default=False, description="Enable building tests")
+    variant("rx3d", default=False, description="Enable cython translated 3-d rxd.", when="+python")
+
+    # variants from coreneuron support
+    variant("coreneuron", default=True, description="Enable CoreNEURON support")
+    variant("gpu", default=False, description="Enable GPU build", when="@9:+coreneuron")
+    variant("openmp", default=False, description="Enable CoreNEURON OpenMP support", when="+coreneuron")
+
+    # instrumentation for performance measurement
+    variant("caliper", default=False, description="Add Caliper support")
+
     variant(
         "build_type",
         default="RelWithDebInfo",
         description="CMake build type",
         values=("Debug", "FastDebug", "RelWithDebInfo", "Release"),
     )
-    variant("coreneuron", default=True, description="Enable CoreNEURON support")
-    variant(
-        "mod-compatibility",
-        default=True,
-        description="Enable CoreNEURON compatibility for MOD files",
-    )
-    variant("interviews", default=False, description="Enable GUI with INTERVIEWS")
-    variant(
-        "legacy-fr",
-        default=True,
-        description="Use original faraday, R, etc. instead of 2019 nist constants",
-    )
-    variant("memacs", default=True, description="Enable use of memacs")
-    variant("mpi", default=True, description="Enable MPI parallelism")
-    variant("python", default=True, description="Enable python")
-    variant("rx3d", default=True, description="Enable cython translated 3-d rxd.", when="+python")
-    variant(
-        "sanitizers",
-        default="None",
-        description="Enable runtime sanitizers",
-        multi=True,
-        values=("None", "address", "leak", "undefined"),
-    )
-    variant("tests", default=False, description="Enable building tests")
+
+    # extended set of model tests
     variant(
         "model_tests",
         default="None",
@@ -96,362 +65,156 @@ class Neuron(CMakePackage):
         multi=True,
         values=("None", "olfactory", "channel-benchmark", "tqperf-heavy"),
     )
-    variant("legacy-unit", default=False, description="Enable legacy units")
-    variant("caliper", default=False, description="Add LLNL/Caliper support")
-
-    # extra variants from coreneuron recipe
-    variant("gpu", default=False, description="Enable GPU build", when="@9: +coreneuron")
-    variant("knl", default=False, description="Enable KNL specific flags")
-    variant(
-        "unified", default=False, description="Enable Unified Memory with GPU build", when="+gpu"
-    )
-    variant("openmp", default=False, description="Enable OpenMP support", when="@9:")
-    variant("report", default=True, description="Enable SONATA reports")
-    variant("shared", default=True, description="Build shared library")
-    nmodl_variant_exists = "@9:9.0.a8 +coreneuron"
-    variant(
-        "nmodl",
-        default=True,
-        description="Use NMODL instead of MOD2C",
-        when=nmodl_variant_exists,
-    )
-    # There are three different eras relevant for these variants:
-    # * neuron@:9 -- coreneuron was a separate package, so nmodl is irrelevant to this recipe
-    # * neuron@9:9.0.a8 -- coreneuron exists inside neuron, nmodl is active if +coreneuron+nmodl
-    # * neuron@9.0.a9   -- coreneuron exists inside neuron, mod2c is dead so nmodl active if
-    #                      +coreneuron
-    nmodl_enabled_specs = [nmodl_variant_exists + "+nmodl", "@9.0.a9: +coreneuron"]
-    for nmodl_spec in nmodl_enabled_specs:
-        # The lack of version constraint is a lie
-        # most neuron/coreneuron versions are only compatible with one
-        depends_on("nmodl", when=nmodl_spec)
-        variant(
-            "codegenopt",
-            default=False,
-            description="Use NMODL with codedgen ionvar copies optimizations",
-            when=nmodl_spec,
-        )
-        variant(
-            "sympy",
-            default=False,
-            description="Use NMODL with SymPy to solve ODEs",
-            when=nmodl_spec,
-        )
-        variant(
-            "sympyopt",
-            default=False,
-            description="Use NMODL with SymPy Optimizations",
-            when=nmodl_spec,
-        )
-    variant(
-        "prcellstate",
-        default=False,
-        description="Enable tracking of voltage and conductivity with prcellstate on CoreNEURON",
-    )
 
     # Build with `ninja` instead of `make`
     generator = "Ninja"
+
+    # common build dependencies
+    depends_on("bison@3:", type="build")
+    depends_on("flex@2.6:", type="build")
     depends_on("ninja", type="build")
 
-    depends_on("bison", type="build")
-    depends_on("caliper+mpi", type=("build", "link", "run"), when="+caliper+mpi")
-    depends_on("caliper~mpi", type=("build", "link", "run"), when="+caliper~mpi")
-    depends_on("flex@2.6:", type="build")
-
-    # Readline became incompatible with Mac so we use neuron internal readline.
-    # HOWEVER, with the internal version there is a bug which makes
-    # Vector.as_numpy() not work!
-    depends_on("readline", when=sys.platform != "darwin")
-
-    # Transient dependency
+    # build and link dependencies
     depends_on("gettext")
-
     depends_on("mpi", when="+mpi")
-    depends_on("py-mpi4py", when="+mpi+python+tests")
     depends_on("ncurses")
-    depends_on("python@2.6:", when="+python", type=("build", "link", "run"))
+    depends_on("readline")
+
+    # dependencies from python variants
+    depends_on("python", when="+python")
     depends_on("py-pytest", when="+python+tests")
-    # Numpy is required for Vector.as_numpy()
-    depends_on("py-numpy", when="+python", type=("build", "run"))
+    depends_on("py-mpi4py", when="+mpi+python+tests")
+    depends_on("py-numpy", when="+python")
     depends_on("py-cython", when="+rx3d", type="build")
-    depends_on("py-pytest-cov", when="+tests@8:")
-    # TODO: newer spack doesn't propogate python package as dependency
-    # (as PYTHONPATH) during build time
-    depends_on("py-sympy@1.3:", type=("build", "run"))
-    # Next two needed in versions containing neuronsimulator/nrn#2235.
+    depends_on("py-pytest-cov", when="+tests")
+    # next two needed after neuronsimulator/nrn#2235.
     depends_on("py-pip", type=("build"), when="@9:")
     depends_on("py-packaging", type=("run"), when="@9:")
 
-    # dependency on coreneuron via submodule
-    depends_on("coreneuron+legacy-unit~caliper", when="@:8.99+coreneuron+legacy-unit~caliper")
-    depends_on("coreneuron~legacy-unit~caliper", when="@:8.99+coreneuron~legacy-unit~caliper")
-    depends_on("coreneuron+legacy-unit+caliper", when="@:8.99+coreneuron+legacy-unit+caliper")
-    depends_on("coreneuron~legacy-unit+caliper", when="@:8.99+coreneuron~legacy-unit+caliper")
-    conflicts("coreneuron", when="@9:")
+    # dependencies from coreneuron
+    depends_on("boost", when="+coreneuron+tests")
+    depends_on("cuda", when="+coreneuron+gpu")
+    depends_on("py-sympy@1.3:", when="+coreneuron")
 
-    # dependencies from coreneuron package
-    depends_on("python", type=("build", "run"))
-    depends_on("boost", when="@8.99:+tests+coreneuron")
-    depends_on("cuda", when="@8.99:+gpu")
-    depends_on("libsonata-report", when="@8.99:+report+coreneuron")
+    # dependencies for performance measurement
+    depends_on("caliper", when="+caliper")
 
-    # for coreneuron: some basic conflicts
-    gpu_compiler_message = "neuron: for gpu build use %pgi or %nvhpc"
+    gpu_compiler_message = "neuron: for gpu build use %nvhpc"
     conflicts("%gcc", when="+gpu", msg=gpu_compiler_message)
     conflicts("%intel", when="+gpu", msg=gpu_compiler_message)
 
-    # ==============================================
-    # ==== CMake build system related functions ====
-    # ==============================================
+    patch("patch-v782-git-cmake-avx512.patch", when="@7.8.2")
+
     def cmake_args(self):
-        def cmake_enable_option(spec_requiremement):
-            value = "TRUE" if spec_requiremement in self.spec else "FALSE"
-            cmake_name = spec_requiremement[1:].upper().replace("-", "_")
+        spec = self.spec
+
+        def cmake_options(spec_options):
+            value = "TRUE" if spec_options in spec else "FALSE"
+            cmake_name = spec_options[1:].upper().replace("-", "_")
             return "-DNRN_ENABLE_" + cmake_name + ":BOOL=" + value
 
         args = [
-            cmake_enable_option(variant)
+            cmake_options(variant)
             for variant in [
-                "+interviews",
-                "+python",
-                "+memacs",
-                "+rx3d",
                 "+coreneuron",
+                "+interviews",
+                "+mpi",
+                "+python",
+                "+rx3d",
                 "+tests",
             ]
         ]
-        if self.spec.satisfies("+tests"):
-            # The +tests variant is used in CI pipelines that run the tests
-            # directly from the build directory, not via Spack's --test=X
-            # option. This overrides the implicit CMake argument that Spack
-            # injects.
-            args.append(self.define("BUILD_TESTING", True))
-        if self.spec.satisfies("@9.0.a3:+tests"):
-            # The +tests variant is primarily used for CI pipelines, which do
-            # not run on exclusive resources and do not give reliable results
-            # for tests that test performance scaling
-            args.append(self.define("NRN_ENABLE_PERFORMANCE_TESTS", False))
-        compilation_flags = []
-        if self.spec.variants["model_tests"].value != ("None",):
-            args.append(
-                "-DNRN_ENABLE_MODEL_TESTS="
-                + ",".join(model for model in self.spec.variants["model_tests"].value)
-            )
-        if self.spec.variants["sanitizers"].value != ("None",):
-            if self.compiler.name == "clang":
-                args.append(
-                    "-DLLVM_SYMBOLIZER_PATH="
-                    + os.path.join(os.path.dirname(self.compiler.cxx), "llvm-symbolizer")
-                )
-            args.append("-DNRN_SANITIZERS=" + ",".join(self.spec.variants["sanitizers"].value))
-        if "+mpi" in self.spec:
-            args.append("-DNRN_ENABLE_MPI=ON")
-            if "+gpu" in self.spec:
-                args.append("-DNRN_ENABLE_MPI_DYNAMIC=OFF")
-            else:
-                args.append("-DNRN_ENABLE_MPI_DYNAMIC=ON")
-        else:
-            args.append("-DNRN_ENABLE_MPI=OFF")
-        if "+python" in self.spec:
-            args.append("-DPYTHON_EXECUTABLE:FILEPATH=" + self.spec["python"].command.path)
-        if self.spec.variants["build_type"].value == "FastDebug":
-            # Do *not* add -DNDEBUG, so assertions are enabled
-            # Good debug information and stack traces
-            compilation_flags.append("-g")
-            if "%nvhpc" not in self.spec:
-                compilation_flags.append("-fno-omit-frame-pointer")
-            # Moderate optimisation by default
-            compilation_flags.append("-O1")
-            if "%intel" in self.spec:
-                # This one definitely seems wise
-                compilation_flags += ["-fp-model", "consistent"]
-            elif "%oneapi" in self.spec:
-                # The documentation doesn't mention consistent for these intel compilers
-                compilation_flags.append("-fp-model=precise")
-            # Remove default flags (RelWithDebInfo etc.)
-            args.append("-DCMAKE_BUILD_TYPE=Custom")
 
-        if "%intel" in self.spec and "+knl" in self.spec:
-            compilation_flags.append("-xMIC-AVX512")
-
-        if "+mod-compatibility" in self.spec:
-            args.append("-DNRN_ENABLE_MOD_COMPATIBILITY:BOOL=ON")
-        if "+binary" in self.spec and "@:8.0.999" in self.spec:
+        if spec.satisfies("@:8"):
             args.append("-DNRN_ENABLE_BINARY_SPECIAL=ON")
-        if "+legacy-unit" in self.spec:
+
+        # dynamic mpi support not possible in case of gpu support
+        if "+mpi" in spec:
+            dynamic_mpi = "OFF" if "+gpu" in spec else "ON"
+            args.append("-DNRN_ENABLE_MPI_DYNAMIC=%s" % dynamic_mpi)
+
+        if "+python" in spec:
+            args.append("-DPYTHON_EXECUTABLE:FILEPATH=" + spec["python"].command.path)
+
+        if "+legacy-unit" in spec:
             args.append("-DNRN_DYNAMIC_UNITS_USE_LEGACY=ON")
-        # NVHPC 21.11 and newer detect ABM support and define __ABM__, which
-        # breaks Random123 compilation. NEURON inserts a workaround for this in
-        # https://github.com/neuronsimulator/nrn/pull/1587.
-        if self.spec.satisfies("@:8.0.999%nvhpc@21.11:"):
-            compilation_flags.append("-DR123_USE_INTRIN_H=0")
-        # Added in https://github.com/neuronsimulator/nrn/pull/1574, this
-        # improves ccache performance in CI builds.
-        if self.spec.satisfies("@8.2:"):
-            args.append("-DNRN_AVOID_ABSOLUTE_PATHS=ON")
-        if (
-            ("%intel" in self.spec or "%oneapi" in self.spec)
-            and self.spec.satisfies("+coreneuron~nmodl")
-            and self.spec.variants["build_type"].value == "Release"
-        ):
-            # Compile for the host architecture when using MOD2C. This seems to be
-            # needed to undo a performance regression for this configuration that
-            # came with CoreNEURON being merged into NEURON. It can go away when
-            # mod2c goes away "soon"
-            compilation_flags.append("-xHost")
-        else:
-            # Pass Spack's target architecture flags in explicitly so that they're
-            # saved to the nrnivmodl Makefile.
-            compilation_flags.append(
-                self.spec.architecture.target.optimization_flags(self.spec.compiler)
-            )
-            # In case we're using GCC compiler we enable certain optimization options
-            # to allow vectorization of mechanism kernels in case `libmvec` is available
-            # in the system.
-            # Due to the fact that the generated code by NMODL includes `#pragma omp simd`
-            # clauses we also need to enable `+openmp` or add `-fopenmp-simd` to make sure
-            # that the code gets vectorized
-            if "%gcc" in self.spec and self.spec.variants["build_type"].value in [
-                "Release",
-                "RelWithDebInfo",
-            ]:
-                compilation_flags += [
-                    "-ffinite-math-only",
-                    "-fno-math-errno",
-                    "-funsafe-math-optimizations",
-                    "-fno-associative-math",
-                ]
-                if "+openmp" not in self.spec:
-                    compilation_flags.append("-fopenmp-simd")
-        if "%intel" in self.spec:
-            # icpc: command line warning #10121: overriding '-march=skylake' with '-march=skylake'
-            compilation_flags.append("-diag-disable=10121")
-        compilation_flags = " ".join(compilation_flags)
-        args.append("-DCMAKE_C_FLAGS=" + compilation_flags)
-        args.append("-DCMAKE_CXX_FLAGS=" + compilation_flags)
-        if "+caliper" in self.spec:
+
+        if "+caliper" in spec:
             args.append("-DNRN_ENABLE_PROFILING=ON")
             args.append("-DNRN_PROFILER=caliper")
+            args.append("-DCORENRN_ENABLE_CALIPER_PROFILING=ON")
 
-        # cmake options for embedded coreneuron
-        if self.spec.satisfies("@8.99:+coreneuron"):
-            spec = self.spec
+        # cmake options for coreneuron
+        if spec.satisfies("+coreneuron"):
             options = [
                 "-DCORENRN_ENABLE_SPLAYTREE_QUEUING=ON",
-                "-DCORENRN_ENABLE_REPORTING=%s" % ("ON" if "+report" in spec else "OFF"),
-                "-DCORENRN_ENABLE_OPENMP=%s" % ("ON" if "+openmp" in spec else "OFF"),
-                "-DCORENRN_ENABLE_UNIT_TESTS=%s" % ("ON" if "+tests" in spec else "OFF"),
                 "-DCORENRN_ENABLE_TIMEOUT=OFF",
-                "-DCORENRN_ENABLE_SHARED=%s" % ("ON" if "+shared" in spec else "OFF"),
-                "-DPYTHON_EXECUTABLE=%s" % spec["python"].command.path,
+                "-DCORENRN_ENABLE_OPENMP=%s" % ("ON" if "+openmp" in spec else "OFF"),
+                "-DCORENRN_ENABLE_LEGACY_UNITS=%s" % ("ON" if "+legacy-unit" in spec else "OFF"),
+                "-DCORENRN_ENABLE_UNIT_TESTS=%s" % ("ON" if "+tests" in spec else "OFF"),
             ]
 
-            if spec.satisfies("+caliper"):
-                options.append("-DCORENRN_ENABLE_CALIPER_PROFILING=ON")
-
-            if "+legacy-unit" in self.spec:
-                options.append("-DCORENRN_ENABLE_LEGACY_UNITS=ON")
-
-            if "+prcellstate" in self.spec:
-                options.append("-DCORENRN_ENABLE_PRCELLSTATE=ON")
-
-            for nmodl_spec in self.nmodl_enabled_specs:
-                if spec.satisfies(nmodl_spec):
-                    options.append("-DCORENRN_ENABLE_NMODL=ON")
-                    options.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
-
             nmodl_options = "codegen --force"
-
-            if spec.satisfies("+codegenopt"):
-                nmodl_options += " --opt-ionvar-copy=TRUE"
-
-            if spec.satisfies("+sympy"):
-                nmodl_options += " sympy --analytic"
-
-            if spec.satisfies("+sympyopt"):
-                nmodl_options += " --conductance --pade --cse"
-
             options.append("-DCORENRN_NMODL_FLAGS=%s" % nmodl_options)
 
             if spec.satisfies("+gpu"):
                 nvcc = which("nvcc")
-                # Instead of assuming that the gcc in $PATH is the right host compiler, take the
-                # compiler used to build the cuda package as the CUDA host compiler.
-                host_compiler_spec = self.spec["cuda"].compiler
-                # Surely this isn't the best way
-                host_compiler_candidates = [
-                    c for c in spack.compilers.all_compilers() if c.spec == host_compiler_spec
-                ]
-                assert len(host_compiler_candidates) == 1
-                host_compiler = host_compiler_candidates[0]
                 options.append(self.define("CMAKE_CUDA_COMPILER", nvcc))
-                options.append(self.define("CMAKE_CUDA_HOST_COMPILER", host_compiler.cxx))
-                if spec.satisfies("+unified"):
-                    options.append(self.define("CORENRN_ENABLE_CUDA_UNIFIED_MEMORY", True))
                 options.append(self.define("CORENRN_ENABLE_GPU", True))
 
             args.extend(options)
 
-        if self.spec.satisfies("@:8.99+coreneuron"):
-            args.append(self.define("CORENEURON_DIR", self.spec["coreneuron"].prefix))
+        # cache performance for build neuronsimulator/nrn/pull/1574
+        if spec.satisfies("@8.2:"):
+            args.append("-DNRN_AVOID_ABSOLUTE_PATHS=ON")
+
+        # enable tests that are selected via variant
+        if spec.variants["model_tests"].value != ("None",):
+            args.append(
+                "-DNRN_ENABLE_MODEL_TESTS="
+                + ",".join(model for model in spec.variants["model_tests"].value)
+            )
+
+        if spec.variants["build_type"].value in ["Release", "RelWithDebInfo"]:
+            args.append("-DNRN_ENABLE_MATH_OPT=ON")
+
+        if spec.satisfies("+gpu"):
+            # Instead of assuming that the gcc in $PATH is the right host compiler, take the
+            # compiler used to build the cuda package as the CUDA host compiler.
+            host_compiler_spec = spec["cuda"].compiler
+            # Surely this isn't the best way
+            host_compiler_candidates = [
+                c for c in spack.compilers.all_compilers() if c.spec == host_compiler_spec
+            ]
+            assert len(host_compiler_candidates) == 1
+            host_compiler = host_compiler_candidates[0]
+            options.append(self.define("CMAKE_CUDA_HOST_COMPILER", host_compiler.cxx))
+            args.extend(options)
 
         return args
-
-    # Create symlink in share/nrn/lib for the python libraries
-    # which is the place that neuron expects the library similarly
-    # to autotools installation
-    # See : https://github.com/neuronsimulator/nrn/issues/567
-    @run_after("install")
-    def symlink_python_lib(self):
-        if "+python" in self.spec:
-            os.symlink(self.prefix.lib.python, self.prefix.share.nrn.lib.python)
-
-    # ==============================================
-    # ============== Common functions ==============
-    # ==============================================
-    @property
-    def archdir(self):
-        """Determine the architecture neuron build architecture.
-
-        With cmake get the architecture of the system from spack.
-        With autotools instead of recreating the logic of the
-        neuron"s configure we dynamically find the architecture-
-        specific directory by looking for a specific binary.
-        """
-        return (
-            subprocess.Popen(
-                [
-                    "awk",
-                    "-F=",
-                    '$1 == "MODSUBDIR" { print $2; exit; }',
-                    str(self.prefix.bin.nrnivmodl),
-                ],
-                stdout=subprocess.PIPE,
-            )
-            .communicate()[0]
-            .decode()
-            .strip()
-        )
 
     @run_after("install")
     def filter_compilers(self):
         """run after install to avoid spack compiler wrappers
         getting embded into nrnivmodl script"""
 
-        cc_compiler = self.compiler.cc
-        cxx_compiler = self.compiler.cxx
-        if self.spec.satisfies("+mpi"):
-            cc_compiler = self.spec["mpi"].mpicc
-            cxx_compiler = self.spec["mpi"].mpicxx
+        spec = self.spec
 
-        nrnmech_makefile = join_path(self.prefix, "bin/nrnmech_makefile")
+        if "cray" in spec.architecture:
+            cc_compiler = "cc"
+            cxx_compiler = "CC"
+        elif spec.satisfies("+mpi"):
+            cc_compiler = spec["mpi"].mpicc
+            cxx_compiler = spec["mpi"].mpicxx
+        else:
+            cc_compiler = self.compiler.cc
+            cxx_compiler = self.compiler.cxx
 
         kwargs = {"backup": False, "string": True}
+        nrnmech_makefile = join_path(self.prefix, "bin/nrnmech_makefile")
 
-        # The assign_operator should follow any changes done in
-        # "bin/nrnivmodl_makefile_cmake.in" and "bin/nrnmech_makefile.in"
-        # when assigning CC and CXX variables
-        if self.spec.satisfies("@:7.99"):
+        # assign_operator is changed to fix wheel support
+        if spec.satisfies("@:7.99"):
             assign_operator = "?="
         else:
             assign_operator = "="
@@ -462,6 +225,7 @@ class Neuron(CMakePackage):
             nrnmech_makefile,
             **kwargs,
         )
+
         filter_file(
             "CXX {0} {1}".format(assign_operator, env["CXX"]),
             "CXX = {0}".format(cxx_compiler),
@@ -470,19 +234,12 @@ class Neuron(CMakePackage):
         )
 
         # for coreneuron
-        if self.spec.satisfies("@8.99:+coreneuron"):
+        if spec.satisfies("@9:+coreneuron"):
             nrnmakefile = join_path(self.prefix, "share/coreneuron/nrnivmodl_core_makefile")
-
-            kwargs = {"backup": False, "string": True}
-
-            filter_file(env["CC"], self.compiler.cc, nrnmakefile, **kwargs)
             filter_file(env["CXX"], self.compiler.cxx, nrnmakefile, **kwargs)
 
     def setup_run_environment(self, env):
         env.prepend_path("PATH", join_path(self.prefix, "bin"))
         env.prepend_path("LD_LIBRARY_PATH", join_path(self.prefix, "lib"))
-        if self.spec.satisfies("+mpi"):
-            env.set("MPICC_CC", self.compiler.cc)
-            env.set("MPICXX_CXX", self.compiler.cxx)
-        if self.spec.satisfies("+python"):
-            env.prepend_path("PYTHONPATH", self.spec.prefix.lib.python)
+        if spec.satisfies("+python"):
+            env.prepend_path("PYTHONPATH", spec.prefix.lib.python)
