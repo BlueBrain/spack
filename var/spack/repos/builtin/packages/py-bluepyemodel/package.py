@@ -33,14 +33,6 @@ class PyBluepyemodel(PythonPackage):
     depends_on("neuron+python@8.0:", type=("build", "run"))
     depends_on("py-jinja2@3.0.3", when="@0.0.11:", type=("build", "run"))
     depends_on("py-currentscape@0.0.11:", type=("build", "run"))
-    # missing from setup.py
-    depends_on("py-bluepy@2.4:", when="@0.0.8", type=("build", "run"))
-    depends_on("py-click@7.0:", when="@0.0.8", type=("build", "run"))
-    depends_on("py-matplotlib@2.2:", type=("build", "run"))
-    # extra, also missing from setup.py
-    depends_on("py-bluepyparallel@0.0.3:", when="@0.0.8", type=("build", "run"))
-    depends_on("py-bglibpy@4.4:", type=("build", "run"))
-    depends_on("py-seaborn@0.11:", when="@0.0.8", type=("build", "run"))
 
     def patch(self):
         # This dependency has survived, even though the modules needing it were axed mid
