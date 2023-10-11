@@ -32,5 +32,5 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-click@7.0:", when="@0.0.8", type=("build", "run"))
     depends_on("py-matplotlib@2.2:", type=("build", "run"))
     depends_on("py-bluepyparallel@0.0.5:", when="@0.0.8", type=("build", "run"))
-    depends_on("py-bluecellulab@1.3.11:", type=("build", "run"))
+    depends_on("py-bluecellulab@1.5.2:", type=("build", "run"))
     depends_on("py-seaborn@0.11:", when="@0.0.8", type=("build", "run"))
