@@ -21,10 +21,10 @@ class PyBluecellulab(PythonPackage):
     # dependencies from setup.py
     depends_on("py-numpy@1.8:", type=("build", "run"))
     depends_on("py-matplotlib@3.0.0:", type=("build", "run"))
-    depends_on("py-cachetools", type=("build", "run"))
-    depends_on("py-bluepy@2.4.2:2", type=("build", "run"))
-    depends_on("py-bluepy-configfile@0.1.18:", type=("build", "run"))
+    depends_on("py-bluepysnap@1.0.7", type=("build", "run"))
     depends_on("py-pandas@1.0.0:", type=("build", "run"))
+    depends_on("py-pydantic", type=("build", "run"))
+    depends_on("py-typing-extensions", type="run")
 
     # skip import test, because bluecellulab needs HOC_LIBRARY_PATH
     # that could be provided by neurodamus-core
