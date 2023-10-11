@@ -6,7 +6,7 @@
 from spack.package import *
 
 
-class PyEmodelgeneralisation(PythonPackage):
+class PyEmodelGeneralisation(PythonPackage):
     """Python library to generalise electrical models."""
 
     homepage = "https://github.com/BlueBrain/emodel-generalisation"
