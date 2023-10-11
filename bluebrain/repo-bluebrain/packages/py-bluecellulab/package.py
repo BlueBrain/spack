@@ -12,7 +12,6 @@ class PyBluecellulab(PythonPackage):
     homepage = "https://github.com/BlueBrain/BlueCelluLab"
     pypi = "bluecellulab/bluecellulab-1.5.2.tar.gz"
 
-    version("develop", branch="main")
     version("1.5.2", commit="22e45b921ad9cd282d53b57ac90fcec69731cb718ed8098c8eb52039bf7a49e5")
 
     depends_on("py-setuptools", type=("build", "run"))
