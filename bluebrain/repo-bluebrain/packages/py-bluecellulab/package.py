@@ -6,7 +6,7 @@
 from spack.package import *
 
 
-class PyBlueCellulab(PythonPackage):
+class PyBluecellulab(PythonPackage):
     """Pythonic Blue Brain simulator access, former BGLibPy"""
 
     homepage = "https://github.com/BlueBrain/BlueCelluLab"
