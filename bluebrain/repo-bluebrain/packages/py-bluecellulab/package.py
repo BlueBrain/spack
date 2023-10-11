@@ -1,4 +1,4 @@
-# Copyright 2013-2018 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2023 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -10,7 +10,7 @@ class PyBluecellulab(PythonPackage):
     """Pythonic Blue Brain simulator access, former BGLibPy"""
 
     homepage = "https://github.com/BlueBrain/BlueCelluLab"
-    git = "ssh://git@github.com:BlueBrain/BlueCelluLab.git"
+    pypi = "bluecellulab/bluecellulab-1.5.2.tar.gz"
 
     version("develop", branch="main")
     version("1.5.2", commit="22e45b921ad9cd282d53b57ac90fcec69731cb718ed8098c8eb52039bf7a49e5")
