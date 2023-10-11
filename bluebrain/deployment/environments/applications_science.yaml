@@ -55,7 +55,6 @@ spack:
     - py-bba-datafetch
     - py-bba-data-push
     - py-bba-webexporter
-    - py-bglibpy
     - py-bluecellulab
     - py-bluepyefe
     - py-bluepyemodel
