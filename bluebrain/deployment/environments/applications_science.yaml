@@ -13,6 +13,7 @@ spack:
           - py-bluepymm
           - py-bluepyopt
           - py-bluepyparallel
+          - py-emodel-generalisation
           - py-connectome-manipulator
           - py-multiscale-run
           - py-efel
@@ -43,6 +44,7 @@ spack:
     - py-atlinter
     - py-bluecellulab
     - py-bluepyefe
+    - py-emodel-generalisation
     - py-bluepymm
     - py-bluepyopt
     - py-bluepyparallel
