@@ -13,7 +13,7 @@ class PyRegionGrower(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/neuromath/region-grower.git"
 
     version("develop", branch="main")
-    version("1.2.5", tag="region-grower-v1.2.5")
+    version("1.2.6", tag="region-grower-v1.2.6")
 
     depends_on("py-setuptools", type="build")
 
