@@ -36,4 +36,4 @@ class PyRegionGrower(PythonPackage):
 
     depends_on("py-dask-mpi@2022.4:", type=("build", "run"), when="+mpi")
     depends_on("py-mpi4py@3.1.1:", type=("build", "run"), when="+mpi")
-    depends_on("mpi", type=("build", "run"), when="+mpi")
+    depends_on("hpe-mpi@2.25.hmpt:", type=("build", "run"), when="+mpi")
