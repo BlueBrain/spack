@@ -13,7 +13,9 @@ class PyRegionGrower(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/neuromath/region-grower.git"
 
     version("develop", branch="main")
-    version("1.2.6", tag="region-grower-v1.2.6")
+    version("1.2.7.dev0", tag="region-grower-v1.2.7.dev0")
+
+    variant("mpi", default=True, description="Build with MPI support")
 
     depends_on("py-setuptools", type="build")
 
@@ -31,5 +33,7 @@ class PyRegionGrower(PythonPackage):
     depends_on("py-pandas@1.5.3:", type=("build", "run"))
     depends_on("py-tqdm@4.28.1:", type=("build", "run"))
     depends_on("py-voxcell@3.1.1:3", type=("build", "run"))
-    depends_on("py-dask-mpi@2022.4:", type=("build", "run"))
-    depends_on("py-mpi4py@3.1.1:", type=("build", "run"))
+
+    depends_on("py-dask-mpi@2022.4:", type=("build", "run"), when="+mpi")
+    depends_on("py-mpi4py@3.1.1:", type=("build", "run"), when="+mpi")
+    depends_on("mpi", type=("build", "run"), when="+mpi")
