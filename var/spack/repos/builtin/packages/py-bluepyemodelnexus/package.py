@@ -17,7 +17,6 @@ class PyBluepyemodelnexus(PythonPackage):
     depends_on("py-setuptools", type="build")
 
     depends_on("py-pandas", type=("build", "run"))
-    # TODO: missing entry for icselector
     depends_on("py-icselector", type=("build", "run"))
     depends_on("py-nexusforge@0.7.1:", type=("build", "run"))
     depends_on("py-entity-management@1.2:", type="run")

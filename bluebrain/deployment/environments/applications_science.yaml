@@ -21,6 +21,7 @@ spack:
           - py-connectome-manipulator
           - py-data-integrity-check
           - py-efel
+          - py-icselector
           - py-nexusforge
           - py-nexus-sdk
           - py-token-fetch
@@ -66,6 +67,7 @@ spack:
     - py-connectome-manipulator@0.0.4  # FIXME purge after archive of July 2023 has been deployed
     - py-data-integrity-check
     - py-efel
+    - py-icselector
     - py-nexusforge
     - py-nexus-sdk
     - py-token-fetch
