@@ -12,7 +12,7 @@ class PyBluepyemodelnexus(PythonPackage):
     homepage = "https://bbpgitlab.epfl.ch/cells/bluepyemodelnexus"
     git = "ssh://git@bbpgitlab.epfl.ch/cells/bluepyemodelnexus.git"
 
-    version("0.0.2", tag="bluepyemodelnexus-v0.0.2.dev20")
+    version("0.0.2", tag="bluepyemodelnexus-v0.0.2.dev21")
 
     depends_on("py-setuptools", type="build")
 
@@ -22,4 +22,4 @@ class PyBluepyemodelnexus(PythonPackage):
     depends_on("py-nexusforge@0.7.1:", type=("build", "run"))
     depends_on("py-entity-management@1.2:", type="run")
     depends_on("py-pyjwt@2.1.0:", type=("build", "run"))
-    depends_on("py-bluepyemodel@0.0.43:", type=("build", "run"))
+    depends_on("py-bluepyemodel@0.0.46:", type=("build", "run"))
