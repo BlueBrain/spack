@@ -13,7 +13,6 @@ class PyBluepyefe(PythonPackage):
     pypi = "bluepyefe/bluepyefe-0.3.13.tar.gz"
     git = "https://github.com/BlueBrain/BluePyEfe.git"
 
-    version("2.3.3", sha256="beddfc293409cec7f7469fa2ff49ece455fef0a1b1e1aaf0a0423a99dd75b30d")
     version("2.2.18", sha256="bfb50c6482433ec2ffb4b65b072d2778bd89ae50d92dd6830969222aabb30275")
 
     depends_on("py-setuptools", type="build")
@@ -24,8 +23,7 @@ class PyBluepyefe(PythonPackage):
     depends_on("py-efel", type=("build", "run"))
     depends_on("py-scipy", type=("build", "run"))
     depends_on("py-h5py", type=("build", "run"))
-    depends_on("py-igor", type=("build", "run"), when="@2.2")
-    depends_on("py-igor2", type=("build", "run"), when="@2.3:")
+    depends_on("py-igor", type=("build", "run"))
 
     def setup_run_environment(self, env):
         env.set("NEURON_INIT_MPI", "0")
