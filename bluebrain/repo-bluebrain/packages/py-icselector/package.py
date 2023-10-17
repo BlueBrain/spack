@@ -12,7 +12,7 @@ class PyIcselector(PythonPackage):
     homepage = "https://bbpgitlab.epfl.ch/msg/icselector"
     git = "ssh://git@bbpgitlab.epfl.ch/msg/icselector.git"
 
-    version("0.0.3")
+    version("0.0.3", tag="v0.0.3")
 
     depends_on("py-setuptools", type="build")
 
