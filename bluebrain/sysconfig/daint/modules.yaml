@@ -1,56 +1,72 @@
 modules:
-  enable::
-      - tcl
-  prefix_inspections:
-    bin:
-      - PATH
-    bin64:
-      - PATH
-    share/man:
-      - MANPATH
-    man:
-      - MANPATH
-    lib:
-      - LD_LIBRARY_PATH
-    lib64:
-      - LD_LIBRARY_PATH
-    lib/pkgconfig:
-      - PKG_CONFIG_PATH
-    lib64/pkgconfig:
-      - PKG_CONFIG_PATH
-    '':
-      - CMAKE_PREFIX_PATH
-  tcl:
-    all:
-      autoload: 'all'
-      suffixes:
-          '+profile': 'profile'
-          '^coreneuron+knl': 'knl'
-          '^python@2.7.15': 'python2'
-          'neuron~mpi': 'serial'
-      filter:
-        environment_blacklist: ['CPATH', 'LIBRARY_PATH']
-    naming_scheme: '${PACKAGE}/${VERSION}'
-    hash_length: 0
-    whitelist:
-      - 'emsim'
-      - 'neurodamus-neocortex'
-      - 'neurodamus-hippocampus'
-      - 'neurodamus-mousify'
-      - 'neuron%intel'
-      - 'py-bluepy'
-      - 'py-bluepyopt'
-        #- 'brion+python'
-      - 'py-sonata-network-reduction'
-        #- 'py-bglibpy'
-      - 'psp-validation'
-        #- 'py-bluepysnap'
-      - 'py-neurodamus'
-      - 'py-libsonata'
-      - 'py-netpyne'
-      - 'py-matplotlib'
-    blacklist:
+  default:
+    'enable:':
+    - tcl
+
+    tcl:
+      verbose: true
+      hash_length: 0
+      whitelist:
+        - 'emsim'
+        - 'neurodamus-neocortex'
+        - 'neurodamus-hippocampus'
+        - 'neurodamus-mousify'
+        - 'neuron%intel'
+        - 'py-bluepy'
+        - 'py-bluepyopt'
+          #- 'brion+python'
+        - 'py-sonata-network-reduction'
+          #- 'py-bglibpy'
+        - 'psp-validation'
+          #- 'py-bluepysnap'
+        - 'py-neurodamus'
+        - 'py-libsonata'
+        - 'py-netpyne'
+        - 'py-matplotlib'
+      projections:
+        all: '{name}/{version}'
+      all:
+        autoload: external
+      gcc:
+        environment:
+          set:
+            MPICC_CC: gcc
+            MPICXX_CXX: g++
+            MPIF90_F90: gfortran
+      intel:
+        environment:
+          set:
+            MPICC_CC: icc
+            MPICXX_CXX: icpc
+            MPIF90_F90: ifort
+      intel-oneapi-compilers:
+        environment:
+          set:
+            MPICC_CC: icc
+            MPICXX_CXX: icpc
+            MPIF90_F90: ifort
+      intel-oneapi-mkl:
+        environment:
+          set:
+            MKL_THREADING_LAYER: SEQUENTIAL
+      llvm:
+        environment:
+          set:
+            MPICC_CC: clang
+            MPICXX_CXX: clang++
+            MPIF90_F90: gfortran
+      nvhpc:
+        environment:
+          set:
+            MPICC_CC: nvc
+            MPICXX_CXX: nvc++
+            MPIF90_F90: nvfortran
+      exclude:
       - '%gcc'
       - '%intel'
       - '%clang'
       - '%pgi'
+      - '%nvhpc'
+      - '%oneapi'
+    roots:
+      tcl: $SPACK_INSTALL_PREFIX/modules
