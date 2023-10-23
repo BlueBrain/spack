@@ -30,6 +30,21 @@ spack:
           +common: '{name}/{version}-commonmods'
           +plasticity: '{name}-plasticity/{version}'
           +ngv+metabolism: '{name}-multiscale/{version}'
+
+      tcl:
+        include:
+          - neurodamus-hippocampus
+          - neurodamus-neocortex
+          - neurodamus-thalamus
+          - neurodamus-mousify
+          - py-neurodamus@eef091878be7d90fa6e16d317ef90bf2e16c37e0
+          - libsonata@c2020b3919fb89c267e149a7ef11f25ac9911ee8
+          - py-libsonata@c2020b3919fb89c267e149a7ef11f25ac9911ee8
+        projections:
+          all: '{name}/opt_edges'
+          +common: '{name}/{version}-commonmods'
+          +plasticity: '{name}-plasticity/opt_edges'
+          +ngv+metabolism: '{name}-multiscale/opt_edges'
   specs:
     - morpho-kit
     - neuron+tests+coreneuron
