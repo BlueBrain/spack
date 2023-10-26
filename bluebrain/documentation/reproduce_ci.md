@@ -48,13 +48,14 @@ podman machine start
 # you'll need a gitlab token with at least read_repository access
 podman login -u <your_gitlab_user> -p <your_gitlab_token> bbpgitlab.epfl.ch:5050
 
-# make sure to edit the path!
+# make sure to edit the path and use the right container!
 podman run --rm -v /path/to/your/spack/ci_reproduction:/builds/hpc/spack-cacher -ti --entrypoint=/bin/bash bbpgitlab.epfl.ch:5050/hpc/spacktainerizer/ubuntu_22.04/builder:2023.10.13-graviton
 ```
 
 In the container:
 
 ```bash
+# Only in the graviton version of the container
 source /opt/spack/share/spack/setup-env.sh
 
 # you'll need a gitlab token with at least read_api access
