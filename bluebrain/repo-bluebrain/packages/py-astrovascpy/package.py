@@ -36,7 +36,6 @@ class PyAstrovascpy(PythonPackage):
     depends_on("py-networkx", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
     depends_on("py-pandas", type=("build", "run"))
-    depends_on("petsc", type=("build"))
     depends_on("py-petsc4py", type=("build", "run"))
     depends_on("py-psutil", type=("build", "run"))
     depends_on("py-pyyaml", type=("build", "run"))
