@@ -10,9 +10,9 @@ class PyBluepyemodel(PythonPackage):
     """Python library to optimize and evaluate electrical models."""
 
     homepage = "https://github.com/BlueBrain/BluePyEModel"
-    pypi = "bluepyemodel/bluepyemodel-0.0.57.tar.gz"
+    pypi = "bluepyemodel/bluepyemodel-0.0.58.tar.gz"
 
-    version("0.0.57", sha256="0b91e39e5066ab4a996bd932577b49648169e549c5f05bb3f93e345b4b186093")
+    version("0.0.58", sha256="327de9d2c49e7ff83cc77850873293299d4eacf95b3cf33716e5a8501685f08c")
 
     depends_on("py-setuptools", type="build")
 
