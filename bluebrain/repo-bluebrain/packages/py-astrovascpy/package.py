@@ -23,7 +23,7 @@ class PyAstrovascpy(PythonPackage):
     variant("vtk", default=False, description="add VTK support (mainly for visualization)")
 
     depends_on("py-setuptools", type=("build", "run"))
-    depends_on("py-setuptools-scm", type=("build", "run"))
+    depends_on("py-setuptools-scm", type="build")
 
     depends_on("py-click", type=("build", "run"))
     depends_on("py-cached-property", type=("build", "run"))
