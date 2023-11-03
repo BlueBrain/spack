@@ -29,4 +29,4 @@ class PyBluepyparallel(PythonPackage):
     depends_on("py-sqlalchemy@:1.4", type="run", when="@0.0.8:")
     depends_on("py-sqlalchemy-utils@0.36:", type="run", when="@:0.0.5")
     depends_on("py-sqlalchemy-utils@0.37.2:", type="run", when="@0.0.8:")
-    depends_on("py-ipyparallel@6.3:", type="run")
+    depends_on("py-ipyparallel@6.3:6", type="run")
