@@ -13,7 +13,7 @@ class PyNeurocollage(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/neuromath/neurocollage.git"
 
     version("develop", branch="main")
-    version("0.3.1", tag="neurocollage-v0.3.1")
+    version("0.3.2", tag="neurocollage-v0.3.2")
 
     depends_on("py-setuptools", type="build")
 
@@ -21,7 +21,7 @@ class PyNeurocollage(PythonPackage):
 
     depends_on("brainbuilder@0.17:", type=("build", "run"))
     depends_on("py-atlas-analysis@0.0.4:", type=("build", "run"))
-    depends_on("py-bluepysnap@0.13.1:", type=("build", "run"))
+    depends_on("py-bluepysnap@1:", type=("build", "run"))
     depends_on("py-click@8:", type=("build", "run"))
     depends_on("py-joblib@0.14:", type=("build", "run"))
     depends_on("py-matplotlib@3.4:", type=("build", "run"))
