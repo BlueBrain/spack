@@ -13,7 +13,7 @@ class PySynthesisWorkflow(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/neuromath/synthesis-workflow.git"
 
     version("develop", branch="main")
-    version("1.0.2", tag="synthesis-workflow-v1.0.2")
+    version("1.1.0", tag="synthesis-workflow-v1.1.0")
 
     depends_on("py-setuptools", type="build")
 
