@@ -12,7 +12,7 @@ class PyBluepymm(PythonPackage):
     homepage = "https://github.com/BlueBrain/BluePyMM"
     pypi = "bluepymm/bluepymm-0.7.49.tar.gz"
 
-    version("0.9.5", sha256="c4a33ce96b1b1cfeb0887a3e4577d2b97b6fe32f320413a784b7a84d651ca20f")
+    version("0.8.7", sha256="f0e5d4e113b19f71398d0796d5182f322c48c2ab07793ce8d0e4771a251914ab")
     version("0.7.65", sha256="024b009decd8d967b3b885421196d53670e3c0a6b75aaaa55559f148b0b0d7d4")
 
     depends_on("py-setuptools", type="build")
