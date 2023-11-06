@@ -16,6 +16,7 @@ class PyBluepysnap(PythonPackage):
 
     version("develop", branch="master")
     version("1.0.7", sha256="84f8dac041bad2e8f730089e6b20637c7af0435d8405d428434568cd7637e067")
+    version("2.0.0", sha256="76e9601a7ade413895f5bec22e0736b2c4858131653070ae7d3406417c30706b")
 
     depends_on("python@3.8:", type=("build", "run"))
     depends_on("py-setuptools", type=("build", "run"))
