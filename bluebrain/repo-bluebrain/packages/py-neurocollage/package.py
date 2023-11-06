@@ -35,4 +35,5 @@ class PyNeurocollage(PythonPackage):
     depends_on("py-region-grower@0.4:", type=("build", "run"))
     depends_on("py-scipy@1.8:", type=("build", "run"))
     depends_on("py-tqdm@4.60:", type=("build", "run"))
+    depends_on("py-trimesh@3.6:3", type=("build", "run"))
     depends_on("py-voxcell@3.1.2:3", type=("build", "run"))
