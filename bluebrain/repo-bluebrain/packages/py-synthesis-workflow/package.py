@@ -23,7 +23,7 @@ class PySynthesisWorkflow(PythonPackage):
     depends_on("py-bluepy@2.5:", type=("build", "run"))
     depends_on("py-bluepy-configfile@0.1.19:", type=("build", "run"))
     depends_on("py-bluepymm@0.8.5:", type=("build", "run"))
-    depends_on("py-bluepyparallel@0.0.8:", type=("build", "run"))
+    depends_on("py-bluepyparallel@0.2:", type=("build", "run"))
     depends_on("py-diameter-synthesis@0.5.3:", type=("build", "run"))
     depends_on("py-dictdiffer@0.9:", type=("build", "run"))
     depends_on("py-gitpython@3.1.30:", type=("build", "run"))
