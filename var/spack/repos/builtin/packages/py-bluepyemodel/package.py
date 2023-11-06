@@ -12,6 +12,8 @@ class PyBluepyemodel(PythonPackage):
     homepage = "https://github.com/BlueBrain/BluePyEModel"
     pypi = "bluepyemodel/bluepyemodel-0.0.46.tar.gz"
 
+    version("0.0.59", sha256="5e8869522d82e719f9775c2d95cfe953cedc66bc44355765a6f406289baf6791")
+    version("0.0.58", sha256="327de9d2c49e7ff83cc77850873293299d4eacf95b3cf33716e5a8501685f08c")
     version("0.0.57", sha256="0b91e39e5066ab4a996bd932577b49648169e549c5f05bb3f93e345b4b186093")
     version("0.0.46", sha256="ad4c125e491f3337fcc341a4f389b8a616d883ce50fd77d9fb0ea6e13be5da61")
 
