@@ -12,6 +12,8 @@ class PyTroveClassifiers(PythonPackage):
     homepage = "https://github.com/pypa/trove-classifiers"
     pypi = "trove-classifiers/trove-classifiers-2023.10.18.tar.gz"
 
-    version("2023.10.18", sha256="2cdfcc7f31f7ffdd57666a9957296089ac72daad4d11ab5005060e5cd7e29939")
+    version(
+        "2023.10.18", sha256="2cdfcc7f31f7ffdd57666a9957296089ac72daad4d11ab5005060e5cd7e29939"
+    )
 
     depends_on("py-setuptools", type="build")
