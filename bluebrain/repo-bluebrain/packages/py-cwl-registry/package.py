@@ -35,7 +35,7 @@ class PyCwlRegistry(PythonPackage):
     depends_on("py-entity-management@1.2.28:", type=("build", "run"))
     depends_on("py-fz-td-recipe", type=("build", "run"))
     depends_on("py-pydantic", type=("build", "run"))
-    depends_on("py-morphio", type=("build", "run"))
+    depends_on("py-morph-tool", type=("build", "run"))
     depends_on("py-jsonschema", type=("build", "run"))
 
     @run_after("install")
