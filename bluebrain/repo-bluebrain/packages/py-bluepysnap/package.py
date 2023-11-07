@@ -24,6 +24,8 @@ class PyBluepysnap(PythonPackage):
 
     depends_on("py-cached-property@1.0:", type=("build", "run"))
     depends_on("py-h5py@3.0.1:3", type=("build", "run"))
+    depends_on("py-importlib-resources@5:", when="@2", type=("build", "run"))
+    depends_on("py-referencing@0.30:0", when="@2", type=("build", "run"))
     depends_on("py-jsonschema@4", type=("build", "run"))
     depends_on("py-libsonata@0.1.21:", type=("build", "run"))
     depends_on("py-morphio@3", type=("build", "run"))
