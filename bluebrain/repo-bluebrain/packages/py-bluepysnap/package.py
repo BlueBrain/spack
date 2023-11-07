@@ -27,6 +27,7 @@ class PyBluepysnap(PythonPackage):
     depends_on("py-importlib-resources@5:", when="@2", type=("build", "run"))
     depends_on("py-referencing@0.30:0", when="@2", type=("build", "run"))
     depends_on("py-jsonschema@4", type=("build", "run"))
+    depends_on("py-jsonschema@4.19:", when="@2", type=("build", "run"))
     depends_on("py-libsonata@0.1.21:", type=("build", "run"))
     depends_on("py-morphio@3", type=("build", "run"))
     depends_on("py-morph-tool@2.4.3:2", type=("build", "run"))
