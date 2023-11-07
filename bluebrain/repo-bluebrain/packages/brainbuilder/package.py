@@ -31,4 +31,4 @@ class Brainbuilder(PythonPackage):
     depends_on("py-libsonata@0.1.8:", type=("build", "run"))
     depends_on("py-voxcell@3.1.1:", type=("build", "run"))
     depends_on("py-morphio@3", type=("build", "run"))
-    depends_on("py-bluepysnap@1.0.3:1", type=("build", "run"))
+    depends_on("py-bluepysnap@1.0.3:", type=("build", "run"))
