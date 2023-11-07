@@ -12,6 +12,7 @@ class PyJsonschema(PythonPackage):
     homepage = "https://github.com/Julian/jsonschema"
     pypi = "jsonschema/jsonschema-3.2.0.tar.gz"
 
+    version("4.19.0", sha256="6e1e7569ac13be8139b2dd2c21a55d350066ee3f80df06c608b398cdc6f30e8f")
     version("4.16.0", sha256="165059f076eff6971bae5b742fc029a7b4ef3f9bcf04c14e4776a7605de14b23")
     version("4.10.0", sha256="8ff7b44c6a99c6bfd55ca9ac45261c649cefd40aaba1124c29aaef1bcb378d84")
     version("4.4.0", sha256="636694eb41b3535ed608fe04129f26542b59ed99808b4f688aa32dcf55317a83")
