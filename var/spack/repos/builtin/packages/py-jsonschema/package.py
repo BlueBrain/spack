@@ -12,7 +12,7 @@ class PyJsonschema(PythonPackage):
     homepage = "https://github.com/Julian/jsonschema"
     pypi = "jsonschema/jsonschema-3.2.0.tar.gz"
 
-    version("4.19.0", sha256="6e1e7569ac13be8139b2dd2c21a55d350066ee3f80df06c608b398cdc6f30e8f")
+    version("4.19.2", sha256="c9ff4d7447eed9592c23a12ccee508baf0dd0d59650615e847feb6cdca74f392")
     version("4.16.0", sha256="165059f076eff6971bae5b742fc029a7b4ef3f9bcf04c14e4776a7605de14b23")
     version("4.10.0", sha256="8ff7b44c6a99c6bfd55ca9ac45261c649cefd40aaba1124c29aaef1bcb378d84")
     version("4.4.0", sha256="636694eb41b3535ed608fe04129f26542b59ed99808b4f688aa32dcf55317a83")
@@ -24,9 +24,11 @@ class PyJsonschema(PythonPackage):
     version("2.5.1", sha256="36673ac378feed3daa5956276a829699056523d7961027911f064b52255ead41")
 
     depends_on("python@3.7:", when="@4:", type=("build", "run"))
+    depends_on("python@3.8:", when="@4.19:", type=("build", "run"))
     depends_on("python@2.7:2.8,3.5:", when="@3:", type=("build", "run"))
     depends_on("python@2.6:2.8,3.4:", type=("build", "run"))
 
+    depends_on("py-hatchling@1.17.1:", when="@4.19:", type="build")
     depends_on("py-hatchling", when="@4.10:", type="build")
     depends_on("py-hatch-vcs", when="@4.10:", type="build")
     depends_on("py-hatch-fancy-pypi-readme", when="@4.11:", type="build")
@@ -38,6 +40,7 @@ class PyJsonschema(PythonPackage):
     depends_on("py-setuptools-scm", when="@3", type="build")
 
     depends_on("py-attrs@17.4:", when="@3:", type=("build", "run"))
+    depends_on("py-attrs@22.2.0:", when="@4.19:", type=("build", "run"))
     depends_on("py-pyrsistent@0.14:0.16,0.17.3:", when="@4:", type=("build", "run"))
     depends_on("py-pyrsistent@0.14:", when="@3", type=("build", "run"))
     depends_on("py-importlib-metadata", when="@3.1.1: ^python@:3.7", type=("build", "run"))
@@ -45,6 +48,9 @@ class PyJsonschema(PythonPackage):
     depends_on("py-importlib-resources@1.4:", when="@4.2.1: ^python@:3.8", type=("build", "run"))
     depends_on("py-importlib-resources", when="@4.2.0 ^python@:3.8", type=("build", "run"))
     depends_on("py-pkgutil-resolve-name@1.3.10:", when="@4.10.0: ^python@:3.8")
+    depends_on("py-referencing@0.28.4:", when="@4.19:", type=("build", "run"))
+    depends_on("jsonschema-specifications@2023.03.6:", when="@4.19:", type=("build", "run"))
+    depends_on("py-rdps-py@0.7.1:", when="@4.19:", type=("build", "run"))
 
     depends_on("py-six@1.11:", when="@3", type=("build", "run"))
     depends_on("py-functools32", when="^python@:2", type=("build", "run"))
