@@ -18,3 +18,6 @@ class PyReferencing(PythonPackage):
     depends_on("py-setuptools", type="build")
     depends_on("py-hatchling@1.17.1:", type="build")
     depends_on("py-hatch-vcs", type="build")
+
+    depends_on("py-attrs@22.2.0:", type=("build", "run"))
+    depends_on("py-rdps-py@0.7:", type=("build", "run"))
