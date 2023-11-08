@@ -20,4 +20,4 @@ class PyReferencing(PythonPackage):
     depends_on("py-hatch-vcs", type="build")
 
     depends_on("py-attrs@22.2.0:", type=("build", "run"))
-    depends_on("py-rdps-py@0.7:", type=("build", "run"))
+    depends_on("py-rpds-py@0.7:", type=("build", "run"))

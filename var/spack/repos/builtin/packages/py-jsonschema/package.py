@@ -50,7 +50,7 @@ class PyJsonschema(PythonPackage):
     depends_on("py-pkgutil-resolve-name@1.3.10:", when="@4.10.0: ^python@:3.8")
     depends_on("py-referencing@0.28.4:", when="@4.19:", type=("build", "run"))
     depends_on("jsonschema-specifications@2023.03.6:", when="@4.19:", type=("build", "run"))
-    depends_on("py-rdps-py@0.7.1:", when="@4.19:", type=("build", "run"))
+    depends_on("py-rpds-py@0.7.1:", when="@4.19:", type=("build", "run"))
 
     depends_on("py-six@1.11:", when="@3", type=("build", "run"))
     depends_on("py-functools32", when="^python@:2", type=("build", "run"))
