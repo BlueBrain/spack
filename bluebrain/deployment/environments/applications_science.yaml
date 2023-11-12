@@ -8,12 +8,14 @@ spack:
           - py-atlannot
           - py-atldld
           - py-atlinter
-          - py-bba-webexporter
           - py-bluecellulab
+          - py-bluepyefe
+          - py-bluepymm
+          - py-bluepyopt
           - py-bluepyparallel
           - py-connectome-manipulator
-          - py-data-integrity-check
-          - py-token-fetch
+          - py-efel
+          - py-synthesis-workflow
           - py-visual-cortex-analysis
   packages:
     hdf5:
@@ -34,11 +36,12 @@ spack:
     - py-atlannot
     - py-atldld
     - py-atlinter
-    - py-bba-webexporter
     - py-bluecellulab
+    - py-bluepyefe
+    - py-bluepymm
+    - py-bluepyopt
     - py-bluepyparallel
     - py-connectome-manipulator
-    - py-connectome-manipulator@0.0.4  # FIXME purge after archive of July 2023 has been deployed
-    - py-data-integrity-check
-    - py-token-fetch
+    - py-efel
+    - py-synthesis-workflow
     - py-visual-cortex-analysis

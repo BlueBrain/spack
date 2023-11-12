@@ -6,15 +6,13 @@ spack:
         include:
           - py-bba-datafetch
           - py-bba-data-push
-          - py-bluepyefe
+          - py-bba-webexporter
           - py-bluepyemodel
           - py-bluepyemodelnexus
-          - py-bluepymm
-          - py-bluepyopt
-          - py-efel
+          - py-data-integrity-check
           - py-nexusforge
           - py-nexus-sdk
-          - py-synthesis-workflow
+          - py-token-fetch
   packages:
     hdf5:
       variants: ~mpi+hl
@@ -40,12 +38,10 @@ spack:
   specs:
     - py-bba-datafetch
     - py-bba-data-push
-    - py-bluepyefe
+    - py-bba-webexporter
     - py-bluepyemodel
     - py-bluepyemodelnexus
-    - py-bluepymm
-    - py-bluepyopt
-    - py-efel
+    - py-data-integrity-check
     - py-nexusforge
     - py-nexus-sdk
-    - py-synthesis-workflow
+    - py-token-fetch
