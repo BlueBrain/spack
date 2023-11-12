@@ -22,7 +22,7 @@ class PyConnectomeManipulator(PythonPackage):
     variant(
         "convert",
         default=False,
-        description="Enable runtime support of converting output to SONATA"
+        description="Enable runtime support of converting output to SONATA",
     )
 
     depends_on("parquet-converters@0.8.0:", type="run", when="+convert")
