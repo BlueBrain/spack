@@ -24,6 +24,8 @@ spack:
       variants: ~mpi
     libsonata:
       variants: ~mpi
+    proj:
+      variants: ~curl
     py-h5py:
       variants: ~mpi
     py-ipyparallel:
