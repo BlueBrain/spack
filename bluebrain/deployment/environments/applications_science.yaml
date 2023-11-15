@@ -33,6 +33,8 @@ spack:
       require: "@8:"
     py-torch:
       require: "@1.13.1"
+    vtk:
+      require: "@:9.0.3"
   specs:
     - py-amici  # BSD-276
     - py-atlannot
