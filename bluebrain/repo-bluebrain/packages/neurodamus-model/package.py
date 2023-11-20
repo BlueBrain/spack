@@ -250,7 +250,7 @@ if [[ "$2" == "--only-neuron" ]]; then
     COMPILE_ONLY_NEURON=1
 fi
 
-if [ -n "{nrnivmodlcore_call}" && "$COMPILE_ONLY_NEURON" -eq "1" ]; then
+if [ -n "{nrnivmodlcore_call}" ] && [ "$COMPILE_ONLY_NEURON" -eq "0" ]; then
     rm -rf _core_mods
     mkdir _core_mods
     touch $1/neuron_only_mods.txt  # ensure exists
