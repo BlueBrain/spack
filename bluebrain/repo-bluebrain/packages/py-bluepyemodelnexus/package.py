@@ -13,7 +13,6 @@ class PyBluepyemodelnexus(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/cells/bluepyemodelnexus.git"
 
     version("0.0.4", tag="bluepyemodelnexus-v0.0.4")
-    version("0.0.3", tag="bluepyemodelnexus-v0.0.3")
 
     depends_on("py-setuptools", type="build")
 
