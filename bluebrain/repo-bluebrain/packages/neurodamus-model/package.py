@@ -271,8 +271,8 @@ if [ -n "{nrnivmodlcore_call}" ] && [ "$COMPILE_ONLY_NEURON" -eq "0" ]; then
             export LD_LIBRARY_PATH=$libpath:\\$LD_LIBRARY_PATH"
 fi
 
-'{nrnivmodl}' -incflags '{incflags} '"$2" -loadflags \
-    '{loadflags} '"$extra_loadflags $3" "$1"
+'{nrnivmodl}' -incflags '{incflags} '"$3" -loadflags \
+    '{loadflags} '"$extra_loadflags $4" "$1"
 
 # Final Cleanup
 if [ -d _core_mods ]; then
