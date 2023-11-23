@@ -248,6 +248,17 @@ COMPILE_ONLY_NEURON=0
 if [[ "$2" == "--only-neuron" ]]; then
     echo "Compiling mechanisms only for NEURON"
     COMPILE_ONLY_NEURON=1
+    if [[ ! -z "$3" ]]; then
+        NRNIVMODL_EXTRA_INCLUDE_FLAGS="$3"
+    fi
+    if [[ ! -z "$4" ]]; then
+        NRNIVMODL_EXTRA_LOAD_FLAGS="$4"
+    fi
+elif [[ ! -z "$2" ]]; then
+    NRNIVMODL_EXTRA_INCLUDE_FLAGS="$2"
+    if [[ ! -z "$3" ]]; then
+        NRNIVMODL_EXTRA_LOAD_FLAGS="$3"
+    fi
 fi
 
 if [ -n "{nrnivmodlcore_call}" ] && [ "$COMPILE_ONLY_NEURON" -eq "0" ]; then
@@ -271,8 +282,8 @@ if [ -n "{nrnivmodlcore_call}" ] && [ "$COMPILE_ONLY_NEURON" -eq "0" ]; then
             export LD_LIBRARY_PATH=$libpath:\\$LD_LIBRARY_PATH"
 fi
 
-'{nrnivmodl}' -incflags '{incflags} '"$3" -loadflags \
-    '{loadflags} '"$extra_loadflags $4" "$1"
+'{nrnivmodl}' -incflags '{incflags} '"${NRNIVMODL_EXTRA_INCLUDE_FLAGS}" -loadflags \
+    '{loadflags} '"$extra_loadflags ${NRNIVMODL_EXTRA_LOAD_FLAGS}" "$1"
 
 # Final Cleanup
 if [ -d _core_mods ]; then
