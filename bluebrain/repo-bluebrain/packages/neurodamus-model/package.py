@@ -248,17 +248,11 @@ COMPILE_ONLY_NEURON=0
 if [[ "$2" == "--only-neuron" ]]; then
     echo "Compiling mechanisms only for NEURON"
     COMPILE_ONLY_NEURON=1
-    if [[ ! -z "$3" ]]; then
-        NRNIVMODL_EXTRA_INCLUDE_FLAGS="$3"
-    fi
-    if [[ ! -z "$4" ]]; then
-        NRNIVMODL_EXTRA_LOAD_FLAGS="$4"
-    fi
+    NRNIVMODL_EXTRA_INCLUDE_FLAGS="$3"
+    NRNIVMODL_EXTRA_LOAD_FLAGS="$4"
 elif [[ ! -z "$2" ]]; then
     NRNIVMODL_EXTRA_INCLUDE_FLAGS="$2"
-    if [[ ! -z "$3" ]]; then
-        NRNIVMODL_EXTRA_LOAD_FLAGS="$3"
-    fi
+    NRNIVMODL_EXTRA_LOAD_FLAGS="$3"
 fi
 
 if [ -n "{nrnivmodlcore_call}" ] && [ "$COMPILE_ONLY_NEURON" -eq "0" ]; then
