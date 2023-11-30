@@ -15,6 +15,7 @@ class PyBluecellulab(PythonPackage):
     version("1.7.6", sha256="a60ec17c44e759b6726c399d764e4220f6641bf3d845fc3fbfe56d07dba9e6d5")
 
     depends_on("py-setuptools", type=("build", "run"))
+    depends_on("py-setuptools-scm", type="build")
 
     depends_on("neuron+python@8", type=("build", "run"))
     depends_on("py-numpy@1.8:", type=("build", "run"))
