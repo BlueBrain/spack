@@ -33,7 +33,7 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-click@7.0:", type=("build", "run"))
     depends_on("py-matplotlib@3.6.3:", type=("build", "run"))
     depends_on("py-bluecellulab@1.7.6:", type=("build", "run"))
-    depends_on("py-seaborn@0.122:", type=("build", "run"))
+    depends_on("py-seaborn@0.12.2:", type=("build", "run"))
     depends_on("py-ipyparallel@6.3.0:", type=("build", "run"))
     depends_on("py-dask+dataframe+distributed@2023.3.2:", type=("build", "run"))
     depends_on("py-xgboost@1.1.0:", type=("build", "run"))
