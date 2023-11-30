@@ -10,9 +10,10 @@ class PyEmodelGeneralisation(PythonPackage):
     """Python library to generalise electrical models."""
 
     homepage = "https://github.com/BlueBrain/emodel-generalisation"
-    git = "ssh://git@github.com:BlueBrain/emodel-generalisation.git"
+    git = "https://github.com/BlueBrain/emodel-generalisation.git"
+    pypi = "emodel-generalisation/emodel-generalisation-0.2.0.tar.gz"
 
-    version("0.0.1", tag="emodel-generalisation-0.0.1")
+    version("0.2.0", sha256="06103880baa02f55e9c4fa264f0e4d2ad13fa2b940ded678a3591251df13dc26")
 
     depends_on("py-setuptools", type="build")
 
@@ -31,6 +32,5 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-jinja2@3.0.3", when="@0.0.11:", type=("build", "run"))
     depends_on("py-click@7.0:", when="@0.0.8", type=("build", "run"))
     depends_on("py-matplotlib@2.2:", type=("build", "run"))
-    depends_on("py-bluepyparallel@0.0.5:", when="@0.0.8", type=("build", "run"))
-    depends_on("py-bluecellulab@1.5.2:", type=("build", "run"))
+    depends_on("py-bluecellulab@1.7.6:", type=("build", "run"))
     depends_on("py-seaborn@0.11:", when="@0.0.8", type=("build", "run"))
