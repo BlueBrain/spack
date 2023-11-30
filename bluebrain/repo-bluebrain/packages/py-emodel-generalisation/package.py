@@ -25,7 +25,7 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-datareuse@0.0.3:", type=("build", "run"))
     depends_on("py-pyyaml", type=("build", "run"))
     depends_on("py-bluepyopt@1.13.86:", type=("build", "run"))
-    depends_on("py-neurom@3.0:3:", type=("build", "run"))
+    depends_on("py-neurom@3.2.2:", type=("build", "run"))
     depends_on("py-efel@3.1:", type=("build", "run"))
     depends_on("py-morph-tool@2.8:", type=("build", "run"))
     depends_on("py-fasteners@0.16:", type=("build", "run"))
