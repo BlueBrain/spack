@@ -45,7 +45,6 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-scikit-learn@1.2.2:", type=("build", "run"))
     depends_on("py-luigi-tools@0.3.4:", type=("build", "run"))
 
-
     # MPI dependencies
     depends_on("py-dask-mpi@2022.4:", type=("build", "run"))
     depends_on("py-mpi4py@3.1.1:", type=("build", "run"))
