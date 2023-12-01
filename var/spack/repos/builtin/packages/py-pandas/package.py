@@ -80,6 +80,7 @@ class PyPandas(PythonPackage):
     depends_on("py-setuptools@24.2.0:", type="build")
     depends_on("py-setuptools@38.6.0:", type="build", when="@1.3:")
     depends_on("py-setuptools@51.0.0:", type="build", when="@1.3.2:")
+    depends_on("py-versioneer@0.28+toml", type="build", when="@2.0.3:")
     depends_on("py-numpy", type=("build", "run"))
     # 'NUMPY_IMPORT_ARRAY_RETVAL' was removed in numpy@1.19
     depends_on("py-numpy@:1.18", type=("build", "run"), when="@:0.25")
