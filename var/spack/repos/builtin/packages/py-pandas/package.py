@@ -17,7 +17,6 @@ class PyPandas(PythonPackage):
 
     maintainers = ["adamjstewart"]
 
-    version("2.1.3", sha256="22929f84bca106921917eb73c1521317ddd0a4c71b395bcf767a106e3494209f")
     version("1.5.3", sha256="74a3fd7e5a7ec052f183273dc7b0acd3a863edf7520f5d3a1765c04ffdb3b0b1")
     version("1.5.1", sha256="249cec5f2a5b22096440bd85c33106b6102e0672204abd2d5c014106459804ee")
     version("1.5.0", sha256="3ee61b881d2f64dd90c356eb4a4a4de75376586cd3c9341c6c0fcaae18d52977")
@@ -80,8 +79,6 @@ class PyPandas(PythonPackage):
     depends_on("py-setuptools@24.2.0:", type="build")
     depends_on("py-setuptools@38.6.0:", type="build", when="@1.3:")
     depends_on("py-setuptools@51.0.0:", type="build", when="@1.3.2:")
-    depends_on("py-versioneer@0.28+toml", type="build", when="@2.0.3:")
-    depends_on("py-meson-python@0.12:", type="build", when="@2.0.3:")
     depends_on("py-numpy", type=("build", "run"))
     # 'NUMPY_IMPORT_ARRAY_RETVAL' was removed in numpy@1.19
     depends_on("py-numpy@:1.18", type=("build", "run"), when="@:0.25")

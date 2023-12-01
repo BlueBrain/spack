@@ -13,14 +13,14 @@ class PyEmodelGeneralisation(PythonPackage):
     git = "https://github.com/BlueBrain/emodel-generalisation.git"
     pypi = "emodel-generalisation/emodel-generalisation-0.2.0.tar.gz"
 
-    version("0.2.0", sha256="06103880baa02f55e9c4fa264f0e4d2ad13fa2b940ded678a3591251df13dc26")
+    version("0.2.1", sha256="06103880baa02f55e9c4fa264f0e4d2ad13fa2b940ded678a3591251df13dc26")
 
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm", type="build")
 
     depends_on("py-numpy@1.23.5:", type=("build", "run"))
-    depends_on("py-scipy@1.10.1:", type=("build", "run"))
-    depends_on("py-pandas@2.0.3:", type=("build", "run"))
+    depends_on("py-scipy@1.10.0:", type=("build", "run"))
+    depends_on("py-pandas@1.5.3:", type=("build", "run"))
     depends_on("py-tqdm", type=("build", "run"))
     depends_on("py-datareuse@0.0.3:", type=("build", "run"))
     depends_on("py-pyyaml", type=("build", "run"))
@@ -31,7 +31,7 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-fasteners@0.16:", type=("build", "run"))
     depends_on("neuron+python@8.0:", type=("build", "run"))
     depends_on("py-click@7.0:", type=("build", "run"))
-    depends_on("py-matplotlib@3.6.3:", type=("build", "run"))
+    depends_on("py-matplotlib@3.6.2:", type=("build", "run"))
     depends_on("py-bluecellulab@1.7.6:", type=("build", "run"))
     depends_on("py-seaborn@0.12.2:", type=("build", "run"))
     depends_on("py-ipyparallel@6.3.0:", type=("build", "run"))
@@ -42,7 +42,7 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-sqlalchemy@1.4:", type=("build", "run"))
     depends_on("py-sqlalchemy-utils@0.37.2:", type=("build", "run"))
     depends_on("py-shap@0.41.0:", type=("build", "run"))
-    depends_on("py-scikit-learn@1.2.2:", type=("build", "run"))
+    depends_on("py-scikit-learn@1.1.3:", type=("build", "run"))
     depends_on("py-luigi-tools@0.3.4:", type=("build", "run"))
 
     # MPI dependencies
