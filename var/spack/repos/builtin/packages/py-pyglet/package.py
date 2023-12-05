@@ -27,7 +27,9 @@ class PyPyglet(PythonPackage):
     depends_on("python@3.8:", type=("build", "run"), when="@2.0:")
     depends_on("gl", type=("build", "run"), when="@2.0: platform=linux")
     depends_on("pil", type=("build", "run"), when="@2.0: platform=linux")
-    depends_on("pulseaudio", type=("build", "run"), when="@2.0: platform=linux")
+    # BlueBrain: the pulseaudio dependency breaks on bb5 (perl is missing OSType)
+    # Removing it here is cheaper than rebuilding perl,
+    # and nobody complained while they were running without
 
     def url_for_version(self, version):
         if version <= Version("1.4.2"):

@@ -138,8 +138,6 @@ packages:
     version: [1.22.4]  # bluepye{model,fe}: <1.24, neurondamus: <1.23
   py-numpy-quaternion:
     require: ~numba~scipy  # pulls in LLVM, spatial-index does not need that
-  py-pyglet:
-    require: '@:2.0.9'  # @2.0.10 has perl-module-build in its dependency tree, which breaks on bb5
   py-setuptools:
     version: [63.0.0]  # required by py-numpy
   qt:
