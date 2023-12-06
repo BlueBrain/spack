@@ -60,7 +60,6 @@ class PyScikitLearn(PythonPackage):
 
     # pyproject.toml
     depends_on("py-setuptools", type="build")
-    depends_on("py-setuptools@:59", when="@1.0.2:", type="build")
 
     # sklearn/_min_dependencies.py
     depends_on("py-numpy@1.6.1:", when="@:0.19", type=("build", "run"))
