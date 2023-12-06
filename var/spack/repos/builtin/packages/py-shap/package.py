@@ -18,7 +18,7 @@ class PyShap(PythonPackage):
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm", type="build")
 
-    depends_on("py-numpy", type=("build", "run"))
+    depends_on("py-numpy@1:23:", type=("build", "run"))
     depends_on("py-scipy", type=("build", "run"))
     depends_on("py-scikit-learn", type=("build", "run"))
     depends_on("py-pandas", type=("build", "run"))
