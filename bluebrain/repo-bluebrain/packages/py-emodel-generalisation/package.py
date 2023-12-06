@@ -18,7 +18,7 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm", type="build")
 
-    depends_on("py-numpy@1.24.1:", type=("build", "run"))
+    depends_on("py-numpy@1.23.5:", type=("build", "run"))
     depends_on("py-scipy@1.10:", type=("build", "run"))
     depends_on("py-pandas@1.5.3:", type=("build", "run"))
     depends_on("py-tqdm", type=("build", "run"))
