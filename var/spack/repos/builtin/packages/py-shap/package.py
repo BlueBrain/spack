@@ -13,12 +13,15 @@ class PyShap(PythonPackage):
     homepage = "https://github.com/slundberg/shap/"
     pypi = "shap/shap-0.41.0.tar.gz"
 
+    version("0.42.0", sha256="a425c963131ea3e1f6c217e524821f9c2ae4d2e97d8ad5fd33f80fd175df5960")
     version("0.41.0", sha256="a49ea4d65aadbc845a695fa3d7ea0bdfc8c928b8e213b0feedf5868ade4b3ca5")
 
     depends_on("py-setuptools", type="build")
+    depends_on("py-setuptools-scm", type="build")
 
     depends_on("py-numpy", type=("build", "run"))
     depends_on("py-scipy", type=("build", "run"))
+    depends_on("py-scikit-learn@1.1.3:", when="@0.42:", type=("build", "run"))
     depends_on("py-scikit-learn", type=("build", "run"))
     depends_on("py-pandas", type=("build", "run"))
     depends_on("py-tqdm@4.25.1:", type=("build", "run"))

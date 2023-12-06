@@ -39,7 +39,7 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-voxcell@3.1.6:", type=("build", "run"))
     depends_on("py-sqlalchemy@1.4:", type=("build", "run"))
     depends_on("py-sqlalchemy-utils@0.37.2:", type=("build", "run"))
-    depends_on("py-shap@0.41.0:", type=("build", "run"))
+    depends_on("py-shap@0.42.0:", type=("build", "run"))
     depends_on("py-scikit-learn@1.1.3:", type=("build", "run"))
     depends_on("py-luigi-tools@0.3.4:", type=("build", "run"))
 
