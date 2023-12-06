@@ -25,5 +25,5 @@ class PyShap(PythonPackage):
     depends_on("py-tqdm@4.25.1:", type=("build", "run"))
     depends_on("py-packaging@20.10:", type=("build", "run"))
     depends_on("py-slicer@0.0.7", type=("build", "run"))
-    depends_on("py-numba", type=("build", "run"))
+    depends_on("py-numba@0.56:", type=("build", "run"))
     depends_on("py-cloudpickle", type=("build", "run"))
