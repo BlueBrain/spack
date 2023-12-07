@@ -2712,7 +2712,7 @@
           },
           {
             "versions": "13.0:",
-            "flags" : "-mcpu=vortex"
+            "flags" : "-mcpu=native"
           }
         ]
       }
