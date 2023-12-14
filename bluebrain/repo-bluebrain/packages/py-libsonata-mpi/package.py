@@ -10,11 +10,13 @@ class PyLibsonataMpi(PythonPackage):
     """Libsonata Hdf5Reader plugin for collective I/O."""
 
     homepage = "https://github.com/BlueBrain/libsonata-mpi"
-    url = "https://github.com/BlueBrain/libsonata-mpi"
+    git = "https://github.com/BlueBrain/libsonata-mpi.git"
+    url = "https://github.com/BlueBrain/libsonata-mpi-v0.0.0.tar.gz"
 
     maintainers("bbpadministrator")
 
-    version("0.0.1", tag="0.0.1")
+    version("develop", branch="main", get_full_repo=True, submodules=True)
+    version("0.0.1", tag="0.0.1", submodules=True)
 
     depends_on("cmake@3.18:", type="build")
 
@@ -27,4 +29,3 @@ class PyLibsonataMpi(PythonPackage):
 
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm", type="build")
-
