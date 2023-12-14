@@ -13,8 +13,6 @@ class PyLibsonataMpi(PythonPackage):
     git = "https://github.com/BlueBrain/libsonata-mpi.git"
     url = "https://github.com/BlueBrain/libsonata-mpi-v0.0.0.tar.gz"
 
-    maintainers("bbpadministrator")
-
     version("develop", branch="main", get_full_repo=True, submodules=True)
     version("0.0.1", tag="0.0.1", submodules=True)
 
