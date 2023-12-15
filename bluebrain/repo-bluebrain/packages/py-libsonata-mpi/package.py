@@ -20,7 +20,7 @@ class PyLibsonataMpi(PythonPackage):
 
     depends_on("py-mpi4py", type=("build", "link", "run"))
     depends_on("highfive+mpi", type=("build", "link"))
-    depends_on("py-libsonata@0.1.25:", type="run")
+    depends_on("py-libsonata@0.1.24.1:", type="run")
 
     depends_on("py-pybind11@2.11.1:")
 
