@@ -36,9 +36,18 @@ class Neuron(CMakePackage):
 
     # variants from coreneuron support
     variant("coreneuron", default=True, description="Enable CoreNEURON support")
-    variant("gpu", default=False, description="Enable GPU build (with NVHPC)", when="@9:+coreneuron")
-    variant("openmp", default=False, description="Enable CoreNEURON OpenMP support", when="+coreneuron")
-    variant("sympy", default=False, description="Use NMODL with SymPy to solve ODEs", when="@9:+coreneuron")
+    variant(
+        "gpu", default=False, description="Enable GPU build (with NVHPC)", when="@9:+coreneuron"
+    )
+    variant(
+        "openmp", default=False, description="Enable CoreNEURON OpenMP support", when="+coreneuron"
+    )
+    variant(
+        "sympy",
+        default=False,
+        description="Use NMODL with SymPy to solve ODEs",
+        when="@9:+coreneuron",
+    )
 
     variant(
         "build_type",

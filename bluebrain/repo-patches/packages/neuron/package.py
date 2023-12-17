@@ -3,12 +3,12 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-from spack.package import *
-from spack.pkg.builtin.neuron import Neuron as BuiltinNeuron
-
 import os
 import subprocess
 import sys
+
+from spack.package import *
+from spack.pkg.builtin.neuron import Neuron as BuiltinNeuron
 
 class Neuron(BuiltinNeuron):
     __doc__ = BuiltinNeuron.__doc__
@@ -67,7 +67,6 @@ class Neuron(BuiltinNeuron):
     # standard deployment uses submodule to avoid compatibility issues
     depends_on("nmodl", when="+coreneuron")
     depends_on("libsonata-report", when="@9:+report+coreneuron")
-
 
     def cmake_args(self):
         args = super(Neuron, self).cmake_args()
@@ -135,14 +134,12 @@ class Neuron(BuiltinNeuron):
 
         return args
 
-
     def setup_run_environment(self, env):
         super().setup_run_environment(env)
         # user typically should load necessary C++ compiler before
         # compiling MOD files.
         if self.spec.satisfies("+mpi"):
             env.set("MPICXX_CXX", self.compiler.cxx)
-
 
     # TODO: should be removed after neurodamus recipes refactoring
     @property
