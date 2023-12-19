@@ -14,8 +14,8 @@ class Neuron(BuiltinNeuron):
     __doc__ = BuiltinNeuron.__doc__
 
     # BBP specific version
-    # TODO: 9.0.a17 for testing PR
-    version("9.0.a17", commit="a3b35127ea119b159394851c1b6bcf5f49c04784")
+    # TODO: 9.0.a18 for testing PR
+    version("9.0.a18", commit="a3b35127ea119b159394851c1b6bcf5f49c04784")
     version("9.0.a14", commit="bd9426d9")
     version("9.0.a13", commit="3bbdd8da")
     version("9.0.a5", commit="522c866")
