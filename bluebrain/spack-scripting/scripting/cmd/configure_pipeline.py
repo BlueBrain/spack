@@ -164,8 +164,18 @@ def configure_pipeline(parser, args):
         # more limited. First, remove any existing branch/commit/tag from the
         # develop version.
         tty.info("{}@develop: remove branch/commit/tag".format(spack_package_name))
+
+        def search_file_with_regex(file, regex_pattern: str) -> bool:
+            regex = re.compile(regex_pattern)
+            for line in spack_recipe_file:
+                match = regex.search(line)
+                if match:
+                    return True
+            return False
+
         with open(spack_recipe) as spack_recipe_file:
-            if "version('develop'" in spack_recipe_file.read():
+            if search_file_with_regex(spack_recipe_file,
+                                      "version\\s*\\(\\s*(['\"]{1})develop\\1(.*?)"):
                 filter_file(
                     "version\\s*\\(\\s*(['\"]{1})develop\\1(.*?)"
                     + ",\\s*(branch|commit|tag)=(['\"]{1})(.*?)\\4(.*?)\\)",
