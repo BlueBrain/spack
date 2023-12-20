@@ -174,6 +174,9 @@ def configure_pipeline(parser, args):
             return False
 
         with open(spack_recipe) as spack_recipe_file:
+            # Check if `develop` version exists in the spack recipe. If not, add a
+            # `develop` version declaration that can be filtered later with the proper
+            # commit and arguments
             if search_file_with_regex(spack_recipe_file,
                                       "version\\s*\\(\\s*(['\"]{1})develop\\1(.*?)"):
                 filter_file(
