@@ -100,7 +100,7 @@ class Neuron(CMakePackage):
         def cmake_options(spec_options):
             value = "TRUE" if spec_options in spec else "FALSE"
             cmake_name = spec_options[1:].upper().replace("-", "_")
-            return "-DNRN_ENABLE_" + cmake_name + ":BOOL=" + value
+            return self.define("NRN_ENABLE_" + cmake_name, value)
 
         args = [
             cmake_options(variant)
@@ -115,31 +115,31 @@ class Neuron(CMakePackage):
         ]
 
         if spec.satisfies("@:8"):
-            args.append("-DNRN_ENABLE_BINARY_SPECIAL=ON")
+            args.append(self.define("NRN_ENABLE_BINARY_SPECIAL", "ON"))
 
         if "+python" in spec:
-            args.append("-DPYTHON_EXECUTABLE:FILEPATH=" + spec["python"].command.path)
+            args.append(self.define("PYTHON_EXECUTABLE", spec["python"].command.path))
 
         if "+legacy-unit" in spec and spec.satisfies("@:8"):
-            args.append("-DNRN_DYNAMIC_UNITS_USE_LEGACY=ON")
+            args.append(self.define("NRN_DYNAMIC_UNITS_USE_LEGACY", "ON"))
 
         if "+caliper" in spec:
-            args.append("-DNRN_ENABLE_PROFILING=ON")
-            args.append("-DNRN_PROFILER=caliper")
+            args.append(self.define("NRN_ENABLE_PROFILING", "ON"))
+            args.append(self.define("NRN_PROFILER", "caliper"))
 
         if spec.satisfies("+coreneuron"):
             options = [
-                "-DCORENRN_ENABLE_SPLAYTREE_QUEUING=ON",
-                "-DCORENRN_ENABLE_TIMEOUT=OFF",
-                "-DCORENRN_ENABLE_OPENMP=%s" % ("ON" if "+openmp" in spec else "OFF"),
-                "-DCORENRN_ENABLE_LEGACY_UNITS=%s" % ("ON" if "+legacy-unit" in spec else "OFF"),
-                "-DCORENRN_ENABLE_UNIT_TESTS=%s" % ("ON" if "+tests" in spec else "OFF"),
+                self.define("CORENRN_ENABLE_SPLAYTREE_QUEUING", "ON"),
+                self.define("CORENRN_ENABLE_TIMEOUT", "OFF"),
+                self.define_from_variant("CORENRN_ENABLE_OPENMP", "openmp"),
+                self.define_from_variant("CORENRN_ENABLE_LEGACY_UNITS", "legacy-unit"),
+                self.define_from_variant("CORENRN_ENABLE_UNIT_TESTS", "tests"),
             ]
 
             nmodl_options = "codegen --force"
             if spec.satisfies("+sympy"):
                 nmodl_options += " sympy --analytic"
-            options.append("-DCORENRN_NMODL_FLAGS=%s" % nmodl_options)
+            options.append(self.define("CORENRN_NMODL_FLAGS", nmodl_options))
 
             if spec.satisfies("+gpu"):
                 nvcc = which("nvcc")
@@ -150,12 +150,12 @@ class Neuron(CMakePackage):
 
         # Enable math optimisations to enable SIMD/vectorisation in release modes
         if spec.variants["build_type"].value in ["Release", "RelWithDebInfo"]:
-            args.append("-DNRN_ENABLE_MATH_OPT=ON")
+            args.append(self.define("NRN_ENABLE_MATH_OPT", "ON"))
 
         # add cpu arch specific optimisation flags to CMake so that they are passed
         # to embedded Makefile that neuron has for compiling MOD files
         compilation_flags = self.spec.architecture.target.optimization_flags(self.spec.compiler)
-        args.append("-DCMAKE_CXX_FLAGS=" + compilation_flags)
+        args.append(self.define("CMAKE_CXX_FLAGS", compilation_flags))
 
         return args
 

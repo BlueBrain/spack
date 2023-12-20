@@ -78,7 +78,7 @@ class Neuron(BuiltinNeuron):
             nmodl_options += " sympy --analytic"
         if spec.satisfies("+sympyopt"):
             nmodl_options += " --conductance --pade --cse"
-        args.append("-DCORENRN_NMODL_FLAGS=%s" % nmodl_options)
+        args.append(self.define("CORENRN_NMODL_FLAGS", nmodl_options))
 
         if spec.satisfies("+tests"):
             # The +tests variant is used in CI pipelines that run the tests
@@ -93,32 +93,32 @@ class Neuron(BuiltinNeuron):
         # enable tests to run under CI
         if spec.variants["model_tests"].value != ("None",):
             args.append(
-                "-DNRN_ENABLE_MODEL_TESTS="
-                + ",".join(model for model in spec.variants["model_tests"].value)
+                self.define("NRN_ENABLE_MODEL_TESTS",
+                ",".join(model for model in spec.variants["model_tests"].value))
             )
 
         # sanitizers setup during development
         if spec.variants["sanitizers"].value != ("None",):
             if self.compiler.name == "clang":
                 args.append(
-                    "-DLLVM_SYMBOLIZER_PATH="
-                    + os.path.join(os.path.dirname(self.compiler.cxx), "llvm-symbolizer")
+                    self.define("LLVM_SYMBOLIZER_PATH",
+                    os.path.join(os.path.dirname(self.compiler.cxx), "llvm-symbolizer"))
                 )
-            args.append("-DNRN_SANITIZERS=" + ",".join(spec.variants["sanitizers"].value))
+            args.append(self.define("NRN_SANITIZERS", ",".join(spec.variants["sanitizers"].value)))
 
         # Added in https://github.com/neuronsimulator/nrn/pull/1574, this
         # improves ccache performance in CI builds.
         if spec.satisfies("@8.2:"):
-            args.append("-DNRN_AVOID_ABSOLUTE_PATHS=ON")
+            args.append(self.define("NRN_AVOID_ABSOLUTE_PATHS", "ON"))
 
         dynamic = "ON" if "~gpu" in spec else "OFF"
-        args.append("-DNRN_ENABLE_MPI_DYNAMIC=%s" % dynamic)
+        args.append(self.define("NRN_ENABLE_MPI_DYNAMIC", dynamic))
 
         if "+prcellstate" in spec:
-            args.append("-DCORENRN_ENABLE_PRCELLSTATE=ON")
+            args.append(self.define("CORENRN_ENABLE_PRCELLSTATE", "ON"))
 
         if spec.satisfies("+coreneuron"):
-            args.append("-DCORENRN_NMODL_DIR=%s" % spec["nmodl"].prefix)
+            args.append(self.define("CORENRN_NMODL_DIR", spec["nmodl"].prefix))
 
         if spec.satisfies("+gpu"):
             # instead of assuming that the gcc in $PATH is the right host compiler, take the
