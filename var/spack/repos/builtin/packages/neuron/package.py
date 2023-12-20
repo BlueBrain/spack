@@ -77,8 +77,8 @@ class Neuron(CMakePackage):
     depends_on("py-pytest-cov", when="+tests")
 
     # next two needed after neuronsimulator/nrn#2235.
-    depends_on("py-pip", type=("build"), when="@9:")
-    depends_on("py-packaging", type=("run"), when="@9:")
+    depends_on("py-pip", type=("build"))
+    depends_on("py-packaging", type=("run"))
 
     depends_on("boost", when="+coreneuron+tests")
     depends_on("cuda", when="+coreneuron+gpu")

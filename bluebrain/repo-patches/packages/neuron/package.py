@@ -66,7 +66,7 @@ class Neuron(BuiltinNeuron):
 
     # standard deployment uses submodule to avoid compatibility issues
     depends_on("nmodl", when="+coreneuron")
-    depends_on("libsonata-report", when="@9:+report+coreneuron")
+    depends_on("libsonata-report", when="+report+coreneuron")
 
     def cmake_args(self):
         args = super(Neuron, self).cmake_args()
