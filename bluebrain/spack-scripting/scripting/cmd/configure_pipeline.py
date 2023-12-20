@@ -167,7 +167,7 @@ def configure_pipeline(parser, args):
 
         def search_file_with_regex(file, regex_pattern: str) -> bool:
             regex = re.compile(regex_pattern)
-            for line in spack_recipe_file:
+            for line in file:
                 match = regex.search(line)
                 if match:
                     return True
