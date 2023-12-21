@@ -5,7 +5,6 @@
 
 import os
 import subprocess
-import sys
 
 from spack.package import *
 from spack.pkg.builtin.neuron import Neuron as BuiltinNeuron
