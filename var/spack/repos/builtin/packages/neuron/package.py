@@ -27,6 +27,7 @@ class Neuron(CMakePackage):
     version("8.0.0", tag="8.0.0")
     version("7.8.2", tag="7.8.2")
 
+    variant("backtrace", default=False, description="Enable printing backtraces on failure")
     variant("interviews", default=False, description="Enable GUI with INTERVIEWS")
     variant("legacy-unit", default=False, description="Enable legacy units")
     variant("mpi", default=True, description="Enable MPI parallelism")
@@ -66,6 +67,7 @@ class Neuron(CMakePackage):
     depends_on("ninja", type="build")
 
     depends_on("gettext")
+    depends_on("libdwarf", when="+backtrace")
     depends_on("mpi", when="+mpi")
     depends_on("ncurses")
     depends_on("readline")
@@ -106,6 +108,7 @@ class Neuron(CMakePackage):
         args = [
             cmake_options(variant)
             for variant in [
+                "+backtrace",
                 "+coreneuron",
                 "+interviews",
                 "+mpi",
