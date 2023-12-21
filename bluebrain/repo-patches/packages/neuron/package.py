@@ -108,6 +108,27 @@ class Neuron(BuiltinNeuron):
                 )
             args.append(self.define("NRN_SANITIZERS", ",".join(spec.variants["sanitizers"].value)))
 
+        # Before 9.0.a15 CMake didn't have  build_type=FastDebug
+        # If we want to launch BBP CI with such older versions then
+        # we should handle FastDebug build type. At least for some
+        # time until we are sure that we will be using >=9.0.a15 with
+        # FastDebug build type
+        if spec.satisfies("@:9.0.a14") and spec.variants["build_type"].value == "FastDebug":
+            # moderate optimisation by default
+            compilation_flags = ["-g", "-O1"]
+            if "%intel" in self.spec:
+                # this one definitely seems wise
+                compilation_flags += ["-fp-model", "consistent"]
+            elif "%oneapi" in self.spec:
+                # the documentation doesn't mention consistent for these intel compilers
+                compilation_flags.append("-fp-model=precise")
+
+            compilation_flags = " ".join(compilation_flags)
+            args.append(self.define("CMAKE_C_FLAGS", compilation_flags))
+            args.append(self.define("CMAKE_CXX_FLAGS", compilation_flags))
+            # remove default flags (RelWithDebInfo etc.)
+            args.append("-DCMAKE_BUILD_TYPE=Custom")
+
         # Added in https://github.com/neuronsimulator/nrn/pull/1574, this
         # improves ccache performance in CI builds.
         if spec.satisfies("@8.2:"):
