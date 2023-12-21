@@ -4,7 +4,6 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 import os
-import subprocess
 
 from spack.package import *
 from spack.pkg.builtin.neuron import Neuron as BuiltinNeuron
@@ -149,24 +148,11 @@ class Neuron(BuiltinNeuron):
     # TODO: should be removed after neurodamus recipes refactoring
     @property
     def archdir(self):
-        """Determine the architecture neuron build architecture.
+        """Determine the architecture string from nrnivmodl
 
-        With cmake get the architecture of the system from spack.
-        With autotools instead of recreating the logic of the
-        neuron"s configure we dynamically find the architecture-
-        specific directory by looking for a specific binary.
+        nrnivmodl creates binary in sub-directory like x86_64 or
+        aarch64. We need to know this in order to find exact
+        paths of binaries.
         """
-        return (
-            subprocess.Popen(
-                [
-                    "awk",
-                    "-F=",
-                    '$1 == "MODSUBDIR" { print $2; exit; }',
-                    str(self.prefix.bin.nrnivmodl),
-                ],
-                stdout=subprocess.PIPE,
-            )
-            .communicate()[0]
-            .decode()
-            .strip()
-        )
+        args = ["-F=", '$1 == "MODSUBDIR" { print $2; exit; }', str(self.prefix.bin.nrnivmodl)]
+        return which("awk")(*args, output=str).strip()
