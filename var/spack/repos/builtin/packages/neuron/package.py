@@ -178,10 +178,7 @@ class Neuron(CMakePackage):
         nrnmech_makefile = join_path(self.prefix, "bin/nrnmech_makefile")
 
         # assign_operator is changed to fix wheel support
-        if spec.satisfies("@:7"):
-            assign_operator = "?="
-        else:
-            assign_operator = "="
+        assign_operator = "?=" if spec.satisfies("@:7") else "="
 
         filter_file(
             "CC {0} {1}".format(assign_operator, env["CC"]),
@@ -199,7 +196,7 @@ class Neuron(CMakePackage):
 
         if spec.satisfies("@8:+coreneuron"):
             nrnmakefile = join_path(self.prefix, "share/coreneuron/nrnivmodl_core_makefile")
-            filter_file(env["CXX"], self.compiler.cxx, nrnmakefile, **kwargs)
+            filter_file(env["CXX"], cxx_compiler, nrnmakefile, **kwargs)
 
     def setup_run_environment(self, env):
         env.prepend_path("PATH", join_path(self.prefix, "bin"))
