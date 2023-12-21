@@ -119,6 +119,7 @@ class Neuron(BuiltinNeuron):
 
         if spec.satisfies("+coreneuron"):
             args.append(self.define("CORENRN_NMODL_DIR", spec["nmodl"].prefix))
+            args.append(self.define_from_variant("CORENRN_ENABLE_REPORTING", "report"))
 
         if spec.satisfies("+gpu"):
             # instead of assuming that the gcc in $PATH is the right host compiler, take the
