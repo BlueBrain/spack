@@ -99,25 +99,18 @@ class Neuron(CMakePackage):
 
     def cmake_args(self):
         spec = self.spec
-
-        def cmake_options(spec_options):
-            value = "TRUE" if spec_options in spec else "FALSE"
-            cmake_name = spec_options[1:].upper().replace("-", "_")
-            return self.define("NRN_ENABLE_" + cmake_name, value)
-
-        args = [
-            cmake_options(variant)
-            for variant in [
-                "+backtrace",
-                "+coreneuron",
-                "+interviews",
-                "+mpi",
-                "+python",
-                "+rx3d",
-                "+shared",
-                "+tests",
-            ]
-        ]
+        args = []
+        for variant in [
+            "backtrace",
+            "coreneuron",
+            "interviews",
+            "mpi",
+            "python",
+            "shared",
+            "rx3d",
+            "tests",
+        ]:
+            args.append(self.define_from_variant("NRN_ENABLE_" + variant.upper(), variant))
 
         if spec.satisfies("@:8"):
             args.append(self.define("NRN_ENABLE_BINARY_SPECIAL", "ON"))
