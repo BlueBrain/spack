@@ -31,6 +31,7 @@ class Neuron(CMakePackage):
     variant("legacy-unit", default=False, description="Enable legacy units")
     variant("mpi", default=True, description="Enable MPI parallelism")
     variant("python", default=True, description="Enable python")
+    variant("shared", default=True, description="Build shared library")
     variant("tests", default=False, description="Enable building tests")
     variant("rx3d", default=False, description="Enable cython translated 3-d rxd.", when="+python")
 
@@ -109,6 +110,7 @@ class Neuron(CMakePackage):
                 "+interviews",
                 "+mpi",
                 "+python",
+                "+shared"
                 "+rx3d",
                 "+tests",
             ]
