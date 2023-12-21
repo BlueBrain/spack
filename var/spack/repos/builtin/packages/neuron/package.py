@@ -110,8 +110,8 @@ class Neuron(CMakePackage):
                 "+interviews",
                 "+mpi",
                 "+python",
-                "+shared"
                 "+rx3d",
+                "+shared",
                 "+tests",
             ]
         ]

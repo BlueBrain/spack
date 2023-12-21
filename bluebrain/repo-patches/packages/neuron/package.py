@@ -10,6 +10,7 @@ import sys
 from spack.package import *
 from spack.pkg.builtin.neuron import Neuron as BuiltinNeuron
 
+
 class Neuron(BuiltinNeuron):
     __doc__ = BuiltinNeuron.__doc__
 
@@ -93,16 +94,20 @@ class Neuron(BuiltinNeuron):
         # enable tests to run under CI
         if spec.variants["model_tests"].value != ("None",):
             args.append(
-                self.define("NRN_ENABLE_MODEL_TESTS",
-                ",".join(model for model in spec.variants["model_tests"].value))
+                self.define(
+                    "NRN_ENABLE_MODEL_TESTS",
+                    ",".join(model for model in spec.variants["model_tests"].value),
+                )
             )
 
         # sanitizers setup during development
         if spec.variants["sanitizers"].value != ("None",):
             if self.compiler.name == "clang":
                 args.append(
-                    self.define("LLVM_SYMBOLIZER_PATH",
-                    os.path.join(os.path.dirname(self.compiler.cxx), "llvm-symbolizer"))
+                    self.define(
+                        "LLVM_SYMBOLIZER_PATH",
+                        os.path.join(os.path.dirname(self.compiler.cxx), "llvm-symbolizer"),
+                    )
                 )
             args.append(self.define("NRN_SANITIZERS", ",".join(spec.variants["sanitizers"].value)))
 
