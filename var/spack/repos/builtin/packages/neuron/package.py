@@ -21,7 +21,6 @@ class Neuron(CMakePackage):
     git = "https://github.com/neuronsimulator/nrn"
     maintainers("pramodk", "nrnhines", "iomaganaris", "ohm314", "matz-e")
 
-    version("develop", branch="master")
     version("8.2.3", tag="8.2.3")
     version("8.1.0", tag="8.1.0")
     version("8.0.0", tag="8.0.0")
@@ -181,19 +180,12 @@ class Neuron(CMakePackage):
         # assign_operator is changed to fix wheel support
         assign_operator = "?=" if spec.satisfies("@:7") else "="
 
-        filter_file(
-            "CC {0} {1}".format(assign_operator, env["CC"]),
-            "CC = {0}".format(cc_compiler),
-            nrnmech_makefile,
-            **kwargs,
-        )
-
-        filter_file(
-            "CXX {0} {1}".format(assign_operator, env["CXX"]),
-            "CXX = {0}".format(cxx_compiler),
-            nrnmech_makefile,
-            **kwargs,
-        )
+        # replace compilers from makefile
+        compilers = [("CC", "cc_compiler"), ("CXX", "cxx_compiler")]
+        for compiler_var, compiler_env in compilers:
+            pattern = "{0} {1} .*".format(compiler_var, assign_operator)
+            replacement = "{0} = {1}".format(compiler_var, locals()[compiler_env])
+            filter_file(pattern, replacement, nrnmech_makefile, **kwargs)
 
         if spec.satisfies("@8:+coreneuron"):
             nrnmakefile = join_path(self.prefix, "share/coreneuron/nrnivmodl_core_makefile")

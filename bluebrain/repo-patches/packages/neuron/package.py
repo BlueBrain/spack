@@ -13,6 +13,7 @@ class Neuron(BuiltinNeuron):
     __doc__ = BuiltinNeuron.__doc__
 
     # BBP specific version
+    version("develop", branch="master")
     version("9.0.a14", commit="bd9426d9")
     version("9.0.a13", commit="3bbdd8da")
     version("9.0.a5", commit="522c866")
@@ -125,8 +126,7 @@ class Neuron(BuiltinNeuron):
             compilation_flags = " ".join(compilation_flags)
             args.append(self.define("CMAKE_C_FLAGS", compilation_flags))
             args.append(self.define("CMAKE_CXX_FLAGS", compilation_flags))
-            # remove default flags (RelWithDebInfo etc.)
-            args.append("-DCMAKE_BUILD_TYPE=Custom")
+            args.append(self.define("CMAKE_BUILD_TYPE", "Custom"))
 
         # Added in https://github.com/neuronsimulator/nrn/pull/1574, this
         # improves ccache performance in CI builds.
