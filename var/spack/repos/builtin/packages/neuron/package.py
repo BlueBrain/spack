@@ -32,7 +32,7 @@ class Neuron(CMakePackage):
     variant("legacy-unit", default=False, description="Enable legacy units")
     variant("mpi", default=True, description="Enable MPI parallelism")
     variant("python", default=True, description="Enable python")
-    variant("shared", default=True, description="Build shared library")
+    variant("shared", default=True, description="Build shared library (CoreNEURON)")
     variant("tests", default=False, description="Enable building tests")
     variant("rx3d", default=False, description="Enable cython translated 3-d rxd.", when="+python")
 
@@ -106,11 +106,12 @@ class Neuron(CMakePackage):
             "interviews",
             "mpi",
             "python",
-            "shared",
             "rx3d",
             "tests",
         ]:
             args.append(self.define_from_variant("NRN_ENABLE_" + variant.upper(), variant))
+
+        args.append(self.define_from_variant("CORENRN_ENABLE_SHARED", "shared"))
 
         if spec.satisfies("@:8"):
             args.append(self.define("NRN_ENABLE_BINARY_SPECIAL", "ON"))
