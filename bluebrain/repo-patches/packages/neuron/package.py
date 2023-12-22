@@ -13,7 +13,6 @@ class Neuron(BuiltinNeuron):
     __doc__ = BuiltinNeuron.__doc__
 
     # BBP specific version
-    version("9.0.a15", commit="2cf72486")
     version("9.0.a14", commit="bd9426d9")
     version("9.0.a13", commit="3bbdd8da")
     version("9.0.a5", commit="522c866")
@@ -53,7 +52,7 @@ class Neuron(BuiltinNeuron):
         description="Enable tracking of voltage and conductivity with prcellstate on CoreNEURON",
     )
 
-    # used furing development by core team
+    # used during development by core team
     variant(
         "sanitizers",
         default="None",
