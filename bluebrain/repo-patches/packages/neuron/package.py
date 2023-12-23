@@ -67,7 +67,7 @@ class Neuron(BuiltinNeuron):
     depends_on("libsonata-report", when="+report+coreneuron")
 
     def cmake_args(self):
-        args = super(Neuron, self).cmake_args()
+        args = super().cmake_args()
         spec = self.spec
 
         # extra optimisation specific option added

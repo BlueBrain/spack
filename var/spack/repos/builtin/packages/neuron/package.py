@@ -183,13 +183,13 @@ class Neuron(CMakePackage):
         # replace compilers from makefile
         compilers = [("CC", "cc_compiler"), ("CXX", "cxx_compiler")]
         for compiler_var, compiler_env in compilers:
-            pattern = "{0} {1} .*".format(compiler_var, assign_operator)
+            pattern = "{0}\\s*{1}.+".format(compiler_var, assign_operator)
             replacement = "{0} = {1}".format(compiler_var, locals()[compiler_env])
-            filter_file(pattern, replacement, nrnmech_makefile, **kwargs)
+            filter_file(pattern, replacement, nrnmech_makefile)
 
         if spec.satisfies("@8:+coreneuron"):
             nrnmakefile = join_path(self.prefix, "share/coreneuron/nrnivmodl_core_makefile")
-            filter_file(env["CXX"], cxx_compiler, nrnmakefile, **kwargs)
+            filter_file("CXX\\s*=.+", "CXX = {0}".format(cxx_compiler), nrnmakefile)
 
     def setup_run_environment(self, env):
         env.prepend_path("PATH", join_path(self.prefix, "bin"))
