@@ -12,8 +12,7 @@ class Neuron(CMakePackage):
     NEURON is a simulation environment for modeling individual and networks of
     neurons. NEURON models individual neurons via the use of sections that are
     automatically subdivided into individual compartments, instead of
-    requiring the user to manually create compartments. The primary scripting
-    language is HOC but a Python interface is also available.
+    requiring the user to manually create compartments.
     """
 
     homepage = "https://www.neuron.yale.edu/"
