@@ -49,14 +49,6 @@ class Neuron(CMakePackage):
         description="Use NMODL with SymPy to solve ODEs",
         when="@9:+coreneuron",
     )
-
-    variant(
-        "build_type",
-        default="RelWithDebInfo",
-        description="CMake build type",
-        values=("Debug", "FastDebug", "RelWithDebInfo", "Release"),
-    )
-
     variant("caliper", default=False, description="Add Caliper support")
 
     generator = "Ninja"

@@ -21,6 +21,14 @@ class Neuron(BuiltinNeuron):
     # Patch which reverts 81a7a39 for numerical compatibility for BBP simulations
     patch("revert_Import3d_numerical_format.master.patch", when="@:9.0.a5")
 
+    # Used FastDebug for CI & validation
+    variant(
+        "build_type",
+        default="RelWithDebInfo",
+        description="CMake build type",
+        values=("Debug", "FastDebug", "RelWithDebInfo", "Release"),
+    )
+
     # Variant for future development
     variant(
         "unified", default=False, description="Enable Unified Memory with GPU build", when="+gpu"
