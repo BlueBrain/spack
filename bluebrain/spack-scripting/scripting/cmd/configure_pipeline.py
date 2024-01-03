@@ -53,29 +53,6 @@ def setup_parser(subparser):
     )
 
 
-def add_develop_version(recipe_path, spack_package_class_name):
-    tty.info("class {}: adding `develop` version".format(spack_package_class_name))
-    # Pattern to match the specified line
-    pattern = re.compile(r"class {}".format(re.escape(spack_package_class_name)))
-
-    # Content to be appended
-    append_content = "version('develop')"
-
-    # Read the file and store its lines
-    with open(recipe_path, "r") as file:
-        lines = file.readlines()
-
-    # Check if the pattern exists in any line
-    for i, line in enumerate(lines):
-        if pattern.match(line):
-            # Append the content to the matching line
-            lines[i] = "{}\n    {}\n".format(line.rstrip(), append_content)
-
-    # Write the updated content back to the file
-    with open(recipe_path, "w") as file:
-        file.writelines(lines)
-
-
 def configure_pipeline(parser, args):
     # Parse all of our inputs before trying to modify any recipes.
     modifications = {}
@@ -164,30 +141,12 @@ def configure_pipeline(parser, args):
         # more limited. First, remove any existing branch/commit/tag from the
         # develop version.
         tty.info("{}@develop: remove branch/commit/tag".format(spack_package_name))
-
-        def search_file_with_regex(file, regex_pattern: str) -> bool:
-            regex = re.compile(regex_pattern)
-            for line in file:
-                match = regex.search(line)
-                if match:
-                    return True
-            return False
-
-        with open(spack_recipe) as spack_recipe_file:
-            # Check if `develop` version exists in the spack recipe. If not, add a
-            # `develop` version declaration that can be filtered later with the proper
-            # commit and arguments
-            if search_file_with_regex(
-                spack_recipe_file, "version\\s*\\(\\s*(['\"]{1})develop\\1(.*?)"
-            ):
-                filter_file(
-                    "version\\s*\\(\\s*(['\"]{1})develop\\1(.*?)"
-                    + ",\\s*(branch|commit|tag)=(['\"]{1})(.*?)\\4(.*?)\\)",
-                    "version('develop'\\2\\6) # old: \\3=\\4\\5\\4",
-                    spack_recipe,
-                )
-            else:
-                add_develop_version(spack_recipe, spack_package.__name__)
+        filter_file(
+            "version\\s*\\(\\s*(['\"]{1})develop\\1(.*?)"
+            + ",\\s*(branch|commit|tag)=(['\"]{1})(.*?)\\4(.*?)\\)",
+            "version('develop'\\2\\6) # old: \\3=\\4\\5\\4",
+            spack_recipe,
+        )
         # Second, insert the new commit="sha" part
         tty.info('{}@develop: use commit="{}"'.format(spack_package_name, info["commit"]))
         filter_file(
