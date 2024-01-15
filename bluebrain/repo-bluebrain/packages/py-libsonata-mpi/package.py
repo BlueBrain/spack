@@ -20,6 +20,7 @@ class PyLibsonataMpi(PythonPackage):
 
     depends_on("cmake@3.18:", type="build")
 
+    depends_on("hdf5+mpi", type=("build", "link"))
     depends_on("py-mpi4py", type=("build", "link", "run"))
     depends_on("py-libsonata@0.1.25:", type="run")
 
