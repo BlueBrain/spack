@@ -15,7 +15,7 @@ class PyLibsonataMpi(PythonPackage):
 
     version("develop", branch="main", get_full_repo=True, submodules=True)
 
-    version("0.0.1.1", commit="e19a43c113b12f49a6da9e1a35b10843335dfe0c", submodules=True)
+    version("0.0.2", tag="v0.0.2", submodules=True)
     version("0.0.1", tag="0.0.1", submodules=True)
 
     depends_on("cmake@3.18:", type="build")
