@@ -5,12 +5,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 from spack.package import *
 
-from .neurodamus_model import (
-    NeurodamusModel,
-    copy_all,
-    make_link,
-    version_from_model_ndpy_dep,
-)
+from .neurodamus_model import NeurodamusModel, copy_all, make_link, version_from_model_ndpy_dep
 
 
 class NeurodamusNeocortex(NeurodamusModel):
