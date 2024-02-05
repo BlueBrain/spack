@@ -56,7 +56,7 @@ class Julia(MakefilePackage):
         "llvm"
         " targets=amdgpu,bpf,nvptx,webassembly"
         " version_suffix=jl +link_llvm_dylib libunwind=none",
-        type=("build", "link", "run")
+        type=("build", "link", "run"),
     )
     depends_on("libuv", when="@:1.7")
     depends_on("libuv-julia@1.42.0", when="@1.8.0:1.8.1")
