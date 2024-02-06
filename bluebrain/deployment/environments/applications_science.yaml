@@ -16,9 +16,9 @@ spack:
           - py-connectome-manipulator
           - py-multiscale-run
           - py-efel
+          - py-emodel-generalisation
           - py-synthesis-workflow
           - py-visual-cortex-analysis
-          - py-emodel-generalisation
   packages:
     hdf5:
       variants: ~mpi+hl
@@ -43,6 +43,7 @@ spack:
     - py-bluepyparallel
     - py-connectome-manipulator+convert
     - py-efel
+    - py-emodel-generalisation
     - py-multiscale-run
     - py-synthesis-workflow
     - py-visual-cortex-analysis
