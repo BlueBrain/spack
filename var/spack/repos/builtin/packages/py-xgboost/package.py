@@ -18,7 +18,7 @@ class PyXgboost(PythonPackage):
     maintainers("adamjstewart")
     import_modules = ["xgboost"]
 
-    version("1.7.6", sha256="1c527554a400445e0c38186039ba1a00425dcdb4e40b37eed0e74cb39a159c47") # FIXME
+    version("1.7.6", sha256="1c527554a400445e0c38186039ba1a00425dcdb4e40b37eed0e74cb39a159c47")
     version("1.6.2", sha256="e1f5c91ba88cf8edb409d7fd2ca150dcd80b6f2115587d87365f0c10b2d4f009")
     version("1.6.1", sha256="24072028656f3428e7b8aabf77340ece057f273e41f7f85d67ccaefb7454bb18")
     version("1.5.2", sha256="404dc09dca887ef5a9bc0268f882c54b33bfc16ac365a859a11e7b24d49da387")
