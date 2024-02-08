@@ -1,16 +1,62 @@
-# -------------------------------------------------------------------------
-# This is the default configuration for Spack's module file generation.
-#
-# Settings here are versioned with Spack and are intended to provide
-# sensible defaults out of the box. Spack maintainers should edit this
-# file to keep it current.
-#
-# Users can override these settings by editing the following files.
-#
-# Per-spack-instance settings (overrides defaults):
-#   $SPACK_ROOT/etc/spack/modules.yaml
-#
-# Per-user settings (overrides default and site settings):
-#   ~/.spack/modules.yaml
-# -------------------------------------------------------------------------
-modules: {}
+modules:
+  default:
+    'enable:':
+    - tcl
+
+    tcl:
+      verbose: true
+      hash_length: 0
+      whitelist:
+        - 'neurodamus-hippocampus'
+        - 'neurodamus-neocortex'
+        - 'py-neurodamus'
+        - 'neuron~mpi'
+        - 'py-bluepy'
+        - 'py-bluepyopt'
+        - 'py-matplotlib'
+        - 'brion+python'
+      projections:
+        all: '{name}/{version}'
+      all:
+        autoload: external
+      gcc:
+        environment:
+          set:
+            MPICC_CC: gcc
+            MPICXX_CXX: g++
+            MPIF90_F90: gfortran
+      intel:
+        environment:
+          set:
+            MPICC_CC: icc
+            MPICXX_CXX: icpc
+            MPIF90_F90: ifort
+      intel-oneapi-compilers:
+        environment:
+          set:
+            MPICC_CC: icc
+            MPICXX_CXX: icpc
+            MPIF90_F90: ifort
+      intel-oneapi-mkl:
+        environment:
+          set:
+            MKL_THREADING_LAYER: SEQUENTIAL
+      llvm:
+        environment:
+          set:
+            MPICC_CC: clang
+            MPICXX_CXX: clang++
+            MPIF90_F90: gfortran
+      nvhpc:
+        environment:
+          set:
+            MPICC_CC: nvc
+            MPICXX_CXX: nvc++
+            MPIF90_F90: nvfortran
+      exclude:
+      - '%gcc'
+      - '%intel'
+      - '%clang'
+      - '%pgi'
+    roots:
+      tcl: $SPACK_INSTALL_PREFIX/modules

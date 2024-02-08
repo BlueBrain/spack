@@ -3,52 +3,53 @@ set -x
 set -e
 
 # Deployment directory
-date=$(date '+%d-%m-%Y')
+#date=$(date '+%d-%m-%Y')
+date='08-02-2024'
 
-DEPLOYMENT_HOME=/gpfs/work/HBP_CDP21_it_1/pkumbhar/HBP/galileo/$date
+DEPLOYMENT_HOME=/g100_work/icei_H_Ebrait/software-deployment/HBP/$date
 mkdir -p $DEPLOYMENT_HOME
 mkdir -p $DEPLOYMENT_HOME/sources
-mkdir -p $DEPLOYMENT_HOME/install
 
 # Clone spack repository
 cd $DEPLOYMENT_HOME/sources
-[[ -d spack ]] || git clone https://github.com/BlueBrain/spack.git
+[[ -d spack ]] || git clone https://github.com/BlueBrain/spack.git -b jblanco/galileo_deployment_2024
 
 # Setup environment
 export SPACK_ROOT=`pwd`/spack
 export PATH=$SPACK_ROOT/bin:$PATH
-source $SPACK_ROOT/share/spack/setup-env.sh
 
 # Copy configurations
 mkdir -p $SPACK_ROOT/etc/spack/defaults/linux/
-cp $SPACK_ROOT/sysconfig/galileo/* $SPACK_ROOT/etc/spack/defaults/linux/
+cp $SPACK_ROOT/bluebrain/sysconfig/galileo/* $SPACK_ROOT/etc/spack/defaults/linux/
+source $SPACK_ROOT/share/spack/setup-env.sh
 
 # Setup directory for deployment
 export SPACK_INSTALL_PREFIX=$DEPLOYMENT_HOME
 
+spack mirror list
+#spack mirror rm local_filesystem
+#spack mirror add local_filesystem $SPACK_INSTALL_PREFIX/mirrors
+
 # Clean environment and load python
 module purge
-module load intel/pe-xe-2018--binary gnu/7.3.0
-module load intelmpi/2018--binary
+module load gcc/10.2.0
+module load intel/oneapi-2022--binary intelmpi/oneapi-2022--binary
+module load python/3.8.12--intel--2021.4.0
 
-# Python 2 packages
-module load python/2.7.12
-spack spec -Il neuron~mpi%gcc ^python@2.7.12
-spack install --dirty --keep-stage -v neuron~mpi%gcc ^python@2.7.12
+spack spec -I neuron~mpi%intel
+spack install --dirty --keep-stage neuron~mpi%intel
+
+spack spec -I neurodamus-hippocampus%intel+coreneuron ^py-mvdtool%gcc
+spack install --dirty --keep-stage neurodamus-hippocampus%intel+coreneuron ^py-mvdtool%gcc
 
 # python 3 packages
-module swap python/2.7.12 python/3.6.4
-
-spack spec -Il neuron~mpi%gcc ^python@3.6.4
-spack install --dirty --keep-stage -v neuron~mpi%gcc ^python@3.6.4
-
-spack spec -Il py-bluepyopt@1.9.12%gcc ^python@3.6.4 ^zeromq%intel
-spack install --keep-stage --dirty -v py-bluepyopt@1.9.12%gcc ^python@3.6.4 ^zeromq%intel
+spack spec -Il py-bluepyopt%gcc ^libzmq%intel
+spack install --dirty --keep-stage py-bluepyopt%gcc ^libzmq%intel
 
 # matplotlib is external and python3
-spack install --keep-stage --dirty -v py-matplotlib%gcc
+#spack install --keep-stage --dirty -v py-matplotlib%gcc
 
-spack module tcl refresh --delete-tree -y
+spack module tcl refresh -y --delete-tree
 
 # change permissions
-chmod -R g+rx $DEPLOYMENT_HOME
+#chmod -R g+rx $DEPLOYMENT_HOME

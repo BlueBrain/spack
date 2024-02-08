@@ -85,12 +85,18 @@ packages:
     externals:
     - spec: py-numpy@1.21.3
       prefix: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-cascadelake/gcc-10.2.0/py-numpy-1.21.3-z4dyktmvnfzfl44iydcxks5kdi3ffdyl
-  py-cython:
-    buildable: false
-    version: [0.29.24]
-    externals:
-    - spec: py-cython@0.29.24
-      prefix: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-cascadelake/intel-2021.4.0/py-cython-0.29.24-5n66v2llix3pmvokxd2cwi2mhrym5ztj
+  # py-cython:
+  #   buildable: false
+  #   version: [0.29.24]
+  #   externals:
+  #   - spec: py-cython@0.29.24
+  #     prefix: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-cascadelake/intel-2021.4.0/py-cython-0.29.24-5n66v2llix3pmvokxd2cwi2mhrym5ztj
+  # py-setuptools:
+  #   buildable: false
+  #   version: [58.2.0]
+  #   externals:
+  #   - spec: py-setuptools@58.2.0
+  #     prefix: /g100_work/PROJECTS/spack/v0.17/prod/0.17.1/install/0.17/linux-centos8-cascadelake/intel-2021.4.0/py-setuptools-58.2.0-55qoefny234ljqipfeogbyconmwhfloa
   all:
     compiler: [intel]
     providers:
