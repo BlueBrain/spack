@@ -21,4 +21,4 @@ class PyCppy(PythonPackage):
     depends_on("python@3:", type=("build", "run"))
     depends_on("py-setuptools@61.2:", when="@1.2:", type="build")
     depends_on("py-setuptools", type="build")
-    depends_on("py-setuptools-scm+toml@3.4.3:7.0", when="@1.2:", type="build")
+    depends_on("py-setuptools-scm+toml@3.4.3:", when="@1.2:", type="build")
