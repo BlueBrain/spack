@@ -28,8 +28,6 @@ spack:
       variants: ~mpi
     py-h5py:
       variants: ~mpi
-    py-kiwisolver:
-      require: "@1.4:"
   specs:
     # - py-amici  # BSD-276
     - py-atlannot
