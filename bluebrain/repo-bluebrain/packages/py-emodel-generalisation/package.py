@@ -32,7 +32,7 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-matplotlib@3.6.2:", type=("build", "run"))
     depends_on("py-bluecellulab@1.7.6:", type=("build", "run"))
     depends_on("py-seaborn@0.12.2:", type=("build", "run"))
-    depends_on("py-ipyparallel@6.3:7", type=("build", "run"))
+    depends_on("py-ipyparallel", type=("build", "run"))
     depends_on("py-dask+dataframe+distributed@2023.3.2:", type=("build", "run"))
     depends_on("py-xgboost@1.7.5:1", type=("build", "run"))
     depends_on("py-diameter-synthesis@0.5.4:", type=("build", "run"))
@@ -47,3 +47,7 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-dask-mpi@2022.4:", type=("build", "run"))
     depends_on("py-mpi4py@3.1.1:", type=("build", "run"))
     depends_on("hpe-mpi@2.25.hmpt:", type=("build", "run"))
+
+    def patch(self):
+        # The 6 series was last released 4 years ago and messes with dependencies
+        filter_file(r'"ipyparallel.*"', '"ipyparallel"', "setup.py")
