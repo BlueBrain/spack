@@ -50,4 +50,4 @@ class PyEmodelGeneralisation(PythonPackage):
 
     def patch(self):
         # The 6 series was last released 4 years ago and messes with dependencies
-        filter_file(r'"py-ipyparallel@.*"', '"py-ipyparallel"', "setup.py")
+        filter_file(r'"py-ipyparallel.*"', '"py-ipyparallel"', "setup.py")
