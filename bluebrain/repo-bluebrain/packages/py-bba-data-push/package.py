@@ -9,6 +9,7 @@ class PyBbaDataPush(PythonPackage):
     homepage = "https://bbpgitlab.epfl.ch/dke/apps/blue_brain_atlas_nexus_push"
     git = "ssh://git@bbpgitlab.epfl.ch/dke/apps/blue_brain_atlas_nexus_push.git"
 
+    version("3.0.0", tag="v3.0.0")
     version("1.0.8", tag="v1.0.8")
 
     depends_on("py-setuptools", type=("build", "run"))
@@ -20,6 +21,7 @@ class PyBbaDataPush(PythonPackage):
     depends_on("py-pynrrd", type=("build", "run"))
     depends_on("py-pyyaml", type=("build", "run"))
     depends_on("py-pyjwt", type=("build", "run"))
+    depends_on("py-voxcell", type=("build", "run"))
 
     depends_on("py-pytest", type=("test", "build", "run"))
     depends_on("py-pytest-cov", type=("test", "build", "run"))
