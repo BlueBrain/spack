@@ -14,7 +14,7 @@ class PyBbaDataPush(PythonPackage):
 
     depends_on("py-setuptools", type=("build", "run"))
 
-    depends_on("py-nexusforge@0.8.1", type=("build", "run"))
+    depends_on("py-nexusforge@0.8.1", type=("build", "run"), when="@3.0.0")
     depends_on("py-click", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
     depends_on("py-h5py", type=("build", "run"))
