@@ -16,7 +16,6 @@ class PyMultiscaleRun(PythonPackage):
 
     version("develop", branch="main")
     version("0.5.1", tag="0.5.1")
-    version("0.5", tag="0.5")
     version("0.4", tag="0.4")
     version("0.3", tag="0.3")
     version("0.2", tag="0.2")
