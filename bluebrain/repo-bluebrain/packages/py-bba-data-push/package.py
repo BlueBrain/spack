@@ -10,12 +10,10 @@ class PyBbaDataPush(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/dke/apps/blue_brain_atlas_nexus_push.git"
 
     version("3.0.0", tag="v3.0.0")
-    version("1.0.8", tag="v1.0.8")
 
     depends_on("py-setuptools", type=("build", "run"))
 
-    depends_on("py-nexusforge@0.8.0", type=("build", "run"), when="@1.0.8")
-    depends_on("py-nexusforge@0.8.1", type=("build", "run"), when="@3.0.0:")
+    depends_on("py-nexusforge@0.8.1", type=("build", "run"))
     depends_on("py-click", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
     depends_on("py-h5py", type=("build", "run"))
