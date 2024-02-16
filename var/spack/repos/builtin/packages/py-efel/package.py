@@ -22,4 +22,7 @@ class PyEfel(PythonPackage):
     version("5.2.0", sha256="ed2c5efe22a4c703a4d9e47775b939009e1456713ac896898ebabf177c60b1dc")
 
     depends_on("py-setuptools", type="build")
+
+    depends_on("py-neo@0.5.2:", type=("build", "run"))
+    depends_on("py-typing-extensions@4.8:", type=("build", "run"))
     depends_on("py-numpy@1.6:", type=("build", "run"))
