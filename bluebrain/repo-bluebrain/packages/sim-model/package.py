@@ -74,7 +74,7 @@ class SimModel(Package):
         else:
             return which("nrnivmodl-core", path=self.spec["neuron"].prefix.bin, required=True)
 
-    def _build_mods(self, mods_location, link_flag="", include_flag="", corenrn_mods=None):
+    def _build_mods(self, mods_location, link_flag="", include_flag=""):
         """Build shared lib & special from mods in a given path"""
         # pass include and link flags for all dependency libraries
         # Compiler wrappers are not used to have a more reproducible building
@@ -91,7 +91,7 @@ class SimModel(Package):
 
         if self.spec.satisfies("+coreneuron"):
             libnrncoremech = self.__build_mods_coreneuron(
-                corenrn_mods or mods_location, link_flag, include_flag
+                mods_location, link_flag, include_flag
             )
             # Relevant flags to build neuron's nrnmech lib
             # 'ENABLE_CORENEURON' only now, otherwise mods assume neuron
