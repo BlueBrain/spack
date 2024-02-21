@@ -71,8 +71,6 @@ class NeurodamusModel(Package):
     # Dont duplicate the link dependency (only 'build' and 'run')
     depends_on("neuron+mpi", type=("build", "run"))
     depends_on("neuron+coreneuron+python", type=("build", "run"), when="+coreneuron")
-    depends_on("coreneuron", when="+coreneuron ^neuron@:8", type=("build", "run"))
-    depends_on("coreneuron+caliper", when="+coreneuron+caliper ^neuron@:8", type=("build", "run"))
     depends_on("neuron+caliper", when="+caliper", type=("build", "run"))
     depends_on("gettext", when="^neuron")
 
@@ -84,12 +82,7 @@ class NeurodamusModel(Package):
 
     @property
     def nrnivmodl_core_exe(self):
-        """with +coreneuron variant enabled in neuron, nrnivmodl-core
-        binary can come from two places: coreneuron or neuron. Depending
-        upon the spec that user has used, grab appropriate nrnivmodl-core
-        binary. Note that `which` uses $PATH to find out binary and it could
-        be "wrong" one i.e. coreneuron built under neuron may not have linked
-        with sonatareport.
+        """
         TODO: this is temporary change until we move to 9.0a soon.
         """
         if self.spec.satisfies("^coreneuron") and self.spec["neuron"].satisfies("@:8.99"):
@@ -97,63 +90,11 @@ class NeurodamusModel(Package):
         else:
             return which("nrnivmodl-core", path=self.spec["neuron"].prefix.bin, required=True)
 
-    def _build_mods(self, mods_location, link_flag="", include_flag="", corenrn_mods=None):
-        """Build shared lib & special from mods in a given path"""
-        # pass include and link flags for all dependency libraries
-        # Compiler wrappers are not used to have a more reproducible building
-        for dep_spec in self.spec.dependencies(deptype="link"):
-            dep = self.spec[dep_spec.name]
-            link_flag += " {0} {1}".format(
-                dep.libs.ld_flags, " ".join(["-Wl,-rpath," + x for x in dep.libs.directories])
-            )
-            include_flag += " -I " + str(dep.prefix.include)
-
-        output_dir = os.path.basename(self.spec["neuron"].package.archdir)
-        include_flag_raw = include_flag
-        link_flag_raw = link_flag
-
-        if self.spec.satisfies("+coreneuron"):
-            libnrncoremech = self.__build_mods_coreneuron(
-                corenrn_mods or mods_location, link_flag, include_flag
-            )
-            # Relevant flags to build neuron's nrnmech lib
-            # 'ENABLE_CORENEURON' only now, otherwise mods assume neuron
-            # Only link with coreneuron when dependencies are passed
-            include_flag += self._coreneuron_include_flag()
-            link_flag += " " + libnrncoremech.ld_flags
-
-        # Neuron mechlib and special
-        with profiling_wrapper_on():
-            link_flag += " -L{0} -Wl,-rpath,{0}".format(str(self.prefix.lib))
-            which("nrnivmodl")("-incflags", include_flag, "-loadflags", link_flag, mods_location)
-
-        assert os.path.isfile(os.path.join(output_dir, "special"))
-        return include_flag_raw, link_flag_raw
-
-    def _nrnivmodlcore_params(self, inc_flags, link_flags):
-        return ["-n", "ext", "-i", inc_flags, "-l", link_flags]
-
     def _coreneuron_include_flag(self):
         if self.spec.satisfies("^coreneuron"):
             return " -DENABLE_CORENEURON" + " -I%s" % self.spec["coreneuron"].prefix.include
         else:
             return " -DENABLE_CORENEURON" + " -I%s" % self.spec["neuron"].prefix.include
-
-    def __build_mods_coreneuron(self, mods_location, link_flag, include_flag):
-        mods_location = os.path.abspath(mods_location)
-        assert os.path.isdir(mods_location) and find(mods_location, "*.mod", recursive=False), (
-            "Invalid mods dir: " + mods_location
-        )
-        nrnivmodl_params = self._nrnivmodlcore_params(include_flag, link_flag)
-        with working_dir("build_" + self.mech_name, create=True):
-            force_symlink(mods_location, "mod")
-            self.nrnivmodl_core_exe(*(nrnivmodl_params + ["mod"]))
-            output_dir = os.path.basename(self.spec["neuron"].package.archdir)
-            mechlib = find_libraries("libcorenrnmech_ext*", output_dir)
-            assert len(mechlib.names) == 1, "Error creating corenrnmech. Found: " + str(
-                mechlib.names
-            )
-        return mechlib
 
     def install(self, spec, prefix, install_src=True):
         """Install phase
@@ -351,18 +292,62 @@ class NeurodamusModel(Package):
         """Build mod files from with nrnivmodl / nrnivmodl-core.
         To support shared libs, nrnivmodl is also passed RPATH flags.
         """
-        # NOTE: sim-model now attempts to build all link and
-        # include flags from the dependencies
-
         # Create the library with all the mod files as libnrnmech.so/.dylib
         self.mech_name = ""
 
-        include_flag, link_flag = self._build_mods("mod", "", base_include_flag, "mod_core")
+        build_script_parameters = {}
+
+        mods_location = "mod"
+        link_flag = ""
+        include_flag = ""
+        corenrn_mods = "mod_core"
+        # pass include and link flags for all dependency libraries
+        # Compiler wrappers are not used to have a more reproducible building
+        for dep_spec in self.spec.dependencies(deptype="link"):
+            dep = self.spec[dep_spec.name]
+            link_flag += " {0} {1}".format(
+                dep.libs.ld_flags, " ".join(["-Wl,-rpath," + x for x in dep.libs.directories])
+            )
+            include_flag += " -I " + str(dep.prefix.include)
+
+        output_dir = os.path.basename(self.spec["neuron"].package.archdir)
+
+        build_script_parameters["incflags"] = include_flag
+        build_script_parameters["loadflags"] = link_flag
+
+        if self.spec.satisfies("+coreneuron"):
+            mods_location = os.path.abspath(corenrn_mods or mods_location)
+            assert os.path.isdir(mods_location) and find(mods_location, "*.mod", recursive=False), (
+                "Invalid mods dir: " + mods_location
+            )
+            nrnivmodl_params = ["-n", "ext", "-i", include_flag, "-l", link_flag]
+            with working_dir("build_" + self.mech_name, create=True):
+                force_symlink(mods_location, "mod")
+                self.nrnivmodl_core_exe(*(nrnivmodl_params + ["mod"]))
+                output_dir = os.path.basename(self.spec["neuron"].package.archdir)
+                mechlib = find_libraries("libcorenrnmech_ext*", output_dir)
+                assert len(mechlib.names) == 1, "Error creating corenrnmech. Found: " + str(
+                    mechlib.names
+                )
+            libnrncoremech = mechlib
+            # Relevant flags to build neuron's nrnmech lib
+            # 'ENABLE_CORENEURON' only now, otherwise mods assume neuron
+            # Only link with coreneuron when dependencioes are passed
+            include_flag += self._coreneuron_include_flag()
+            link_flag += " " + libnrncoremech.ld_flags
+
+        # Neuron mechlib and special
+        with profiling_wrapper_on():
+            link_flag += " -L{0} -Wl,-rpath,{0}".format(str(self.prefix.lib))
+            which("nrnivmodl")("-incflags", include_flag, "-loadflags", link_flag, mods_location)
+
+        assert os.path.isfile(os.path.join(output_dir, "special"))
 
         # Create rebuild script
         if spec.satisfies("+coreneuron"):
             nrnivmodlcore_call = str(self.nrnivmodl_core_exe)
-            for param in self._nrnivmodlcore_params(include_flag, link_flag):
+            nrnivmodl_params = ["-n", "ext", "-i", include_flag, "-l", link_flag]
+            for param in nrnivmodl_params:
                 nrnivmodlcore_call += " '%s'" % param
             include_flag += " " + self._coreneuron_include_flag()
         else:
