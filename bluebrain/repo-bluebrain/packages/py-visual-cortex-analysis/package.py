@@ -12,7 +12,7 @@ class PyVisualCortexAnalysis(PythonPackage):
     homepage = "https://bbpgitlab.epfl.ch/circuits/proj120/visual-cortex-analysis"
     git = "ssh://git@bbpgitlab.epfl.ch/circuits/proj120/visual-cortex-analysis.git"
 
-    version("0.2.1.dev2", tag="visual-cortex-analysis-v0.2.1.dev1")
+    version("0.2.1.dev2", tag="visual-cortex-analysis-v0.2.2.dev1")
 
     depends_on("py-setuptools", type="build")
 
