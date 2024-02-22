@@ -26,4 +26,3 @@ class PyVisualCortexAnalysis(PythonPackage):
     depends_on("py-bmtk", type=("run"))
     depends_on("py-mpi4py", type=("run"))
     depends_on("py-bbp-workflow", type=("run"))
-    
