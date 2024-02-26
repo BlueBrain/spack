@@ -16,6 +16,7 @@ class PyCwlRegistry(PythonPackage):
 
     depends_on("py-setuptools", type=("build", "run"))
 
+    # Bring in line with Spykfunc to load both module simultaneously (added `+dataset@3`)
     depends_on("py-pyarrow+dataset+parquet@3.0.0:", type=("build", "run"))
     depends_on("py-click@8.0.0:", type=("build", "run"))
     depends_on("py-voxcell", type=("build", "run"))
