@@ -15,11 +15,13 @@ class PyNinja(PythonPackage):
     pypi = "ninja/ninja-1.10.2.tar.gz"
 
     version("1.10.2", sha256="bb5e54b9a7343b3a8fc6532ae2c169af387a45b0d4dd5b72c2803e21658c5791")
+    version("1.11.1.1", sha256="9d793b08dd857e38d0b6ffe9e6b7145d7c485a42dcfea04905ca0cdb6017cc3c")
 
     depends_on("cmake@3.6:", type="build")
     depends_on("py-setuptools@42:", type="build")
     depends_on("py-scikit-build", type="build")
     depends_on("ninja@1.10.2", type=("build", "run"), when="@1.10.2")
+    depends_on("ninja@1.11.1", type=("build", "run"), when="@1.11.1.1")
 
     def patch(self):
         os.unlink(join_path(self.stage.source_path, "CMakeLists.txt"))
