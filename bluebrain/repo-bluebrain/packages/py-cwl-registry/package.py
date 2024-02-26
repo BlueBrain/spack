@@ -10,6 +10,7 @@ class PyCwlRegistry(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/nse/cwl-registry.git"
 
     version("develop", branch="main")
+    version("1.2.0", tag="cwl-registry-v1.2.0")
     version("1.1.0", tag="cwl-registry-v1.1.0")
 
     depends_on("python@3.10:", type=("build", "run"))
