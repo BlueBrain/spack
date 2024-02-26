@@ -14,4 +14,3 @@ class PyNinja(PythonPackage):
 
     version("1.11.1.1", sha256="9d793b08dd857e38d0b6ffe9e6b7145d7c485a42dcfea04905ca0cdb6017cc3c")
     depends_on("ninja@1.11.1", type=("build", "run"), when="@1.11.1.1")
-
