@@ -7,10 +7,6 @@ from spack.package import *
 from spack.pkg.builtin.py_ninja import PyNinja as BuiltinPyNinja
 
 
-class PyNinja(PythonPackage):
-    __doc__ = BuiltinPyNinja.__doc__
-    homepage = BuiltinPyNinja.homepage
-    pypi = BuiltinPyNinja.pypi
-
+class PyNinja(BuiltinPyNinja):
     version("1.11.1.1", sha256="9d793b08dd857e38d0b6ffe9e6b7145d7c485a42dcfea04905ca0cdb6017cc3c")
     depends_on("ninja@1.11.1", type=("build", "run"), when="@1.11.1.1")
