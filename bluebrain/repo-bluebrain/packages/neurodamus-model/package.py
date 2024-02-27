@@ -124,7 +124,6 @@ class NeurodamusModel(SimModel):
 
         copy_all(core_prefix.lib.hoc, "hoc", make_link)
         copy_all(core_prefix.lib.mod, "mod", make_link)
-        copy_all(core_prefix.lib.python, "python", make_link)
 
     def build(self, spec, prefix):
         """Build mod files from with nrnivmodl / nrnivmodl-core.
