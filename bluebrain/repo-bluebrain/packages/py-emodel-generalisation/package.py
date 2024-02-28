@@ -48,6 +48,9 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-mpi4py@3.1.1:", type=("build", "run"))
     depends_on("hpe-mpi@2.25.hmpt:", type=("build", "run"))
 
+    # NEURON 9 dependency for compiling mechanisms
+    depends_on("intel-oneapi-compilers", type=("build", "run"))
+
     def patch(self):
         # The 6 series was last released 4 years ago and messes with dependencies
         filter_file(r'"ipyparallel.*"', '"ipyparallel"', "setup.py")
