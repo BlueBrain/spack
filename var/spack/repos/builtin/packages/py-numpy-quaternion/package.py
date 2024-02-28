@@ -20,6 +20,10 @@ class PyNumpyQuaternion(PythonPackage):
     pypi = "numpy-quaternion/numpy-quaternion-2021.11.4.15.26.3.tar.gz"
 
     version(
+        "2023.0.2",
+        sha256="37f73d7f84c645bd9be95cb4862bd900b7f99bd2f801232006dde00641bf2fd7",
+    )
+    version(
         "2021.11.4.15.26.3",
         sha256="b0dc670b2adc8ff2fb8d6105a48769873f68d6ccbe20af6a19e899b1e8d48aaf",
     )
@@ -29,5 +33,6 @@ class PyNumpyQuaternion(PythonPackage):
 
     depends_on("py-setuptools", type="build")
     depends_on("py-numpy@1.13:", type=("build", "run"))
-    depends_on("py-scipy", type=("build", "run"), when="+scipy")
+    depends_on("py-scipy@0.18.0:", type=("build", "run"), when="@:2022.4.2 +scipy")
+    depends_on("py-scipy@1.5.0:", type=("build", "run"), when="@2022.4.3: +scipy")
     depends_on("py-numba", type=("build", "run"), when="+numba")
