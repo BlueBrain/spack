@@ -121,7 +121,7 @@ class NeurodamusModel(SimModel):
 
         copy_all(core_prefix.lib.hoc, "hoc", make_link)
         copy_all(core_prefix.lib.mod, "mod", make_link)
-        if core.satisfies('@:3.0.0'):
+        if core.satisfies("@:3.0.0"):
             # Neurodamus model may not have python scripts
             mkdirp("python")
             copy_all(core_prefix.lib.python, "python", make_link)
