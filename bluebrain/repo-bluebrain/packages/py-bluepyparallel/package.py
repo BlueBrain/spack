@@ -9,12 +9,13 @@ from spack.package import *
 class PyBluepyparallel(PythonPackage):
     """Python library to run embarassingly parallel computations."""
 
-    homepage = "https://bbpgitlab.epfl.ch/neuromath/bluepyparallel"
-    git = "ssh://git@bbpgitlab.epfl.ch/neuromath/bluepyparallel.git"
+    homepage = "https://github.com/BlueBrain/BluePyParallel"
+    git = "https://github.com/BlueBrain/BluePyParallel.git"
+    pypi = "bluepyparallel/bluepyparallel-0.2.1.tar.gz"
 
-    version("0.2.0", tag="bluepyparallel-v0.2.0")
-    version("0.0.9", tag="bluepyparallel-v0.0.9")
-    version("0.0.5", tag="BluePyParallel-v0.0.5")
+    version("0.2.1", sha256="ac5c463fd12d8e529369b2da9ac5f017f34fbb77bb7adbe74b913ad781b4d93d")
+    version("0.2.0", sha256="1b90ca2bf0cfb0c6f632b9d6366b18b418f3ace2c16ac97a0fe601c2f6609130")
+    version("0.0.9", sha256="01496604355241b7baf373418cd829518f70632d3516d162b35ae8990a2872be")
 
     depends_on("py-setuptools", type="build")
 

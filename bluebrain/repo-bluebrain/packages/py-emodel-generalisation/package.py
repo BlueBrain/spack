@@ -13,7 +13,7 @@ class PyEmodelGeneralisation(PythonPackage):
     git = "https://github.com/BlueBrain/emodel-generalisation.git"
     pypi = "emodel-generalisation/emodel-generalisation-0.2.5.tar.gz"
 
-    version("0.2.8", sha256="6ef5db9a1dca85f1f9982b922fc7f20526644155f69eb8c9a62f1fe54bf4a230")
+    version("0.2.9", sha256="6ccfe892698bf38ae1cb9b136e1082068cd9ae1c1cfb3e5c64d9ed233d7e499e")
 
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm", type="build")
@@ -32,22 +32,10 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-matplotlib@3.6.2:", type=("build", "run"))
     depends_on("py-bluecellulab@1.7.6:", type=("build", "run"))
     depends_on("py-seaborn@0.12.2:", type=("build", "run"))
-    depends_on("py-ipyparallel", type=("build", "run"))
-    depends_on("py-dask+dataframe+distributed@2023.3.2:", type=("build", "run"))
+    depends_on("py-bluepyparallel@0.2.1:", type=("build", "run"))
     depends_on("py-xgboost@1.7.5:1", type=("build", "run"))
     depends_on("py-diameter-synthesis@0.5.4:", type=("build", "run"))
     depends_on("py-voxcell@3.1.6:", type=("build", "run"))
-    depends_on("py-sqlalchemy@1.4:", type=("build", "run"))
-    depends_on("py-sqlalchemy-utils@0.37.2:", type=("build", "run"))
     depends_on("py-shap@0.41.0:", type=("build", "run"))
     depends_on("py-scikit-learn@1.1.3:", type=("build", "run"))
     depends_on("py-luigi-tools@0.3.4:", type=("build", "run"))
-
-    # MPI dependencies
-    depends_on("py-dask-mpi@2022.4:", type=("build", "run"))
-    depends_on("py-mpi4py@3.1.1:", type=("build", "run"))
-    depends_on("hpe-mpi@2.25.hmpt:", type=("build", "run"))
-
-    def patch(self):
-        # The 6 series was last released 4 years ago and messes with dependencies
-        filter_file(r'"ipyparallel.*"', '"ipyparallel"', "setup.py")
