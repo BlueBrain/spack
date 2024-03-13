@@ -13,7 +13,7 @@ class PyEmodelGeneralisation(PythonPackage):
     git = "https://github.com/BlueBrain/emodel-generalisation.git"
     pypi = "emodel-generalisation/emodel-generalisation-0.2.5.tar.gz"
 
-    version("0.2.9", sha256="6ccfe892698bf38ae1cb9b136e1082068cd9ae1c1cfb3e5c64d9ed233d7e499e")
+    version("0.2.10", sha256="31b0a83bc2c0976a5e26c14f00af8d52949c0320390a692eb90952f8d26a7bc3")
 
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm", type="build")
@@ -32,7 +32,7 @@ class PyEmodelGeneralisation(PythonPackage):
     depends_on("py-matplotlib@3.6.2:", type=("build", "run"))
     depends_on("py-bluecellulab@1.7.6:", type=("build", "run"))
     depends_on("py-seaborn@0.12.2:", type=("build", "run"))
-    depends_on("py-bluepyparallel@0.2.1:", type=("build", "run"))
+    depends_on("py-bluepyparallel@0.2.2:", type=("build", "run"))
     depends_on("py-xgboost@1.7.5:1", type=("build", "run"))
     depends_on("py-diameter-synthesis@0.5.4:", type=("build", "run"))
     depends_on("py-voxcell@3.1.6:", type=("build", "run"))
