@@ -11,6 +11,7 @@ class PyBluepyparallel(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/BluePyParallel"
     git = "https://github.com/BlueBrain/BluePyParallel.git"
+    pypi = "BluePyParallel/BluePyParallel-0.2.2.tar.gz"
 
     version("0.2.2", sha256="25d93618fc78900475f4b536613b3b5019bc98a411dd98b7b18259a59dfa951b")
     version("0.2.0", sha256="1b90ca2bf0cfb0c6f632b9d6366b18b418f3ace2c16ac97a0fe601c2f6609130")
