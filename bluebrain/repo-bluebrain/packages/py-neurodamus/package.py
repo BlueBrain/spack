@@ -77,7 +77,7 @@ class PyNeurodamus(PythonPackage):
 
     @run_after("install")
     def install_files(self):
-        if self.spec.satisfies("@3.2:"):
+        if self.spec.satisfies("@3.1.2:"):
             return
         from llnl.util.filesystem import copy
 
