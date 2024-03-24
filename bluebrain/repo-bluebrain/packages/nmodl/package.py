@@ -14,12 +14,6 @@ class Nmodl(CMakePackage):
     git = "https://github.com/BlueBrain/nmodl.git"
 
     version("develop", branch="master", submodules=True)
-    version("llvm", branch="llvm", submodules=True)
-    version("0.7.a2", commit="6f6db3b6f25e066db46d8a5fc85a1697363b995c")
-    version("0.7.a1", commit="2ce4a2b91dfcfe6356b6a5003c4e99b8711564ee")
-    version("0.6.0", tag="0.6")
-    version("0.5.0", tag="0.5")
-    version("0.4.0", tag="0.4")
 
     variant("legacy-unit", default=False, description="Enable legacy units")
     variant("python", default=False, description="Enable python bindings")
