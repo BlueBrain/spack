@@ -15,7 +15,6 @@ class PyMultiscaleRun(PythonPackage):
     maintainers("tristan0x", "cattabiani")
 
     version("develop", branch="main")
-    version("0.6", tag="0.6")
     version("0.5.1", tag="0.5.1")
     version("0.4", tag="0.4")
     version("0.3", tag="0.3")
@@ -42,7 +41,7 @@ class PyMultiscaleRun(PythonPackage):
     depends_on("py-pyyaml", type=("build", "run"))
     depends_on("py-scipy", type=("build", "run"))
     depends_on("py-tqdm", type=("build", "run"))
-    depends_on("steps@5", type=("build", "run"))
+    depends_on("steps@5:", type=("build", "run"))
 
     depends_on("py-pytest", type="test")
 

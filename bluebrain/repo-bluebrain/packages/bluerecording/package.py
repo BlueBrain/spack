@@ -6,13 +6,13 @@
 from spack.package import *
 
 
-class PyBluerecording(PythonPackage):
+class Bluerecording(PythonPackage):
     """Blue Brain SNAP is a Python library for accessing BlueBrain circuit models
     represented in SONATA format."""
 
-    homepage = "https://github.com/BlueBrain/BlueRecording"
-    git = "https://github.com/BlueBrain/BlueRecording.git"
-    url = "https://github.com/BlueBrain/BlueRecording/archive/refs/tags/0.0.4.tar.gz"
+    homepage = "https://bbpgitlab.epfl.ch/conn/personal/tharayil/bluerecording/"
+    git = "https://bbpgitlab.epfl.ch/conn/personal/tharayil/bluerecording.git"
+    url = "https://bbpgitlab.epfl.ch/conn/personal/tharayil/bluerecording/-/archive/0.0.3/bluerecording-0.0.3.tar.gz"
 
     version("develop", branch="main")
 
@@ -20,7 +20,7 @@ class PyBluerecording(PythonPackage):
     depends_on("py-setuptools", type=("build", "run"))
     depends_on("py-setuptools-scm", type="build")
 
-    depends_on("pil", type=("build", "run"))
+    #depends_on("py-bluepysnap", type=("build", "run"))
     depends_on("py-mpi4py", type=("build", "run"))
     depends_on("py-h5py+mpi", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
@@ -38,7 +38,7 @@ class PyBluerecording(PythonPackage):
     depends_on("neurodamus-neocortex@develop+coreneuron", type=("build", "run"))
     depends_on("py-neurodamus@3.2", type=("build", "run"))
 
- #depends_on("py-cached-property@1.0:", type=("build", "run"))
+    
     #depends_on("py-h5py@3.0.1:3", type=("build", "run"))
     #depends_on("py-importlib-resources@5:", when="@2", type=("build", "run"))
     #depends_on("py-jsonschema@4", type=("build", "run"))
