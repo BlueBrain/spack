@@ -37,12 +37,12 @@ class NeurodamusModels(CMakePackage):
     )
     variant("ngv", default=False, when="model=neocortex", description="Enable NGV mechanisms")
     variant(
-        "metabolism", default=False, when="model=neocortex", description="Enable NGV mechanisms"
+        "metabolism", default=False, when="model=neocortex", description="Enable metabolism mechanisms"
     )
     variant(
-        "plasticity", default=False, when="model=neocortex", description="Enable NGV mechanisms"
+        "plasticity", default=False, when="model=neocortex", description="Enable plasticity related mechanisms"
     )
-    variant("v5", default=True, when="model=neocortex", description="Enable NGV mechanisms")
+    variant("v5", default=True, when="model=neocortex", description="Enable V5 circuit mechanisms")
 
     depends_on("neuron", type=("build", "link", "run"))
     depends_on("neuron+coreneuron", when="+coreneuron", type=("build", "link", "run"))
