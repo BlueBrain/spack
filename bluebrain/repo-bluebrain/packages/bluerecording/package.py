@@ -39,6 +39,7 @@ class Bluerecording(PythonPackage):
     depends_on("py-neurodamus@3.2", type=("build", "run"))
 
     
+    #depends_on("py-cached-property@1.0:", type=("build", "run"))
     #depends_on("py-h5py@3.0.1:3", type=("build", "run"))
     #depends_on("py-importlib-resources@5:", when="@2", type=("build", "run"))
     #depends_on("py-jsonschema@4", type=("build", "run"))
