@@ -33,7 +33,7 @@ class NeurodamusModels(CMakePackage):
         default="neocortex",
         values=("hippocampus", "neocortex", "thalamus"),
         multi=False,
-        description="Which mechanisms to enable",
+        description="Which brain region mechanism to enable",
     )
     variant("ngv", default=False, when="model=neocortex", description="Enable NGV mechanisms")
     variant(
