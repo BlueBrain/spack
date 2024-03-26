@@ -13,6 +13,7 @@ spack:
           - py-bluepymm
           - py-bluepyopt
           - py-bluepyparallel
+          - py-bluerecording
           - py-connectome-manipulator
           - py-multiscale-run
           - py-efel
@@ -30,6 +31,7 @@ spack:
       variants: ~mpi
   specs:
     # - py-amici  # BSD-276
+    - py-bluerecording
     - py-atlannot
     - py-atldld
     - py-atlinter
