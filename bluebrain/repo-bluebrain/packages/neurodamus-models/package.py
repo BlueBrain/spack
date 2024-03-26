@@ -15,15 +15,7 @@ class NeurodamusModels(CMakePackage):
     git = "ssh://git@github.com/BlueBrain/neurodamus-models.git"
 
     version("develop", branch="cfaire")
-    version("6.6.6", commit="d66d0de8741543497bb127998deba7a5e3f7de42")
-    version("6.6.7", commit="8e21f8e16e037d0f1042d4585b1417f083bd1cea")
-    version("6.6.8", commit="506f1cb7dbf59d9dfca835245597e59e144ed24a")
-    version("6.6.9", commit="2cc59da34d22633df5baff3a2ec282e93de54b97")
-    version("6.7.0", commit="0eee2cc6a4d8f84f3f7980fc6d9c88f5a5f258df")
-    version("6.7.1", commit="3ae2eb94fc8f415d32b89b4003d12b24f4d03384")
-    version("6.7.2", commit="4d89b24a46a36e2b9f1f2d2ee108d7f1c478e64f")
-    version("6.7.3", commit="2dc61b533c1b036c3b52ed0aa14393932d269842")
-    version("6.7.4", commit="b848572f214f799ccb0ccb8615ceb8b925f6dca9")
+    version("6.7.5", branch="cfaire")
 
     variant("caliper", default=False, description="Enable Caliper instrumentation")
     variant("coreneuron", default=False, description="Enable CoreNEURON support")
