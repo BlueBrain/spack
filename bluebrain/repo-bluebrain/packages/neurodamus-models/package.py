@@ -67,10 +67,9 @@ class NeurodamusModels(CMakePackage):
         env.unset("LC_ALL")
 
     def setup_run_environment(self, env):
-        mech = self.spec.variants["model"].value.upper()
-        env.set(f"NEURODAMUS_{mech}_ROOT", self.prefix)
-        if os.path.isdir(self.prefix.lib.hoc):
-            env.set("HOC_LIBRARY_PATH", self.prefix.lib.hoc)
+        mech = self.spec.variants["model"].value
+        env.set(f"NEURODAMUS_{mech.upper()}_ROOT", self.prefix)
+        env.set("HOC_LIBRARY_PATH", self.prefix.share.join(f"neurodamus_{mech}").hoc)
         if "+coreneuron" in self.spec:
             env.set("CORENEURONLIB", self.prefix.lib + "/libcorenrnmech.so")
         for libnrnmech_name in find(self.prefix.lib, "libnrnmech*.so", recursive=False):
