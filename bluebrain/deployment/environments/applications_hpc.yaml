@@ -25,9 +25,9 @@ spack:
         projections:
           all: '{name}/{version}'
           neurodamus-models model=hippocampus: 'neurodamus-hippocampus/{version}'
-          neurodamus-models model=neocortex: 'neurodamus-neocortex/{version}'
           neurodamus-models model=neocortex +plasticity: 'neurodamus-neocortex-plasticity/{version}'
           neurodamus-models model=neocortex +ngv+metabolism: 'neurodamus-neocortex-multiscale/{version}'
+          neurodamus-models model=neocortex: 'neurodamus-neocortex/{version}'
           neurodamus-models model=thalamus: 'neurodamus-thalamus/{version}'
   specs:
     - morpho-kit
