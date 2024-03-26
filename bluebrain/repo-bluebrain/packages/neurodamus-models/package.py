@@ -53,13 +53,13 @@ class NeurodamusModels(CMakePackage):
 
     def cmake_args(self):
         args = [
-            self.define("ND_CORE_DIR", self.spec["py-neurodamus"].prefix.lib),
-            self.define_from_variant("ND_MECHANISMS", "model"),
-            self.define_from_variant("ND_ENABLE_CORENEURON", "coreneuron"),
-            self.define_from_variant("ND_NCX_METABOLISM", "metabolism"),
-            self.define_from_variant("ND_NCX_NGV", "ngv"),
-            self.define_from_variant("ND_NCX_PLASTICITY", "plasticity"),
-            self.define_from_variant("ND_NCX_V5", "v5"),
+            self.define("NEURODAMUS_CORE_DIR", self.spec["py-neurodamus"].package.datadir),
+            self.define_from_variant("NEURODAMUS_MECHANISMS", "model"),
+            self.define_from_variant("NEURODAMUS_ENABLE_CORENEURON", "coreneuron"),
+            self.define_from_variant("NEURODAMUS_NCX_METABOLISM", "metabolism"),
+            self.define_from_variant("NEURODAMUS_NCX_NGV", "ngv"),
+            self.define_from_variant("NEURODAMUS_NCX_PLASTICITY", "plasticity"),
+            self.define_from_variant("NEURODAMUS_NCX_V5", "v5"),
         ]
         return args
 
