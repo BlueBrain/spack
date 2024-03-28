@@ -24,7 +24,7 @@ class PyLibsonata(PythonPackage):
     depends_on("hdf5@1.14:")
     depends_on("highfive@2.9:")
     depends_on("nlohmann-json@3.9.1")
-    depends_on("py-pybind11@2.11.1:")
+    depends_on("py-pybind11@2.11.0:")
 
     depends_on("py-numpy@1.17.3:", type=("build", "run"))
     depends_on("py-setuptools@42:", type="build", when="@0.1:")
