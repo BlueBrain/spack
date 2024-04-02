@@ -17,7 +17,6 @@ class Neuron(BuiltinNeuron):
     version("9.0.a15", commit="f64b609")
     version("9.0.a14", commit="bd9426d9")
     version("9.0.a13", commit="3bbdd8da")
-    version("9.0.a5", commit="522c866")
 
     # Patch which reverts 81a7a39 for numerical compatibility for BBP simulations
     patch("revert_Import3d_numerical_format.master.patch", when="@:9.0.a5")
@@ -73,6 +72,10 @@ class Neuron(BuiltinNeuron):
 
     # standard deployment uses submodule to avoid compatibility issues
     depends_on("nmodl", when="+coreneuron")
+    depends_on("nmodl@0.7.a3", when="neuron@develop+coreneuron")
+    depends_on("nmodl@0.7.a2", when="neuron@9.0.a13+coreneuron")
+    depends_on("nmodl@0.7.a2", when="neuron@9.0.a14+coreneuron")
+    depends_on("nmodl@0.7.a2", when="neuron@9.0.a15+coreneuron")
     depends_on("libsonata-report", when="+report+coreneuron")
 
     # lazy users do not want to load a compiler module to compile things, and we need a
