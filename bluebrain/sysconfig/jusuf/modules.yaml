@@ -3,7 +3,7 @@ modules:
     'enable:':
     - lmod
 
-  lmod:
+    lmod:
       verbose: true
       hash_length: 0
       whitelist:
@@ -22,7 +22,7 @@ modules:
         - 'py-neurodamus'
         - 'py-libsonata'
         - 'py-netpyne'
-        projections:
+      projections:
         all: '{name}/{version}'
       all:
         autoload: external
