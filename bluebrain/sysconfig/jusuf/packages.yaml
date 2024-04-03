@@ -34,10 +34,10 @@ packages:
     - spec: flex@2.6.4
       prefix: /p/software/jusuf/stages/2024/software/flex/2.6.4
   gettext:
-    version: [0.20]
+    version: [0.19.8.1]
     buildable: false
     externals:
-    - spec: gettext@0.20
+    - spec: gettext@0.19.8.1
       prefix: /usr
   hdf5:
     variants: ~fortran ~cxx +hl
@@ -142,7 +142,7 @@ packages:
     - spec: py-pandas@2.0.3
       prefix: /p/software/jusuf/stages/2024/software/SciPy-bundle/2023.07-gcccoreflexiblas-12.3.0-3.3.1/
   zlib:
-    version: [1.2.8]
+    version: [1.2.13]
   all:
     compiler: [intel]
     providers:

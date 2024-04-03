@@ -4,9 +4,14 @@ modules:
     - lmod
 
     lmod:
+      core_compilers:
+        - 'gcc'
+        - 'intel'
+      core_specs:
+        - 'py-bluepyopt'
       verbose: true
       hash_length: 0
-      whitelist:
+      include:
         - 'emsim'
         - 'neurodamus-neocortex'
         - 'neurodamus-hippocampus'
@@ -24,42 +29,6 @@ modules:
         - 'py-netpyne'
       projections:
         all: '{name}/{version}'
-      all:
-        autoload: external
-      gcc:
-        environment:
-          set:
-            MPICC_CC: gcc
-            MPICXX_CXX: g++
-            MPIF90_F90: gfortran
-      intel:
-        environment:
-          set:
-            MPICC_CC: icc
-            MPICXX_CXX: icpc
-            MPIF90_F90: ifort
-      intel-oneapi-compilers:
-        environment:
-          set:
-            MPICC_CC: icc
-            MPICXX_CXX: icpc
-            MPIF90_F90: ifort
-      intel-oneapi-mkl:
-        environment:
-          set:
-            MKL_THREADING_LAYER: SEQUENTIAL
-      llvm:
-        environment:
-          set:
-            MPICC_CC: clang
-            MPICXX_CXX: clang++
-            MPIF90_F90: gfortran
-      nvhpc:
-        environment:
-          set:
-            MPICC_CC: nvc
-            MPICXX_CXX: nvc++
-            MPIF90_F90: nvfortran
       exclude:
       - '%gcc'
       - '%intel'
