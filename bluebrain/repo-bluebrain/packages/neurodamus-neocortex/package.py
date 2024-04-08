@@ -32,7 +32,8 @@ class NeurodamusNeocortex(NeurodamusModel):
 
     # IMPORTANT: Register new versions only using version_from_model_*
     # Final version name is combined e.g. "1.0-3.0.1"
-    version_from_model_ndpy_dep("1.15")
+    version_from_model_ndpy_dep("1.15","3.1.2")
+    #version_from_model_ndpy_dep("1.15")
     version_from_model_ndpy_dep("1.14")
     version_from_model_ndpy_dep("1.13")
     version_from_model_ndpy_dep("1.12")
@@ -61,3 +62,4 @@ class NeurodamusNeocortex(NeurodamusModel):
         # Metabolism takes precedence over all mod files
         if self.spec.satisfies("+metabolism"):
             copy_all("mod/metabolism", "mod", make_link)
+                 
