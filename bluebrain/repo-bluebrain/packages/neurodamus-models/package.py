@@ -14,7 +14,8 @@ class NeurodamusModels(CMakePackage):
     homepage = "https://github.com/BlueBrain/neurodamus-models"
     git = "ssh://git@github.com/BlueBrain/neurodamus-models.git"
 
-    version("develop", branch="cfaire")
+    version("develop", branch="main")
+    version("42.42.42_conductance", branch="jblanco/new-conductance-source")
     version("6.7.5", branch="cfaire")
 
     variant("caliper", default=False, description="Enable Caliper instrumentation")
