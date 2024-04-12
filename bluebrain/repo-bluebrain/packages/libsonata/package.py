@@ -78,4 +78,6 @@ class Libsonata(CMakePackage):
                     "-DCMAKE_CXX_COMPILER:STRING={0}".format(self.spec["mpi"].mpicxx),
                 ]
             )
+        # Set SONATA_VERSION for CMake
+        result.append("-DSONATA_VERSION=v0.1.26_conductance")
         return result
