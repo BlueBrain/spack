@@ -3,22 +3,6 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
-#
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
-#
-#     spack install py-connectomeutilities
-#
-# You can edit this file again by typing:
-#
-#     spack edit py-connectomeutilities
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
 
 from spack.package import *
 
@@ -26,19 +10,12 @@ from spack.package import *
 class PyConnectomeutilities(PythonPackage):
     """Running topological analyses on detailed models of networks"""
 
-    # FIXME: Add a proper url for your package's homepage here.
     homepage = "https://github.com/BlueBrain/ConnectomeUtilities"
 
-    # FIXME: ensure the package is not available through PyPI. If it is,
-    # re-run `spack create --force` with the PyPI URL.
     url = "https://github.com/BlueBrain/ConnectomeUtilities/archive/refs/tags/v0.4.6.tar.gz"
 
-    # FIXME: Add a list of GitHub accounts to
-    # notify when the package is updated.
-    # maintainers("github_user1", "github_user2")
+    maintainers("MWolfR")
 
-    # FIXME: Add the SPDX identifier of the project's license below.
-    # See https://spdx.org/licenses/ for a list.
     license("Apache-2.0")
 
     version("0.4.6", sha256="7257fde1df849b92b192d23507d673787308a9ca7d0c706d0edbf5da13aaced6")
@@ -61,8 +38,3 @@ class PyConnectomeutilities(PythonPackage):
     depends_on("py-bluepysnap@1.0.0:", type=("build", "run"))
     depends_on("py-voxcell", type=("build", "run"))
 
-    def config_settings(self, spec, prefix):
-        # FIXME: Add configuration settings to be passed to the build backend
-        # FIXME: If not needed, delete this function
-        settings = {}
-        return settings
