@@ -37,4 +37,3 @@ class PyConnectomeutilities(PythonPackage):
     depends_on("py-libsonata@0.1.10:", type=("build", "run"))
     depends_on("py-bluepysnap@1.0.0:", type=("build", "run"))
     depends_on("py-voxcell", type=("build", "run"))
-
