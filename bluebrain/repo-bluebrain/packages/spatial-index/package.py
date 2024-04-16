@@ -56,5 +56,6 @@ class SpatialIndex(PythonPackage):
     def install_headers(self):
         install_tree("include", self.prefix.include)
 
+    @when("@2.1.1:")
     def install_options(self, spec, prefix):
         return ["--config-settings=cmake.define.CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON"]
