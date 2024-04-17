@@ -14,8 +14,8 @@ class NeurodamusModels(CMakePackage):
     homepage = "https://github.com/BlueBrain/neurodamus-models"
     git = "ssh://git@github.com/BlueBrain/neurodamus-models.git"
 
-    version("develop", branch="cfaire")
-    version("6.7.5", branch="cfaire")
+    version("develop", branch="main")
+    version("1.0.0", branch="main")
 
     variant("caliper", default=False, description="Enable Caliper instrumentation")
     variant("coreneuron", default=False, description="Enable CoreNEURON support")
