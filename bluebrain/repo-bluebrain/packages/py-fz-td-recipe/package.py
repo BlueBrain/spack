@@ -11,7 +11,7 @@ class PyFzTdRecipe(PythonPackage):
     building."""
 
     homepage = "https://github.com/BlueBrain/fz-td-recipe"
-    git = "ssh://git@github.com/BlueBrain/fz-td-recipe.git"
+    git = "https://github.com/BlueBrain/fz-td-recipe.git"
 
     version("develop", branch="main")
     version("1.2.3", commit="c32e666ca85a841a8728d522c97f87a56a5148f0")
