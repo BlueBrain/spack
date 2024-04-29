@@ -15,7 +15,8 @@ class PyLibsonata(PythonPackage):
 
     maintainers("tristan0x")
 
-    version("master", branch="master")
+    version("develop", branch="master")
+    version("0.1.26.1", branch="weji/simconf_modifications")
     version("0.1.25", sha256="b332efa718123ee265263e1583a5998eaa945a13b8a22903873764cf1d8173fa")
 
     depends_on("catch2@2.13:", type="test")
