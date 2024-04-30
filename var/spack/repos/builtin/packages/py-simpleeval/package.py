@@ -18,4 +18,4 @@ class PySimpleeval(PythonPackage):
     version("0.9.12", sha256="3e0be507486d4e21cf9d08847c7e57dd61a1603950399985f7c5a0be7fd33e36")
 
     depends_on("py-setuptools@30.3.0:", type="build")
-    depends_on("py-build", type="build")
+    depends_on("py-build", type="build", when="@:0.9.12")
