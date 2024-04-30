@@ -12,7 +12,7 @@ class NeurodamusModels(CMakePackage):
     homepage = "https://github.com/BlueBrain/neurodamus-models"
     git = "https://github.com/BlueBrain/neurodamus-models.git"
 
-    version("develop", branch="main")
+    version("develop", branch="weji/GluSynapse")
     version("2.0.0", tag="2.0.0")
 
     variant("caliper", default=False, description="Enable Caliper instrumentation")
