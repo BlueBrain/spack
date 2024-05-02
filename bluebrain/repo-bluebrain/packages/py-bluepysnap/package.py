@@ -27,8 +27,11 @@ class PyBluepysnap(PythonPackage):
     depends_on("py-h5py@3.0.1:3", type=("build", "run"))
     depends_on("py-importlib-resources@5:", when="@2:", type=("build", "run"))
     depends_on("py-jsonschema@4", type=("build", "run"))
+
     depends_on("py-libsonata@0.1.21:", type=("build", "run"))
-    depends_on("py-libsonata@0.1.24:", when="@2:", type=("build", "run"))
+    depends_on("py-libsonata@0.1.24:", when="@2:2", type=("build", "run"))
+    depends_on("py-libsonata@0.1.26:", when="@3:3", type=("build", "run"))
+
     depends_on("py-morphio@3", type=("build", "run"))
     depends_on("py-morph-tool@2.4.3:2", type=("build", "run"))
     depends_on("py-numpy@1.8:", type=("build", "run"))
