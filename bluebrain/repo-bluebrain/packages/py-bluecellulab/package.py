@@ -26,7 +26,8 @@ class PyBluecellulab(PythonPackage):
     depends_on("py-bluepysnap@3:", when="@2:", type=("build", "run"))
 
     depends_on("py-pandas@1.0.0:", type=("build", "run"))
-    depends_on("py-pydantic", type=("build", "run"))
+    depends_on("py-pydantic@:1", when="@:1", type=("build", "run"))
+    depends_on("py-pydantic@2:", when="@2:", type=("build", "run"))
     depends_on("py-typing-extensions@4.8.0", type="run")
 
     depends_on("py-libsonata@:0.1.25", when="@:1")
