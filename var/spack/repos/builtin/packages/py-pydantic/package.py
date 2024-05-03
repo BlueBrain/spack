@@ -28,5 +28,7 @@ class PyPydantic(PythonPackage):
     depends_on("py-typing-extensions@4.6.1:", when="@2:", type=("build", "run"))
     depends_on("py-annotated-types@0.4.0:", when="@2:", type=("build", "run"))
     depends_on("py-pydantic-core@2.18.2", when="@2:", type=("build", "run"))
+    depends_on("py-hatchling@0.15.0:", when="@2:", type="build")
+    depends_on("py-hatch-fancy-pypi-readme", when="@2:", type="build")
 
     depends_on("py-python-dotenv@0.10.4:", when="+dotenv", type=("build", "run"))
