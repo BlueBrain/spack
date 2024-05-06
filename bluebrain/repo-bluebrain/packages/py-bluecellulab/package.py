@@ -12,7 +12,7 @@ class PyBluecellulab(PythonPackage):
     homepage = "https://github.com/BlueBrain/BlueCelluLab"
     pypi = "bluecellulab/bluecellulab-1.7.6.tar.gz"
 
-    version("2.6.6", sha256="e25dea018f4002a1f5e6e6ed33d5076a3ef86d3d2eeb29333abc6c0261410d62")
+    version("2.6.10", sha256="9192137727753a6a58295a7fad6270887c4ce38957a6a82ed62b72dc5da3ab47")
     version("1.7.6", sha256="a60ec17c44e759b6726c399d764e4220f6641bf3d845fc3fbfe56d07dba9e6d5")
 
     depends_on("py-setuptools", type=("build", "run"))
