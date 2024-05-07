@@ -1,7 +1,9 @@
 from spack.package import *
 
+
 class PyAnnotatedTypes(PythonPackage):
     """Reusable constraint types to use with typing.Annotated"""
+
     homepage = "https://www.example.com"
     pypi = "annotated-types/annotated_types-0.6.0.tar.gz"
 
