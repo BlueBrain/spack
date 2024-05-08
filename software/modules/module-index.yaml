@@ -1,0 +1,13 @@
+module_index:
+  rk4fypvmam5ng6hhqwfiii47nmtwlhgz:
+    path: /gpfs/bbp.cscs.ch/project/proj83/tharayil/spack/software/modules/linux-rhel7-skylake/neurodamus-neocortex/42.42.42_conductance
+    use_name: neurodamus-neocortex/42.42.42_conductance
+  e4ub7guxvieryoyapydeiy4tc5ubkysr:
+    path: /gpfs/bbp.cscs.ch/project/proj83/tharayil/spack/software/modules/linux-rhel7-skylake/neuron/9.0.a16_conductance
+    use_name: neuron/9.0.a16_conductance
+  qaaluj7wajbrt3x6apczxslsmxiky674:
+    path: /gpfs/bbp.cscs.ch/project/proj83/tharayil/spack/software/modules/linux-rhel7-skylake/py-neurodamus/3.2.conductance
+    use_name: py-neurodamus/3.2.conductance
+  hl4mep4x2wt6wwyyz5jvv4mzngaifdf4:
+    path: /gpfs/bbp.cscs.ch/project/proj83/tharayil/spack/software/modules/linux-rhel7-skylake/neurodamus-neocortex/42.42.42_conductance
+    use_name: neurodamus-neocortex/42.42.42_conductance

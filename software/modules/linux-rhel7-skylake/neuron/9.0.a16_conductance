@@ -1,0 +1,42 @@
+#%Module1.0
+## Module file created by spack (https://github.com/spack/spack) on 2024-05-07 18:03:45.310590
+##
+## neuron@9.0.a16_conductance%oneapi@2023.2.0~backtrace~caliper+coreneuron~gpu~interviews~ipo~legacy-unit+mpi~openmp~prcellstate+python+report~rx3d+shared~sympy~sympyopt~tests build_system=cmake build_type=RelWithDebInfo generator=make model_tests=None sanitizers=None arch=linux-rhel7-skylake/e4ub7gu
+##
+## Configure options: -DNRN_ENABLE_BACKTRACE:BOOL=OFF -DNRN_ENABLE_CORENEURON:BOOL=ON -DNRN_ENABLE_INTERVIEWS:BOOL=OFF -DNRN_ENABLE_MPI:BOOL=ON -DNRN_ENABLE_PYTHON:BOOL=ON -DNRN_ENABLE_RX3D:BOOL=OFF -DNRN_ENABLE_TESTS:BOOL=OFF -DCORENRN_ENABLE_SHARED:BOOL=ON -DPYTHON_EXECUTABLE:STRING=/gpfs/bbp.cscs.ch/ssd/apps/bsd/2024-02-01/stage_externals/install_gcc-12.3.0-skylake/python-3.11.6-bj4i6m/bin/python3.11 -DCORENRN_ENABLE_SPLAYTREE_QUEUING:STRING=ON -DCORENRN_ENABLE_TIMEOUT:STRING=OFF -DCORENRN_ENABLE_OPENMP:BOOL=OFF -DCORENRN_ENABLE_LEGACY_UNITS:BOOL=OFF -DCORENRN_ENABLE_UNIT_TESTS:BOOL=OFF -DCORENRN_NMODL_FLAGS:STRING=codegen --force -DNRN_ENABLE_MATH_OPT:STRING=ON -DCMAKE_CXX_FLAGS:STRING=-march=skylake -mtune=skylake -DCORENRN_NMODL_FLAGS:STRING=codegen --force -DNRN_AVOID_ABSOLUTE_PATHS:STRING=ON -DNRN_ENABLE_MPI_DYNAMIC:STRING=ON -DCORENRN_NMODL_DIR:STRING=/gpfs/bbp.cscs.ch/home/tharayil/spack_install/software/install_gcc-12.3.0-skylake/nmodl-0.8.a1_conductance-vputtr -DCORENRN_ENABLE_REPORTING:BOOL=ON
+##
+
+
+module-whatis {NEURON is a simulation environment for single and networks of neurons.}
+
+proc ModulesHelp { } {
+    puts stderr {Name   : neuron}
+    puts stderr {Version: 9.0.a16_conductance}
+    puts stderr {Target : skylake}
+    puts stderr {}
+    puts stderr {NEURON is a simulation environment for single and networks of neurons.}
+    puts stderr {NEURON is a simulation environment for modeling individual and networks}
+    puts stderr {of neurons. NEURON models individual neurons via the use of sections}
+    puts stderr {that are automatically subdivided into individual compartments, instead}
+    puts stderr {of requiring the user to manually create compartments.}
+}
+
+if {![info exists ::env(LMOD_VERSION_MAJOR)]} {
+    module load python/3.11.6
+    module load intel-oneapi-mkl/2023.2.0
+    module load hpe-mpi/2.27.p1.hmpt
+} else {
+    depends-on python/3.11.6
+    depends-on intel-oneapi-mkl/2023.2.0
+    depends-on hpe-mpi/2.27.p1.hmpt
+}
+
+prepend-path PATH {/gpfs/bbp.cscs.ch/home/tharayil/spack_install/software/install_oneapi-2023.2.0-skylake/neuron-9.0.a16_conductance-e4ub7g/bin}
+prepend-path CMAKE_PREFIX_PATH {/gpfs/bbp.cscs.ch/home/tharayil/spack_install/software/install_oneapi-2023.2.0-skylake/neuron-9.0.a16_conductance-e4ub7g/.}
+prepend-path PATH {/gpfs/bbp.cscs.ch/home/tharayil/spack_install/software/install_oneapi-2023.2.0-skylake/neuron-9.0.a16_conductance-e4ub7g/bin}
+prepend-path LD_LIBRARY_PATH {/gpfs/bbp.cscs.ch/home/tharayil/spack_install/software/install_oneapi-2023.2.0-skylake/neuron-9.0.a16_conductance-e4ub7g/lib}
+prepend-path PYTHONPATH {/gpfs/bbp.cscs.ch/home/tharayil/spack_install/software/install_oneapi-2023.2.0-skylake/neuron-9.0.a16_conductance-e4ub7g/lib/python}
+setenv MPICXX_CXX {/gpfs/bbp.cscs.ch/ssd/apps/bsd/2024-02-01/stage_compilers/install_gcc-4.8.5-haswell/intel-oneapi-compilers-2023.2.1-tnua5y/compiler/2023.2.1/linux/bin/icpx}
+prepend-path PATH {/gpfs/bbp.cscs.ch/ssd/apps/bsd/2024-02-01/stage_applications/install_gcc-12.3.0-skylake/binutils-2.41-tj3mv5/bin}
+prepend-path PYTHONPATH {/gpfs/bbp.cscs.ch/ssd/apps/bsd/2024-02-01/stage_applications/install_gcc-12.3.0-skylake/py-packaging-23.1-uqml2t/lib/python3.11/site-packages}
+

@@ -14,7 +14,7 @@ class Neuron(BuiltinNeuron):
 
     # BBP specific version
     version("develop", branch="master")
-    version("9.0.a16_conductance", branch="jblanco/new-conductance-source")
+    version("9.0.a16_conductance", branch="master")
     version("9.0.a15", commit="f64b609")
     version("9.0.a14", commit="bd9426d9")
     version("9.0.a13", commit="3bbdd8da")
