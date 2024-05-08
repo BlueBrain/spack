@@ -9,11 +9,10 @@ from spack.package import *
 class PyEntityManagement(PythonPackage):
     """Pythonic Blue Brain Nexus access library."""
 
-    homepage = "https://bbpgitlab.epfl.ch/nse/entity-management"
-    git = "ssh://git@bbpgitlab.epfl.ch/nse/entity-management.git"
+    homepage = "https://github.com/BlueBrain/entity-management"
+    git = "https://github.com/BlueBrain/entity-management.git"
 
-    version("1.2.44", tag="entity-management-v1.2.44")
-    version("1.2.41", tag="entity-management-v1.2.41")
+    version("1.2.46", tag="v1.2.46")
 
     depends_on("py-setuptools", type="build")
 
