@@ -38,5 +38,5 @@ class ParquetConverters(CMakePackage):
         return [
             self.define("CMAKE_C_COMPILER", self.spec["mpi"].mpicc),
             self.define("CMAKE_CXX_COMPILER", self.spec["mpi"].mpicxx),
-            self.define("NEURONPARQUET_USE_MPI", True)
+            self.define("NEURONPARQUET_USE_MPI", True),
         ]
