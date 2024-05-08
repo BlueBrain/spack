@@ -15,6 +15,7 @@ class PyEntityManagement(PythonPackage):
     version("1.2.46", tag="v1.2.46")
 
     depends_on("py-setuptools", type="build")
+    depends_on("py-setuptools-scm", type="build")
 
     depends_on("py-requests", type=("build", "run"))
     depends_on("py-attrs", type=("build", "run"))
