@@ -11,8 +11,9 @@ class PyEntityManagement(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/entity-management"
     git = "https://github.com/BlueBrain/entity-management.git"
+    pypi = "https://pypi.org/project/entity-management"
 
-    version("1.2.46", tag="v1.2.46")
+    version("1.2.46", sha256="0c3a3c1c0c9d47b47a2804746eefdbb26d5e707ac24f707ba8d42395c14eaa10")
 
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm", type="build")
