@@ -11,7 +11,8 @@ class PyEntityManagement(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/entity-management"
     git = "https://github.com/BlueBrain/entity-management.git"
-    pypi = "https://pypi.org/project/entity-management"
+    
+    pypi = "entity-management/entity_management-1.2.46.tar.gz"
 
     version("1.2.46", sha256="0c3a3c1c0c9d47b47a2804746eefdbb26d5e707ac24f707ba8d42395c14eaa10")
 
