@@ -1,0 +1,16 @@
+module_index:
+  kh2ifaazdy4p7nlsjmg7vood3ybbtrpn:
+    path: /gpfs/bbp.cscs.ch/project/proj83/tharayil/spack/software/modules/linux-rhel7-skylake/neurodamus-neocortex/develop
+    use_name: neurodamus-neocortex/develop
+  zw63b633efcbzkc3irq7c2apiogew223:
+    path: /gpfs/bbp.cscs.ch/project/proj83/tharayil/spack/software/modules/linux-rhel7-skylake/neuron/9.0.a16
+    use_name: neuron/9.0.a16
+  fy33owvspyixhyc4sm647j6wtl5qwwvn:
+    path: /gpfs/bbp.cscs.ch/project/proj83/tharayil/spack/software/modules/linux-rhel7-skylake/py-neurodamus/develop
+    use_name: py-neurodamus/develop
+  tojnaqp2goqhhq6bcvtkk3bi27jswaxv:
+    path: /gpfs/bbp.cscs.ch/project/proj83/tharayil/spack/software/modules/linux-rhel7-skylake/neurodamus-neocortex/develop
+    use_name: neurodamus-neocortex/develop
+  cio47gu5gxgfmomjz3raiubgube2anqn:
+    path: /gpfs/bbp.cscs.ch/project/proj83/tharayil/spack/software/modules/linux-rhel7-skylake/neuron/develop
+    use_name: neuron/develop
