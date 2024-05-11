@@ -33,9 +33,6 @@ spack:
     - morpho-kit
     - neuron+tests+coreneuron
     - neuron+tests+coreneuron+sympy
-    - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp
-    - neuron%nvhpc+caliper+coreneuron+gpu+tests~openmp
-    - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp+sympy
     - nest@2.20.1
     - neurodamus-mousify+coreneuron+caliper
     - neurodamus-models model=hippocampus +coreneuron+caliper
