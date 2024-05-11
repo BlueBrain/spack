@@ -13,6 +13,7 @@ class NeurodamusModels(CMakePackage):
     git = "https://github.com/BlueBrain/neurodamus-models.git"
 
     version("develop", branch="main")
+    version("unstable", branch="main")
     version("2.1.0", tag="2.1.0")
     version("2.0.0", tag="2.0.0")
 
@@ -44,12 +45,12 @@ class NeurodamusModels(CMakePackage):
     depends_on("neuron", type=("build", "link", "run"))
     depends_on("neuron+coreneuron", when="+coreneuron", type=("build", "link", "run"))
     depends_on("neuron+caliper", when="+caliper", type=("build", "link", "run"))
-    depends_on("neuron@develop", when="@develop", type=("build", "link", "run"))
+    depends_on("neuron@develop", when="@unstable", type=("build", "link", "run"))
 
     depends_on("py-neurodamus", type=("build", "run"))
-    depends_on("py-neurodamus@develop",when="@develop", type=("build", "run"))
+    depends_on("py-neurodamus@unstable",when="@unstable", type=("build", "run"))
     depends_on("libsonata-report")
-    depends_on("libsonata-report@develop",when="@develop")
+    depends_on("libsonata-report@develop",when="@unstable")
 
     def cmake_args(self):
         args = [
