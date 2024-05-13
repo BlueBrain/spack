@@ -91,6 +91,7 @@ class Caliper(CMakePackage, CudaPackage, ROCmPackage):
     variant("sosflow", default=False, description="Enable SOSflow support")
     variant("fortran", default=False, description="Enable Fortran support")
     variant("variorum", default=False, description="Enable Variorum support")
+    variant("vtune", default=False, description="Enable Intel Vtune support")
     variant("kokkos", default=True, when="@2.3.0:", description="Enable Kokkos profiling support")
 
     depends_on("adiak@0.1:0", when="@2.2: +adiak")
@@ -104,6 +105,7 @@ class Caliper(CMakePackage, CudaPackage, ROCmPackage):
     depends_on("unwind@1.2:1", when="+libunwind")
     depends_on("elfutils", when="+libdw")
     depends_on("variorum", when="+variorum")
+    depends_on("intel-oneapi-vtune", when="+vtune")
 
     depends_on("sosflow@spack", when="@1.0:1+sosflow")
 
@@ -145,6 +147,7 @@ class Caliper(CMakePackage, CudaPackage, ROCmPackage):
             self.define_from_variant("WITH_ROCTRACER", "rocm"),
             self.define_from_variant("WITH_ROCTX", "rocm"),
             self.define_from_variant("WITH_VARIORUM", "variorum"),
+            self.define_from_variant("WITH_VTUNE", "vtune"),
             self.define_from_variant("WITH_KOKKOS", "kokkos"),
         ]
 
@@ -176,6 +179,10 @@ class Caliper(CMakePackage, CudaPackage, ROCmPackage):
             # technically only works with cuda 10.2+, otherwise cupti is in
             # ${CUDA_TOOLKIT_ROOT_DIR}/extras/CUPTI
             args.append("-DCUPTI_PREFIX=%s" % spec["cuda"].prefix)
+
+        if "+vtune" in spec:
+            itt_dir = join_path(spec["intel-oneapi-vtune"].prefix, "vtune", "latest")
+            args.append("-DITT_PREFIX=%s" % itt_dir)
 
         if "+rocm" in spec:
             args.append("-DCMAKE_CXX_COMPILER={0}".format(spec["hip"].hipcc))
