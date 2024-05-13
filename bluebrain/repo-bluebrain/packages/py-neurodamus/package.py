@@ -13,7 +13,6 @@ class PyNeurodamus(PythonPackage):
     pypi = "neurodamus/neurodamus-3.1.1.tar.gz"
 
     version("develop", branch="main")
-    version*"unstable", branch="main")
     version("3.2.1", sha256="a998c803eb6f2e0e6b63c193eb32638bc747ff2def531f95149c534978a957cf")
     version("3.2.0", sha256="0c584aff303a92c9395ebb6f89a6235e4a660da30bd103c7207d37a7de2be462")
     version("3.1.1", sha256="f6aa8817715b2302cb94cb84445cd4d64e953807882d0bbc24a7e931ec188e77")
@@ -63,7 +62,7 @@ class PyNeurodamus(PythonPackage):
     depends_on("py-numpy@1.24:", type=("build", "run"))
     depends_on("py-docopt", type=("build", "run"))
     depends_on("py-libsonata", type=("build", "run"))
-    depends_on("py-libsonata@master",when="@unstable", type=("build", "run"))
+    depends_on("py-libsonata@master",when="@develop", type=("build", "run"))
     depends_on("py-morphio", type=("build", "run"))
     depends_on("py-scipy", type=("build", "run"))
     depends_on("py-psutil", type=("build", "run"), when="@2.12.1:")
