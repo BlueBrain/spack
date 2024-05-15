@@ -9,7 +9,6 @@ packages:
   boost:
     variants: +filesystem+pic+serialization+test
   caliper:
-    # see https://github.com/LLNL/Caliper/issues/529
     require: "@2.11:"
   coreneuron:
     # Keep this aligned with NEURON, otherwise the Spack solver may decide that
