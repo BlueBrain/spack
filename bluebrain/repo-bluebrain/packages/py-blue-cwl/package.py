@@ -6,7 +6,7 @@
 from spack.package import *
 
 
-class PyBlueCWL(PythonPackage):
+class PyBlueCwl(PythonPackage):
     """Pythonic Blue Brain Nexus access library."""
 
     homepage = "https://github.com/BlueBrain/blue-cwl"
