@@ -36,3 +36,7 @@ class PyBlueCWL(PythonPackage):
     depends_on("py-jsonschema", type=("build", "run"))
     depends_on("py-luigi", type=("build", "run"))
 
+    @run_after("install")
+    @on_package_attributes(run_tests=True)
+    def test_install(self):
+        python("-m", "pytest", "tests/unit")
