@@ -76,7 +76,7 @@ class Nmodl(CMakePackage):
             # This recipe is used in CI pipelines that run the tests directly from
             # the build directory and not via Spack's --test=X option. Setting this
             # aims to override the implicit CMake argument that Spack injects.
-            self.define_from_variant("BUILD_TESTING", "test"),
+            self.define_from_variant("BUILD_TESTING", "tests"),
             self.define("PYTHON_EXECUTABLE", python.command),
             self.define_from_variant("NMODL_ENABLE_PYTHON_BINDINGS", "python"),
             self.define_from_variant("NMODL_ENABLE_LEGACY_UNITS", "legacy-unit"),
