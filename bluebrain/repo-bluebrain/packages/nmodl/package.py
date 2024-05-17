@@ -25,7 +25,10 @@ class Nmodl(CMakePackage):
     variant("legacy-unit", default=False, description="Enable legacy units")
     variant("python", default=False, description="Enable python bindings")
     variant("llvm", default=False, description="Enable llvm codegen")
-    variant("llvm_cuda", default=False, description="Enable llvm codegen with CUDA backend")
+    variant(
+        "llvm_cuda", default=False, description="Enable llvm codegen with CUDA backend"
+    )
+    variant("testing", default=False, description="Install test dependencies")
 
     # Build with `ninja` instead of `make`
     generator("ninja")
@@ -55,6 +58,10 @@ class Nmodl(CMakePackage):
     depends_on("py-pyyaml@3.13:", type=("build", "run"))
     depends_on("spdlog")
     depends_on("py-find-libpython", type=("run",))
+
+    depends_on("py-pytest@3.3.0:", type="test", when="+testing")
+    depends_on("py-pytest-cov", type="test", when="+testing")
+    depends_on("py-numpy", type="test", when="+testing")
 
     def cmake_args(self):
         # Do not use the cli11, fmt, pybind11 and spdlog submodule, use the one from
