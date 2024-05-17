@@ -59,30 +59,9 @@ class Nmodl(CMakePackage):
     depends_on("spdlog")
     depends_on("py-find-libpython", type=("run",))
 
-    depends_on(
-        "py-pytest@3.3.0:8.1.1",
-        type=(
-            "build",
-            "test",
-        ),
-        when="+tests",
-    )
-    depends_on(
-        "py-pytest-cov",
-        type=(
-            "build",
-            "test",
-        ),
-        when="+tests",
-    )
-    depends_on(
-        "py-numpy",
-        type=(
-            "build",
-            "test",
-        ),
-        when="+tests",
-    )
+    depends_on( "py-pytest@3.3.0:8.1.1", type=( "build", "test",), when="+tests")
+    depends_on( "py-pytest-cov", type=( "build", "test",), when="+tests")
+    depends_on( "py-numpy", type=( "build", "test",), when="+tests")
 
     def cmake_args(self):
         # Do not use the cli11, fmt, pybind11 and spdlog submodule, use the one from
