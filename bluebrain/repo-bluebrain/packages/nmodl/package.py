@@ -2,7 +2,6 @@
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
 from spack.package import *
 
 
@@ -25,9 +24,7 @@ class Nmodl(CMakePackage):
     variant("legacy-unit", default=False, description="Enable legacy units")
     variant("python", default=False, description="Enable python bindings")
     variant("llvm", default=False, description="Enable llvm codegen")
-    variant(
-        "llvm_cuda", default=False, description="Enable llvm codegen with CUDA backend"
-    )
+    variant("llvm_cuda", default=False, description="Enable llvm codegen with CUDA backend")
     variant("tests", default=False, description="Enable building tests")
 
     # Build with `ninja` instead of `make`
@@ -59,9 +56,9 @@ class Nmodl(CMakePackage):
     depends_on("spdlog")
     depends_on("py-find-libpython", type=("run",))
 
-    depends_on( "py-pytest@3.3.0:8.1.1", type=( "build", "test",), when="+tests")
-    depends_on( "py-pytest-cov", type=( "build", "test",), when="+tests")
-    depends_on( "py-numpy", type=( "build", "test",), when="+tests")
+    depends_on("py-pytest@3.3.0:8.1.1", type=("build", "test"), when="+tests")
+    depends_on("py-pytest-cov", type=("build", "test"), when="+tests")
+    depends_on("py-numpy", type=("build", "test"), when="+tests")
 
     def cmake_args(self):
         # Do not use the cli11, fmt, pybind11 and spdlog submodule, use the one from
