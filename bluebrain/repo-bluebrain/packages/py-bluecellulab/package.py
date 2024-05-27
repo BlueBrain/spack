@@ -12,6 +12,7 @@ class PyBluecellulab(PythonPackage):
     homepage = "https://github.com/BlueBrain/BlueCelluLab"
     pypi = "bluecellulab/bluecellulab-1.7.6.tar.gz"
 
+    version("2.6.15", sha256="8e366debbd0b531826d49264b8349a0f18d3741f3cd71cf0b8a14a3569a69a19")
     version("2.6.10", sha256="9192137727753a6a58295a7fad6270887c4ce38957a6a82ed62b72dc5da3ab47")
     version("1.7.6", sha256="a60ec17c44e759b6726c399d764e4220f6641bf3d845fc3fbfe56d07dba9e6d5")
 
