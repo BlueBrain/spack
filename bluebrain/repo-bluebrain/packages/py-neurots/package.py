@@ -13,6 +13,7 @@ class PyNeurots(PythonPackage):
     git = "https://github.com/BlueBrain/NeuroTS.git"
 
     version("develop", branch="main")
+    version("3.6.0", tag="3.6.0")
     version("3.4.2", tag="3.4.2")
     version("3.3.1", tag="3.3.1")
     version("3.1.0", tag="3.1.0")  # Breaking change to use diameter-synthesis >= 0.4
@@ -26,7 +27,7 @@ class PyNeurots(PythonPackage):
     depends_on("py-diameter-synthesis@0.5.2:", type=("build", "run"), when="@3.3")
     depends_on("py-matplotlib@1.3.1:", type=("build", "run"))
     depends_on("py-tmd@2.2.0:", type=("build", "run"))
-    depends_on("py-morphio@3", type=("build", "run"))
+    depends_on("py-morphio@3.3.6:", type=("build", "run"))
     depends_on("py-neurom@3", type=("build", "run"))
     depends_on("py-scipy@0.13.3:", type=("build", "run"), when="@:2")
     depends_on("py-scipy@1.6:", type=("build", "run"), when="@3:")
