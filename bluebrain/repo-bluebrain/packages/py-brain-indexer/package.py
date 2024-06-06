@@ -13,9 +13,11 @@ class PyBrainIndexer(PythonPackage):
 
     version("3.0.0", sha256="23947519df5f87c65781d1776f02e8e17798c40c617399b02e6ecae8e09a0a72")
 
-    depends_on("py-scikit-build-core+pyproject", type="build")
-    depends_on("py-setuptools-scm", type="build")
-    depends_on("cmake@3.2:")
+    variant("mpi", default=True, description="Enable MPI parallelism")
+
+    depends_on("py-scikit-build-core+pyproject@:0.7", type="build")
+    depends_on("py-setuptools-scm@8.0:", type="build")
+    depends_on("cmake@3.5:")
     depends_on("boost@1.79.0: +filesystem+serialization")
     depends_on("py-docopt", type=("build", "run"))
     # `py-libsonata@0.1.15` contains a regression that throws
@@ -27,8 +29,8 @@ class PyBrainIndexer(PythonPackage):
     depends_on("py-numpy", type=("build", "run"))
     depends_on("py-tqdm", type=("build", "run"))
 
-    depends_on("mpi")
-    depends_on("py-mpi4py", type=("build", "run"))
+    depends_on("mpi", when="+mpi")
+    depends_on("py-mpi4py", type=("build", "run"), when="+mpi")
 
     def config_settings(self, spec, prefix):
         return {"cmake.define.CMAKE_INSTALL_RPATH_USE_LINK_PATH": "ON"}
