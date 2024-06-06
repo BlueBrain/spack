@@ -13,10 +13,10 @@ spack:
           - parquet-converters
           - py-archive-advisor
           - py-basalt
+          - py-brain-indexer
           - py-mvdtool
           - py-neurodamus
           - py-pytouchreader
-          - spatial-index
           - spykfunc
           - steps
           - synapsetool
@@ -48,9 +48,9 @@ spack:
     - nmodl
     - parquet-converters
     - py-archive-advisor
+    - py-brain-indexer
     - py-neurodamus
     - py-pytouchreader
-    - spatial-index
     - spykfunc
     - spykfunc@0.18.7
     - steps
