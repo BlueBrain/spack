@@ -16,7 +16,7 @@ class PyEmodelGeneralisation(PythonPackage):
     version("0.2.11", sha256="b84822a1ae0a4b53728b55f6dcfd291ca59d6244f2430650699333ba93e372a8")
 
     depends_on("py-setuptools", type="build")
-    depends_on("py-setuptools-scm", type="build")
+    depends_on("py-setuptools-scm@:7", type="build")
 
     depends_on("py-numpy@1.23.5:", type=("build", "run"))
     depends_on("py-scipy@1.10:", type=("build", "run"))
