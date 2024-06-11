@@ -27,17 +27,14 @@ class PyConnectomeManipulator(PythonPackage):
 
     depends_on("parquet-converters@0.8.0:", type="run", when="+convert")
 
-    depends_on("py-bluepysnap@1.0.5:1", type=("build", "run"))
+    depends_on("py-bluepysnap@3.0.1:", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
     depends_on("py-pandas", type=("build", "run"))
     depends_on("py-progressbar", type=("build", "run"))
     depends_on("py-scipy", type=("build", "run"))
     depends_on("py-scikit-learn", type=("build", "run"))
     depends_on("py-voxcell", type=("build", "run"))
-    depends_on("py-pyarrow+parquet+dataset@3.0.0:", type=("build", "run"))
-    depends_on("py-jsonpickle", type=("build", "run"))
+    depends_on("py-pyarrow+parquet+dataset", type=("build", "run"))
     depends_on("py-distributed", type=("build", "run"), when="@0.0.6:")
     depends_on("py-dask-mpi", type=("build", "run"), when="@0.0.6:")
     depends_on("py-tables", type=("build", "run"), when="@0.0.7:")
-
-    depends_on("py-submitit", type=("build", "run"), when="@:0.0.4")
