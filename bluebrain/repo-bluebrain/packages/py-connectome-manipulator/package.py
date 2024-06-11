@@ -35,6 +35,6 @@ class PyConnectomeManipulator(PythonPackage):
     depends_on("py-scikit-learn", type=("build", "run"))
     depends_on("py-voxcell", type=("build", "run"))
     depends_on("py-pyarrow+parquet+dataset", type=("build", "run"))
-    depends_on("py-distributed", type=("build", "run"), when="@0.0.6:")
-    depends_on("py-dask-mpi", type=("build", "run"), when="@0.0.6:")
+    depends_on("py-distributed", type=("build", "run"))
+    depends_on("py-dask-mpi", type=("build", "run"))
     depends_on("py-tables", type=("build", "run"), when="@0.0.7:")
