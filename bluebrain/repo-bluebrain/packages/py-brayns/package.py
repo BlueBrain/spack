@@ -18,8 +18,8 @@ class PyBrayns(PythonPackage):
     build_directory = "python"
 
     version("develop", branch="develop")
-    version("3.7.2", tag="3.7.2")
     version("3.8.0", tag="3.8.0")
+    version("3.8.1", tag="3.8.1")
 
     depends_on("py-setuptools", type=("build"))
     depends_on("py-websockets@10.3:", type=("build", "run"))
