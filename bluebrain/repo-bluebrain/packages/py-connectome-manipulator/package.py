@@ -10,14 +10,10 @@ from spack.package import *
 class PyConnectomeManipulator(PythonPackage):
     """Connectome generator tool."""
 
-    homepage = "https://bbpgitlab.epfl.ch/conn/structural/connectome_manipulator"
-    git = "ssh://git@bbpgitlab.epfl.ch/conn/structural/connectome_manipulator.git"
+    homepage = "https://github.com/BlueBrain/connectome-manipulator"
+    git = "https://github.com/BlueBrain/connectome-manipulator.git"
 
-    version("develop", branch="main")
     version("0.0.10", tag="connectome-manipulator-v0.0.10")
-    version("0.0.9", tag="connectome-manipulator-v0.0.9")
-    version("0.0.8", tag="connectome-manipulator-v0.0.8")
-    version("0.0.6", tag="connectome-manipulator-v0.0.6")
 
     variant(
         "convert",
@@ -37,4 +33,4 @@ class PyConnectomeManipulator(PythonPackage):
     depends_on("py-pyarrow+parquet+dataset", type=("build", "run"))
     depends_on("py-distributed", type=("build", "run"))
     depends_on("py-dask-mpi", type=("build", "run"))
-    depends_on("py-tables", type=("build", "run"), when="@0.0.7:")
+    depends_on("py-tables", type=("build", "run"))
