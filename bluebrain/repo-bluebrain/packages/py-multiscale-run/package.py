@@ -28,7 +28,10 @@ class PyMultiscaleRun(PythonPackage):
 
     depends_on("gmsh@4:", type=("build", "run"))
     depends_on("julia@1.6:", type=("build", "run"))
-    depends_on("neurodamus-models model=neocortex +ngv+metabolism~~coreneuron@1.15:", type=("build", "run"))
+    depends_on(
+        "neurodamus-models model=neocortex +ngv+metabolism~~coreneuron@1.15:",
+        type=("build", "run"),
+    )
     depends_on("py-astrovascpy@:0.1.2", type=("build", "run"), when="@:0.6")
     depends_on("py-astrovascpy@0.1.5:", type=("build", "run"), when="@0.7:")
     depends_on("py-bluepysnap@2:", type=("build", "run"))
