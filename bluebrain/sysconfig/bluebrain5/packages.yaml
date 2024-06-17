@@ -62,7 +62,7 @@ packages:
   mesa:
     # Leads to all kinds of trouble for 2024
     variants: ~llvm
-  neurodamus-model:
+  neurodamus-models:
     variants: ~~gpu
     require:
       - one_of: ["%oneapi", "%intel"]
