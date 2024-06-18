@@ -57,7 +57,7 @@ class PyNeurodamus(PythonPackage):
     version("2.9.0", tag="2.9.0", submodules=True)
 
     # Note: we depend on Neurodamus but let the user decide which one.
-    # Note: avoid Neuron/py-mvdtool dependency due to Intel-GCC conflicts.
+    # Note: avoid Neuron dependency due to Intel-GCC conflicts.
     depends_on("python@3.4:", type=("build", "run"))
     depends_on("py-h5py", type=("build", "run"))
     depends_on("py-numpy@1.24:", type=("build", "run"))

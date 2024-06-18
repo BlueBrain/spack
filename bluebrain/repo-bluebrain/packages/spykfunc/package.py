@@ -42,7 +42,6 @@ class Spykfunc(PythonPackage):
     depends_on("py-libsonata@0.1.17:", type=("build", "run"))
     depends_on("py-lxml", type=("build", "run"))
     depends_on("py-morphio", type=("build", "run"))
-    depends_on("py-morpho-kit", type=("build", "run"))
     depends_on("py-mpi4py", type=("build", "run"))
     depends_on("py-numpy", type=("build", "run"))
     depends_on("py-packaging", type=("build", "run"))

@@ -62,31 +62,7 @@ packages:
   mesa:
     # Leads to all kinds of trouble for 2024
     variants: ~llvm
-  model-neocortex:
-    variants: ~gpu
-    require:
-      - one_of: ["%oneapi", "%intel"]
-  neurodamus-hippocampus:
-    variants: ~~gpu
-    require:
-      - one_of: ["%oneapi", "%intel"]
   neurodamus-models:
-    variants: ~~gpu
-    require:
-      - one_of: ["%oneapi", "%intel"]
-  neurodamus-model:
-    variants: ~~gpu
-    require:
-      - one_of: ["%oneapi", "%intel"]
-  neurodamus-mousify:
-    variants: ~~gpu
-    require:
-      - one_of: ["%oneapi", "%intel"]
-  neurodamus-neocortex:
-    variants: ~~gpu
-    require:
-      - one_of: ["%oneapi", "%intel"]
-  neurodamus-thalamus:
     variants: ~~gpu
     require:
       - one_of: ["%oneapi", "%intel"]
