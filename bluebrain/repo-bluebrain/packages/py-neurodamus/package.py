@@ -13,6 +13,10 @@ class PyNeurodamus(PythonPackage):
     pypi = "neurodamus/neurodamus-3.1.1.tar.gz"
 
     version("develop", branch="main")
+
+    version("develop-remove-vecstim", commit="3dd59cd58fb3efd79f3fd0bf0fc1020b4cae2463")
+    version("develop-with-vesctim", commit="e5f5945d5526147a2049ddd035d3f0123f4833d0")
+
     version("3.3.0", sha256="ce680b881280c1c025d1d2e4073f993ac8926516ae0f6a33188617c56d96a968")
     version("3.2.1", sha256="a998c803eb6f2e0e6b63c193eb32638bc747ff2def531f95149c534978a957cf")
     version("3.2.0", sha256="0c584aff303a92c9395ebb6f89a6235e4a660da30bd103c7207d37a7de2be462")
