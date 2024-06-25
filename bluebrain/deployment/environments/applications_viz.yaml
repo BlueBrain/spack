@@ -15,6 +15,7 @@ spack:
     - brayns@3.8.0
     - brayns@3.8.1
     - py-bcsb
+    - py-bcsb@2.4.1
     - py-brayns
     - py-brayns@3.8.0
     - py-brayns@3.8.1
