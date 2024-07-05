@@ -1,4 +1,4 @@
-# Copyright 2013-2023 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -12,7 +12,7 @@ class PyBbpWorkflowCli(PythonPackage):
     homepage = "https://bbpgitlab.epfl.ch/nse/bbp-workflow-cli"
     git = "ssh://git@bbpgitlab.epfl.ch/nse/bbp-workflow-cli.git"
 
-    version("3.1.1", tag="bbp-workflow-cli-v3.1.1")
+    version("3.1.3", tag="bbp-workflow-cli-v3.1.3")
 
     depends_on("py-setuptools", type=("build"))
 
