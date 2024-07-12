@@ -11,9 +11,9 @@ class PyConnectomeManipulator(PythonPackage):
     """Connectome generator tool."""
 
     homepage = "https://github.com/BlueBrain/connectome-manipulator"
-    git = "https://github.com/BlueBrain/connectome-manipulator.git"
+    pypi = "connectome-manipulator/connectome_manipulator-1.0.0.tar.gz"
 
-    version("0.0.10", tag="connectome-manipulator-v0.0.10")
+    version("1.0.0", sha256="f77151bc7569f9d18d77dad04cd9fa24c403989ea28a1811566cc49332a785ef")
 
     variant(
         "convert",
