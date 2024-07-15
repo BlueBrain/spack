@@ -13,6 +13,7 @@ spack:
           - py-archive-advisor
           - py-basalt
           - py-brain-indexer
+          - py-functionalizer
           - py-mvdtool
           - py-neurodamus
           - py-pytouchreader
@@ -47,9 +48,10 @@ spack:
     - parquet-converters
     - py-archive-advisor
     - py-brain-indexer
+    - py-functionalizer
     - py-neurodamus
     - py-pytouchreader
-    - spykfunc
+    - spykfunc@0.19.0
     - spykfunc@0.18.7
     - steps
     - synapsetool

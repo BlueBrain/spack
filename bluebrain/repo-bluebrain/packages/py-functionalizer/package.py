@@ -6,25 +6,17 @@
 from spack.package import *
 
 
-class Spykfunc(PythonPackage):
-    """Spykfunc - Spark functionalizer developed by Blue Brain Project, EPFL"""
+class PyFunctionalizer(PythonPackage):
+    """Functionalizer - Spark functionalizer developed by Blue Brain Project, EPFL"""
 
-    homepage = "https://bbpgitlab.epfl.ch/hpc/circuit-building/spykfunc"
-    url = "ssh://git@bbpgitlab.epfl.ch/hpc/circuit-building/spykfunc.git"
-    git = "ssh://git@bbpgitlab.epfl.ch/hpc/circuit-building/spykfunc.git"
+    homepage = "https://github.com/BlueBrain/functionalizer"
+    pypi = "functionalizer/functionalizer-1.0.0.tar.gz"
 
-    submodules = True
+    version("1.0.0", sha256="c62754fcf41e29729386c23cefb0dd57b449ac27c0b47ba5e2e4b2776c517494")
 
-    version("develop", branch="main", deprecated=True)
-    version("0.19.0", tag="v0.19.0")
-    version("0.18.7", tag="v0.18.7")
-    version("0.18.6", tag="v0.18.6", deprecated=True)
-
-    depends_on("cmake", type="build")
-    depends_on("ninja", type="build")
-
-    depends_on("py-setuptools", type=("build", "run"), when="@:0.18")
-    depends_on("py-scikit-build-core+pyproject", type=("build", "run"), when="@0.18.7:")
+    depends_on("py-cmake", type="build")
+    depends_on("py-ninja", type="build")
+    depends_on("py-scikit-build-core+pyproject", type="build")
     depends_on("py-setuptools-scm", type="build")
 
     depends_on("spark+hadoop@3.0.0:", type="run")
@@ -32,8 +24,7 @@ class Spykfunc(PythonPackage):
 
     depends_on("py-docopt", type=("build", "run"))
     depends_on("py-future", type=("build", "run"))
-    depends_on("py-fz-td-recipe@0.1", type=("build", "run"), when="@0.18")
-    depends_on("py-fz-td-recipe@0.2:", type=("build", "run"), when="@0.19:")
+    depends_on("py-fz-td-recipe@0.2:", type=("build", "run"))
     # h5py needed for morphologies before, and to supplement libSONATA due
     # to missing API functionality
     depends_on("py-h5py", type=("build", "run"))
