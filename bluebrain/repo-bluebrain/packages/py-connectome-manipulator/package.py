@@ -15,6 +15,12 @@ class PyConnectomeManipulator(PythonPackage):
 
     version("1.0.0", sha256="f77151bc7569f9d18d77dad04cd9fa24c403989ea28a1811566cc49332a785ef")
 
+    # Fixes dependency and Python version requirements
+    patch(
+        "dependencies.patch",
+        when="@1.0.0",
+    )
+
     variant(
         "convert",
         default=False,
