@@ -18,6 +18,7 @@ class LibsonataReport(CMakePackage):
     git = "https://github.com/BlueBrain/libsonatareport.git"
 
     version("develop", branch="master", submodules=False, get_full_repo=True)
+    version("1.2.4", branch="jblanco/debug_random_issue", submodules=False)
     version("1.2.3", tag="1.2.3", submodules=False)
     version("1.2.2", tag="1.2.2", submodules=False)
     version("1.2.1", tag="1.2.1", submodules=False)
@@ -37,8 +38,8 @@ class LibsonataReport(CMakePackage):
     depends_on("cmake@3.3:", type="build")
     depends_on("mpi", when="+mpi")
     depends_on("spdlog@1.9.1:")
-    depends_on("hdf5 ~mpi", when="~mpi")
-    depends_on("hdf5 +mpi", when="+mpi")
+    depends_on("hdf5@1.14.0 ~mpi", when="~mpi")
+    depends_on("hdf5@1.14.0 +mpi", when="+mpi")
 
     def cmake_args(self):
         result = [
