@@ -16,8 +16,8 @@ class Spykfunc(PythonPackage):
     submodules = True
 
     version("develop", branch="main", deprecated=True)
-    version("0.19.0", tag="v0.19.0", deprecated=True)
-    version("0.18.7", tag="v0.18.7", deprecated=True)
+    version("0.19.0", tag="v0.19.0")
+    version("0.18.7", tag="v0.18.7")
     version("0.18.6", tag="v0.18.6", deprecated=True)
 
     depends_on("cmake", type="build")
