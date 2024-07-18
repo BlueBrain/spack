@@ -44,12 +44,12 @@ class NeurodamusModels(CMakePackage):
     depends_on("neuron", type=("build", "link", "run"))
     depends_on("neuron+coreneuron", when="+coreneuron", type=("build", "link", "run"))
     depends_on("neuron+caliper", when="+caliper", type=("build", "link", "run"))
-    depends_on("neuron@develop", when="@develop", type=("build", "link", "run"))
+    #depends_on("neuron@develop", when="@develop", type=("build", "link", "run"))
 
     depends_on("py-neurodamus", type=("build", "run"))
-    depends_on("py-neurodamus@develop",when="@develop", type=("build", "run"))
+    #depends_on("py-neurodamus@develop",when="@develop", type=("build", "run"))
     depends_on("libsonata-report")
-    depends_on("libsonata-report@develop",when="@develop")
+    #depends_on("libsonata-report@develop",when="@develop")
 
     def cmake_args(self):
         args = [

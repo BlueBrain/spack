@@ -20,12 +20,15 @@ class NeurodamusThalamus(NeurodamusModel):
     # Final version name is combined e.g. "1.0-3.0.1"
     version_from_model_ndpy_dep("1.6")
 
+    
     resource(
         name="neocortex",
         git="ssh://git@bbpgitlab.epfl.ch/hpc/sim/models/neocortex.git",
         tag="1.7",
         when="@1.6:",
     )
+
+
 
     def setup_common_mods(self, spec, prefix):
         """Setup common mod files if provided through variant."""
