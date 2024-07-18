@@ -14,6 +14,8 @@ class Nmodl(CMakePackage):
 
     version("develop", branch="master", submodules=True)
     version("llvm", branch="llvm", submodules=True)
+    # temporary version to unblock HPCTM-1854
+    version("0.7.a4", commit="5c8b6298d524c6c0418360311ec7139b3b92ee26")
     version("0.7.a3", commit="2fb037e1f8d60d522ba16bd968c69a318ce5a827")
     version("0.7.a2", commit="6f6db3b6f25e066db46d8a5fc85a1697363b995c")
     version("0.7.a1", commit="2ce4a2b91dfcfe6356b6a5003c4e99b8711564ee")
