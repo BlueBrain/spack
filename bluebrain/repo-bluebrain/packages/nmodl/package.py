@@ -55,6 +55,8 @@ class Nmodl(CMakePackage):
     depends_on("py-pyyaml@3.13:", type=("build", "run"))
     depends_on("spdlog")
     depends_on("py-find-libpython", type=("run",))
+    depends_on("py-importlib-resources", type=("run",), when="+python ^python@3.8")
+    depends_on("py-importlib-metadata", type=("run",), when="+python ^python@3.8")
 
     depends_on("py-pytest@3.3.0:8.1.1", type=("build", "test"), when="+tests")
     depends_on("py-pytest-cov", type=("build", "test"), when="+tests")
