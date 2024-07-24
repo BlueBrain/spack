@@ -13,6 +13,7 @@ class NeurodamusModels(CMakePackage):
     git = "https://github.com/BlueBrain/neurodamus-models.git"
 
     version("develop", branch="main")
+    version("2.3.0", tag="2.3.0")
     version("2.2.0", tag="2.2.0")
     version("2.1.0", tag="2.1.0")
     version("2.0.0", tag="2.0.0")
