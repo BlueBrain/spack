@@ -71,8 +71,8 @@ class NeurodamusModels(CMakePackage):
         if "+coreneuron" in self.spec:
             env.set("CORENEURONLIB", self.prefix.lib + "/libcorenrnmech.so")
         for libnrnmech_name in find(self.prefix.lib, "libnrnmech*.so", recursive=False):
-            env.prepend_path("NRNMECH_LIB_PATH", libnrnmech_name)
-            env.prepend_path("BLUECELLULAB_MOD_LIBRARY_PATH", libnrnmech_name)
+            env.set("NRNMECH_LIB_PATH", libnrnmech_name)
+            env.set("BLUECELLULAB_MOD_LIBRARY_PATH", libnrnmech_name)
 
         # ENV variables to enable Caliper with certain settings
         if "+caliper" in self.spec:
