@@ -141,7 +141,6 @@ class Steps(CMakePackage):
                     "Package " + self.name + " build with coverage enabled requires GCC to build"
                 )
             targets = [
-                "CTEST_OUTPUT_ON_FAILURE=1",
                 "all",  # build
                 "coverage_init",  # initialize coverage counters
                 "test",  # run tests suite
