@@ -103,10 +103,11 @@ class Steps(CMakePackage):
         python_interpreter = self.spec["python"].prefix.bin.python + str(
             self.spec["python"].version.up_to(1)
         )
+        testing = "+codechecks" in self.spec or "+coverage" in self.spec
         args = [
+            self.define("BUILD_TESTING", testing),
             self.define("STEPS_INSTALL_PYTHON_DEPS", False),
             self.define_from_variant("BUILD_STOCHASTIC_TESTS", "stochtests"),
-            self.define_from_variant("BUILD_TESTING", "codechecks"),
             self.define_from_variant("ENABLE_CODECOVERAGE", "coverage"),
             self.define_from_variant("STEPS_ENABLE_ERROR_ON_WARNING", "codechecks"),
             self.define_from_variant("STEPS_TEST_FORMATTING", "codechecks"),
@@ -131,23 +132,6 @@ class Steps(CMakePackage):
         )
 
         return args
-
-    @property
-    def build_targets(self):
-        targets = []
-        if "+coverage" in self.spec:
-            if self.compiler.name != "gcc":
-                raise ValueError(
-                    "Package " + self.name + " build with coverage enabled requires GCC to build"
-                )
-            targets = [
-                "CTEST_OUTPUT_ON_FAILURE=1",
-                "all",  # build
-                "coverage_init",  # initialize coverage counters
-                "test",  # run tests suite
-                "coverage",  # collect coverage counters and build reports
-            ]
-        return targets
 
     def setup_run_environment(self, env):
         # This recipe exposes a Python package from a C++ CMake project.
