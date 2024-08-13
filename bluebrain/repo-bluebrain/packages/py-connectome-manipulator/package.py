@@ -13,10 +13,7 @@ class PyConnectomeManipulator(PythonPackage):
     homepage = "https://github.com/BlueBrain/connectome-manipulator"
     pypi = "connectome-manipulator/connectome_manipulator-1.0.0.tar.gz"
 
-    version("1.0.0", sha256="f77151bc7569f9d18d77dad04cd9fa24c403989ea28a1811566cc49332a785ef")
-
-    # Fixes dependency and Python version requirements
-    patch("dependencies.patch", when="@1.0.0")
+    version("1.0.1", sha256="6908e8a19681da9beda577d4f9e6f0fa518060f2a66b76a1ca0027b30478ac40") # FIXME
 
     variant(
         "convert",
