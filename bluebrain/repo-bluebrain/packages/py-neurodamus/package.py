@@ -66,7 +66,7 @@ class PyNeurodamus(PythonPackage):
     depends_on("py-numpy@1.24:", type=("build", "run"))
     depends_on("py-docopt", type=("build", "run"))
     depends_on("py-libsonata@:0.1.27", when="@:3.5.0", type=("build", "run"))
-    depends_on("py-libsonata")  # else
+    depends_on("py-libsonata", type=("build", "run"))  # else
     depends_on("py-morphio", type=("build", "run"))
     depends_on("py-scipy", type=("build", "run"))
     depends_on("py-psutil", type=("build", "run"), when="@2.12.1:")
