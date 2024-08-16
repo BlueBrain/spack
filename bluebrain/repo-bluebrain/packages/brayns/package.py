@@ -15,8 +15,8 @@ class Brayns(CMakePackage):
     submodules = False
 
     version("develop", branch="develop")
-    version("3.8.0", tag="3.8.0")
     version("3.8.3", tag="3.8.3")
+    version("3.9.0", tag="3.9.0")
 
     depends_on("cmake@3.15:", type="build")
     depends_on("ispc@1.18.0:", type="build")
