@@ -11,7 +11,7 @@ class PspValidation(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/psp-validation"
     git = "https://github.com/BlueBrain/psp-validation.git"
-    pypi = "psp-validation/psp-validation-0.6.0.tar.gz"
+    pypi = "psp-validation/psp_validation-0.6.0.tar.gz"
 
     version("develop", branch="main")
     version("0.6.0", sha256="5eb879aaa82be53c6f372d77cd7755ea76aeba835f5d1140f675ba4c2a798f84")
