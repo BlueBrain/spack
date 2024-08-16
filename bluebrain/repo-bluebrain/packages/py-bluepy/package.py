@@ -13,7 +13,7 @@ class PyBluepy(PythonPackage):
     git = "ssh://git@bbpgitlab.epfl.ch/nse/bluepy.git"
 
     version("develop", branch="main")
-    version("2.5.5", tag="bluepy-v2.5.5")
+    version("2.5.6", tag="bluepy-v2.5.6")
 
     depends_on("py-setuptools", type=("build", "run"))
 
