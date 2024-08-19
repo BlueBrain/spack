@@ -37,7 +37,6 @@ class Steps(CMakePackage):
     variant("distmesh", default=True, description="Add solvers based on distributed mesh")
     variant("petsc", default=True, description="Use PETSc library for parallel E-Field solver")
     variant("mpi", default=True, description="Use MPI for parallel solvers")
-    variant("coverage", default=False, description="Enable code coverage")
     variant("bundle", default=False, description="Use bundled libraries")
     variant("stochtests", default=True, description="Add stochastic tests to ctests")
     variant(
@@ -67,7 +66,6 @@ class Steps(CMakePackage):
     depends_on("gmsh", when="+distmesh")
     depends_on("gsl", when="+vesicle")
     depends_on("lapack", when="+lapack")
-    depends_on("lcov", when="+coverage", type="build")
     depends_on("likwid", when="+likwid")
     depends_on("metis+int64")
     depends_on("mpi", when="+mpi")
@@ -77,7 +75,6 @@ class Steps(CMakePackage):
     depends_on("petsc~debug+int64~mpi", when="+petsc~mpi")
     depends_on("pkgconfig", type="build")
     depends_on("py-cython")
-    depends_on("py-gcovr", when="+coverage", type="build")
     depends_on("py-h5py", type=("build", "test", "run"))
     depends_on("py-pip", type="build", when="@5:")
     depends_on("py-matplotlib", type=("build", "test"))
@@ -107,7 +104,6 @@ class Steps(CMakePackage):
             self.define("STEPS_INSTALL_PYTHON_DEPS", False),
             self.define_from_variant("BUILD_STOCHASTIC_TESTS", "stochtests"),
             self.define_from_variant("BUILD_TESTING", "codechecks"),
-            self.define_from_variant("ENABLE_CODECOVERAGE", "coverage"),
             self.define_from_variant("STEPS_ENABLE_ERROR_ON_WARNING", "codechecks"),
             self.define_from_variant("STEPS_TEST_FORMATTING", "codechecks"),
             self.define_from_variant("STEPS_USE_CALIPER_PROFILING", "caliper"),
@@ -131,23 +127,6 @@ class Steps(CMakePackage):
         )
 
         return args
-
-    @property
-    def build_targets(self):
-        targets = []
-        if "+coverage" in self.spec:
-            if self.compiler.name != "gcc":
-                raise ValueError(
-                    "Package " + self.name + " build with coverage enabled requires GCC to build"
-                )
-            targets = [
-                "CTEST_OUTPUT_ON_FAILURE=1",
-                "all",  # build
-                "coverage_init",  # initialize coverage counters
-                "test",  # run tests suite
-                "coverage",  # collect coverage counters and build reports
-            ]
-        return targets
 
     def setup_run_environment(self, env):
         # This recipe exposes a Python package from a C++ CMake project.
