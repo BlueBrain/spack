@@ -11,7 +11,7 @@ class PyBrainIndexer(PythonPackage):
     homepage = "https://github.com/BlueBrain/brain-indexer"
     pypi = "brain-indexer/brain_indexer-3.0.0.tar.gz"
 
-    license("Apache-2.0", checked_by="matz-e")
+    license("Apache-2.0")
 
     maintainers("matz-e")
 
