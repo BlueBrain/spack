@@ -37,7 +37,6 @@ class Steps(CMakePackage):
     variant("distmesh", default=True, description="Add solvers based on distributed mesh")
     variant("petsc", default=True, description="Use PETSc library for parallel E-Field solver")
     variant("mpi", default=True, description="Use MPI for parallel solvers")
-    variant("coverage", default=False, description="Enable code coverage")
     variant("bundle", default=False, description="Use bundled libraries")
     variant("stochtests", default=True, description="Add stochastic tests to ctests")
     variant(
@@ -67,7 +66,6 @@ class Steps(CMakePackage):
     depends_on("gmsh", when="+distmesh")
     depends_on("gsl", when="+vesicle")
     depends_on("lapack", when="+lapack")
-    depends_on("lcov", when="+coverage", type="build")
     depends_on("likwid", when="+likwid")
     depends_on("metis+int64")
     depends_on("mpi", when="+mpi")
@@ -77,7 +75,6 @@ class Steps(CMakePackage):
     depends_on("petsc~debug+int64~mpi", when="+petsc~mpi")
     depends_on("pkgconfig", type="build")
     depends_on("py-cython")
-    depends_on("py-gcovr", when="+coverage", type="build")
     depends_on("py-h5py", type=("build", "test", "run"))
     depends_on("py-pip", type="build", when="@5:")
     depends_on("py-matplotlib", type=("build", "test"))
@@ -103,12 +100,10 @@ class Steps(CMakePackage):
         python_interpreter = self.spec["python"].prefix.bin.python + str(
             self.spec["python"].version.up_to(1)
         )
-        testing = "+codechecks" in self.spec or "+coverage" in self.spec
         args = [
-            self.define("BUILD_TESTING", testing),
             self.define("STEPS_INSTALL_PYTHON_DEPS", False),
             self.define_from_variant("BUILD_STOCHASTIC_TESTS", "stochtests"),
-            self.define_from_variant("ENABLE_CODECOVERAGE", "coverage"),
+            self.define_from_variant("BUILD_TESTING", "codechecks"),
             self.define_from_variant("STEPS_ENABLE_ERROR_ON_WARNING", "codechecks"),
             self.define_from_variant("STEPS_TEST_FORMATTING", "codechecks"),
             self.define_from_variant("STEPS_USE_CALIPER_PROFILING", "caliper"),
