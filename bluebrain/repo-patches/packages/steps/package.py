@@ -19,6 +19,7 @@ class Steps(CMakePackage):
     submodules = True
 
     version("develop", branch="master")
+    version("5.0.2", tag="5.0.2")
     version("5.0.1", tag="5.0.1")
     version("4.1.0", tag="4.1.0")
 
@@ -64,7 +65,7 @@ class Steps(CMakePackage):
     depends_on("easyloggingpp", when="~bundle")
     depends_on("eigen")
     depends_on("gmsh", when="+distmesh")
-    depends_on("gsl", when="+vesicle")
+    depends_on("gsl", when="@:5.0.1+vesicle")
     depends_on("lapack", when="+lapack")
     depends_on("likwid", when="+likwid")
     depends_on("metis+int64")
