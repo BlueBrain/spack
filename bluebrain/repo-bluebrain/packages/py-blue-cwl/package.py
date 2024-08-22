@@ -36,7 +36,7 @@ class PyBlueCwl(PythonPackage):
     depends_on("py-morph-tool", type=("build", "run"))
     depends_on("py-jsonschema", type=("build", "run"))
     depends_on("py-luigi", type=("build", "run"))
-    depends_on("py-brainbuilder", type=("build", "run"))
+    depends_on("brainbuilder", type=("build", "run"))
 
     # Visualization dependencies
     depends_on("py-pydot", type=("build", "run"))
