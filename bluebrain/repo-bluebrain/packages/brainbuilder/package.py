@@ -16,7 +16,7 @@ class Brainbuilder(PythonPackage):
     version("0.20.1", sha256="d46c3dc831dbac24a926a6e7b31a9eeea06bcc5fa500b84efb8153e27b56fac3")
 
     depends_on("py-setuptools", type="build")
-    depends_on("py-setuptools-scm", type="build")
+    depends_on("py-setuptools-scm@8.0.0:", type="build")
 
     depends_on("py-joblib@1.0.1:", type=("build", "run"))
     depends_on("py-click@7:8", type=("build", "run"))
