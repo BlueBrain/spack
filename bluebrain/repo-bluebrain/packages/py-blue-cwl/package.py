@@ -13,6 +13,7 @@ class PyBlueCwl(PythonPackage):
     git = "https://github.com/BlueBrain/blue-cwl.git"
     pypi = "blue-cwl/blue_cwl-0.1.0.tar.gz"
 
+    version("1.0.0", sha256="b4456f36725713dbaf1b1b00d163615e1727367604c008f078fbeb01ea69975a")
     version("0.1.0", sha256="90df1c6ef97777df04a0a18b6871057878da891edb5ba1b0fa94610bfd27e2aa")
 
     depends_on("python@3.10:", type=("build", "run"))
@@ -29,12 +30,17 @@ class PyBlueCwl(PythonPackage):
     depends_on("py-joblib", type=("build", "run"))
 
     depends_on("py-libsonata", type=("build", "run"))
-    depends_on("py-entity-management@1.2.44:", type=("build", "run"))
+    depends_on("py-entity-management@1.4.1:", type=("build", "run"))
     depends_on("py-fz-td-recipe", type=("build", "run"))
     depends_on("py-pydantic", type=("build", "run"))
     depends_on("py-morph-tool", type=("build", "run"))
     depends_on("py-jsonschema", type=("build", "run"))
     depends_on("py-luigi", type=("build", "run"))
+    depends_on("brainbuilder", type=("build", "run"))
+
+    # Visualization dependencies
+    depends_on("py-pydot", type=("build", "run"))
+    depends_on("py-matplotlib", type=("build", "run"))
 
     @run_after("install")
     @on_package_attributes(run_tests=True)

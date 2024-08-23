@@ -9,13 +9,14 @@ from spack.package import *
 class Brainbuilder(PythonPackage):
     """Miscellaneous circuit building utilities"""
 
-    homepage = "https://bbpgitlab.epfl.ch/nse/brainbuilder/"
-    git = "ssh://git@bbpgitlab.epfl.ch/nse/brainbuilder.git"
+    homepage = "https://github.com/BlueBrain/brainbuilder"
+    git = "https://github.com/BlueBrain/brainbuilder.git"
+    pypi = "brainbuilder/brainbuilder-0.20.1.tar.gz"
 
-    version("develop", branch="main")
-    version("0.19.0", tag="brainbuilder-v0.19.0")
+    version("0.20.1", sha256="d46c3dc831dbac24a926a6e7b31a9eeea06bcc5fa500b84efb8153e27b56fac3")
 
-    depends_on("py-setuptools", type=("build", "run"))
+    depends_on("py-setuptools", type="build")
+    depends_on("py-setuptools-scm@8.0.0:", type="build")
 
     depends_on("py-joblib@1.0.1:", type=("build", "run"))
     depends_on("py-click@7:8", type=("build", "run"))

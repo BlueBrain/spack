@@ -13,6 +13,7 @@ class PyEntityManagement(PythonPackage):
     git = "https://github.com/BlueBrain/entity-management.git"
     pypi = "entity-management/entity_management-1.2.46.tar.gz"
 
+    version("1.4.1", sha256="3cdb51d658e36684f9b4c2591a91f6e9a849fd4dfb19df0262f0a0ad11c857fa")
     version("1.2.46", sha256="0c3a3c1c0c9d47b47a2804746eefdbb26d5e707ac24f707ba8d42395c14eaa10")
 
     depends_on("py-setuptools", type="build")
