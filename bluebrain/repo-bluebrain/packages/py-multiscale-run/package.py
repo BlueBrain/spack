@@ -9,8 +9,8 @@ from spack.package import *
 class PyMultiscaleRun(PythonPackage):
     """BBP multiscale simulation orchestrator"""
 
-    homepage = "https://bbpgitlab.epfl.ch/-/ide/project/molsys/multiscale_run"
-    git = "ssh://git@bbpgitlab.epfl.ch/molsys/multiscale_run.git"
+    homepage = "https://github.com/BlueBrain/MultiscaleRun"
+    git = "ssh://git@github.com:BlueBrain/MultiscaleRun.git"
 
     maintainers("tristan0x", "cattabiani")
 
