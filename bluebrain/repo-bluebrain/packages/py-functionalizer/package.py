@@ -14,8 +14,8 @@ class PyFunctionalizer(PythonPackage):
 
     version("1.0.0", sha256="c62754fcf41e29729386c23cefb0dd57b449ac27c0b47ba5e2e4b2776c517494")
 
-    depends_on("py-cmake", type="build")
-    depends_on("py-ninja", type="build")
+    depends_on("cmake", type="build")
+    depends_on("ninja", type="build")
     depends_on("py-scikit-build-core+pyproject", type="build")
     depends_on("py-setuptools-scm", type="build")
 
