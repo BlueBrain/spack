@@ -16,17 +16,61 @@ class Highfive(CMakePackage):
 
     version("master", branch="master")
     version("2.10.0", sha256="c29e8e1520e7298fabb26545f804e35bb3af257005c1c2df62e39986458d7c38")
-    version("2.9.0", sha256="6301def8ceb9f4d7a595988612db288b448a3c0546f6c83417dab38c64994d7e", deprecated=True)
-    version("2.8.0", sha256="cd2502cae61bfb00e32dd18c9dc75289e09ad1db5c2a46d3b0eefd32e0df983b", deprecated=True)
-    version("2.7.1", sha256="25b4c51a94d1e670dc93b9b73f51e79b65d8ff49bcd6e5d5582d5ecd2789a249", deprecated=True)
-    version("2.7.0", sha256="8e05672ddf81a59ce014b1d065bd9a8c5034dbd91a5c2578e805ef880afa5907", deprecated=True)
-    version("2.6.2", sha256="ab51b9fbb49e877dd1aa7b53b4b26875f41e4e0b8ee0fc2f1d735e0d1e43d708", deprecated=True)
-    version("2.6.1", sha256="b5002c1221cf1821e02fb2ab891b0160bac88b43f56655bd844a472106ca3397", deprecated=True)
-    version("2.6.0", sha256="9f9828912619ba27d6f3a30e77c27669d9f19f6ee9170f79ee5f1ea96f85a4cd", deprecated=True)
-    version("2.5.1", sha256="1ba05aa31cdeda03d013094eebc10f932783e4e071e253e9eaa8889120f241c7", deprecated=True)
-    version("2.5.0", sha256="27f55596570df3cc8b878a1681a0d4ba0fe2e3da4a0ef8d436722990d77dc93a", deprecated=True)
-    version("2.4.1", sha256="6826471ef5c645ebf947d29574b302991525a8a8ff1ef687aba7311d9a0ea36f", deprecated=True)
-    version("2.4.0", sha256="ba0ed6d8e2e09e80849926f38c15a26cf4b80772084cea0555269a25fec02149", deprecated=True)
+    version(
+        "2.9.0",
+        sha256="6301def8ceb9f4d7a595988612db288b448a3c0546f6c83417dab38c64994d7e",
+        deprecated=True,
+    )
+    version(
+        "2.8.0",
+        sha256="cd2502cae61bfb00e32dd18c9dc75289e09ad1db5c2a46d3b0eefd32e0df983b",
+        deprecated=True,
+    )
+    version(
+        "2.7.1",
+        sha256="25b4c51a94d1e670dc93b9b73f51e79b65d8ff49bcd6e5d5582d5ecd2789a249",
+        deprecated=True,
+    )
+    version(
+        "2.7.0",
+        sha256="8e05672ddf81a59ce014b1d065bd9a8c5034dbd91a5c2578e805ef880afa5907",
+        deprecated=True,
+    )
+    version(
+        "2.6.2",
+        sha256="ab51b9fbb49e877dd1aa7b53b4b26875f41e4e0b8ee0fc2f1d735e0d1e43d708",
+        deprecated=True,
+    )
+    version(
+        "2.6.1",
+        sha256="b5002c1221cf1821e02fb2ab891b0160bac88b43f56655bd844a472106ca3397",
+        deprecated=True,
+    )
+    version(
+        "2.6.0",
+        sha256="9f9828912619ba27d6f3a30e77c27669d9f19f6ee9170f79ee5f1ea96f85a4cd",
+        deprecated=True,
+    )
+    version(
+        "2.5.1",
+        sha256="1ba05aa31cdeda03d013094eebc10f932783e4e071e253e9eaa8889120f241c7",
+        deprecated=True,
+    )
+    version(
+        "2.5.0",
+        sha256="27f55596570df3cc8b878a1681a0d4ba0fe2e3da4a0ef8d436722990d77dc93a",
+        deprecated=True,
+    )
+    version(
+        "2.4.1",
+        sha256="6826471ef5c645ebf947d29574b302991525a8a8ff1ef687aba7311d9a0ea36f",
+        deprecated=True,
+    )
+    version(
+        "2.4.0",
+        sha256="ba0ed6d8e2e09e80849926f38c15a26cf4b80772084cea0555269a25fec02149",
+        deprecated=True,
+    )
     version("2.3.1", sha256="41728a1204bdfcdcef8cbc3ddffe5d744c5331434ce3dcef35614b831234fcd7")
     version("2.3", sha256="7da6815646eb4294f210cec6be24c9234d7d6ceb2bf92a01129fbba6583c5349")
     version("2.2.2", sha256="5bfb356705c6feb9d46a0507573028b289083ec4b4607a6f36187cb916f085a7")
