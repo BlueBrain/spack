@@ -17,24 +17,8 @@ class Touchdetector(CMakePackage):
     submodules = True
 
     version("develop", branch="main")
+    version("7.0.0", tag="v7.0.0")
     version("6.0.3", tag="6.0.3")
-    version("6.0.2", tag="6.0.2")
-    version("6.0.1", tag="6.0.1")
-    version("6.0.0", tag="6.0.0")
-    version("5.7.4", tag="5.7.4")
-    version("5.7.1", tag="5.7.1")
-    version("5.7.0", tag="5.7.0")
-    version("5.6.1", tag="5.6.1")
-    version("5.6.0", tag="5.6.0")
-    version("5.5.1", tag="5.5.1")
-    version("5.5.0", tag="5.5.0")
-    version("5.4.0", tag="5.4.0")
-    version("5.3.4", tag="5.3.4")
-    version("5.3.3", tag="5.3.3")
-    version("5.3.2", tag="5.3.2")
-    version("5.3.1", tag="5.3.1")
-    version("5.3.0", tag="5.3.0")
-    version("5.2.0", tag="5.2.0")
 
     variant("caliper", default=True, description="Enables profiling with Caliper")
     variant("asan", default=False, description="Enables AdressSanitizer")
@@ -48,41 +32,27 @@ class Touchdetector(CMakePackage):
 
     depends_on("mpi")
 
-    depends_on("benchmark", when="+benchmark@5.7.0:")
-    depends_on("caliper@2.8.0:+mpi", when="+caliper@5.7.0:")
-    depends_on("catch2@2", when="@5.0.2:6")
+    depends_on("benchmark", when="+benchmark")
+    depends_on("caliper@2.8.0:+mpi", when="+caliper")
+    depends_on("catch2@2", when="@6")
     depends_on("catch2@3", when="@7:")
-    depends_on("eigen", when="@4.5:")
-    depends_on("fmt@:5.999 cxxstd=20", when="@5.7.5:")
-    depends_on("fmt@:5.999", when="@4.5:")
-    depends_on("intel-oneapi-tbb", when="@5.7.0:")
-    depends_on("libsonata@0.1.9:0.1.25 cxxstd=20", when="@5.7.5:")
-    depends_on("libsonata@0.1.9:0.1.25", when="@5.6.0:")
-    depends_on("libsonata@0.1.9: cxxstd=20", when="@6.0.3:")
+    depends_on("eigen")
+    depends_on("fmt@:5.999 cxxstd=20")
+    depends_on("intel-oneapi-tbb")
+    depends_on("libsonata@0.1.9: cxxstd=20")
     depends_on("morphio@3.3.5:", when="@7:")
-    depends_on("morpho-kit@0.3.5:", when="@5.7.5:6.0.3")
-    depends_on("morpho-kit", when="@5.2:5.7.4")
-    depends_on("nlohmann-json", when="@5.3.3:")
+    depends_on("morpho-kit@0.3.5:", when="@:6.0.3")
+    depends_on("nlohmann-json")
     depends_on("pugixml", when="@4.5:6")
     depends_on("random123", when="@5.3.3:")
     depends_on("range-v3@:0.10", when="@5.3.3:")
-    depends_on("range-v3@:0.4", when="@5.0.2:5.3.2")
     depends_on("yaml-cpp", when="@7:")
 
     depends_on("mvapich2", when="+asan@5.7.0:")
     depends_on("mvapich2", when="+ubsan@5.7.0:")
 
-    # Boost 1.79.0 deprecated and broke the includes related to `fs::ofstream`
-    # which is used by TD. See,
-    #    https://www.boost.org/users/history/version_1_79_0.html
-    conflicts("boost@1.79.0", when="@:5.6.1")
+    depends_on("highfive+mpi", when="@7:")
 
-    depends_on("mvdtool@2.1.0:", when="@:5.5")
-    depends_on("highfive+mpi", when="@5.3.0:5.6.1,6.0.4:")
-    depends_on("boost@1.50:", when="@:5.6.1")
-
-    patch("no-wall.patch", when="@5:5.4.999")
-    patch("fix-cmake.patch", when="@5.6.1")
 
     def patch(self):
         if self.spec.satisfies("@5.6.1"):
