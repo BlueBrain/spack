@@ -53,7 +53,6 @@ class Touchdetector(CMakePackage):
 
     depends_on("highfive+mpi", when="@7:")
 
-
     def patch(self):
         if self.spec.satisfies("@5.6.1"):
             filter_file(
