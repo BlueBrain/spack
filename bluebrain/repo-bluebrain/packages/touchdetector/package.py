@@ -17,6 +17,7 @@ class Touchdetector(CMakePackage):
     submodules = True
 
     version("develop", branch="main")
+    version("7.0.1", tag="v7.0.1")
     version("7.0.0", tag="v7.0.0")
     version("6.0.3", tag="6.0.3")
 
