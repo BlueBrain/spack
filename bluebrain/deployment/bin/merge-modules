@@ -27,13 +27,13 @@ def run():
 
     basedir = Path(args.basedir)
     module_root = basedir / "modules"
-    modules = defaultdict(set)
 
     for stagedir in basedir.glob("stage_*"):
         stage = stagedir.name.split("_", 1)[1]
         outdir = module_root / stage
         outdir.mkdir(parents=True, exist_ok=True)
         index = {"module_index": {}}
+        modules = defaultdict(set)
         copied = set()
         print("Processing", stage)
         for moduledir in stagedir.glob("modules_tcl*"):
@@ -60,21 +60,20 @@ def run():
             if path.is_file() and path.suffix != ".yaml" and path not in copied:
                 print("  ...deleting", path)
                 path.unlink()
-
-    print("  Determining default versions")
-    for name, versions in modules.items():
-        if len(versions) > 1:
-            default_name = f"DEFAULT_{name.name.upper()}_VERSION"
-            default_version = os.environ.get(default_name)
-            if not default_version:
-                first_raw = sorted(versions)[-1]
-                first_parsed = sorted(versions, key=Version)[-1]
-                if first_raw == first_parsed:
-                    continue
-                default_version = first_parsed
-            (outdir / name / ".version").write_text(
-                VERSION_TEMPLATE.format(version=default_version)
-            )
+        print("  Determining default versions")
+        for name, versions in modules.items():
+            if len(versions) > 1:
+                default_name = f"DEFAULT_{name.name.upper()}_VERSION"
+                default_version = os.environ.get(default_name)
+                if not default_version:
+                    first_raw = sorted(versions)[-1]
+                    first_parsed = sorted(versions, key=Version)[-1]
+                    if first_raw == first_parsed:
+                        continue
+                    default_version = first_parsed
+                (outdir / name / ".version").write_text(
+                    VERSION_TEMPLATE.format(version=default_version)
+                )
 
 
 if __name__ == "__main__":
