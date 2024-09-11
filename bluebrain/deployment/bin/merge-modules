@@ -61,9 +61,9 @@ def run():
                 print("  ...deleting", path)
                 path.unlink()
         print("  Determining default versions")
-        for name, versions in modules.items():
+        for fragment, versions in modules.items():
             if len(versions) > 1:
-                default_name = f"DEFAULT_{name.name.upper()}_VERSION"
+                default_name = f"DEFAULT_{fragment.name.upper()}_VERSION"
                 default_version = os.environ.get(default_name)
                 if not default_version:
                     first_raw = sorted(versions)[-1]
@@ -71,7 +71,7 @@ def run():
                     if first_raw == first_parsed:
                         continue
                     default_version = first_parsed
-                (outdir / name / ".version").write_text(
+                (outdir / fragment / ".version").write_text(
                     VERSION_TEMPLATE.format(version=default_version)
                 )
 
