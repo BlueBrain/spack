@@ -332,18 +332,6 @@ update_config:
     - if grep -q -m1 -l -R '<failure' "$DEPLOYMENT_ARTIFACTS"; then exit 1; fi
     # Will create $DEPLOYMENT_ROOT/modules
     - merge-modules "$DEPLOYMENT_ROOT"
-    # Find the GCC and Python modules and set a default version
-    - |
-      gcc_module=$(find "$DEPLOYMENT_ROOT/modules" -wholename "*/gcc/$DEFAULT_GCC_VERSION")
-      cat <<EOF > "${gcc_module%$DEFAULT_GCC_VERSION}/.version"
-      #%Module1.0
-      set ModulesVersion "$DEFAULT_GCC_VERSION"
-      EOF
-      python_module=$(find "$DEPLOYMENT_ROOT/modules" -wholename "*/python/$DEFAULT_PYTHON_VERSION")
-      cat <<EOF > "${python_module%$DEFAULT_PYTHON_VERSION}/.version"
-      #%Module1.0
-      set ModulesVersion "$DEFAULT_PYTHON_VERSION"
-      EOF
 
     # Sync modules for the current month
     - mkdir -p "$MODULE_ROOT/$(date +%Y-%m)"
