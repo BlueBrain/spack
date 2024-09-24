@@ -11,3 +11,5 @@ class Synapsetool(BundlePackage):
 
     homepage = "https://www.example.com"
     license("UNKNOWN")
+
+    version("1.2.3")
