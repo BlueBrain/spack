@@ -11,9 +11,9 @@ class PyEmodelGeneralisation(PythonPackage):
 
     homepage = "https://github.com/BlueBrain/emodel-generalisation"
     git = "https://github.com/BlueBrain/emodel-generalisation.git"
-    pypi = "emodel-generalisation/emodel_generalisation-0.2.11.tar.gz"
+    pypi = "emodel-generalisation/emodel_generalisation-0.2.12.tar.gz"
 
-    version("0.2.11", sha256="b84822a1ae0a4b53728b55f6dcfd291ca59d6244f2430650699333ba93e372a8")
+    version("0.2.12", sha256="8a81f5be0a6295ad734cbf669dec4e94e36100552a7dfda736a06c1146f4cbeb")
 
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm@:7", type="build")
