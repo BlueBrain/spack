@@ -25,7 +25,8 @@ class PyFzTdRecipe(PythonPackage):
 
     depends_on("py-click", type=("build", "run"), when="@0.2:")
     depends_on("py-jsonschema", type=("build", "run"), when="@0.2:")
-    depends_on("py-lxml@:4", type=("build", "run"))
+    depends_on("py-lxml@:4", type=("build", "run"), when="@:0.2.2")
+    depends_on("py-lxml@:4", type=("build", "run"), when="@0.2.4:")
     depends_on("py-numpy", type=("build", "run"))
     depends_on("py-pandas", type=("build", "run"))
     depends_on("py-pyyaml", type=("build", "run"), when="@0.2.2:")
