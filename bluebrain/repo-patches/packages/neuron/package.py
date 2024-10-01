@@ -74,6 +74,7 @@ class Neuron(BuiltinNeuron):
     )
 
     # standard deployment uses submodule to avoid compatibility issues
+    depends_on("fmt", type=("build"))
     depends_on("nmodl", type=("build", "run"), when="+coreneuron")
     depends_on("libsonata-report", when="+report+coreneuron")
 
