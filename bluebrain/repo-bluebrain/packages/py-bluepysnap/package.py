@@ -16,8 +16,8 @@ class PyBluepysnap(PythonPackage):
     version("3.0.1", sha256="733bf35f90d11a70284793f0f0974fea628f70a47f16c4a200872ef75f36b597")
 
     patch(
-        "https://github.com/BlueBrain/snap/commit/7ec05a6843b24ca1ad1f2e897369b631d7891331.patch",
-        sha256="cc06c59890f2717bb3a4744b0c29b71e0d40bda8b99489e995de56544aeea24b",
+        "https://github.com/BlueBrain/snap/commit/7ec05a6843b24ca1ad1f2e897369b631d7891331.patch?full_index=1",
+        sha256="271cbad0d51c71b8843d2fb13c2c52752eea19a056974506135b1f971fec1211",
         when="@3.0.1",
     )
 
