@@ -49,7 +49,7 @@ class PyArchngv(PythonPackage):
 
     depends_on("py-brain-indexer@3.0.0:", type=("build", "run"))
     depends_on("py-atlas-commons@0.1.4:", type=("build", "run"))
-    depends_on("py-meshio@5.3.4", type=("build", "run"))
+    depends_on("py-meshio@5.3.4:", type=("build", "run"))
 
     depends_on("py-pytest", type="test")
 
