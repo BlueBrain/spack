@@ -4,8 +4,6 @@ spack:
     default:
       tcl:
         include:
-          - model-neocortex
-          - morpho-kit
           - nest
           - neurodamus-models
           - parquet-converters
@@ -27,7 +25,6 @@ spack:
           neurodamus-models model=neocortex: 'neurodamus-neocortex/{version}'
           neurodamus-models model=thalamus: 'neurodamus-thalamus/{version}'
   specs:
-    - morpho-kit
     - neuron+tests+coreneuron
     - neuron+tests+coreneuron+sympy
     - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp
