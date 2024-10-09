@@ -24,7 +24,7 @@ class PyMultivoro(PythonPackage):
     def patch(self):
         filter_file(
             """USE_OpenMP = {env="USE_OpenMP", default="OFF"}""",
-            "USE_OpenMP = \"OFF\"",
+            'USE_OpenMP = "OFF"',
             "pyproject.toml",
         )
 
