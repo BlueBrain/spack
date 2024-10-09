@@ -4,7 +4,6 @@ spack:
     default:
       tcl:
         include:
-          - asciitoh5
           - model-neocortex
           - morpho-kit
           - nest
@@ -17,7 +16,6 @@ spack:
           - py-mvdtool
           - py-neurodamus
           - py-pytouchreader
-          - spykfunc
           - steps
           - touchdetector
           - unit-test-translator
@@ -50,8 +48,6 @@ spack:
     - py-functionalizer
     - py-neurodamus
     - py-pytouchreader
-    - spykfunc@0.19.0
-    - spykfunc@0.18.7
     - steps
     - touchdetector
     - unit-test-translator

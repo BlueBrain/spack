@@ -9,7 +9,7 @@ from spack.package import *
 class PyArchngv(PythonPackage):
     """Building workflow and circuit API for Neuro-Glia-Vascular circuits."""
 
-    homepage = "https://bbpgitlab.epfl.ch/nse/ArchNGV"
+    homepage = "https://github.com/BlueBrain/ArchNGV"
     pypi = "archngv/archngv-3.3.0.tar.gz"
 
     version("3.3.0", sha256="dc7a909793b189b5ff44e4c27de77203e69ecfcc25607de4d4e33f553f738428")
