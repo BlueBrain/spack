@@ -24,6 +24,7 @@ class PyMinisValidation(PythonPackage):
     depends_on("py-tqdm@4.64.1", type=("build", "run"))
     depends_on("py-submitit@1.4.5:1", type=("build", "run"))
     depends_on("py-pyyaml@6.0:", type=("build", "run"))
+    depends_on("py-types-pyyaml@6.0.12.10:", type=("build", "run"))
     depends_on("py-bluepysnap@3:", type=("build", "run"))
     depends_on("py-bluecellulab@2:", type=("build", "run"))
 
