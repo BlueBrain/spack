@@ -4,9 +4,6 @@ spack:
     default:
       tcl:
         include:
-          - asciitoh5
-          - model-neocortex
-          - morpho-kit
           - nest
           - neurodamus-models
           - parquet-converters
@@ -17,7 +14,6 @@ spack:
           - py-mvdtool
           - py-neurodamus
           - py-pytouchreader
-          - spykfunc
           - steps
           - touchdetector
           - unit-test-translator
@@ -29,7 +25,6 @@ spack:
           neurodamus-models model=neocortex: 'neurodamus-neocortex/{version}'
           neurodamus-models model=thalamus: 'neurodamus-thalamus/{version}'
   specs:
-    - morpho-kit
     - neuron+tests+coreneuron
     - neuron+tests+coreneuron+sympy
     - neuron%nvhpc+caliper+coreneuron+gpu+tests+openmp
@@ -50,8 +45,6 @@ spack:
     - py-functionalizer
     - py-neurodamus
     - py-pytouchreader
-    - spykfunc@0.19.0
-    - spykfunc@0.18.7
     - steps
     - touchdetector
     - unit-test-translator
