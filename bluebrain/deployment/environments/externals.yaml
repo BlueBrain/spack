@@ -105,7 +105,7 @@ spack:
     - darshan-runtime
     - darshan-util
     - doxygen
-    - emacs+json+treesitter  # hugo dictus needs
+    - emacs~tls+json+treesitter  # hugo dictus needs
     - environment-modules@4.5.1
     - ffmpeg+libx264
     - flex
