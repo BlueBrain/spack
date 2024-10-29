@@ -16,6 +16,7 @@ spack:
           - darshan-util
           - doxygen
           - environment-modules
+          - emacs  # hugo dictus needs
           - flex
           - ffmpeg
           - gdb
@@ -104,6 +105,7 @@ spack:
     - darshan-runtime
     - darshan-util
     - doxygen
+    - emacs+json+treesitter  # hugo dictus needs
     - environment-modules@4.5.1
     - ffmpeg+libx264
     - flex
