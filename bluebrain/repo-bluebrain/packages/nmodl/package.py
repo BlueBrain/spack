@@ -85,6 +85,9 @@ class Nmodl(CMakePackage):
         ]
         return options
 
+    def patch(self):
+        filter_file(r"->ignore_case\(\)", "", "src/main.cpp")
+
     def setup_build_environment(self, env):
         env.prepend_path("PYTHONPATH", self.prefix.lib)
 

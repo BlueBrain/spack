@@ -12,6 +12,8 @@ from spack.pkg.builtin.neuron import Neuron as BuiltinNeuron
 class Neuron(BuiltinNeuron):
     __doc__ = BuiltinNeuron.__doc__
 
+    submodules = True
+
     # BBP specific version
     version("develop", branch="master")
     version("9.0.a17", commit="c48d7d5")
