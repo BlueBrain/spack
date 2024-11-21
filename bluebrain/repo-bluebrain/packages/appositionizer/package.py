@@ -26,7 +26,6 @@ class Appositionizer(CMakePackage):
 
     depends_on("mpi")
 
-    depends_on("benchmark", when="+benchmark")
     depends_on("caliper@2.8.0:+mpi", when="+caliper")
     depends_on("catch2@3")
     depends_on("eigen")
