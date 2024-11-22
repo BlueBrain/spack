@@ -29,7 +29,7 @@ class Appositionizer(CMakePackage):
     depends_on("caliper@2.8.0:+mpi", when="+caliper")
     depends_on("catch2@3")
     depends_on("eigen")
-    depends_on("fmt@:5.999 cxxstd=20")
+    depends_on("fmt cxxstd=20")
     depends_on("intel-oneapi-tbb")
     depends_on("libsonata@0.1.9: cxxstd=20")
     depends_on("morphio@3.3.5:")
