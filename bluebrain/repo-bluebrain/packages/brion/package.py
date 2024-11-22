@@ -31,11 +31,11 @@ class Brion(CMakePackage):
     depends_on("py-numpy", type=("build", "run", "test"), when="+python")
 
     depends_on(
-        "boost +date_time+filesystem+iostreams+program_options+regex+shared+system+test",
+        "boost@:1.73 +date_time+filesystem+iostreams+program_options+regex+shared+system+test",
         when="~python",
     )
     depends_on(
-        "boost +date_time+filesystem+iostreams+program_options+regex+shared+system+test+python",
+        "boost@:1.73 +date_time+filesystem+iostreams+program_options+regex+shared+system+test+python",
         when="+python",
     )
 
@@ -62,6 +62,7 @@ class Brion(CMakePackage):
     def patch(self):
         if self.spec.satisfies("%gcc@12:") and not self.spec.satisfies("@develop"):
             filter_file(r"-Werror", "", "CMake/CompileOptions.cmake")
+        filter_file(r"#include <map>", "#include <cstdint>\n#include <map>", "brion/uri.h")
 
     def cmake_args(self):
         args = [
