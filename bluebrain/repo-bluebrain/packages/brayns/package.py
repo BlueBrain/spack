@@ -31,11 +31,17 @@ class Brayns(CMakePackage):
     depends_on("rkcommon@1.10.0")
     depends_on("ospray@2.10.6")
 
-    depends_on("spdlog@1.9.2:")
+    depends_on("spdlog@1.9.2:", when="3.8.3")
     depends_on("poco@1.12.4")
-    depends_on("glm")
+    depends_on("glm", when="3.8.3")
     depends_on("zlib")
     depends_on("bzip2")
+
+    patch(
+        "https://patch-diff.githubusercontent.com/raw/BlueBrain/Brayns/pull/1288.patch?full_index=1",
+        sha256="3360cfdb0b180eda23f52f6d55b78aba7dfa58a77334e8c53886f32976966623",
+        when="@3.10.0",
+    )
 
     def cmake_args(self):
         return [
