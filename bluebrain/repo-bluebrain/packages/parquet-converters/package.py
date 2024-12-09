@@ -15,7 +15,7 @@ class ParquetConverters(CMakePackage):
     submodules = True
 
     version("develop", branch="main")
-    version("0.9.0", tag="v0.9.0")
+    version("0.9.1", tag="v0.9.1")
 
     depends_on("mpi")
 

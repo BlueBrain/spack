@@ -19,6 +19,7 @@ class Steps(CMakePackage):
     submodules = True
 
     version("develop", branch="master")
+    version("5.0.3", tag="5.0.3")
     version("5.0.2", tag="5.0.2")
     version("5.0.1", tag="5.0.1")
     version("4.1.0", tag="4.1.0")
