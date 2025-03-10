@@ -38,6 +38,7 @@ class PyMultiscaleRun(PythonPackage):
     depends_on("py-bluepysnap@2:", type=("build", "run"))
     depends_on("py-diffeqpy@1.1:", type=("build", "run"))
     depends_on("py-jinja2@3:", type=("build", "run"))
+    depends_on("py-jsonschema@4", type=("build", "run"))
     depends_on("py-julia@0.6:0.7", type=("build", "run"))
     depends_on("py-libsonata@0.1.20:", type=("build", "run"))
     depends_on("py-mpi4py@3:", type=("build", "run"))
