@@ -11,9 +11,9 @@ class PyConnectomeManipulator(PythonPackage):
     """Connectome generator tool."""
 
     homepage = "https://github.com/BlueBrain/connectome-manipulator"
-    git = "https://github.com/BlueBrain/connectome-manipulator.git"
+    pypi = "connectome-manipulator/connectome_manipulator-1.0.0.tar.gz"
 
-    version("0.0.10", tag="connectome-manipulator-v0.0.10")
+    version("1.0.1", sha256="6908e8a19681da9beda577d4f9e6f0fa518060f2a66b76a1ca0027b30478ac40") # FIXME
 
     variant(
         "convert",
@@ -24,13 +24,13 @@ class PyConnectomeManipulator(PythonPackage):
     depends_on("parquet-converters@0.8.0:", type="run", when="+convert")
 
     depends_on("py-bluepysnap@3.0.1:", type=("build", "run"))
-    depends_on("py-numpy", type=("build", "run"))
-    depends_on("py-pandas", type=("build", "run"))
-    depends_on("py-progressbar", type=("build", "run"))
-    depends_on("py-scipy", type=("build", "run"))
-    depends_on("py-scikit-learn", type=("build", "run"))
-    depends_on("py-voxcell", type=("build", "run"))
-    depends_on("py-pyarrow+parquet+dataset", type=("build", "run"))
-    depends_on("py-distributed", type=("build", "run"))
-    depends_on("py-dask-mpi", type=("build", "run"))
-    depends_on("py-tables", type=("build", "run"))
+    depends_on("py-numpy@1.24.3:", type=("build", "run"))
+    depends_on("py-pandas@1.5.3:", type=("build", "run"))
+    depends_on("py-progressbar@2.5:", type=("build", "run"))
+    depends_on("py-scipy@1.10.1:", type=("build", "run"))
+    depends_on("py-scikit-learn@1.3.2:", type=("build", "run"))
+    depends_on("py-voxcell@3.1.5:", type=("build", "run"))
+    depends_on("py-pyarrow+parquet+dataset@10.0.1:", type=("build", "run"))
+    depends_on("py-distributed@2023.4.1:", type=("build", "run"))
+    depends_on("py-dask-mpi@2022.4.0:", type=("build", "run"))
+    depends_on("py-tables@3.8.0:", type=("build", "run"))
